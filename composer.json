@@ -1,0 +1,34 @@
+{
+    "name": "work-global-service/bin",
+    "description": "Proyecto de trayecto 3 UPTAEB, sistema para la tencion de citas de fumigaciones.",
+    "type": "project",
+    "require": {
+        "php": ">=7.3",
+        "setasign/fpdf": "^1.8",
+        "phpmailer/phpmailer": "^6.7",
+        "mpdf/mpdf": "^8.2"
+    },
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "bin\\" : "bin/",
+            "componentes\\" : "bin/componentes",
+            "config\\" : "bin/config/",
+            "modelos\\" : "bin/modelo/",
+            "controladores\\" : "bin/controladores/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Josbert Guedez",
+            "email": "josbertjg@gmail.com"
+        },
+        {
+            "name": "Maria de los Angeles Perez"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    }
+}
