@@ -8,13 +8,13 @@
     return "Error: no se encontró el autoload.";
   }
 
-  Use config\componentes\configSistema as configSistema;
+  Use config\configSistema\configSistema as configSistema;
 
   $GlobalConfig = new configSistema();
   $GlobalConfig->_int();
 
-  Use bin\controladores\frontControlador as frontControlador;
+  Use bin\controlador\frontControlador as frontControlador;
 
-  $IndexSystem = new frontControlador($_REQUEST);
+  $IndexSystem = new frontControlador($_SERVER['REQUEST_URI']);
 
 ?>

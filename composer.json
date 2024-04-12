@@ -14,8 +14,8 @@
             "bin\\" : "bin/",
             "componentes\\" : "bin/componentes",
             "config\\" : "bin/config/",
-            "modelos\\" : "bin/modelo/",
-            "controladores\\" : "bin/controladores/"
+            "modelo\\" : "bin/modelo/",
+            "controlador\\" : "bin/controlador/"
         }
     },
     "authors": [
