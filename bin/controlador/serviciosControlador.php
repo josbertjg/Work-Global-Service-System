@@ -9,6 +9,6 @@
   }
 
 	$components = new initComponents();	
-	require "vistas/inicio/inicioVista.php";	
+	require "vistas/servicios.php";	
 
 ?>

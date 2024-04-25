@@ -1,0 +1,56 @@
+// Input with dropdown
+.autocomplete-container{
+  .badge-services-count{
+    display: none;
+  }
+  .dropdown-menu{
+    user-select: none;
+    z-index: 999!important;
+    .services-dropdown-body{
+      .no-services{
+        display: none;
+        color: $grey;
+        font-size: .7rem;
+        font-weight: bold;
+      }
+      .badge{
+        i{
+          font-size: .5rem;
+          background-color: $blanco;
+          border-radius: 100%;
+          color: $negro;
+          padding: .4rem;
+          transition: all 200ms;
+          z-index: 9999 !important;
+
+          &:hover{
+            cursor: pointer;
+            background-color: darken($blanco,10);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Menu desplayed by Jquery
+.ui-autocomplete, .ui-widget-content{
+  border: none !important;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: $shadow;
+  .ui-menu-item{
+    &:hover{
+      background-color: $negro;
+      color: $blanco;
+    }
+    .ui-menu-item-wrapper{
+      transition: all 200ms;
+      border: none !important;
+      &:hover{
+        background-color: $negro;
+        color: $blanco;
+      }
+    }
+  }
+}

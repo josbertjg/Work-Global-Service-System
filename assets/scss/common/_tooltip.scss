@@ -1,0 +1,11 @@
+.custom-tooltip-primary{
+  font-weight: bold;
+  --bs-tooltip-bg: var(--bs-red);
+  --bs-tooltip-color: var(--bs-white);
+}
+
+.custom-tooltip-dark{
+  font-weight: bold;
+  --bs-tooltip-bg: var(--bs-gray-dark);
+  --bs-tooltip-color: var(--bs-white);
+}

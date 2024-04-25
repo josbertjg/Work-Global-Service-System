@@ -2,7 +2,6 @@
 <html lang="en">
   <?php $components->head(true); ?>
 <body>
-
   <?php $components->header(true) ?>
   
   <main class="w-100 pt-5"> 

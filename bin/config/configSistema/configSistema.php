@@ -10,8 +10,7 @@
 	define("DIRECTORY", "bin/controlador/");
 	define("MODEL", "modelo/");
 	define("CONTROLADOR", "Controlador.php");
-
-
+	define("GOOGLE_MAPS_API_KEY", "");
 	class configSistema{
 
 		public function _int(){
@@ -43,6 +42,9 @@
 		}
 		public function _Control_(){
 			return CONTROLADOR;
+		}
+		public function GMAP_API_KEY(){
+			return GOOGLE_MAPS_API_KEY;
 		}
 	}
 

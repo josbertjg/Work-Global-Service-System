@@ -32,7 +32,7 @@
       if($pattern == 1){
         $this->_loadPage($this->nombreControlador);
       }else{
-        die("<script>location='/error'</script>");
+        die("<script>location='/404'</script>");
       }
     }
 
@@ -40,7 +40,7 @@
       if(file_exists($this->directory.$url.$this->controlador)){
         require_once($this->directory.$url.$this->controlador);
       }else{
-        die("<script>location='/error'</script>");
+        die("<script>location='/404'</script>");
       }
     }
 

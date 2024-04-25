@@ -1,0 +1,20 @@
+.pac-container{
+  transform: translateY(-65px);
+  border-radius: 10px;
+  .pac-item{
+    cursor: pointer;
+    transition: all 200ms;
+    &:hover{
+      background-color: $negro;
+      color: $blanco;
+    }
+    &:hover .pac-item-query{
+      color: $blanco;
+    }
+  }
+}
+
+#map{
+  min-width: 20px;
+  min-height: 20px;
+}

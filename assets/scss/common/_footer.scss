@@ -1,0 +1,50 @@
+.footer-tabs{
+  height: 80px;
+  display: flex;
+  position: fixed;
+  bottom: 0%;
+  padding: 0%;
+  margin: 0%;
+  background-color: $blanco;
+  box-shadow: $shadow-top;
+
+  .tab-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: $negro;
+    flex: 1;
+    padding: 1rem;
+    transition: all 400ms;
+    user-select: none;
+    cursor: pointer;
+    
+    &:hover{
+      background-color: $primary;
+      color: $blanco;
+    }
+
+    &:hover i{
+      color: $blanco;
+    }
+
+    i{
+      font-size: 1.3rem;
+      margin-bottom: .2rem;
+      color: $grey-light;
+    }
+  }
+
+  .active{
+    background-color: $primary;
+    color: $blanco;
+    i{
+      color: $blanco;
+    }
+    &:hover{
+      background-color: lighten($primary,10);
+      color: $blanco;
+    }
+  }
+}
