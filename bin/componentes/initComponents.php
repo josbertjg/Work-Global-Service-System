@@ -7,7 +7,7 @@
     public function head($withGoogleMaps = false){
 
       // Condicionando el uso del script de google
-      $varGMaps = $withGoogleMaps ? 
+      $GoogleMaps = $withGoogleMaps ? 
       '<!-- Google Maps -->
       <script src="https://maps.googleapis.com/maps/api/js?&key='.GOOGLE_MAPS_API_KEY.'&libraries=places&loading=async"></script>'
       :
@@ -26,8 +26,10 @@
           <link href="'._URL_.'assets/css/imports/sweetalert2.min.css" rel="stylesheet">
           <link href="'._URL_.'assets/css/imports/bootstrap.min.css" rel="stylesheet">
           <link href="'._URL_.'assets/css/imports/jquery-ui.css" rel="stylesheet">
-
-          '.$varGMaps.'
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+          <!-- Google Libraries -->
+          <script src="https://accounts.google.com/gsi/client"></script>
+          '.$GoogleMaps.'
 
           <!-- App Main CSS File -->
           <link href="'._URL_.'assets/css/index.css" rel="stylesheet">
@@ -40,73 +42,73 @@
     public function header($withGoogleMaps = false){
 
       $GoogleMaps = $withGoogleMaps ? '
-        <div class="dropdown dropstart w-30 autocomplete-container">
-          <a class="dropdown-toggle w-100" type="button" id="services-toggle" data-toggle="dropdown" >
-            <div class="form-floating w-100">
-              <input type="text" class="form-control" id="servicios" placeholder="Servicios">
-              <label for="servicios">
-                <span class="position-relative">
-                  <span>Servicios</span> 
-                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger badge-services-count">
-                    <span class="badge-count-number"></span>
-                    <span class="visually-hidden">Servicios seleccionados</span>
-                  </span>
+      <div class="dropdown dropstart w-30 autocomplete-container">
+        <a class="dropdown-toggle w-100" type="button" id="services-toggle" data-toggle="dropdown" >
+          <div class="form-floating w-100">
+            <input type="text" class="form-control" id="servicios" placeholder="Servicios">
+            <label for="servicios">
+              <span class="position-relative">
+                <span>Servicios</span> 
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger badge-services-count">
+                  <span class="badge-count-number"></span>
+                  <span class="visually-hidden">Servicios seleccionados</span>
                 </span>
-              </label>
-            </div>
-          </a>
-          <form class="dropdown-menu services-dropdown-menu" aria-labelledby="services-toggle">
-            <li><h6 class="dropdown-header">Servicios Seleccionados</h6></li>
-            <li><hr class="dropdown-divider"></li>
-            <div class="services-dropdown-body px-3">
-              <span class="no-services">Sin servicios seleccionados</span>
-            </div>
-          </form>
-        </div>
+              </span>
+            </label>
+          </div>
+        </a>
+        <form class="dropdown-menu services-dropdown-menu" aria-labelledby="services-toggle">
+          <li><h6 class="dropdown-header">Servicios Seleccionados</h6></li>
+          <li><hr class="dropdown-divider"></li>
+          <div class="services-dropdown-body px-3">
+            <span class="no-services">Sin servicios seleccionados</span>
+          </div>
+        </form>
+      </div>
 
-        <div class="dropdown w-100">
-          <a class="dropdown-toggle w-100" type="button" id="map-toggle" data-toggle="dropdown" >
-            <div class="form-floating w-100">
-              <input type="text" class="form-control" id="searchHeaderPlaceField" placeholder="Direccion:">
-              <label for="searchHeaderPlaceField">Dirección</label>
-              <button type="button" href="#" class="btn-buscar">
-                <span class="d-flex">
-                  <i class="fa-solid fa-magnifying-glass me-lg-2 me-0"></i>
-                  <span class="d-lg-block d-none">Buscar</span>
-                </span>
-              </button>
-            </div>
-          </a>
-          <form class="dropdown-menu map-dropdown-menu" aria-labelledby="map-toggle">
-            <div class="map-dropdown-body">
-              <a href="#" class="back-map-btn map-btn">
-                <i class="fa-solid fa-chevron-left"></i>
-              </a>
-              <a href="#" class="close-map-btn map-btn">
-                <i class="fa-solid fa-x"></i>
-              </a>
-              <a href="#" class="user-location-btn useUserLocation map-btn">
-                <i class="fa-solid fa-location-crosshairs"></i>
-              </a>
-              <div id="header-map" class="header-map"></div>
-              <div class="aditional-options">
-                <span class="aditional-title">Detalles adicionales</span>
-                <div class="d-flex align-items-center my-3">
-                  <i class="fa-solid fa-sheet-plastic"></i>
-                  <div class="form-floating w-100">
-                    <input type="text" class="form-control" id="aditional-info" placeholder="name@example.com">
-                    <label for="aditional-info">Indicaciones (opcional)</label>
-                  </div>
-                </div>
-                <div class="d-flex">
-                  <a href="#" class="confirm-address">
-                    Confirmar Dirección
-                  </a>
+      <div class="dropdown w-100">
+        <a class="dropdown-toggle w-100" type="button" id="map-toggle" data-toggle="dropdown" >
+          <div class="form-floating w-100">
+            <input type="text" class="form-control" id="searchHeaderPlaceField" placeholder="Direccion:">
+            <label for="searchHeaderPlaceField">Dirección</label>
+            <button type="button" href="#" class="btn-buscar">
+              <span class="d-flex">
+                <i class="material-symbols-outlined me-lg-1">search</i>
+                <span class="d-lg-block d-none">Buscar</span>
+              </span>
+            </button>
+          </div>
+        </a>
+        <form class="dropdown-menu map-dropdown-menu" aria-labelledby="map-toggle">
+          <div class="map-dropdown-body">
+            <a href="#" class="back-map-btn map-btn">
+              <i class="material-symbols-outlined">chevron_left</i>
+            </a>
+            <a href="#" class="close-map-btn map-btn">
+              <i class="material-symbols-outlined">close</i>
+            </a>
+            <a href="#" class="user-location-btn useUserLocation map-btn">
+              <i class="material-symbols-outlined">my_location</i>
+            </a>
+            <div id="header-map" class="header-map"></div>
+            <div class="aditional-options">
+              <span class="aditional-title">Detalles adicionales</span>
+              <div class="d-flex align-items-center my-3">
+                <i class="material-symbols-outlined aditional-sheet">description</i>
+                <div class="form-floating w-100">
+                  <input type="text" class="form-control" id="aditional-info" placeholder="name@example.com">
+                  <label for="aditional-info">Indicaciones (opcional)</label>
                 </div>
               </div>
+              <div class="d-flex">
+                <a href="#" class="confirm-address">
+                  Confirmar Dirección
+                </a>
+              </div>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
+      </div> 
       '
       :
       '';
@@ -121,7 +123,7 @@
           </section>
 
           <section class="col-lg-6 col-9 p-0 d-flex align-items-center">
-            '.$GoogleMaps.'  
+            '.$GoogleMaps.'
           </section>
 
           <section class="col-4 d-lg-flex d-none p-0 ps-xl-5 ps-lg-4 header-actions-container">
@@ -135,7 +137,7 @@
                 data-bs-custom-class="custom-tooltip-dark"
                 data-bs-title="Servicios"
               >
-                <i class="fa-solid fa-calendar"></i>
+                <i class="material-symbols-outlined">calendar_month</i>
               </a>
               
               <div class="dropdown-center">
@@ -150,13 +152,13 @@
                   data-bs-custom-class="custom-tooltip-dark"
                   data-bs-title="Alertas"
                 >
-                  <i class="fa-solid fa-bell"></i>
+                  <i class="material-symbols-outlined">notifications</i>
                 </button>
 
                 <ul class="dropdown-menu alerts-dropdown-menu">
                   <div class="alerts-dropdown-header dropdown-header">
                     <h1 class="alerts-title">Alertas</h1>
-                    <i class="fa-solid fa-x close-alerts"></i>
+                    <i class="material-symbols-outlined close-alerts">close</i>
                   </div>
                   <div class="alerts-dropdown-body">
                     <li class="alert-item">
@@ -221,8 +223,8 @@
                 <li><a class="dropdown-item navigation-link" href="servicios">Servicios</a></li>
                 <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>
                 <li><hr class="dropdown-divider m-0 p-0"></li>
-                <li><a class="dropdown-item navigation-link" href="ayuda"><i class="fa-solid fa-circle-info me-1"></i> Ayuda</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket me-1"></i> Cerrar Sesión</a></li>
+                <li><a class="dropdown-item navigation-link" href="ayuda"><i class="material-symbols-outlined me-1">help</i> Ayuda</a></li>
+                <li><a class="dropdown-item" href="#"><i class="material-symbols-outlined me-1">logout</i> Cerrar Sesión</a></li>
               </ul>
             </div>
           </section>
@@ -236,23 +238,23 @@
       $footer = '
         <nav class="footer-tabs container-fluid d-lg-none d-flex">
           <a href="/" class="tab-item navigation-link">
-            <i class="fa-solid fa-home"></i>
+            <i class="material-symbols-outlined">home</i>
             <span>Home</span>
           </a>
           <a href="servicios" class="tab-item navigation-link">
-            <i class="fa-solid fa-calendar"></i>
+            <i class="material-symbols-outlined">calendar_month</i>
             <span>Servicios</span>
           </a>
           <a href="alertas" class="tab-item navigation-link">
-            <i class="fa-solid fa-bell"></i>
+            <i class="material-symbols-outlined">notifications</i>
             <span>Alertas</span>
           </a>
           <a href="perfil" class="tab-item navigation-link">
-            <i class="fa-solid fa-user"></i>
+            <i class="material-symbols-outlined">person</i>
             <span>Perfil</span>
           </a>
         </nav>
-        <footer class="">
+        <footer>
           este es el footer
         </footer>';
 
@@ -268,7 +270,6 @@
       <script src="'._URL_.'assets/js/imports/bootstrap.bundle.min.js"></script>
       <script src="'._URL_.'assets/js/imports/echarts.min.js"></script>
       <script src="'._URL_.'assets/js/imports/lodash.min.js"></script>
-      <script src="https://kit.fontawesome.com/c529ff0643.js" crossorigin="anonymous"></script>
 
       <!-- Global Custom JS Files -->
       <script>const urlBase = "'. _URL_ .'"</script>

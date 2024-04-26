@@ -1,0 +1,1 @@
+Ruta en donde debe ir el archivo configSistema.php

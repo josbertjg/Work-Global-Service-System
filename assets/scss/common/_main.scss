@@ -1,4 +1,7 @@
 main{
   min-height: calc(100vh - 94px);
+  // @include lg{
+  //   min-height: calc(100vh - 174px);
+  // }
   margin-top: 70px;
 }

@@ -29,18 +29,21 @@
       border-radius: 0px;
       border-top-right-radius: 50px;
       border-bottom-right-radius: 50px;
-      padding-right: 112px;
+      padding-right: 102px;
 
       @include lg{
-        padding-right: 65px;
+        padding-right: 60px;
       }
     }
     .btn-buscar{
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: absolute;
       top: 50%;
-      right: 2%;
+      right: 5px;
       transform: translateY(-50%);
-      padding: .8rem 1.1rem;
+      padding: .8rem;
       background-color: $primary;
       border-radius: 50px;
       color: $blanco;
@@ -48,8 +51,15 @@
       font-size: .8rem;
       transition: all 200ms;
 
+      span{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       i{
-        font-size: 1rem;
+        font-size: 1.5rem;
+        font-weight: bold;
       }
 
       &:hover{
@@ -65,27 +75,31 @@
         position: relative;
 
         .map-btn{
+          display: flex;
+          align-items: center;
+          justify-content: center;
           position: absolute;
           z-index: 999 !important;
-          padding: .2rem .5rem;
           border-radius: 100%;
           background-color: white;
           color: $grey;
-          font-size: 1.5rem;
           box-shadow: $shadow;
           cursor: pointer;
           transition: all 200ms;
-
+          padding: .2rem .2rem;
+          
           &:hover{
             color: $primary;
+          }
+          
+          i{
+            font-size: 2rem;
           }
         }
 
         .back-map-btn{
           left: 10px;
           top: 10px;
-          font-size: 1.4rem;
-          padding: .1rem .7rem;
           color: $primary;
 
           &:hover{
@@ -97,13 +111,19 @@
         .close-map-btn{
           top: 10px;
           right: 10px;
-          font-size: 1.3rem;
-          padding: .2rem .7rem;
+          i{
+            font-size: 1.7rem;
+            padding: .1rem;
+          }
         }
 
         .user-location-btn{
           right: 10px;
           bottom: 305px;
+          i{
+            font-size: 1.7rem;
+            padding: .2rem;
+          }
         }
 
         .header-map{
@@ -133,8 +153,8 @@
             font-weight: bold;
           }
 
-          .fa-sheet-plastic{
-            font-size: 2.5rem;
+          .aditional-sheet{
+            font-size: 3rem;
             color: $negro;
             margin-right: .5rem;
           }
@@ -185,8 +205,8 @@
           color: $blanco;
           background-color: $primary;
           border-radius: 100%;
-          padding: .5rem .6rem;
-          font-size: 1rem;
+          padding: .5rem;
+          font-size: 1.2rem;
           border: 1px solid $primary;
           cursor: pointer;
           transition: all 200ms;
@@ -238,6 +258,8 @@
       box-shadow: $shadow;
       overflow: hidden;
       .dropdown-item{
+        display: flex;
+        align-items: center;
         transition: all 200ms;
         color: $negro;
         &:hover{
@@ -250,6 +272,7 @@
         }
 
         i{
+          font-size: 1.2rem;
           color: $grey;
         }
       }
@@ -273,11 +296,11 @@
       .header-buttons{
         .action-btn{
           i{
-            padding: .9rem 1rem;
+            padding: .7rem .8rem;
             background-color: $grey-lighter;
             color: $grey;
             border-radius: 100%;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             &:hover{
               color: $blanco;
               background-color: $primary;

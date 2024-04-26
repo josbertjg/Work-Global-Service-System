@@ -59,19 +59,22 @@ body .dropdown-menu {
   border-radius: 0px;
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
-  padding-right: 112px;
+  padding-right: 102px;
 }
 @media screen and (max-width: 991px) {
   .app-header .header-menu #searchHeaderPlaceField {
-    padding-right: 65px;
+    padding-right: 60px;
   }
 }
 .app-header .header-menu .btn-buscar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 50%;
-  right: 2%;
+  right: 5px;
   transform: translateY(-50%);
-  padding: 0.8rem 1.1rem;
+  padding: 0.8rem;
   background-color: #DC3545;
   border-radius: 50px;
   color: whitesmoke;
@@ -79,8 +82,14 @@ body .dropdown-menu {
   font-size: 0.8rem;
   transition: all 200ms;
 }
+.app-header .header-menu .btn-buscar span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .app-header .header-menu .btn-buscar i {
-  font-size: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 .app-header .header-menu .btn-buscar:hover {
   background-color: #d32535;
@@ -93,25 +102,28 @@ body .dropdown-menu {
   position: relative;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .map-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   z-index: 999 !important;
-  padding: 0.2rem 0.5rem;
   border-radius: 100%;
   background-color: white;
   color: grey;
-  font-size: 1.5rem;
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.246);
   cursor: pointer;
   transition: all 200ms;
+  padding: 0.2rem 0.2rem;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .map-btn:hover {
   color: #DC3545;
 }
+.app-header .header-menu .map-dropdown-menu .map-dropdown-body .map-btn i {
+  font-size: 2rem;
+}
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .back-map-btn {
   left: 10px;
   top: 10px;
-  font-size: 1.4rem;
-  padding: 0.1rem 0.7rem;
   color: #DC3545;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .back-map-btn:hover {
@@ -121,12 +133,18 @@ body .dropdown-menu {
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .close-map-btn {
   top: 10px;
   right: 10px;
-  font-size: 1.3rem;
-  padding: 0.2rem 0.7rem;
+}
+.app-header .header-menu .map-dropdown-menu .map-dropdown-body .close-map-btn i {
+  font-size: 1.7rem;
+  padding: 0.1rem;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .user-location-btn {
   right: 10px;
   bottom: 305px;
+}
+.app-header .header-menu .map-dropdown-menu .map-dropdown-body .user-location-btn i {
+  font-size: 1.7rem;
+  padding: 0.2rem;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .header-map {
   width: 100%;
@@ -150,8 +168,8 @@ body .dropdown-menu {
   color: #343a40;
   font-weight: bold;
 }
-.app-header .header-menu .map-dropdown-menu .map-dropdown-body .aditional-options .fa-sheet-plastic {
-  font-size: 2.5rem;
+.app-header .header-menu .map-dropdown-menu .map-dropdown-body .aditional-options .aditional-sheet {
+  font-size: 3rem;
   color: #343a40;
   margin-right: 0.5rem;
 }
@@ -195,8 +213,8 @@ body .dropdown-menu {
   color: whitesmoke;
   background-color: #DC3545;
   border-radius: 100%;
-  padding: 0.5rem 0.6rem;
-  font-size: 1rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
   border: 1px solid #DC3545;
   cursor: pointer;
   transition: all 200ms;
@@ -239,6 +257,8 @@ body .dropdown-menu {
   overflow: hidden;
 }
 .app-header .header-menu .profile-dropdown-menu .dropdown-item {
+  display: flex;
+  align-items: center;
   transition: all 200ms;
   color: #343a40;
 }
@@ -250,6 +270,7 @@ body .dropdown-menu {
   color: whitesmoke;
 }
 .app-header .header-menu .profile-dropdown-menu .dropdown-item i {
+  font-size: 1.2rem;
   color: grey;
 }
 .app-header .header-menu .profile-dropdown-menu .active {
@@ -266,11 +287,11 @@ body .dropdown-menu {
   color: whitesmoke;
 }
 .app-header .header-menu .header-actions-container .header-buttons .action-btn i {
-  padding: 0.9rem 1rem;
+  padding: 0.7rem 0.8rem;
   background-color: #e6e6e6;
   color: grey;
   border-radius: 100%;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 .app-header .header-menu .header-actions-container .header-buttons .action-btn i:hover {
   color: whitesmoke;
@@ -339,9 +360,9 @@ body .dropdown-menu {
   color: whitesmoke;
 }
 .footer-tabs .tab-item i {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   margin-bottom: 0.2rem;
-  color: #a6a6a6;
+  color: grey;
 }
 .footer-tabs .active {
   background-color: #DC3545;
