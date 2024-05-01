@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-04-2024 a las 12:54:05
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 01-05-2024 a las 04:05:46
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `banco` (
   `IdBanco` int(11) NOT NULL,
-  `nombre` varchar(25) NOT NULL
+  `nombre` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -39,9 +39,9 @@ CREATE TABLE `banco` (
 --
 
 CREATE TABLE `ciudad` (
-  `idCiudad` varchar(25) NOT NULL,
-  `nombre` varchar(25) NOT NULL,
-  `estado` varchar(25) NOT NULL,
+  `idCiudad` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `estado` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -52,9 +52,9 @@ CREATE TABLE `ciudad` (
 --
 
 CREATE TABLE `estado` (
-  `idEstado` varchar(25) NOT NULL,
-  `nombre` varchar(25) NOT NULL,
-  `pais` varchar(25) NOT NULL,
+  `idEstado` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `pais` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -65,12 +65,12 @@ CREATE TABLE `estado` (
 --
 
 CREATE TABLE `factura` (
-  `idFactura` varchar(25) NOT NULL,
-  `idOrden` varchar(25) NOT NULL,
+  `idFactura` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idOrden` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fecha` date NOT NULL,
   `precioFinal` float NOT NULL,
   `pagado` tinyint(1) NOT NULL,
-  `tipoPago` varchar(25) NOT NULL,
+  `tipoPago` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `referencia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -81,12 +81,12 @@ CREATE TABLE `factura` (
 --
 
 CREATE TABLE `fumigador` (
-  `cedula` varchar(25) NOT NULL,
-  `email` varchar(25) NOT NULL,
-  `telefono` varchar(25) NOT NULL,
+  `cedula` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `email` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `telefono` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `inicioHora` time NOT NULL,
   `finHora` time NOT NULL,
-  `idUbicacion` varchar(25) NOT NULL,
+  `idUbicacion` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fechaNacimiento` date NOT NULL,
   `fotoPerfil` mediumblob NOT NULL,
   `imagenCedula` mediumblob NOT NULL,
@@ -101,10 +101,10 @@ CREATE TABLE `fumigador` (
 --
 
 CREATE TABLE `modulo` (
-  `idModulo` varchar(25) NOT NULL,
+  `idModulo` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `acceso` tinyint(1) NOT NULL,
-  `tipoPermiso` varchar(25) NOT NULL,
-  `rol` varchar(25) NOT NULL
+  `tipoPermiso` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `rol` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -114,14 +114,14 @@ CREATE TABLE `modulo` (
 --
 
 CREATE TABLE `ordenservicio` (
-  `idOrden` varchar(25) NOT NULL,
-  `usuario` varchar(40) NOT NULL,
-  `fumigador` varchar(40) NOT NULL,
+  `idOrden` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `usuario` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fumigador` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fechaServicio` date NOT NULL,
   `sobrecargo` float NOT NULL,
-  `descripcionSobrecargo` longtext NOT NULL,
-  `Ubicacion` varchar(25) NOT NULL,
-  `vivienda` varchar(25) NOT NULL,
+  `descripcionSobrecargo` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `Ubicacion` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `vivienda` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -132,10 +132,10 @@ CREATE TABLE `ordenservicio` (
 --
 
 CREATE TABLE `pagomovil` (
-  `idPago` varchar(25) NOT NULL,
+  `idPago` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `banco` int(11) NOT NULL,
   `referencia` int(11) NOT NULL,
-  `cedulaTitular` varchar(25) NOT NULL,
+  `cedulaTitular` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fecha` date NOT NULL,
   `comprobado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -147,8 +147,8 @@ CREATE TABLE `pagomovil` (
 --
 
 CREATE TABLE `pais` (
-  `idPais` varchar(25) NOT NULL,
-  `nombre` varchar(25) NOT NULL,
+  `idPais` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -159,9 +159,9 @@ CREATE TABLE `pais` (
 --
 
 CREATE TABLE `quimicos` (
-  `idQuimico` varchar(25) NOT NULL,
-  `nombre` varchar(25) NOT NULL,
-  `descripcion` longtext NOT NULL,
+  `idQuimico` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -172,8 +172,8 @@ CREATE TABLE `quimicos` (
 --
 
 CREATE TABLE `rol` (
-  `IdRol` varchar(25) NOT NULL,
-  `rol` varchar(25) NOT NULL
+  `IdRol` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `rol` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -183,11 +183,11 @@ CREATE TABLE `rol` (
 --
 
 CREATE TABLE `servicio` (
-  `idServicio` varchar(25) NOT NULL,
-  `nombre` varchar(25) NOT NULL,
+  `idServicio` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `precio` float NOT NULL,
-  `descripcion` longtext NOT NULL,
-  `idQuimico` varchar(25) NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idQuimico` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `habilitado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -200,8 +200,8 @@ CREATE TABLE `servicio` (
 
 CREATE TABLE `servicio/ordenservicio` (
   `id` int(11) NOT NULL,
-  `idservicio` varchar(25) NOT NULL,
-  `idOrdenServicio` varchar(25) NOT NULL,
+  `idservicio` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idOrdenServicio` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -212,11 +212,11 @@ CREATE TABLE `servicio/ordenservicio` (
 --
 
 CREATE TABLE `ubicacion` (
-  `idUbicacion` varchar(25) NOT NULL,
-  `latitud` varchar(25) NOT NULL,
-  `altitud` varchar(25) NOT NULL,
-  `direccion` longtext NOT NULL,
-  `ciudad` varchar(25) NOT NULL,
+  `idUbicacion` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `latitud` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `altitud` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `direccion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `ciudad` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -227,14 +227,25 @@ CREATE TABLE `ubicacion` (
 --
 
 CREATE TABLE `usuario` (
-  `email` varchar(40) NOT NULL,
-  `password` varchar(40) NOT NULL,
-  `nombre` varchar(40) NOT NULL,
-  `apellido` varchar(40) NOT NULL,
-  `idRol` varchar(40) NOT NULL,
+  `email` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `contraseña` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `apellido` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fotoPerfil` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `emailVerificado` tinyint(1) NOT NULL DEFAULT 0,
+  `oauth_type` enum('gmail_oauth','account_password','multi_oauth','') COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idRol` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `activo` tinyint(1) NOT NULL
+  `activo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`email`, `contraseña`, `nombre`, `apellido`, `fotoPerfil`, `emailVerificado`, `oauth_type`, `idRol`, `creado`, `activo`) VALUES
+('josbertjg@gmail.com', '', 'Josbert', 'Guedez', 'https://lh3.googleusercontent.com/a/ACg8ocIYxgSVKmpdVhUOFnSf7DM1UbzOGrdaaIBopvTOKnWhhNlccJxZ=s96-c', 1, 'gmail_oauth', '', '2024-04-30 19:21:27', 1),
+('workglobalserviceca@gmail.com', '', 'Josnel', 'Guedez', 'https://lh3.googleusercontent.com/a/ACg8ocJ7XYRMlybwZhYlo0ebVr57DV1ETJMQZnJR6vzAX3tkSr0YNQ=s96-c', 1, 'gmail_oauth', '', '2024-05-01 01:59:41', 1);
 
 -- --------------------------------------------------------
 
@@ -243,9 +254,9 @@ CREATE TABLE `usuario` (
 --
 
 CREATE TABLE `vivienda` (
-  `idVivienda` varchar(25) NOT NULL,
+  `idVivienda` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
   `precioBase` float NOT NULL,
-  `descripcion` longtext NOT NULL
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
@@ -438,12 +449,6 @@ ALTER TABLE `servicio/ordenservicio`
 --
 ALTER TABLE `ubicacion`
   ADD CONSTRAINT `ubicacion_ibfk_1` FOREIGN KEY (`ciudad`) REFERENCES `ciudad` (`idCiudad`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`idRol`) REFERENCES `rol` (`IdRol`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
