@@ -7,7 +7,6 @@
   class DBConnect extends configSistema{
 
     protected $con;
-    private $puerto;
     private $usuario;
     private $contra;
     private $local;
@@ -23,22 +22,19 @@
       $this->contra = parent::_PASS_();
       $this->local = parent::_LOCAL_();
       $this->nameBD = parent::_BD_();
-      // $this->connectarDB();
     }
 
-    // protected function conectarDB(){
-    //   try {
-    //     $this->con = new \PDO("mysql:host={$this->local};dbname={$this->nameBD}", $this->usuario, $this->contra);  
-    //   } catch (\PDOException $e) {
-    //     print "¡Error!: " . $e->getMessage() . "<br/>";
-        
-    //     die();
-    //   }
-    // }
+    protected function conectarDB(){
+      try {
+        $this->con = new \PDO("mysql:host={$this->local};dbname={$this->nameBD}", $this->usuario, $this->contra);  
+      } catch (\PDOException $e) {       
+        die("¡Error!: " . $e->getMessage());
+      }
+    }
 
-    // protected function desconectarDB(){
-    //   $this->con = NULL;  
-    // }
+    protected function desconectarDB(){
+      $this->con = NULL;  
+    }
 
     // protected function binnacle($modulo, $usuario, $descripcion){
     //   try {
@@ -53,9 +49,9 @@
     //   }
     // }
 
-    // protected function uniqueID(){
-    //   return bin2hex(random_bytes(5));
-    // }
+    protected function uniqueID(){
+      return bin2hex(random_bytes(5));
+    }
 
     // public function getPermisosRol($rol){
     //   $this->rol = $rol;

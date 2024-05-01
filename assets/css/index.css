@@ -16,6 +16,7 @@ body a {
 }
 body button {
   border: none;
+  background-color: transparent;
 }
 body .badge {
   cursor: pointer;
@@ -286,6 +287,11 @@ body .dropdown-menu {
   background-color: #e4606d;
   color: whitesmoke;
 }
+.app-header .header-menu .header-actions-container .header-buttons .ofrecerServicios-header-btn {
+  margin-right: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
 .app-header .header-menu .header-actions-container .header-buttons .action-btn i {
   padding: 0.7rem 0.8rem;
   background-color: #e6e6e6;
@@ -311,12 +317,16 @@ body .dropdown-menu {
   align-items: center;
 }
 .app-header .header-menu .header-actions-container .header-profile-container .header-profile {
+  display: flex;
+  align-items: center;
   background-color: whitesmoke;
   border: 1px solid #cdcdcd;
   border-radius: 50px;
   padding: 7px 10px;
   transition: all 200ms;
   user-select: none;
+  height: 46px;
+  max-height: 46px;
 }
 .app-header .header-menu .header-actions-container .header-profile-container .header-profile:hover {
   cursor: pointer;
@@ -324,10 +334,12 @@ body .dropdown-menu {
 }
 .app-header .header-menu .header-actions-container .header-profile-container .header-profile .header-avatar {
   height: 30px;
+  max-height: 30px;
+  border-radius: 100%;
 }
 .app-header .header-menu .header-actions-container .header-profile-container .header-profile .header-user-name {
   color: #343a40;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .footer-tabs {
@@ -377,7 +389,7 @@ body .dropdown-menu {
 }
 
 main {
-  min-height: calc(100vh - 94px);
+  min-height: calc(100vh - 95px);
   margin-top: 70px;
 }
 

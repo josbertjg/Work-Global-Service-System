@@ -117,7 +117,7 @@ $(document).ready(()=>{
 
   /* /HEADER MAP */
 
-
+  // Servicios
   if(!!document.getElementById("services-toggle")){
 
     const availableServices = [
@@ -252,5 +252,97 @@ $(document).ready(()=>{
     alertsDropdown.hide()
     showAlerts = true;
   })
- 
+
+
+  // Acceder modal Tabs
+  const iniciarSesionTab = new bootstrap.Tab(document.getElementById("iniciar-sesion-tab"))
+  const selectUserTab    = new bootstrap.Tab(document.getElementById("select-user-type-tab"))
+  const crearCuentaTab   = new bootstrap.Tab(document.getElementById("crear-cuenta-tab"))
+
+  $(".goToIniciarSesion").click(()=>{
+    iniciarSesionTab.show();
+  })
+  $(".goToSeleccionarUser").click(()=>{
+    selectUserTab.show();
+  })
+  $(".goToCrearCuenta").click(()=>{
+    crearCuentaTab.show();
+  })
+  $(document).on('click','.iniciarSesion-btn', () => iniciarSesionTab.show());
+  $(document).on('click','.crearCuenta-btn',   () => selectUserTab.show());
+
+  // Modal para acceder
+  const accederModal = new bootstrap.Modal(document.getElementById('acceder-modal'))
+
+  $(document).on('click','.iniciarSesion-footer-btn', () => {
+    accederModal.show();
+    iniciarSesionTab.show();
+  });
+  $(document).on('click','.crearCuenta-footer-btn',   () => {
+    accederModal.show();
+    selectUserTab.show();
+  });
+
+  // Form Login
+  validarContraseña($("#iniciarSesionUserPassword"));
+  validarCorreo($("#iniciarSesionUserEmail"));
+
+  $("#iniciarSesion-form").on("submit",async (event)=>{
+    event.preventDefault();
+    const form = $("#iniciarSesion-form");
+
+    const formValid = checkFormValidity(form)
+    
+    if(formValid){
+      const formHTML = document.getElementById("iniciarSesion-form")
+      const data = new FormData(formHTML)
+
+      data.append("account_password_login",JSON.stringify(true))
+      const respuesta = await service.post("oauth",data)
+      
+      if("error" in respuesta){
+        showFormAlerts(form,respuesta.error);
+        blankForm(form);
+      }else{
+        accederModal.hide();
+        loginUser(respuesta);
+      }
+    }
+  })
+
+  // Form Crear Cuenta
+  validarNombre($("#crearCuentaUserNombre"));
+  validarNombre($("#crearCuentaUserApellido"));
+  validarCorreo($("#crearCuentaUserEmail"));
+  validarContraseña($("#crearCuentaUserPassword"));
+  validarConfirmarContraseña($("#crearCuentaUserConfirmPassword"),$("#crearCuentaUserPassword"));
+
+  $("#crearCuenta-form").on("submit",async (event)=>{
+    event.preventDefault();
+    const form = $("#crearCuenta-form");
+
+    const formValid = checkFormValidity(form)
+    
+    if(formValid){
+      const formHTML = document.getElementById("crearCuenta-form")
+      const data = new FormData(formHTML)
+
+      data.append("account_password_register",JSON.stringify(true))
+      const respuesta = await service.post("oauth",data)
+      
+      if("error" in respuesta){
+        showFormAlerts(form,respuesta.error);
+        blankForm(form);
+      }else{
+        iniciarSesionTab.show();
+        Toast.fire({
+          icon: "success",
+          title: respuesta.success
+        });
+      }
+    }
+  })
+
+  // Logout
+  $(document).on('click','.logout', () => logoutUser());
 })

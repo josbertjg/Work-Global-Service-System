@@ -30,6 +30,8 @@ const service = {
       } 
 
       datos = convertirParams(body)
+    }else{
+      datos = body;
     }
 
     return fetch(`${urlBase+url}`,{
@@ -43,13 +45,13 @@ const service = {
           return response.json();
         }catch(e){
           console.error("Error al tratar de retornar un json en la respuesta de la promesa");
-          return e;
+          return JSON.stringify(e);
         }
       }else{
         return Swal.fire({
           icon: "error",
           title: "Oops, ocurrió un error.",
-          text: response.statusText
+          text: JSON.stringify(response.statusText)
         });
       }
     })
@@ -60,7 +62,7 @@ const service = {
       return Swal.fire({
         icon: "error",
         title: "Oops, algo salió mal con el servidor.",
-        text: e
+        text: JSON.stringify(e)
       });
     })
 
@@ -74,13 +76,13 @@ const service = {
           return response.json();
         }catch(e){
           console.error("Error al tratar de retornar un json en la respuesta de la promesa");
-          return e;
+          return JSON.stringify(e);
         }
       }else{
         return Swal.fire({
           icon: "error",
           title: "Oops, ocurrió un error.",
-          text: response.statusText
+          text: JSON.stringify(response.statusText)
         });
       }
     })
@@ -89,7 +91,7 @@ const service = {
       return Swal.fire({
         icon: "error",
         title: "Oops, algo salió mal con el servidor.",
-        text: e
+        text: JSON.stringify(e)
       });
     })
   },

@@ -4,7 +4,7 @@
 <body>
 
   <?php $components->header(true) ?>
-  
+ 
   <main class="w-100 pt-5"> 
     main content
     <a id="ancla">click me</a>
