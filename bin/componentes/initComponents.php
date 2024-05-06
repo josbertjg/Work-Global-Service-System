@@ -429,6 +429,106 @@
 
       echo $footer;
     }
+
+
+
+    //funcion para el DataTables se manda como parametro la variable vista para determinar 
+    // los Thead a imprimir mediante un Switch
+    public function Tables($Vista){
+      // All, esta variable que sera retornada 
+      $varAll='';
+      // variable de los Th
+      $varth='';
+      //boton para agregar  nuevo
+      // $varBttAdd=
+      // '<div class="container">
+      //   <div class="row">
+      //     <div class="col-lg-12">            
+      //         <button id="btnNuevo" type="button" class="btn btn-info" data-toggle="modal"><i class="material-icons">library_add</i></button>    
+      //     </div>    
+      //   </div>    
+      // </div>    
+      // <br>';
+      // inicio de la tabla hasta el TH
+      $varTStart =
+      '<div class="container caja">
+        <div class="row">
+            <div class="col-lg-12">
+                  <!-- tabla con las clases de Bootstrap -->
+                  <div class="table-responsive">     
+                      <table id="TableData" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                         <thead class="text-center">';
+      //cierrto la tabla
+      $vartTend= 
+      '</thead>
+      <tbody>                           
+      </tbody>        
+      </table>               
+      </div>
+      </div>
+      </div>  
+      </div>';
+      // iteramos cada tabla que se vaya a usar
+      switch($Vista){
+        case "servicio":
+          $varth = '<tr>
+          <th>Id</th>
+          <th>Servicio</th>
+          <th>Precio</th>                                
+          <th>Descripcion</th>  
+          <th>Quimico</th>
+          <th>creado</th>
+          <th>Habilitado</th>
+          <th>Acciones</th>
+          </tr>';
+          break;
+
+        case "usuario":
+        $varth =
+        '<tr>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Nombre</th>                                
+          <th>Apellido</th>  
+          <th>rol</th>
+          <th>creado</th>
+          <th>Activo</th>
+          <th>Acciones</th>
+          </tr>';
+          break;
+        
+        case "vivienda":
+        $varth=
+        '<tr>
+        <th>idVivienda</th>
+        <th>Precio Base</th>
+        <th>Descripcion</th>
+        <th>Activo</th>
+        <th>Acciones</th>
+        </tr>';
+        break;
+
+        case "fumigador":
+        $varth=
+        '<tr>
+        <th>Cedula</th>
+        <th>email</th>
+        <th>Telefono</th>
+        <th>Inicio Hora</th>
+        <th>Fin hora</th>
+        <th>Ubicacion</th>
+        <th>Fecha Nacimiento</th>
+        <th>foto Perfil</th>
+        <th>Imagen Cedula</th>
+        <th>activo</th>
+        <th>fecha Validado</th>
+        <th>Acciones</th>
+        </tr>';
+        break;
+      }
+      $varAll= $varTStart.$varth.$vartTend;
+      return $varAll;
+    }
     
     public function js(){
      $varJs = '
