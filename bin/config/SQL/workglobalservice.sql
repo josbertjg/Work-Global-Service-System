@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-05-2024 a las 21:59:52
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 27-05-2024 a las 00:27:37
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,11 +28,25 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `taccesos` (
-  `idAcceso` varchar(20) NOT NULL,
-  `rol` varchar(20) NOT NULL,
-  `permiso` varchar(20) NOT NULL,
-  `modulo` varchar(20) NOT NULL,
+  `idAcceso` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `rol` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `permiso` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `modulo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbitacoras`
+--
+
+CREATE TABLE `tbitacoras` (
+  `id` int(11) NOT NULL,
+  `modulo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `usuario` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -42,12 +56,12 @@ CREATE TABLE `taccesos` (
 --
 
 CREATE TABLE `tcalendarios` (
-  `cedula` varchar(20) NOT NULL,
+  `cedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `inicioHora` time NOT NULL,
   `finHora` time NOT NULL,
-  `diaInicio` varchar(20) NOT NULL,
-  `diaFin` varchar(20) NOT NULL,
-  `exepcion` varchar(20) NOT NULL
+  `diaInicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `diaFin` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `exepcion` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -57,21 +71,9 @@ CREATE TABLE `tcalendarios` (
 --
 
 CREATE TABLE `tciudades` (
-  `idCiudad` varchar(20) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
-  `estado` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tclientes`
---
-
-CREATE TABLE `tclientes` (
-  `cedula` varchar(20) NOT NULL,
-  `telefono` varchar(20) NOT NULL,
-  `email` varchar(20) NOT NULL
+  `idCiudad` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `estado` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -81,8 +83,8 @@ CREATE TABLE `tclientes` (
 --
 
 CREATE TABLE `testablecimientos` (
-  `idEstablecimientos` varchar(20) NOT NULL,
-  `descripcion` longtext NOT NULL,
+  `idEstablecimientos` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
   `tamaño` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -93,8 +95,8 @@ CREATE TABLE `testablecimientos` (
 --
 
 CREATE TABLE `testado` (
-  `idEstado` varchar(20) NOT NULL,
-  `nombre` varchar(20) NOT NULL
+  `idEstado` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -104,14 +106,24 @@ CREATE TABLE `testado` (
 --
 
 CREATE TABLE `tfacturas` (
-  `idFactura` varchar(20) NOT NULL,
-  `ordenesServicio` varchar(20) NOT NULL,
+  `idFactura` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `orden` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `precioInicial` float NOT NULL,
   `precioFinal` float NOT NULL,
-  `tipoPago` varchar(20) NOT NULL,
-  `pagado` tinyint(1) NOT NULL,
-  `referencia` int(20) NOT NULL
+  `pagado` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tfacturasobrecargos`
+--
+
+CREATE TABLE `tfacturasobrecargos` (
+  `id` int(11) NOT NULL,
+  `factura` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `sobrecargo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -121,15 +133,14 @@ CREATE TABLE `tfacturas` (
 --
 
 CREATE TABLE `tfumigadores` (
-  `cedula` varchar(20) NOT NULL,
-  `email` varchar(20) NOT NULL,
-  `telefono` varchar(20) NOT NULL,
-  `idUbicacion` varchar(20) NOT NULL,
+  `cedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `email` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idUbicacion` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fechaNacimiento` date NOT NULL,
-  `imagenCedula` varchar(20) NOT NULL,
+  `imagenCedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `activo` tinyint(4) NOT NULL,
   `fechaValidado` date NOT NULL,
-  `fotoPerfil` varchar(20) NOT NULL
+  `fotoPerfil` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -139,8 +150,8 @@ CREATE TABLE `tfumigadores` (
 --
 
 CREATE TABLE `tmodulos` (
-  `idModulo` varchar(20) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
+  `idModulo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `estatus` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -152,9 +163,24 @@ CREATE TABLE `tmodulos` (
 
 CREATE TABLE `tnofiticaciones` (
   `id` int(11) NOT NULL,
-  `descripcion` longtext NOT NULL,
-  `status` varchar(20) NOT NULL,
-  `usuario` varchar(20) NOT NULL
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `status` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `usuario` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tordenes`
+--
+
+CREATE TABLE `tordenes` (
+  `IdOrdenes` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fechaServicio` date NOT NULL,
+  `cliente` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fumigador` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `ubicacion` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `establecimiento` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -164,13 +190,9 @@ CREATE TABLE `tnofiticaciones` (
 --
 
 CREATE TABLE `tordenesservicios` (
-  `IdOrdenesServicio` varchar(20) NOT NULL,
-  `fechaServicio` date NOT NULL,
-  `cliente` varchar(20) NOT NULL,
-  `fumigador` varchar(20) NOT NULL,
-  `sobrecargo` varchar(20) NOT NULL,
-  `ubicacion` varchar(20) NOT NULL,
-  `establecimiento` varchar(25) NOT NULL
+  `id` int(11) NOT NULL,
+  `orden` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `servicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -181,9 +203,12 @@ CREATE TABLE `tordenesservicios` (
 
 CREATE TABLE `tpagodetalles` (
   `id` int(11) NOT NULL,
-  `factura` varchar(20) NOT NULL,
+  `factura` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `monto` float NOT NULL,
-  `descripcion` longtext NOT NULL
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `referencia` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `tipoPago` enum('efectivo','transferencia','pago_movil') COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fechaPago` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -193,8 +218,8 @@ CREATE TABLE `tpagodetalles` (
 --
 
 CREATE TABLE `tpermisos` (
-  `idPermiso` varchar(20) NOT NULL,
-  `nombrePermisos` varchar(20) NOT NULL,
+  `idPermiso` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombrePermisos` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -206,8 +231,8 @@ CREATE TABLE `tpermisos` (
 
 CREATE TABLE `tprecioservicios` (
   `id` int(11) NOT NULL,
-  `servicio` varchar(20) NOT NULL,
-  `establecimiento` varchar(20) NOT NULL,
+  `servicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `establecimiento` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `precio` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -218,10 +243,10 @@ CREATE TABLE `tprecioservicios` (
 --
 
 CREATE TABLE `tquimicos` (
-  `idQuimico` varchar(20) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
-  `foto` varchar(20) NOT NULL,
-  `descripcion` longtext NOT NULL
+  `idQuimico` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `foto` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -231,8 +256,8 @@ CREATE TABLE `tquimicos` (
 --
 
 CREATE TABLE `troles` (
-  `IdRol` varchar(10) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
+  `IdRol` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -252,24 +277,12 @@ INSERT INTO `troles` (`IdRol`, `nombre`, `status`) VALUES
 --
 
 CREATE TABLE `tservicios` (
-  `idServicio` varchar(20) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
-  `quimico` varchar(20) NOT NULL,
+  `idServicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `quimico` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `precio` float NOT NULL,
-  `descripcion` longtext NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
   `habilitado` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tservicios/ordenesservicio`
---
-
-CREATE TABLE `tservicios/ordenesservicio` (
-  `id` int(11) NOT NULL,
-  `ordenServicio` varchar(20) NOT NULL,
-  `servicio` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -279,10 +292,10 @@ CREATE TABLE `tservicios/ordenesservicio` (
 --
 
 CREATE TABLE `tsobrecargos` (
-  `idSobrecargo` int(11) NOT NULL,
+  `idSobrecargo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `precio` float NOT NULL,
-  `descripcion` longtext NOT NULL,
-  `factura` varchar(20) NOT NULL
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `factura` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -292,11 +305,11 @@ CREATE TABLE `tsobrecargos` (
 --
 
 CREATE TABLE `tubicaciones` (
-  `idUbicacion` varchar(20) NOT NULL,
-  `latitud` varchar(20) NOT NULL,
-  `altitud` varchar(20) NOT NULL,
-  `direccion` longtext NOT NULL,
-  `ciudad` varchar(20) NOT NULL
+  `idUbicacion` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `latitud` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `longitud` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `direccion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `ciudad` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -306,14 +319,15 @@ CREATE TABLE `tubicaciones` (
 --
 
 CREATE TABLE `tusuarios` (
-  `email` varchar(40) NOT NULL,
-  `contraseña` varchar(255) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `apellido` varchar(100) NOT NULL,
-  `fotoPerfil` varchar(500) NOT NULL,
+  `email` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `contraseña` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `apellido` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `telefono` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fotoPerfil` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
   `emailVerificado` tinyint(1) NOT NULL DEFAULT 0,
-  `oauth_type` enum('gmail_oauth','account_password','multi_oauth','') NOT NULL,
-  `idRol` varchar(10) NOT NULL,
+  `oauth_type` enum('gmail_oauth','account_password','multi_oauth','') COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idRol` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL,
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `activo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -322,9 +336,9 @@ CREATE TABLE `tusuarios` (
 -- Volcado de datos para la tabla `tusuarios`
 --
 
-INSERT INTO `tusuarios` (`email`, `contraseña`, `nombre`, `apellido`, `fotoPerfil`, `emailVerificado`, `oauth_type`, `idRol`, `creado`, `activo`) VALUES
-('josbertjg@gmail.com', '', 'Josbert', 'Guedez', 'https://lh3.googleusercontent.com/a/ACg8ocIYxgSVKmpdVhUOFnSf7DM1UbzOGrdaaIBopvTOKnWhhNlccJxZ=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-04-30 23:21:27', 1),
-('workglobalserviceca@gmail.com', '', 'Josnel', 'Guedez', 'https://lh3.googleusercontent.com/a/ACg8ocJ7XYRMlybwZhYlo0ebVr57DV1ETJMQZnJR6vzAX3tkSr0YNQ=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-05-01 05:59:41', 1);
+INSERT INTO `tusuarios` (`email`, `contraseña`, `nombre`, `apellido`, `telefono`, `fotoPerfil`, `emailVerificado`, `oauth_type`, `idRol`, `creado`, `activo`) VALUES
+('josbertjg@gmail.com', '', 'Josbert', 'Guedez', '', 'https://lh3.googleusercontent.com/a/ACg8ocIYxgSVKmpdVhUOFnSf7DM1UbzOGrdaaIBopvTOKnWhhNlccJxZ=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-04-30 23:21:27', 1),
+('workglobalserviceca@gmail.com', '', 'Josnel', 'Guedez', '', 'https://lh3.googleusercontent.com/a/ACg8ocJ7XYRMlybwZhYlo0ebVr57DV1ETJMQZnJR6vzAX3tkSr0YNQ=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-05-01 05:59:41', 1);
 
 --
 -- Índices para tablas volcadas
@@ -340,6 +354,13 @@ ALTER TABLE `taccesos`
   ADD KEY `modulo` (`modulo`);
 
 --
+-- Indices de la tabla `tbitacoras`
+--
+ALTER TABLE `tbitacoras`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario` (`usuario`);
+
+--
 -- Indices de la tabla `tcalendarios`
 --
 ALTER TABLE `tcalendarios`
@@ -351,13 +372,6 @@ ALTER TABLE `tcalendarios`
 ALTER TABLE `tciudades`
   ADD PRIMARY KEY (`idCiudad`),
   ADD KEY `estado` (`estado`);
-
---
--- Indices de la tabla `tclientes`
---
-ALTER TABLE `tclientes`
-  ADD PRIMARY KEY (`cedula`),
-  ADD KEY `email` (`email`) USING BTREE;
 
 --
 -- Indices de la tabla `testablecimientos`
@@ -376,7 +390,15 @@ ALTER TABLE `testado`
 --
 ALTER TABLE `tfacturas`
   ADD PRIMARY KEY (`idFactura`),
-  ADD KEY `ordenesServicio` (`ordenesServicio`);
+  ADD KEY `ordenesServicio` (`orden`);
+
+--
+-- Indices de la tabla `tfacturasobrecargos`
+--
+ALTER TABLE `tfacturasobrecargos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `factura` (`factura`),
+  ADD KEY `sobrecargo` (`sobrecargo`);
 
 --
 -- Indices de la tabla `tfumigadores`
@@ -400,15 +422,22 @@ ALTER TABLE `tnofiticaciones`
   ADD KEY `usuario` (`usuario`);
 
 --
--- Indices de la tabla `tordenesservicios`
+-- Indices de la tabla `tordenes`
 --
-ALTER TABLE `tordenesservicios`
-  ADD PRIMARY KEY (`IdOrdenesServicio`),
+ALTER TABLE `tordenes`
+  ADD PRIMARY KEY (`IdOrdenes`),
   ADD KEY `fumigador` (`fumigador`),
-  ADD KEY `sobrecargo` (`sobrecargo`),
   ADD KEY `ubicacion` (`ubicacion`),
   ADD KEY `cliente` (`cliente`),
   ADD KEY `establecimiento` (`establecimiento`);
+
+--
+-- Indices de la tabla `tordenesservicios`
+--
+ALTER TABLE `tordenesservicios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ordenServicio` (`orden`),
+  ADD KEY `servicio` (`servicio`);
 
 --
 -- Indices de la tabla `tpagodetalles`
@@ -451,14 +480,6 @@ ALTER TABLE `tservicios`
   ADD KEY `Quimico` (`quimico`);
 
 --
--- Indices de la tabla `tservicios/ordenesservicio`
---
-ALTER TABLE `tservicios/ordenesservicio`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `ordenServicio` (`ordenServicio`),
-  ADD KEY `servicio` (`servicio`);
-
---
 -- Indices de la tabla `tsobrecargos`
 --
 ALTER TABLE `tsobrecargos`
@@ -484,9 +505,27 @@ ALTER TABLE `tusuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `tbitacoras`
+--
+ALTER TABLE `tbitacoras`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tfacturasobrecargos`
+--
+ALTER TABLE `tfacturasobrecargos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `tnofiticaciones`
 --
 ALTER TABLE `tnofiticaciones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tordenesservicios`
+--
+ALTER TABLE `tordenesservicios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -502,18 +541,6 @@ ALTER TABLE `tprecioservicios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `tservicios/ordenesservicio`
---
-ALTER TABLE `tservicios/ordenesservicio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `tsobrecargos`
---
-ALTER TABLE `tsobrecargos`
-  MODIFY `idSobrecargo` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Restricciones para tablas volcadas
 --
 
@@ -524,6 +551,12 @@ ALTER TABLE `taccesos`
   ADD CONSTRAINT `taccesos_ibfk_1` FOREIGN KEY (`permiso`) REFERENCES `tpermisos` (`idPermiso`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `taccesos_ibfk_2` FOREIGN KEY (`rol`) REFERENCES `troles` (`IdRol`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `taccesos_ibfk_3` FOREIGN KEY (`modulo`) REFERENCES `tmodulos` (`idModulo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tbitacoras`
+--
+ALTER TABLE `tbitacoras`
+  ADD CONSTRAINT `tbitacoras_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `tusuarios` (`email`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `tcalendarios`
@@ -538,16 +571,17 @@ ALTER TABLE `tciudades`
   ADD CONSTRAINT `tciudades_ibfk_1` FOREIGN KEY (`estado`) REFERENCES `testado` (`idEstado`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tclientes`
---
-ALTER TABLE `tclientes`
-  ADD CONSTRAINT `tclientes_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tusuarios` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Filtros para la tabla `tfacturas`
 --
 ALTER TABLE `tfacturas`
-  ADD CONSTRAINT `tfacturas_ibfk_1` FOREIGN KEY (`ordenesServicio`) REFERENCES `tordenesservicios` (`IdOrdenesServicio`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tfacturas_ibfk_1` FOREIGN KEY (`orden`) REFERENCES `tordenes` (`IdOrdenes`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tfacturasobrecargos`
+--
+ALTER TABLE `tfacturasobrecargos`
+  ADD CONSTRAINT `tfacturasobrecargos_ibfk_1` FOREIGN KEY (`factura`) REFERENCES `tfacturas` (`idFactura`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tfacturasobrecargos_ibfk_2` FOREIGN KEY (`sobrecargo`) REFERENCES `tsobrecargos` (`idSobrecargo`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `tfumigadores`
@@ -563,13 +597,20 @@ ALTER TABLE `tnofiticaciones`
   ADD CONSTRAINT `tnofiticaciones_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `tusuarios` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `tordenes`
+--
+ALTER TABLE `tordenes`
+  ADD CONSTRAINT `tordenes_ibfk_1` FOREIGN KEY (`fumigador`) REFERENCES `tfumigadores` (`cedula`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tordenes_ibfk_3` FOREIGN KEY (`ubicacion`) REFERENCES `tubicaciones` (`idUbicacion`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tordenes_ibfk_4` FOREIGN KEY (`establecimiento`) REFERENCES `testablecimientos` (`idEstablecimientos`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tordenes_ibfk_5` FOREIGN KEY (`cliente`) REFERENCES `tusuarios` (`email`) ON DELETE CASCADE;
+
+--
 -- Filtros para la tabla `tordenesservicios`
 --
 ALTER TABLE `tordenesservicios`
-  ADD CONSTRAINT `tordenesservicios_ibfk_1` FOREIGN KEY (`fumigador`) REFERENCES `tfumigadores` (`cedula`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tordenesservicios_ibfk_2` FOREIGN KEY (`cliente`) REFERENCES `tclientes` (`cedula`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tordenesservicios_ibfk_3` FOREIGN KEY (`ubicacion`) REFERENCES `tubicaciones` (`idUbicacion`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tordenesservicios_ibfk_4` FOREIGN KEY (`establecimiento`) REFERENCES `testablecimientos` (`idEstablecimientos`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tordenesservicios_ibfk_1` FOREIGN KEY (`orden`) REFERENCES `tordenes` (`IdOrdenes`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tordenesservicios_ibfk_2` FOREIGN KEY (`servicio`) REFERENCES `tservicios` (`idServicio`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tpagodetalles`
@@ -581,26 +622,14 @@ ALTER TABLE `tpagodetalles`
 -- Filtros para la tabla `tprecioservicios`
 --
 ALTER TABLE `tprecioservicios`
-  ADD CONSTRAINT `tprecioservicios_ibfk_1` FOREIGN KEY (`establecimiento`) REFERENCES `testablecimientos` (`idEstablecimientos`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tprecioservicios_ibfk_1` FOREIGN KEY (`establecimiento`) REFERENCES `testablecimientos` (`idEstablecimientos`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tprecioservicios_ibfk_2` FOREIGN KEY (`servicio`) REFERENCES `tservicios` (`idServicio`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `tservicios`
 --
 ALTER TABLE `tservicios`
   ADD CONSTRAINT `tservicios_ibfk_1` FOREIGN KEY (`quimico`) REFERENCES `tquimicos` (`idQuimico`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `tservicios/ordenesservicio`
---
-ALTER TABLE `tservicios/ordenesservicio`
-  ADD CONSTRAINT `tservicios/ordenesservicio_ibfk_1` FOREIGN KEY (`ordenServicio`) REFERENCES `tordenesservicios` (`IdOrdenesServicio`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tservicios/ordenesservicio_ibfk_2` FOREIGN KEY (`servicio`) REFERENCES `tservicios` (`idServicio`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `tsobrecargos`
---
-ALTER TABLE `tsobrecargos`
-  ADD CONSTRAINT `tsobrecargos_ibfk_1` FOREIGN KEY (`factura`) REFERENCES `tordenesservicios` (`IdOrdenesServicio`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tubicaciones`
