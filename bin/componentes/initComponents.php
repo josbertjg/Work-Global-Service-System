@@ -27,7 +27,8 @@
           <link href="'._URL_.'assets/css/imports/bootstrap.min.css" rel="stylesheet">
           <link href="'._URL_.'assets/css/imports/jquery-ui.css" rel="stylesheet">
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
+          <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">  
           <!-- Google Libraries -->
           <script src="https://accounts.google.com/gsi/client" async defer></script>
           '.$GoogleMaps.'
@@ -470,6 +471,17 @@
       </div>';
       // iteramos cada tabla que se vaya a usar
       switch($Vista){
+
+        case "quimicos":
+          $varth = '<tr>
+          <th>Id</th>
+          <th>Nombre</th>                                
+          <th>Icono</th>  
+          <th>Descripcion</th>
+          <th>Habilitado</th>
+          <th>Acciones</th>
+          </tr>';
+          break;
         case "servicio":
           $varth = '<tr>
           <th>Id</th>
@@ -527,7 +539,7 @@
         break;
       }
       $varAll= $varTStart.$varth.$vartTend;
-      return $varAll;
+      echo $varAll;
     }
     
     public function js(){
