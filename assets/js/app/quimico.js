@@ -133,15 +133,22 @@ $(document).ready(()=>{
     //funcion para editar un row con el boton editar
     $(document).on("click", ".btnEditar", function(){		        
       datos = 3;//editar
-      //capturamos la fila
-      fila = $(this).closest("tr");	        
-      //capturamos los valores de cada una de las columanas
-      quimico_id=fila.find('td:eq(0)').text();
-      $("#nombreQuimico").val(fila.find('td:eq(1)').text());
-      rutaImagen=fila.find('td:eq(2) img').attr('src');
-      rutaAuxiliar=rutaImagen;
+      var tr = $(this).closest('tr');
+      var table = $('#TableData').DataTable();
+      var row = table.row(tr);
+      var data = row.data(); // Obtiene todos los datos de la fila
+      /* Aqui voy a hacer una explicacion, el codigo de arriba se utiliza para contemplar que 
+      la tabla puede o no puede estar en modo responsive y que algunas columnas esten ocultas en un row
+      de esta manera cuando se capturan todos los datos se usa la variable data para acceder a los atributos
+      del ojeto, en este caso los nombre de como lo tenemos en la base de datos */
+      quimico_id = data.idQuimico; // Obtiene el ID del químico
+  
+      nombreQuimico = data.nombre; // Obtiene el nombre del químico
+      $("#nombreQuimico").val(nombreQuimico);
+      //quimico_id=$(fila).find('td:eq(0)').text();
+      rutaImagen=data.foto;
       img.src=rutaImagen;
-      $("#Descripcion").val(fila.find('td:eq(3)').text());
+      $("#Descripcion").val(data.descripcion);
       $(".modal-header").css("background-color", "#d32535");
       $(".modal-header").css("color", "white" );
       $(".modal-title").text("Editar Quimico");		
@@ -149,10 +156,12 @@ $(document).ready(()=>{
   });
 
   $(document).on("click", ".btnBorrar", async function(){
-    const fila = $(this).closest("tr");           
-    quimico_id = fila.find('td:eq(0)').text();
-    let habilitado = fila.find('td:eq(4)').text(); 
-    habilitado = habilitado.trim() === "1" ? 1 : 0; // Convierte el valor a número
+    var tr = $(this).closest('tr');
+    var table = $('#TableData').DataTable();
+    var row = table.row(tr);
+    var data = row.data();
+    quimico_id=data.idQuimico;
+    let habilitado = data.habilitado; 
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: "btn btn-success",

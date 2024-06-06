@@ -23,7 +23,6 @@ function iniciarTabla(columnas,url,opcion){
         //activamos la opcion responsive
         responsive: true,
          //para usar los botones   
-         responsive: "true",
          dom: 'Bfrtilp',       
          buttons:[ 
              {
