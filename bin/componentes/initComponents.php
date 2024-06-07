@@ -485,11 +485,9 @@
         case "servicio":
           $varth = '<tr>
           <th>Id</th>
-          <th>Servicio</th>
-          <th>Precio</th>                                
-          <th>Descripcion</th>  
+          <th>Nombre</th>
           <th>Quimico</th>
-          <th>creado</th>
+          <th>Descripcion</th>
           <th>Habilitado</th>
           <th>Acciones</th>
           </tr>';

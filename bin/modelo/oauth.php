@@ -50,7 +50,7 @@
       if(empty($usuarioEncontrado)){
         try{
           $this->conectarDB();
-          $new = $this->con->prepare("INSERT INTO `usuario`(`email`, `nombre`, `apellido`, `fotoPerfil`, `oauth_type`, `emailVerificado`, `activo`) VALUES (?,?,?,?,?,1,1)");
+          $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `fotoPerfil`, `oauth_type`, `emailVerificado`, `activo`) VALUES (?,?,?,?,?,1,1)");
           $new->bindValue(1, $this->email);
           $new->bindValue(2, $this->nombre);
           $new->bindValue(3, $this->apellido); 
@@ -74,7 +74,7 @@
           if($usuarioEncontrado->oauth_type === "account_password"){
   
             $this->conectarDB();
-            $new = $this->con->prepare("UPDATE usuario SET `oauth_type`= 'multi_oauth' ,`emailVerificado`= 1 WHERE email = ?");
+            $new = $this->con->prepare("UPDATE tsusuarios SET `oauth_type`= 'multi_oauth' ,`emailVerificado`= 1 WHERE email = ?");
             $new->bindValue(1, $this->email);
             $exito = $new->execute();
             $this->desconectarDB();
@@ -191,7 +191,7 @@
     private function registerAccountPassword(){
       $this->conectarDB();
 
-      $new = $this->con->prepare("INSERT INTO `usuario`(`email`, `nombre`, `apellido`, `contraseña`, `oauth_type`, `activo`) VALUES (?,?,?,?,?,1)"); 
+      $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `contraseña`, `oauth_type`, `activo`) VALUES (?,?,?,?,?,1)"); 
       $new->bindValue(1 , $this->email);
       $new->bindValue(2 , $this->nombre);
       $new->bindValue(3 , $this->apellido);
@@ -228,7 +228,7 @@
     private function buscarUsuario($email){
       try{
 				$this->conectarDB();
-        $new = $this->con->prepare("SELECT * FROM usuario WHERE email = ?");
+        $new = $this->con->prepare("SELECT * FROM tusuarios WHERE email = ?");
         $new->bindValue(1, $email);
         $new->execute();
         $usuario = $new->fetch(\PDO::FETCH_OBJ);
