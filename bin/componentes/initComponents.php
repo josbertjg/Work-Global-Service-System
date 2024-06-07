@@ -450,14 +450,23 @@
       </div>';
       // iteramos cada tabla que se vaya a usar
       switch($Vista){
+
+        case "quimicos":
+          $varth = '<tr>
+          <th>Id</th>
+          <th>Nombre</th>                                
+          <th>Icono</th>  
+          <th>Descripcion</th>
+          <th>Habilitado</th>
+          <th>Acciones</th>
+          </tr>';
+          break;
         case "servicio":
           $varth = '<tr>
           <th>Id</th>
-          <th>Servicio</th>
-          <th>Precio</th>                                
-          <th>Descripcion</th>  
+          <th>Nombre</th>
           <th>Quimico</th>
-          <th>creado</th>
+          <th>Descripcion</th>
           <th>Habilitado</th>
           <th>Acciones</th>
           </tr>';
@@ -507,7 +516,7 @@
         break;
       }
       $varAll= $varTStart.$varth.$vartTend;
-      return $varAll;
+      echo $varAll;
     }
     
     public function js(){

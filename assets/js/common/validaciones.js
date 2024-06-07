@@ -133,6 +133,22 @@ function required(element) {
     }
   })
 }
+
+//validar que un FileChooser no este vacio
+function validarFile(element, isRequired = true){
+  element.blur(()=>{
+    if(isRequired)
+      if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
+     
+    //if (!isCorreo(element.val())) return setInvalidInput(element, "El correo no es válido")
+     
+    //if(element.val().trim().length > 100) return setInvalidInput(element, "El correo no puede tener mas de 100 caracteres.");
+
+  return setValidInput(element)
+  });
+}
+
+
 // Valida un input con la logica para un correo
 function validarCorreo(element, isRequired = true) {
   element.blur(() => {
@@ -236,5 +252,32 @@ function validarNombre(element, isRequired = true) {
   })
 
   element.keydown((event) => soloLetras(event) && validarLength(element.val(),30));
+  
+}
+
+
+// Valida un input con la logica para nombres
+function validarDescripcion(element, isRequired = true) {
+  element.blur(() => {
+    if(isRequired)
+      if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido");
+      
+    if(element.val().trim().length < 25)  return setInvalidInput(element, "La descripcion  no puede tener menos de 25 caracteres.");
+    if(element.val().trim().length > 300) return setInvalidInput(element, "La descripcion no puede tener mas de 300 caracteres.");
+
+    return setValidInput(element)
+  })
+
+  element.keyup(() => {
+    if(isRequired)
+      if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
+     
+    if(element.val().trim().length < 25)  return setInvalidInput(element, "La descripcion no puede tener menos de 25 caracteres.");
+    if(element.val().trim().length > 300) return setInvalidInput(element, "la descripcion no puede tener mas de 300 caracteres.");
+
+    return setValidInput(element)
+  })
+
+  element.keydown(() => validarLength(element.val(),300));
   
 }

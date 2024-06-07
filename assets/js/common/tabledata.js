@@ -2,8 +2,8 @@
 //columnas sera una variable que haremos en el JS para cuando lo vayamos a inicializar
 //url es para la url del archivo de la consulta del Ajax
 //opcion es para cuando hagamos los switch de las consultas
-function iniciarTabla(columnas,url, opcion){
-    $('#example').DataTable({
+function iniciarTabla(columnas,url,opcion){
+    let Tabla=$('#TableData').DataTable({
         //configuracion del lenguaje de la tabla en este caso esta en español
         language: {
             "lengthMenu": "Mostrar _MENU_ registros",
@@ -23,7 +23,6 @@ function iniciarTabla(columnas,url, opcion){
         //activamos la opcion responsive
         responsive: true,
          //para usar los botones   
-         responsive: "true",
          dom: 'Bfrtilp',       
          buttons:[ 
              {
@@ -49,14 +48,14 @@ function iniciarTabla(columnas,url, opcion){
         "ajax":{
         "url":url,
         "method": 'POST', //usamos el metodo POST
-        "data":{opcion:opcion}, //enviamos opcion 4 para que haga un SELECT
+        "data":{opcion:opcion},
         "dataSrc":""
         },
         //columnas es el array
         "columns": columnas
     });
+    return Tabla;
 }
-export {iniciarTabla};
 /**
  * // usuarios.js
 $(myDocument).ready(function(){

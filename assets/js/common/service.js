@@ -59,9 +59,10 @@ const service = {
     .then((response) => response)
 
     .catch((e)=>{
+      console.log("error!",e);
       return Swal.fire({
         icon: "error",
-        title: "Oops, algo salió mal con el servidor.",
+        title: "Oops, algo salió mal con el servidor desde el post.",
         text: JSON.stringify(e)
       });
     })
@@ -88,9 +89,10 @@ const service = {
     })
     .then((response) => response )
     .catch((e)=>{
+      console.log("error!",e);
       return Swal.fire({
         icon: "error",
-        title: "Oops, algo salió mal con el servidor.",
+        title: "Oops, algo salió mal con el servidor desde el get.",
         text: JSON.stringify(e)
       });
     })
