@@ -414,50 +414,24 @@ main {
   min-height: 20px;
 }
 
-.autocomplete-container .badge-services-count {
-  display: none;
-}
-.autocomplete-container .dropdown-menu {
-  user-select: none;
-  z-index: 999 !important;
-}
-.autocomplete-container .dropdown-menu .services-dropdown-body .no-services {
-  display: none;
-  color: grey;
-  font-size: 0.7rem;
-  font-weight: bold;
-}
-.autocomplete-container .dropdown-menu .services-dropdown-body .badge i {
-  font-size: 0.5rem;
-  background-color: whitesmoke;
-  border-radius: 100%;
-  color: #343a40;
-  padding: 0.4rem;
-  transition: all 200ms;
-  z-index: 9999 !important;
-}
-.autocomplete-container .dropdown-menu .services-dropdown-body .badge i:hover {
-  cursor: pointer;
-  background-color: gainsboro;
-}
-
-.ui-autocomplete, .ui-widget-content {
+.autocomplete-container select {
   border: none !important;
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.246);
+  box-shadow: none !important;
 }
-.ui-autocomplete .ui-menu-item:hover, .ui-widget-content .ui-menu-item:hover {
-  background-color: #343a40;
-  color: whitesmoke;
+.autocomplete-container .selection {
+  border-radius: 50px;
 }
-.ui-autocomplete .ui-menu-item .ui-menu-item-wrapper, .ui-widget-content .ui-menu-item .ui-menu-item-wrapper {
-  transition: all 200ms;
+.autocomplete-container .select2-selection {
+  position: relative;
+  padding: 12px;
+  padding-right: 0px;
   border: none !important;
+  max-height: 56px !important;
+  overflow-y: auto !important;
 }
-.ui-autocomplete .ui-menu-item .ui-menu-item-wrapper:hover, .ui-widget-content .ui-menu-item .ui-menu-item-wrapper:hover {
-  background-color: #343a40;
-  color: whitesmoke;
+.autocomplete-container .select2-search {
+  display: inline-block;
+  width: 160px;
 }
 
 .custom-tooltip-primary {

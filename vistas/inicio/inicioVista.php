@@ -13,7 +13,6 @@
   <?php $components->footer(); ?>
   <?php $components->js() ?>
   <script src="assets/js/app/inicio.js"></script>
-
 </body>
 
 </html>

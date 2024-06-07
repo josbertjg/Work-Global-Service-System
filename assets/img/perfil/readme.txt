@@ -1,0 +1,1 @@
+En esta carpeta seran alojadas todas las imagenes de perfil de los usuarios del sistema.

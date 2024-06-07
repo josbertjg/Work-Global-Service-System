@@ -25,8 +25,8 @@
           <!-- Imported CSS Files -->
           <link href="'._URL_.'assets/css/imports/sweetalert2.min.css" rel="stylesheet">
           <link href="'._URL_.'assets/css/imports/bootstrap.min.css" rel="stylesheet">
-          <link href="'._URL_.'assets/css/imports/jquery-ui.css" rel="stylesheet">
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+          <link href="'._URL_.'assets/css/imports/select2.min.css" rel="stylesheet">
+          <link href="'._URL_.'assets/css/imports/fontawesome-all.css" rel="stylesheet">
 
           <!-- Google Libraries -->
           <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -86,28 +86,8 @@
 
         
       $GoogleMaps = $withGoogleMaps ? '
-        <div class="dropdown dropstart w-30 autocomplete-container">
-          <a class="dropdown-toggle w-100" type="button" id="services-toggle" data-toggle="dropdown" >
-            <div class="form-floating w-100">
-              <input type="text" class="form-control" id="servicios" placeholder="Servicios">
-              <label for="servicios">
-                <span class="position-relative">
-                  <span>Servicios</span> 
-                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger badge-services-count">
-                    <span class="badge-count-number"></span>
-                    <span class="visually-hidden">Servicios seleccionados</span>
-                  </span>
-                </span>
-              </label>
-            </div>
-          </a>
-          <form class="dropdown-menu services-dropdown-menu" aria-labelledby="services-toggle">
-            <li><h6 class="dropdown-header">Servicios Seleccionados</h6></li>
-            <li><hr class="dropdown-divider"></li>
-            <div class="services-dropdown-body px-3">
-              <span class="no-services">Sin servicios seleccionados</span>
-            </div>
-          </form>
+        <div class="autocomplete-container">
+          <select name="state" id="serviciosAutocomplete" multiple="multiple" style="width: 200px !important; max-height: 56px; height: 56px;"></select>
         </div>
 
         <div class="dropdown w-100">
@@ -224,7 +204,7 @@
               <button class="dropdown-toggle p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="d-flex justify-content-center align-items-center header-profile-container">
                   <a class="header-profile">
-                    <img class="header-avatar me-1" src="'.$fotoPerfil.'" alt="user work global service">
+                    <img loading="lazy" class="header-avatar me-1" src="'.$fotoPerfil.'" alt="user">
                     <span class="header-user-name">'.$nombre.' '.$apellidoFirstLetter.'</span>
                   </a>
                 </div>
@@ -534,11 +514,12 @@
      $varJs = '
       <!-- Imported JS Files -->
       <script src="'._URL_.'assets/js/imports/jquery-3.7.1.min.js"></script> 
-      <script src="'._URL_.'assets/js/imports/jquery-ui.js"></script> 
       <script src="'._URL_.'assets/js/imports/sweetalert2.all.min.js"></script>
       <script src="'._URL_.'assets/js/imports/bootstrap.bundle.min.js"></script>
-      <script src="'._URL_.'assets/js/imports/echarts.min.js"></script>
+      <!-- ECHARTS ARE COMMENTED -->
+      <!-- <script src="'._URL_.'assets/js/imports/echarts.min.js"></script> -->
       <script src="'._URL_.'assets/js/imports/lodash.min.js"></script>
+      <script src="'._URL_.'assets/js/imports/select2.min.js"></script>
 
       <!-- Global Custom JS Files -->
       <script>const urlBase = "'. _URL_ .'"</script>

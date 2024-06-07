@@ -118,7 +118,7 @@ $(document).ready(()=>{
   /* /HEADER MAP */
 
   // Servicios
-  if(!!document.getElementById("services-toggle")){
+  if(!!document.getElementById("serviciosAutocomplete")){
 
     const availableServices = [
       "Cucarachas",
@@ -128,86 +128,97 @@ $(document).ready(()=>{
       "Chiripas",
     ];
 
-    let selectedServices = [];
-    let servicesMenuHovered = false;
-    let servicesInputBlur = false;
-    const servicesDropdown = new bootstrap.Dropdown(document.getElementById("services-toggle"))
+    $('#serviciosAutocomplete').select2({
+      placeholder: 'Servicios',
+      data: availableServices
+    });
+
+    $('#serviciosAutocomplete').on('select2:select', function (e) {
+      var data = e.params;
+      console.log(data);
+  });
+
+
+    // let selectedServices = [];
+    // let servicesMenuHovered = false;
+    // let servicesInputBlur = false;
+    // const servicesDropdown = new bootstrap.Dropdown(document.getElementById("services-toggle"))
 
     // Services Autocomplete
-    $( "#servicios" ).autocomplete({
-      source: availableServices,
-      select: (e, ui)=>{
-        e.preventDefault();
+    // $( "#servicios" ).autocomplete({
+    //   source: availableServices,
+    //   select: (e, ui)=>{
+    //     e.preventDefault();
         
-        if(!_.find(selectedServices,(item)=> ui.item.label == item.label)){
-          selectedServices.push(ui.item)
-          $(".services-dropdown-body").append(`
-            <span class="badge rounded-pill bg-dark me-1" service="${ui.item.label}">
-              ${ui.item.label}
-              <i class="fa-solid fa-x btn-delete-service"></i>
-            </span>`)
-        }
-        if(selectedServices.length == 0) {
-          $(".no-services").show();
-          $(".badge-services-count").hide();
-        }else{
-          $(".no-services").hide();
-        }
-        servicesDropdown.show();
-        $( "#servicios" ).val("");
-        $(".badge-services-count").show()
-        $(".badge-count-number").text(selectedServices.length)
+    //     if(!_.find(selectedServices,(item)=> ui.item.label == item.label)){
+    //       selectedServices.push(ui.item)
+    //       $(".services-dropdown-body").append(`
+    //         <span class="badge rounded-pill bg-dark me-1" service="${ui.item.label}">
+    //           ${ui.item.label}
+    //           <i class="fa-solid fa-x btn-delete-service"></i>
+    //         </span>`)
+    //     }
+    //     if(selectedServices.length == 0) {
+    //       $(".no-services").show();
+    //       $(".badge-services-count").hide();
+    //     }else{
+    //       $(".no-services").hide();
+    //     }
+    //     servicesDropdown.show();
+    //     $( "#servicios" ).val("");
+    //     $(".badge-services-count").show()
+    //     $(".badge-count-number").text(selectedServices.length)
   
-      }
-    });
+    //   }
+    // });
   
-    // Services Dropdown
-    $( "#servicios" ).click(()=> {   
-      // Searching on autocomplete
-      $( "#servicios" ).autocomplete( "search" )
+    // // Services Dropdown
+    // $( "#servicios" ).click(()=> {   
+    //   // Searching on autocomplete
+    //   $( "#servicios" ).autocomplete( "search" )
       
-      servicesInputBlur = false;
-      if(!_.isEmpty(selectedServices)){
-        servicesDropdown.show();
-      }
-    });
+    //   servicesInputBlur = false;
+    //   if(!_.isEmpty(selectedServices)){
+    //     servicesDropdown.show();
+    //   }
+    // });
     
-    $( "#servicios" ).blur(()=> {
-      if(!servicesMenuHovered){ 
-        servicesDropdown.hide();
-        servicesMenuHovered = false;
-      }
-      servicesInputBlur = true;
-    });
+    // $( "#servicios" ).blur(()=> {
+    //   if(!servicesMenuHovered){ 
+    //     servicesDropdown.hide();
+    //     servicesMenuHovered = false;
+    //   }
+    //   servicesInputBlur = true;
+    // });
   
-    $(".services-dropdown-menu").click(()=>{
-      servicesDropdown.show();
-      servicesInputBlur = true;
-    })
+    // $(".services-dropdown-menu").click(()=>{
+    //   servicesDropdown.show();
+    //   servicesInputBlur = true;
+    // })
   
-    $(".services-dropdown-menu").mousemove(()=>{
-      servicesMenuHovered = true;
-    })
+    // $(".services-dropdown-menu").mousemove(()=>{
+    //   servicesMenuHovered = true;
+    // })
   
-    $(".services-dropdown-menu").mouseleave(()=>{
-      if(servicesInputBlur){
-        servicesDropdown.hide();
-      }
-      servicesMenuHovered = false;
-    })
+    // $(".services-dropdown-menu").mouseleave(()=>{
+    //   if(servicesInputBlur){
+    //     servicesDropdown.hide();
+    //   }
+    //   servicesMenuHovered = false;
+    // })
   
-    $(".services-dropdown-body").click((e)=>{
-      if($(e.target).hasClass("btn-delete-service")){
-        const service = $($(e.target).parent()[0]).attr("service");
-        selectedServices = selectedServices.filter((item)=>item.label != service)
-        $(".badge-count-number").text(selectedServices.length)
-        $($(e.target).parent()[0]).remove();
-        if(selectedServices.length == 0) {
-          $(".badge-services-count").hide();
-          $(".no-services").show();
-        }
-      }
-    })
+    // $(".services-dropdown-body").click((e)=>{
+    //   if($(e.target).hasClass("btn-delete-service")){
+    //     const service = $($(e.target).parent()[0]).attr("service");
+    //     selectedServices = selectedServices.filter((item)=>item.label != service)
+    //     $(".badge-count-number").text(selectedServices.length)
+    //     $($(e.target).parent()[0]).remove();
+    //     if(selectedServices.length == 0) {
+    //       $(".badge-services-count").hide();
+    //       $(".no-services").show();
+    //     }
+    //   }
+    // })
   
     // Google Maps Dropdown
     $("#searchHeaderPlaceField").click(()=>{

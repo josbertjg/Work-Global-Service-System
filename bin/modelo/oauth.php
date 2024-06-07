@@ -49,15 +49,17 @@
 
       if(empty($usuarioEncontrado)){
         try{
-          $this->conectarDB();
-          $new = $this->con->prepare("INSERT INTO `usuario`(`email`, `nombre`, `apellido`, `fotoPerfil`, `oauth_type`, `emailVerificado`, `activo`) VALUES (?,?,?,?,?,1,1)");
+          parent::conectarDB();
+          
+          $this->fotoPerfil = $this->uploadGoogleUserImage($this->fotoPerfil);
+          $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `fotoPerfil`, `oauth_type`, `emailVerificado`, `activo`, `idRol`) VALUES (?,?,?,?,?,1,1,'CLWGS1')");
           $new->bindValue(1, $this->email);
           $new->bindValue(2, $this->nombre);
           $new->bindValue(3, $this->apellido); 
           $new->bindValue(4, $this->fotoPerfil);
           $new->bindValue(5, $this->oauth_type);
           $exito = $new->execute();
-          $this->desconectarDB();
+          parent::desconectarDB();
   
           if($exito){
             $respuesta = $this->userInfo();
@@ -69,15 +71,16 @@
         }catch(exection $error){
           $respuesta = array("error" => json_encode($error));
         }
+
       }else{
         if($usuarioEncontrado->activo == 1){
           if($usuarioEncontrado->oauth_type === "account_password"){
   
-            $this->conectarDB();
-            $new = $this->con->prepare("UPDATE usuario SET `oauth_type`= 'multi_oauth' ,`emailVerificado`= 1 WHERE email = ?");
+            parent::conectarDB();
+            $new = $this->con->prepare("UPDATE tusuarios SET `oauth_type`= 'multi_oauth' ,`emailVerificado`= 1 WHERE email = ?");
             $new->bindValue(1, $this->email);
             $exito = $new->execute();
-            $this->desconectarDB();
+            parent::desconectarDB();
 
             if($exito){
               $this->fotoPerfil = $usuarioEncontrado->fotoPerfil;
@@ -191,7 +194,7 @@
     private function registerAccountPassword(){
       $this->conectarDB();
 
-      $new = $this->con->prepare("INSERT INTO `usuario`(`email`, `nombre`, `apellido`, `contraseña`, `oauth_type`, `activo`) VALUES (?,?,?,?,?,1)"); 
+      $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `contraseña`, `oauth_type`, `activo`, `idRol`) VALUES (?,?,?,?,?,1,'CLWGS1')"); 
       $new->bindValue(1 , $this->email);
       $new->bindValue(2 , $this->nombre);
       $new->bindValue(3 , $this->apellido);
@@ -227,8 +230,8 @@
 
     private function buscarUsuario($email){
       try{
-				$this->conectarDB();
-        $new = $this->con->prepare("SELECT * FROM usuario WHERE email = ?");
+				parent::conectarDB();
+        $new = $this->con->prepare("SELECT * FROM tusuarios WHERE email = ?");
         $new->bindValue(1, $email);
         $new->execute();
         $usuario = $new->fetch(\PDO::FETCH_OBJ);
@@ -249,6 +252,14 @@
         "fotoPerfil" => $this->fotoPerfil
       );
       return $usuario;
+    }
+
+    private function uploadGoogleUserImage($url){
+      $nombre = $this->email . ".jpg";
+      $dir    = "assets/img/perfil/";
+      $imagen = file_get_contents($url);
+      file_put_contents($dir.$nombre,$imagen);
+      return $dir.$nombre;
     }
 
   }
