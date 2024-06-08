@@ -134,15 +134,15 @@ body .dropdown-menu {
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .close-map-btn {
   top: 10px;
   right: 10px;
+  padding: 0.4rem 0.7rem;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .close-map-btn i {
   font-size: 1.7rem;
-  padding: 0.1rem;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .user-location-btn {
   right: 10px;
   bottom: 305px;
-  padding: 0.4rem 0.5rem;
+  padding: 0.5rem;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .header-map {
   width: 100%;
