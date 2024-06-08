@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2024 a las 02:02:24
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 08-06-2024 a las 05:19:19
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `taccesos` (
-  `idAcceso` varchar(20) NOT NULL,
-  `rol` varchar(20) NOT NULL,
-  `permiso` varchar(20) NOT NULL,
-  `modulo` varchar(20) NOT NULL,
+  `idAcceso` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `rol` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `permiso` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `modulo` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -43,9 +43,9 @@ CREATE TABLE `taccesos` (
 
 CREATE TABLE `tbitacoras` (
   `id` int(11) NOT NULL,
-  `modulo` varchar(20) NOT NULL,
-  `usuario` varchar(40) NOT NULL,
-  `descripcion` varchar(500) NOT NULL,
+  `modulo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `usuario` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -56,12 +56,12 @@ CREATE TABLE `tbitacoras` (
 --
 
 CREATE TABLE `tcalendarios` (
-  `cedula` varchar(20) NOT NULL,
+  `cedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `inicioHora` time NOT NULL,
   `finHora` time NOT NULL,
-  `diaInicio` varchar(20) NOT NULL,
-  `diaFin` varchar(20) NOT NULL,
-  `exepcion` varchar(20) NOT NULL
+  `diaInicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `diaFin` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `exepcion` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -71,9 +71,9 @@ CREATE TABLE `tcalendarios` (
 --
 
 CREATE TABLE `tciudades` (
-  `idCiudad` varchar(20) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
-  `estado` varchar(20) NOT NULL
+  `idCiudad` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `estado` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -83,8 +83,8 @@ CREATE TABLE `tciudades` (
 --
 
 CREATE TABLE `testablecimientos` (
-  `idEstablecimientos` varchar(20) NOT NULL,
-  `descripcion` longtext NOT NULL,
+  `idEstablecimientos` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
   `tamaño` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -95,8 +95,8 @@ CREATE TABLE `testablecimientos` (
 --
 
 CREATE TABLE `testado` (
-  `idEstado` varchar(20) NOT NULL,
-  `nombre` varchar(20) NOT NULL
+  `idEstado` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -106,8 +106,8 @@ CREATE TABLE `testado` (
 --
 
 CREATE TABLE `tfacturas` (
-  `idFactura` varchar(20) NOT NULL,
-  `orden` varchar(20) NOT NULL,
+  `idFactura` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `orden` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `precioInicial` float NOT NULL,
   `precioFinal` float NOT NULL,
@@ -122,8 +122,8 @@ CREATE TABLE `tfacturas` (
 
 CREATE TABLE `tfacturasobrecargos` (
   `id` int(11) NOT NULL,
-  `factura` varchar(20) NOT NULL,
-  `sobrecargo` varchar(20) NOT NULL
+  `factura` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `sobrecargo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -133,14 +133,14 @@ CREATE TABLE `tfacturasobrecargos` (
 --
 
 CREATE TABLE `tfumigadores` (
-  `cedula` varchar(20) NOT NULL,
-  `email` varchar(20) NOT NULL,
-  `idUbicacion` varchar(20) NOT NULL,
+  `cedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `email` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idUbicacion` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fechaNacimiento` date NOT NULL,
-  `imagenCedula` varchar(20) NOT NULL,
+  `imagenCedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `activo` tinyint(4) NOT NULL,
   `fechaValidado` date NOT NULL,
-  `fotoPerfil` varchar(20) NOT NULL
+  `fotoPerfil` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -150,10 +150,30 @@ CREATE TABLE `tfumigadores` (
 --
 
 CREATE TABLE `tmodulos` (
-  `idModulo` varchar(20) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
-  `estatus` tinyint(1) NOT NULL
+  `idModulo` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tmodulos`
+--
+
+INSERT INTO `tmodulos` (`idModulo`, `nombre`, `status`) VALUES
+('d84383a3-252c-11ef-90e1-3c7c3f806d18', 'Usuarios', 1),
+('d84393eb-252c-11ef-90e1-3c7c3f806d18', 'Sobrecargos', 1),
+('d843a163-252c-11ef-90e1-3c7c3f806d18', 'Trabajadores', 1),
+('d843b072-252c-11ef-90e1-3c7c3f806d18', 'Quimicos', 1),
+('d843bc39-252c-11ef-90e1-3c7c3f806d18', 'Servicios', 1),
+('d843c75b-252c-11ef-90e1-3c7c3f806d18', 'Establecimientos', 1),
+('d843d24f-252c-11ef-90e1-3c7c3f806d18', 'Ordenes de Servicio', 1),
+('d843e0ac-252c-11ef-90e1-3c7c3f806d18', 'Ubicaciones', 1),
+('d843ebdc-252c-11ef-90e1-3c7c3f806d18', 'Bitácora', 1),
+('d843f6c6-252c-11ef-90e1-3c7c3f806d18', 'Roles', 1),
+('d84401b1-252c-11ef-90e1-3c7c3f806d18', 'Pagos', 1),
+('d8440c7c-252c-11ef-90e1-3c7c3f806d18', 'Reportes', 1),
+('d8441740-252c-11ef-90e1-3c7c3f806d18', 'Mantenimiento', 1),
+('dd75c668-252b-11ef-90e1-3c7c3f806d18', 'Notificaciones', 1);
 
 -- --------------------------------------------------------
 
@@ -163,9 +183,9 @@ CREATE TABLE `tmodulos` (
 
 CREATE TABLE `tnofiticaciones` (
   `id` int(11) NOT NULL,
-  `descripcion` longtext NOT NULL,
-  `status` varchar(20) NOT NULL,
-  `usuario` varchar(20) NOT NULL
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `status` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `usuario` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -175,12 +195,12 @@ CREATE TABLE `tnofiticaciones` (
 --
 
 CREATE TABLE `tordenes` (
-  `IdOrdenes` varchar(20) NOT NULL,
+  `IdOrdenes` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fechaServicio` date NOT NULL,
-  `cliente` varchar(20) NOT NULL,
-  `fumigador` varchar(20) NOT NULL,
-  `ubicacion` varchar(20) NOT NULL,
-  `establecimiento` varchar(25) NOT NULL
+  `cliente` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fumigador` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `ubicacion` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `establecimiento` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -191,8 +211,8 @@ CREATE TABLE `tordenes` (
 
 CREATE TABLE `tordenesservicios` (
   `id` int(11) NOT NULL,
-  `orden` varchar(20) NOT NULL,
-  `servicio` varchar(20) NOT NULL
+  `orden` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `servicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -203,11 +223,11 @@ CREATE TABLE `tordenesservicios` (
 
 CREATE TABLE `tpagodetalles` (
   `id` int(11) NOT NULL,
-  `factura` varchar(20) NOT NULL,
+  `factura` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `monto` float NOT NULL,
-  `descripcion` longtext NOT NULL,
-  `referencia` varchar(100) NOT NULL,
-  `tipoPago` enum('efectivo','transferencia','pago_movil') NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `referencia` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `tipoPago` enum('efectivo','transferencia','pago_movil') COLLATE utf8mb4_spanish_ci NOT NULL,
   `fechaPago` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -218,10 +238,20 @@ CREATE TABLE `tpagodetalles` (
 --
 
 CREATE TABLE `tpermisos` (
-  `idPermiso` varchar(20) NOT NULL,
-  `nombrePermisos` varchar(20) NOT NULL,
+  `idPermiso` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tpermisos`
+--
+
+INSERT INTO `tpermisos` (`idPermiso`, `nombre`, `status`) VALUES
+('441beb86-252d-11ef-90e1-3c7c3f806d18', 'Crear', 1),
+('441bf87c-252d-11ef-90e1-3c7c3f806d18', 'Consultar', 1),
+('441c017c-252d-11ef-90e1-3c7c3f806d18', 'Modificar', 1),
+('441c0a34-252d-11ef-90e1-3c7c3f806d18', 'Eliminar', 1);
 
 -- --------------------------------------------------------
 
@@ -231,8 +261,8 @@ CREATE TABLE `tpermisos` (
 
 CREATE TABLE `tprecioservicios` (
   `id` int(11) NOT NULL,
-  `servicio` varchar(20) NOT NULL,
-  `establecimiento` varchar(20) NOT NULL,
+  `servicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `establecimiento` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `precio` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -243,10 +273,10 @@ CREATE TABLE `tprecioservicios` (
 --
 
 CREATE TABLE `tquimicos` (
-  `idQuimico` varchar(20) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
-  `foto` varchar(1000) NOT NULL,
-  `descripcion` longtext NOT NULL,
+  `idQuimico` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `foto` varchar(1000) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
   `habilitado` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -265,8 +295,8 @@ INSERT INTO `tquimicos` (`idQuimico`, `nombre`, `foto`, `descripcion`, `habilita
 --
 
 CREATE TABLE `troles` (
-  `IdRol` varchar(10) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
+  `IdRol` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -286,11 +316,11 @@ INSERT INTO `troles` (`IdRol`, `nombre`, `status`) VALUES
 --
 
 CREATE TABLE `tservicios` (
-  `idServicio` varchar(20) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
-  `quimico` varchar(20) NOT NULL,
+  `idServicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `quimico` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `precio` float NOT NULL,
-  `descripcion` longtext NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
   `habilitado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -301,10 +331,10 @@ CREATE TABLE `tservicios` (
 --
 
 CREATE TABLE `tsobrecargos` (
-  `idSobrecargo` varchar(20) NOT NULL,
+  `idSobrecargo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `precio` float NOT NULL,
-  `descripcion` longtext NOT NULL,
-  `factura` varchar(20) NOT NULL
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `factura` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -314,11 +344,11 @@ CREATE TABLE `tsobrecargos` (
 --
 
 CREATE TABLE `tubicaciones` (
-  `idUbicacion` varchar(20) NOT NULL,
-  `latitud` varchar(20) NOT NULL,
-  `longitud` varchar(20) NOT NULL,
-  `direccion` longtext NOT NULL,
-  `ciudad` varchar(20) NOT NULL
+  `idUbicacion` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `latitud` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `longitud` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `direccion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `ciudad` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -328,15 +358,15 @@ CREATE TABLE `tubicaciones` (
 --
 
 CREATE TABLE `tusuarios` (
-  `email` varchar(40) NOT NULL,
-  `contraseña` varchar(255) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `apellido` varchar(100) NOT NULL,
-  `telefono` varchar(20) NOT NULL,
-  `fotoPerfil` varchar(500) NOT NULL,
+  `email` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `contraseña` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `apellido` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `telefono` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fotoPerfil` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
   `emailVerificado` tinyint(1) NOT NULL DEFAULT 0,
-  `oauth_type` enum('gmail_oauth','account_password','multi_oauth','') NOT NULL,
-  `idRol` varchar(10) NOT NULL DEFAULT 'CLWGS1',
+  `oauth_type` enum('gmail_oauth','account_password','multi_oauth','') COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idRol` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT 'CLWGS1',
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `activo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
