@@ -114,13 +114,13 @@ body .dropdown-menu {
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.246);
   cursor: pointer;
   transition: all 200ms;
-  padding: 0.2rem 0.2rem;
+  padding: 0.4rem 0.6rem;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .map-btn:hover {
   color: #DC3545;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .map-btn i {
-  font-size: 2rem;
+  font-size: 1.7rem;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .back-map-btn {
   left: 10px;
@@ -142,10 +142,7 @@ body .dropdown-menu {
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .user-location-btn {
   right: 10px;
   bottom: 305px;
-}
-.app-header .header-menu .map-dropdown-menu .map-dropdown-body .user-location-btn i {
-  font-size: 1.7rem;
-  padding: 0.2rem;
+  padding: 0.4rem 0.5rem;
 }
 .app-header .header-menu .map-dropdown-menu .map-dropdown-body .header-map {
   width: 100%;
@@ -414,24 +411,47 @@ main {
   min-height: 20px;
 }
 
+.autocomplete-container {
+  border: 1px #e6e6e6 solid;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
 .autocomplete-container select {
   border: none !important;
   box-shadow: none !important;
 }
 .autocomplete-container .selection {
-  border-radius: 50px;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
 }
 .autocomplete-container .select2-selection {
+  height: 60px;
   position: relative;
   padding: 12px;
   padding-right: 0px;
   border: none !important;
   max-height: 56px !important;
   overflow-y: auto !important;
+  border-top-left-radius: 35px;
+  border-bottom-left-radius: 35px;
 }
 .autocomplete-container .select2-search {
   display: inline-block;
   width: 160px;
+}
+
+.select2-results__option--highlighted {
+  background-color: #343a40 !important;
+}
+
+.select2-selection__choice {
+  background-color: #343a40 !important;
+  border-radius: 50px !important;
+  font-size: 0.8rem;
+  color: white;
+}
+.select2-selection__choice button {
+  transition: all 200ms;
 }
 
 .custom-tooltip-primary {

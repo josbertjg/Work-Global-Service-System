@@ -5,7 +5,6 @@ $(document).ready(()=>{
   if(!!document.getElementById("map-toggle")){
 
     mapDropdownHeader = new bootstrap.Dropdown(document.getElementById("map-toggle"))
-  
     /* HEADER MAP */
     const center = {
       // lat: countryPlace.results[0].geometry.location.lat(),

@@ -65,20 +65,20 @@
           <li><a class="dropdown-item navigation-link" href="servicios">Servicios</a></li>
           <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>
           <li><hr class="dropdown-divider m-0 p-0"></li>
-          <li><a class="dropdown-item navigation-link" href="ayuda"><i class="material-symbols-outlined me-1">help</i> Ayuda</a></li>
-          <li><a class="dropdown-item logout" href="#"><i class="material-symbols-outlined me-1">logout</i> Cerrar Sesión</a></li>
+          <li><a class="dropdown-item navigation-link" href="ayuda"><i class="fa-solid fa-circle-info me-1"></i> Ayuda</a></li>
+          <li><a class="dropdown-item logout" href="#"><i class="fa-solid fa-right-to-bracket me-1"></i> Cerrar Sesión</a></li>
         '
       :
         '
           <li>
             <a type="button" class="iniciarSesion-btn" data-bs-toggle="modal" data-bs-target="#acceder-modal">
-              <i class="material-symbols-outlined me-1">login</i>
+              <i class="fa-solid fa-right-to-bracket"></i>
               Iniciar Sesión
             </a>
           </li>
           <li>
             <a type="button" class="crearCuenta-btn" data-bs-toggle="modal" data-bs-target="#acceder-modal">
-              <i class="material-symbols-outlined me-1">how_to_reg</i>
+              <i class="fa-solid fa-user-plus"></i>
               Crear Cuenta
             </a>
           </li>
@@ -97,7 +97,7 @@
               <label for="searchHeaderPlaceField">Dirección</label>
               <button type="button" href="#" class="btn-buscar">
                 <span class="d-flex">
-                  <i class="material-symbols-outlined me-lg-1">search</i>
+                  <i class="fa-solid fa-magnifying-glass me-lg-2"></i>
                   <span class="d-lg-block d-none">Buscar</span>
                 </span>
               </button>
@@ -106,19 +106,19 @@
           <form class="dropdown-menu map-dropdown-menu" aria-labelledby="map-toggle">
             <div class="map-dropdown-body">
               <a href="#" class="back-map-btn map-btn">
-                <i class="material-symbols-outlined">chevron_left</i>
+                <i class="fa-solid fa-chevron-left"></i>
               </a>
               <a href="#" class="close-map-btn map-btn">
-                <i class="material-symbols-outlined">close</i>
+                <i class="fa-solid fa-xmark"></i>
               </a>
               <a href="#" class="user-location-btn useUserLocation map-btn">
-                <i class="material-symbols-outlined">my_location</i>
+                <i class="fa-solid fa-location-crosshairs"></i>
               </a>
               <div id="header-map" class="header-map"></div>
               <div class="aditional-options">
                 <span class="aditional-title">Detalles adicionales</span>
                 <div class="d-flex align-items-center my-3">
-                  <i class="material-symbols-outlined aditional-sheet">description</i>
+                  <i class="fa-solid fa-sheet-plastic aditional-sheet"></i>
                   <div class="form-floating w-100">
                     <input type="text" class="form-control" id="aditional-info" placeholder="name@example.com">
                     <label for="aditional-info">Indicaciones (opcional)</label>
@@ -160,7 +160,7 @@
                 data-bs-custom-class="custom-tooltip-dark"
                 data-bs-title="Servicios"
               >
-                <i class="material-symbols-outlined">calendar_month</i>
+                <i class="fa-solid fa-calendar"></i>
               </a>
               
               <div class="dropdown-center alertas-header-dropdown '.$showActionButtons.'">
@@ -175,13 +175,13 @@
                   data-bs-custom-class="custom-tooltip-dark"
                   data-bs-title="Alertas"
                 >
-                  <i class="material-symbols-outlined">notifications</i>
+                  <i class="fa-solid fa-bell"></i>
                 </button>
       
                 <ul class="dropdown-menu alerts-dropdown-menu">
                   <div class="alerts-dropdown-header dropdown-header">
                     <h1 class="alerts-title">Alertas</h1>
-                    <i class="material-symbols-outlined close-alerts">close</i>
+                    <i class="fa-regular fa-circle-xmark close-alerts"></i>
                   </div>
                   <div class="alerts-dropdown-body">
                     <li class="alert-item">
@@ -250,7 +250,7 @@
                       </div>
                       <button id="iniciarSesion-btn">
                         Iniciar Sesión
-                        <i class="material-symbols-outlined">login</i>
+                        <i class="fa-solid fa-right-to-bracket"></i>
                       </button>
                     </form>
 
@@ -328,7 +328,7 @@
                       </div>
                       <button id="crearCuenta-btn">
                         Crear Cuenta
-                        <i class="material-symbols-outlined">how_to_reg</i>
+                        <i class="fa-solid fa-user-plus"></i>
                       </button>
                     </form>
 
@@ -373,24 +373,24 @@
   
       $footerTabs   = $userIsLogged ?
         '<a href="servicios" class="tab-item navigation-link">
-          <i class="material-symbols-outlined">calendar_month</i>
+          <i class="fa-solid fa-calendar"></i>
           <span>Servicios</span>
         </a>
         <a href="alertas" class="tab-item navigation-link">
-          <i class="material-symbols-outlined">notifications</i>
+          <i class="fa-solid fa-bell"></i>
           <span>Alertas</span>
         </a>
         <a href="perfil" class="tab-item navigation-link">
-          <i class="material-symbols-outlined">person</i>
+          <i class="fa-solid fa-user"></i>
           <span>Perfil</span>
         </a>'
       :
         '<a href="#" class="tab-item crearCuenta-footer-btn">
-          <i class="material-symbols-outlined">how_to_reg</i>
+          <i class="fa-solid fa-user-plus"></i>
           <span>Crear Cuenta</span>
         </a>
         <a href="#" class="tab-item  iniciarSesion-footer-btn">
-          <i class="material-symbols-outlined">login</i>
+          <i class="fa-solid fa-right-to-bracket"></i>
           <span>Iniciar Sesión</span>
         </a>';
 
@@ -398,7 +398,7 @@
         <nav class="footer-tabs container-fluid d-lg-none d-flex">
           
           <a href="/" class="tab-item navigation-link">
-            <i class="material-symbols-outlined">home</i>
+            <i class="fa-solid fa-house-chimney"></i>
             <span>Home</span>
           </a>
           '.$footerTabs.'

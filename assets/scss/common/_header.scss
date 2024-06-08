@@ -86,14 +86,14 @@
           box-shadow: $shadow;
           cursor: pointer;
           transition: all 200ms;
-          padding: .2rem .2rem;
+          padding: .4rem .6rem;
           
           &:hover{
             color: $primary;
           }
           
           i{
-            font-size: 2rem;
+            font-size: 1.7rem;
           }
         }
 
@@ -120,10 +120,7 @@
         .user-location-btn{
           right: 10px;
           bottom: 305px;
-          i{
-            font-size: 1.7rem;
-            padding: .2rem;
-          }
+          padding: .4rem .5rem;
         }
 
         .header-map{

@@ -15,8 +15,8 @@ function loginUser(userObj){
     <li><a class="dropdown-item navigation-link" href="servicios">Servicios</a></li>
     <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>
     <li><hr class="dropdown-divider m-0 p-0"></li>
-    <li><a class="dropdown-item navigation-link" href="ayuda"><i class="material-symbols-outlined me-1">help</i> Ayuda</a></li>
-    <li><a class="dropdown-item logout" href="#"><i class="material-symbols-outlined me-1">logout</i> Cerrar Sesión</a></li>
+    <li><a class="dropdown-item navigation-link" href="ayuda"><i class="fa-solid fa-circle-info me-1"></i> Ayuda</a></li>
+    <li><a class="dropdown-item logout" href="#"><i class="fa-solid fa-right-to-bracket me-1"></i> Cerrar Sesión</a></li>
   `);
   $(".close-acceder-modal").trigger("click")
 
@@ -30,19 +30,19 @@ function loginUser(userObj){
   $(".footer-tabs").empty();
   $(".footer-tabs").append(`
     <a href="/" class="tab-item navigation-link active">
-      <i class="material-symbols-outlined">home</i>
+    <i class="fa-solid fa-house-chimney"></i>
       <span>Home</span>
     </a>
     <a href="servicios" class="tab-item navigation-link">
-      <i class="material-symbols-outlined">calendar_month</i>
+      <i class="fa-solid fa-calendar"></i>
       <span>Servicios</span>
     </a>
     <a href="alertas" class="tab-item navigation-link">
-      <i class="material-symbols-outlined">notifications</i>
+      <i class="fa-solid fa-bell"></i>
       <span>Alertas</span>
     </a>
     <a href="perfil" class="tab-item navigation-link">
-      <i class="material-symbols-outlined">person</i>
+    <i class="fa-solid fa-user"></i>
       <span>Perfil</span>
     </a>
   `);
@@ -64,13 +64,13 @@ async function logoutUser(){
     $(".profile-dropdown-menu").append(`
       <li>
         <a type="button" class="iniciarSesion-btn" data-bs-toggle="modal" data-bs-target="#acceder-modal">
-          <i class="material-symbols-outlined me-1">login</i>
+          <i class="fa-solid fa-right-to-bracket me-1"></i>
           Iniciar Sesión
         </a>
       </li>
       <li>
         <a type="button" class="crearCuenta-btn" data-bs-toggle="modal" data-bs-target="#acceder-modal">
-          <i class="material-symbols-outlined me-1">how_to_reg</i>
+          <i class="fa-solid fa-user-plus me-1"></i>
           Crear Cuenta
         </a>
       </li>
@@ -85,15 +85,15 @@ async function logoutUser(){
     $(".footer-tabs").empty();
     $(".footer-tabs").append(`
       <a href="/" class="tab-item navigation-link active">
-        <i class="material-symbols-outlined">home</i>
+        <i class="fa-solid fa-house-chimney"></i>
         <span>Home</span>
       </a>
       <a href="#" class="tab-item crearCuenta-footer-btn">
-        <i class="material-symbols-outlined">how_to_reg</i>
+        <i class="fa-solid fa-user-plus"></i>
         <span>Crear Cuenta</span>
       </a>
       <a href="#" class="tab-item  iniciarSesion-footer-btn">
-        <i class="material-symbols-outlined">login</i>
+        <i class="fa-solid fa-right-to-bracket"></i>
         <span>Iniciar Sesión</span>
       </a>
     `);
