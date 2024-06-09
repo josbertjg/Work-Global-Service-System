@@ -1,6 +1,6 @@
 // Input with dropdown
 .autocomplete-container{
-  border: 1px $grey-lighter solid;
+  border: 1px darken($grey-lighter, 5) solid;
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
   select{

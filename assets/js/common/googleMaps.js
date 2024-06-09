@@ -1,7 +1,7 @@
 const countryCode = 've'
 let geocodificator;
-if(!!google.maps){
-  geocodificator = new google.maps.Geocoder();
+if(!!google){
+  if(!!google.maps) geocodificator = new google.maps.Geocoder();
 }
 
 const geocoder = {

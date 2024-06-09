@@ -58,6 +58,8 @@ async function logoutUser(){
   localStorage.clear();
   const respuesta = await service.post("oauth",{logout: true})
   if("logout" in respuesta){
+    if(window.location.pathname != "" && window.location.pathname != "/" && window.location.pathname != "/inicio") return window.location = "/"
+    
     $(".header-avatar").attr("src","assets/img/user.svg");
     $(".header-user-name").text("Acceder");
     $(".profile-dropdown-menu").empty();

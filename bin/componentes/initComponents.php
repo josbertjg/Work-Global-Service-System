@@ -42,18 +42,14 @@
 
     public function header($withGoogleMaps = false){
 
-      $user = !empty($_SESSION["user"]) ? json_decode($_SESSION["user"]) : null;
-      $userIsLogged = !empty($user);
+      $userIsLogged = !empty($_SESSION["email"]) && !empty($_SESSION["idRol"]);
 
       $fotoPerfil = "";
-      if(empty($user)) $fotoPerfil = "assets/img/user.svg";
-      else{
-        if(empty($user->fotoPerfil)) $fotoPerfil = "assets/img/user.svg";
-        else $fotoPerfil = $user->fotoPerfil;
-      }
+      if(empty($_SESSION["fotoPerfil"])) $fotoPerfil = "assets/img/user.svg";
+      else $fotoPerfil = $_SESSION["fotoPerfil"];
 
-      $nombre = empty($user) ? "Acceder" : $user->nombre;
-      $apellido = empty($user) ? "" : $user->apellido;
+      $nombre = empty($_SESSION["nombre"]) ? "Acceder" : $_SESSION["nombre"];
+      $apellido = empty($_SESSION["apellido"]) ? "" : $_SESSION["apellido"];
       $apellidoFirstLetter = $apellido ? strtoupper(substr($apellido,0,1))."." : "";
 
       $showActionButtons = $userIsLogged ? 'd-inline-block' : 'd-none';
@@ -368,8 +364,7 @@
     }
 
     public function footer(){
-      $user = !empty($_SESSION["user"]) ? json_decode($_SESSION["user"]) : null;
-      $userIsLogged = !empty($user);
+      $userIsLogged = !empty($_SESSION["email"]) && !empty($_SESSION["idRol"]);
   
       $footerTabs   = $userIsLogged ?
         '<a href="servicios" class="tab-item navigation-link">
@@ -514,6 +509,17 @@
         <th>Acciones</th>
         </tr>';
         break;
+
+        case "roles":
+          $varth=
+          '<tr>
+          <th>Modulo</th>
+          <th>Consultar</th>
+          <th>Crear</th>
+          <th>Modificar</th>
+          <th>Eliminar</th>
+          </tr>';
+          break;
       }
       $varAll= $varTStart.$varth.$vartTend;
       echo $varAll;
