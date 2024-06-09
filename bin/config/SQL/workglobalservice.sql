@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-06-2024 a las 05:19:19
+-- Tiempo de generación: 09-06-2024 a las 02:25:04
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.5
 
@@ -35,6 +35,16 @@ CREATE TABLE `taccesos` (
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `taccesos`
+--
+
+INSERT INTO `taccesos` (`idAcceso`, `rol`, `permiso`, `modulo`, `status`) VALUES
+('e0bde5ac-25ad-11ef-bfb0-3c7c3f806d18', 'SAWGS1', '441beb86-252d-11ef-90e1-3c7c3f806d18', 'd84383a3-252c-11ef-90e1-3c7c3f806d18', 1),
+('e0bdf6f5-25ad-11ef-bfb0-3c7c3f806d18', 'SAWGS1', '441bf87c-252d-11ef-90e1-3c7c3f806d18', 'd84383a3-252c-11ef-90e1-3c7c3f806d18', 1),
+('e0be032c-25ad-11ef-bfb0-3c7c3f806d18', 'SAWGS1', '441c0a34-252d-11ef-90e1-3c7c3f806d18', 'd84383a3-252c-11ef-90e1-3c7c3f806d18', 1),
+('e0be0ef3-25ad-11ef-bfb0-3c7c3f806d18', 'SAWGS1', '441c017c-252d-11ef-90e1-3c7c3f806d18', 'd84383a3-252c-11ef-90e1-3c7c3f806d18', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -43,7 +53,7 @@ CREATE TABLE `taccesos` (
 
 CREATE TABLE `tbitacoras` (
   `id` int(11) NOT NULL,
-  `modulo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `modulo` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
   `usuario` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
   `descripcion` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp()
@@ -286,6 +296,7 @@ CREATE TABLE `tquimicos` (
 
 INSERT INTO `tquimicos` (`idQuimico`, `nombre`, `foto`, `descripcion`, `habilitado`) VALUES
 ('InPlCh', 'Insecticida Plagatox', 'assets/img/uploads/images.jpg.jpg', 'Insecticida en Polvo Plagatox\r\npara Chiripas y Cucarachas\r\nuso domestico', 1),
+('Jo', 'Josbert', 'assets/img/uploads/foto-carnet-josbert.jpg.jpg', 'sdjaksdfjaskldjfñaksjdñfkljasdñklfj', 1),
 ('RaPlP', 'Raticida Plagatox P', 'assets/img/uploads/mug-today-is-a-good-day.jpg.jpg', 'Cebo Raticida marca Plagatox\r\nContenido Neto:150g\r\nUso domestico', 1);
 
 -- --------------------------------------------------------
@@ -370,15 +381,6 @@ CREATE TABLE `tusuarios` (
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `activo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
---
--- Volcado de datos para la tabla `tusuarios`
---
-
-INSERT INTO `tusuarios` (`email`, `contraseña`, `nombre`, `apellido`, `telefono`, `fotoPerfil`, `emailVerificado`, `oauth_type`, `idRol`, `creado`, `activo`) VALUES
-('josbertjg@gmail.com', '', 'Josbert', 'Guedez', '', 'https://lh3.googleusercontent.com/a/ACg8ocIYxgSVKmpdVhUOFnSf7DM1UbzOGrdaaIBopvTOKnWhhNlccJxZ=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-04-30 23:21:27', 1),
-('josetimaure60@gmail.com', '', 'Jose', 'Timaure', '', 'https://lh3.googleusercontent.com/a/ACg8ocJRESfHpvaFUA8v242WUFwFuXql-rmQ7fr05Ga-JlrNKARYpGxSeg=s96-c', 1, 'gmail_oauth', 'CLWGS1', '2024-06-05 23:40:12', 1),
-('workglobalserviceca@gmail.com', '', 'Josnel', 'Guedez', '', 'https://lh3.googleusercontent.com/a/ACg8ocJ7XYRMlybwZhYlo0ebVr57DV1ETJMQZnJR6vzAX3tkSr0YNQ=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-05-01 05:59:41', 1);
 
 --
 -- Índices para tablas volcadas
@@ -548,7 +550,7 @@ ALTER TABLE `tusuarios`
 -- AUTO_INCREMENT de la tabla `tbitacoras`
 --
 ALTER TABLE `tbitacoras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `tfacturasobrecargos`

@@ -1,7 +1,20 @@
 <?php
 	use componentes\initComponents as initComponents;
 	use modelo\quimicos as quimicos;
- 	$model = new quimicos();
+	
+	if(empty($_SESSION['idRol'])) {
+		die('<script> window.location = "/" </script>');
+	}
+	
+	$model = new quimicos();
+	$permisos = $model->getPermisosRol($_SESSION['idRol']);
+	$permiso = $permisos['Quimicos'];
+	
+	if(empty($permiso['Consultar'])) {
+		die('<script> window.location = "/" </script>');
+	}
+
+
    if (isset($_POST['prueba'])) {
      $model->funcionPrueba();
    } 

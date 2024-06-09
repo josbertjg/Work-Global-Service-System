@@ -13,8 +13,7 @@
     private $contraseña;
     private $oauth_type;
     private $emailVerificado;
-    private $nivel;
-    private $repass;
+    private $idRol;
 
     public function __construct(){
       parent::__construct();
@@ -44,28 +43,28 @@
       $this->email = !empty($responsePayload->email) ? $responsePayload->email:'';
       $this->fotoPerfil = !empty($responsePayload->picture) ? $responsePayload->picture:'';
       $this->oauth_type = "gmail_oauth";
+      $this->idRol = "CLWGS1";
 
       $usuarioEncontrado = $this->buscarUsuario($this->email);
 
       if(empty($usuarioEncontrado)){
         try{
-          $this->conectarDB();
-          $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `fotoPerfil`, `oauth_type`, `emailVerificado`, `activo`) VALUES (?,?,?,?,?,1,1)");
           parent::conectarDB();
           
           $this->fotoPerfil = $this->uploadGoogleUserImage($this->fotoPerfil);
-          $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `fotoPerfil`, `oauth_type`, `emailVerificado`, `activo`, `idRol`) VALUES (?,?,?,?,?,1,1,'CLWGS1')");
+          $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `fotoPerfil`, `oauth_type`, `idRol`, `emailVerificado`, `activo`) VALUES (?,?,?,?,?,?,1,1)");
           $new->bindValue(1, $this->email);
           $new->bindValue(2, $this->nombre);
           $new->bindValue(3, $this->apellido); 
           $new->bindValue(4, $this->fotoPerfil);
           $new->bindValue(5, $this->oauth_type);
+          $new->bindValue(6, $this->idRol);
           $exito = $new->execute();
           parent::desconectarDB();
   
           if($exito){
             $respuesta = $this->userInfo();
-            $_SESSION["user"] = json_encode($respuesta);
+            $this->saveUserSession();
           }else{
             $respuesta = array("error" => $new->errorCode());
           }
@@ -79,33 +78,33 @@
           if($usuarioEncontrado->oauth_type === "account_password"){
   
             $this->conectarDB();
-            $new = $this->con->prepare("UPDATE tsusuarios SET `oauth_type`= 'multi_oauth' ,`emailVerificado`= 1 WHERE email = ?");
-            parent::conectarDB();
             $new = $this->con->prepare("UPDATE tusuarios SET `oauth_type`= 'multi_oauth' ,`emailVerificado`= 1 WHERE email = ?");
             $new->bindValue(1, $this->email);
             $exito = $new->execute();
             parent::desconectarDB();
 
             if($exito){
-              $this->fotoPerfil = $usuarioEncontrado->fotoPerfil;
-              $this->nombre = $usuarioEncontrado->nombre;
-              $this->apellido = $usuarioEncontrado->apellido;
-              $respuesta = $this->userInfo();
-              $_SESSION["user"] = json_encode($respuesta);
+               
+              $this->registrarBitacora("Iniciar Sesión",$this->email,"Inicio sesión con GMAIL habiendose registrado previamente con usuario y contraseña.");
+
             }else{
               $respuesta = array("error" => $new->errorCode());
             }
   
           }else{
-            $this->fotoPerfil = $usuarioEncontrado->fotoPerfil;
-            $this->nombre = $usuarioEncontrado->nombre;
-            $this->apellido = $usuarioEncontrado->apellido;
-            $respuesta = $this->userInfo();
+            $this->registrarBitacora("Iniciar Sesión",$this->email,"Inicio sesión en el sistema con GMAIL.");
           }
+
+          $this->fotoPerfil = $usuarioEncontrado->fotoPerfil;
+          $this->nombre = $usuarioEncontrado->nombre;
+          $this->apellido = $usuarioEncontrado->apellido;
+          $this->idRol = $usuarioEncontrado->idRol;
+          $respuesta = $this->userInfo();
+          $this->saveUserSession();
+
         }else{
           $respuesta = ["error" => "Usuario no activo o inhabilitado."];
         }
-        $_SESSION["user"] = json_encode($respuesta);
       }
 
       die(json_encode($respuesta));
@@ -145,8 +144,10 @@
             $this->nombre     = $usuarioEncontrado->nombre;
             $this->apellido   = $usuarioEncontrado->apellido;
             $this->fotoPerfil = $usuarioEncontrado->fotoPerfil;
-            $resultado = $this->userInfo();
-            $_SESSION["user"] = json_encode($resultado);
+            $this->idRol      = $usuarioEncontrado->idRol;
+            $resultado        = $this->userInfo();
+            $this->saveUserSession();
+            $this->registrarBitacora("Iniciar Sesión",$this->email,"Inicio sesión en el sistema con usuario y contraseña");
           }
         }else{
           if($usuarioEncontrado->oauth_type === "gmail_oauth")
@@ -186,11 +187,12 @@
         die(json_encode($error));
       }
 
-      $this->email               = $email;
-      $this->nombre              = $nombre;
-      $this->apellido            = $apellido;
-      $this->contraseña          = password_hash($contraseña, PASSWORD_BCRYPT);
-      $this->oauth_type          = "account_password";
+      $this->email      = $email;
+      $this->nombre     = $nombre;
+      $this->apellido   = $apellido;
+      $this->contraseña = password_hash($contraseña, PASSWORD_BCRYPT);
+      $this->idRol      = "CLWGS1";
+      $this->oauth_type = "account_password";
 
       $this->registerAccountPassword();
     }
@@ -198,20 +200,21 @@
     private function registerAccountPassword(){
       $this->conectarDB();
 
-      $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `contraseña`, `oauth_type`, `activo`) VALUES (?,?,?,?,?,1)"); 
-      $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `contraseña`, `oauth_type`, `activo`, `idRol`) VALUES (?,?,?,?,?,1,'CLWGS1')"); 
+      $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `contraseña`, `idRol`, `oauth_type`, `activo`) VALUES (?,?,?,?,?,?,1)"); 
       $new->bindValue(1 , $this->email);
       $new->bindValue(2 , $this->nombre);
       $new->bindValue(3 , $this->apellido);
       $new->bindValue(4 , $this->contraseña);
-      $new->bindValue(5 , $this->oauth_type);
+      $new->bindValue(5 , $this->idRol);
+      $new->bindValue(6 , $this->oauth_type);
       $exito = $new->execute();
-
+      
       $this->desconectarDB();
-
+      
       $resultado = null;
       if($exito){
         $resultado = ['success' => "Usuario registrado exitosamente."];
+        $this->registrarBitacora("Registro", $this->email, "Se ha registrado con usuario y contraseña.");
       }else{
         $resultado = ['error' => 'Usuario o contraseña incorrectos.'];
       }
@@ -235,7 +238,7 @@
 
     private function buscarUsuario($email){
       try{
-				$this->conectarDB();
+				parent::conectarDB();
         $new = $this->con->prepare("SELECT * FROM tusuarios WHERE email = ?");
 				parent::conectarDB();
         $new = $this->con->prepare("SELECT * FROM tusuarios WHERE email = ?");
@@ -253,12 +256,21 @@
 
     private function userInfo(){
       $usuario = array(
-        "nombre" => $this->nombre,
-        "apellido" => $this->apellido,
-        "email" => $this->email,
-        "fotoPerfil" => $this->fotoPerfil
+        "nombre"     => $this->nombre,
+        "apellido"   => $this->apellido,
+        "email"      => $this->email,
+        "fotoPerfil" => $this->fotoPerfil,
+        "idRol"      => $this->idRol,
       );
       return $usuario;
+    }
+
+    private function saveUserSession(){
+      $_SESSION["email"]      = $this->email;
+      $_SESSION["nombre"]     = $this->nombre;
+      $_SESSION["apellido"]   = $this->apellido;
+      $_SESSION["fotoPerfil"] = $this->fotoPerfil;
+      $_SESSION["idRol"]      = $this->idRol;
     }
 
     private function uploadGoogleUserImage($url){

@@ -36,67 +36,74 @@
       $this->con = NULL;  
     }
 
-    // protected function binnacle($modulo, $usuario, $descripcion){
-    //   try {
-    //     $new = $this->con->prepare("INSERT INTO bitacora(id, modulo, usuario, descripcion, fecha, status) VALUES (DEFAULT,?,?,?,DEFAULT,1)");
-    //     $new->bindValue(1, $modulo);
-    //     $new->bindValue(2, $usuario);
-    //     $new->bindValue(3, $descripcion);
-    //     $new->execute();
-    //   } catch (\PDOException $e) {
-    //     print "¡Error!: " . $e->getMessage() . "<br/>";
-    //     die();
-    //   }
-    // }
+    protected function registrarBitacora($modulo, $usuario, $descripcion){
+      try {
+        $this->conectarDB();
+        $new = $this->con->prepare("INSERT INTO tbitacoras(modulo, usuario, descripcion) VALUES (?,?,?)");
+        $new->bindValue(1, $modulo);
+        $new->bindValue(2, $usuario);
+        $new->bindValue(3, $descripcion);
+        $new->execute();
+        $this->desconectarDB();
+      } catch (\PDOException $e) {
+        print "¡Error!: " . $e->getMessage() . "<br/>";
+        $this->desconectarDB();
+        die();
+      }
+    }
 
     protected function uniqueID(){
       return bin2hex(random_bytes(5));
     }
 
-    // public function getPermisosRol($rol){
-    //   $this->rol = $rol;
+    public function getPermisosRol($rol){
+      $this->rol = $rol;
+      return $this->consultarPermisos();
+    }
 
-    //   return $this->consultarPermisos();
-    // }
+    private function consultarPermisos(){
 
-    // private function consultarPermisos(){
+      try {
+        $this->conectarDB();
+        $new = $this->con->prepare('SELECT idModulo, nombre FROM tmodulos');
+        $new->execute();
+        $modulos = $new->fetchAll(\PDO::FETCH_OBJ);
+        $permisos = [];
+        foreach ($modulos as $modulo) { $permisos[$modulo->nombre] = []; }
 
-    //   try {
-    //     $this->conectarDB();
-    //     $new = $this->con->prepare('SELECT id_modulo, nombre FROM modulos');
-    //     $new->execute();
-    //     $modulos = $new->fetchAll(\PDO::FETCH_OBJ);
-    //     $permisos = [];
-    //     foreach ($modulos as $modulo) { $permisos[$modulo->nombre] = ''; }
+        $new = $this->con->prepare("
+          SELECT
+            a.idAcceso,
+            r.idRol     AS idRol,
+            r.nombre    AS nombreRol,
+            m.idModulo  AS idModulo,
+            m.nombre    AS nombreModulo,
+            p.idPermiso AS idPermiso,
+            p.nombre    AS nombrePermiso
+          FROM taccesos a
+          JOIN troles r ON a.rol = r.idRol
+          JOIN tmodulos m ON a.modulo = m.idModulo
+          JOIN tpermisos p ON a.permiso = p.idPermiso
+          WHERE r.IdRol = ? AND a.status = 1;
+        ");
+        $new->bindValue(1,$this->rol);
+        $new->execute();
+        $accesos = $new->fetchAll(\PDO::FETCH_OBJ);
 
-    //     $query = 'SELECT m.nombre, p.nombre_accion, p.status FROM permisos p
-    //               INNER JOIN modulos m ON m.id_modulo = p.id_modulo
-    //               WHERE p.id_rol = ? AND m.nombre = ? AND p.status = 1';
+        foreach ($accesos as $acceso) {
+          $permisos[$acceso->nombreModulo][$acceso->nombrePermiso] = $acceso->nombrePermiso;
+        }
 
-    //     foreach ($permisos as $nombre_modulo => $valor) {
+        $this->desconectarDB();
 
-    //       $new = $this->con->prepare($query);
-    //       $new->bindValue(1, $this->rol);
-    //       $new->bindValue(2, $nombre_modulo);
-    //       $new->execute();
-    //       $data = $new->fetchAll(\PDO::FETCH_OBJ);
-    //       $acciones = []; 
+        return $permisos;
 
-    //       foreach($data as $modulo){
-    //         $acciones += [$modulo->nombre_accion => $modulo->status];
-    //       }
-    //       $permisos[$nombre_modulo] = $acciones;
-    //     }
-    //     $this->desconectarDB();
+      } catch (\PDOException $e) {
+        print "¡Error!: " . $e->getMessage() . "<br/>";
+        die();
+      }
 
-    //     return $permisos;
-
-    //   } catch (\PDOException $e) {
-    //     print "¡Error!: " . $e->getMessage() . "<br/>";
-    //     die();
-    //   }
-
-    // }
+    }
 
   }
 
