@@ -25,8 +25,8 @@ $(document).ready(()=>{
      "render": function(data, type, row) {
         if (type === 'display') {
             let buttonClass = data.habilitado == 1 ? 'btn-success' : 'btn-danger';
-            let icon = data.habilitado == 1 ? 'toggle_on' : 'toggle_off';
-            return `<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class='material-icons'>edit</i></button><button class='btn ${buttonClass} btn-sm btnBorrar'><i class='material-icons'>${icon}</i></button></div></div>`;
+            let icon = data.habilitado == 1 ? '<i class="fa-solid fa-toggle-on"></i>' : '<i class="fa-solid fa-toggle-off"></i>';
+            return `<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class="fa-regular fa-pen-to-square"></i></button><button class='btn ${buttonClass} btn-sm btnBorrar'>${icon}</button></div></div>`;
         }
         return data;
      }
@@ -51,7 +51,7 @@ $(document).ready(()=>{
   });
   //se le da las funciones para validar los campos
   validarFile($("#rutaIcono"));
-  validarNombre($("#nombreQuimico"));
+  validarInputNombre($("#nombreQuimico"));
   validarDescripcion($("#Descripcion"));
 
 
@@ -70,7 +70,7 @@ $(document).ready(()=>{
         }
         reader.readAsDataURL(e.target.files[0])
         }else{
-          setInvalidInput($("#rutaIcono","formato de foto no valido"));
+          setInvalidInput($("#rutaIcono"),"formato de foto no valido");
           Swal.fire({
             title: "Error!",
             text: "Fortmato de foto Invalido!",

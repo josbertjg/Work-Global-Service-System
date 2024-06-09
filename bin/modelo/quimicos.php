@@ -38,21 +38,6 @@
       else 
         die(json_encode($error));
     }
-    public function CRUD($opcion,$id,$Descripcion,$foto,$nombre){
-      $this->opcion=$opcion;
-      $this->id=$id;
-      $this->Descripcion=$Descripcion;
-      $this->foto=$foto;
-      $this->nombre=$nombre;
-      $this->targetFile=$rutaCarpeta.basename($this->foto["name"]).strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-      $respuesta = array(
-        "respuesta"=>"El modelo recibe los paramtros post y los devuelve ejemplo ". $this->Descripcion
-      );
-      if(json_decode($_POST['opcion'])){
-        die(json_encode($respuesta));
-      }
-    
-    }
     
     public function SelectAll(){
       //if(json_decode($_POST['opcion']))
@@ -146,6 +131,7 @@
         $consulta="INSERT INTO tquimicos (idQuimico,nombre,foto,descripcion,habilitado) VALUES (?,?,?,?,?)";
         $ejecucion=$this->con->prepare($consulta);
         $identificador=$this->separarCadena($this->nombre);
+        $identificador=strtoupper($identificador);
         $ejecucion->bindValue(1,$identificador);
         $ejecucion->bindValue(2,$this->nombre);
         $ejecucion->bindValue(3,$this->targetFile);
@@ -155,10 +141,10 @@
         $this->desconectarDB();
         $this->SubirFoto($this->foto["tmp_name"],$this->targetFile);
       }catch (\PDOException $e) {       
-        die("¡Error!: " . $e->getMessage());
+        header('Content-Type: application/json');
+        die(json_encode(array("error" => $e->getMessage())));
       }
     }
-
     private function separarCadena($cadena) {
       // Reemplazar múltiples espacios en blanco con un solo espacio
       $cadena = preg_replace('/\s+/', ' ', $cadena);

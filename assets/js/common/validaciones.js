@@ -10,7 +10,7 @@ function soloNumeros(evento) {
 //RESTRINGIENDO NUMEROS
 function soloLetras(evento) {
   let letra = evento.key;
-  regExp = /^[A-Za-z\.]+$/; // /^[A-Za-z]+$/;
+  regExp = /^[A-Za-zñÑ\.]+$/; // /^[A-Za-z]+$/;
   if (evento.keyCode == 13 || evento.keyCode == 8 || evento.keyCode == 9 || evento.keyCode == 32)
     return true;
   else
@@ -236,7 +236,7 @@ function validarNombre(element, isRequired = true) {
       if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido");
       
     if(element.val().trim().length < 2)  return setInvalidInput(element, "El nombre no puede tener menos de dos caracteres.");
-    if(element.val().trim().length > 30) return setInvalidInput(element, "El nombre no puede tener mas de 30 caracteres.");
+    if(element.val().trim().length > 45) return setInvalidInput(element, "El nombre no puede tener mas de 45 caracteres.");
 
     return setValidInput(element)
   })
@@ -246,17 +246,17 @@ function validarNombre(element, isRequired = true) {
       if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
      
     if(element.val().trim().length < 2)  return setInvalidInput(element, "El nombre no puede tener menos de dos caracteres.");
-    if(element.val().trim().length > 30) return setInvalidInput(element, "El nombre no puede tener mas de 30 caracteres.");
+    if(element.val().trim().length > 45) return setInvalidInput(element, "El nombre no puede tener mas de 45 caracteres.");
 
     return setValidInput(element)
   })
 
-  element.keydown((event) => soloLetras(event) && validarLength(element.val(),30));
+  element.keydown((event) => soloLetras(event) && validarLength(element.val(),45));
   
 }
 
 
-// Valida un input con la logica para nombres
+// Valida un input
 function validarDescripcion(element, isRequired = true) {
   element.blur(() => {
     if(isRequired)
@@ -279,5 +279,30 @@ function validarDescripcion(element, isRequired = true) {
   })
 
   element.keydown(() => validarLength(element.val(),300));
+  
+}
+
+function validarInputNombre(element, isRequired = true) {
+  element.blur(() => {
+    if(isRequired)
+      if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido");
+      
+    if(element.val().trim().length < 2)  return setInvalidInput(element, "Este Campo  no puede tener menos de 2 caracteres.");
+    if(element.val().trim().length > 45) return setInvalidInput(element, "Este no puede tener mas de 45 caracteres.");
+
+    return setValidInput(element)
+  })
+
+  element.keyup(() => {
+    if(isRequired)
+      if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
+     
+    if(element.val().trim().length < 2)  return setInvalidInput(element, "Este Campo no puede tener menos de 2 caracteres.");
+    if(element.val().trim().length > 45) return setInvalidInput(element, "Este campo no puede tener mas de 45 caracteres.");
+
+    return setValidInput(element)
+  })
+
+  element.keydown(() => validarLength(element.val(),45));
   
 }

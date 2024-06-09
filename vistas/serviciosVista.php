@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php $components->head(true); ?>
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/datatables.min.css" rel="stylesheet">
 <body>
   <?php $components->header(true) ?>
+
   <main class="w-100 pt-5"> 
     <div class="container">
       <div class="row">
         <div class="col-lg-12">   
           <h2 class="text-center text-danger mb-3">Gestión de Servicios</h2>         
           <button id="btnNuevo" type="button" class="btn btn-danger" data-toggle="modal">
-          <i class="material-icons">add</i>
+          <i class="fa-solid fa-plus"></i>
         </div>    
       </div>    
     </div>    
@@ -36,7 +38,7 @@
                 <label for="quimico" class="form-label">Químico:</label>
                 <select class="form-select" id="quimico" name="quimico" isValid="false">
                   <!-- Aquí van las opciones de químicos desde la base de datos -->
-                  <option selected>Selecciona un Quimico</option>
+                  <option selected value="default">Selecciona un Quimico</option>
                 </select>
                 <div class="invalid-tooltip"></div>
               </div>
@@ -59,7 +61,10 @@
   <?php $components->footer(); ?>
   <?php $components->js() ?>
   <script src="assets/js/app/servicios.js"></script>
-  <script src="assets/js/imports/datatables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/datatables.min.js"></script>
+  <!-- <script src="assets/js/imports/datatables.min.js"></script> -->
   <script src="assets/js/common/tabledata.js"></script>
 
 </body>
