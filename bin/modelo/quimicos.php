@@ -123,27 +123,34 @@
       $this->Descripcion=$Descripcion;
       $this->foto=$foto;
       $this->nombre=$nombre;
+      $identificador=$this->separarCadena($this->nombre);
+      $identificador=strtoupper($identificador);
       $this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
       $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
       $this->targetFile = $this->targetFile . "." . $Filetype;
-      try{
-        $this->conectarDB();
-        $consulta="INSERT INTO tquimicos (idQuimico,nombre,foto,descripcion,habilitado) VALUES (?,?,?,?,?)";
-        $ejecucion=$this->con->prepare($consulta);
-        $identificador=$this->separarCadena($this->nombre);
-        $identificador=strtoupper($identificador);
-        $ejecucion->bindValue(1,$identificador);
-        $ejecucion->bindValue(2,$this->nombre);
-        $ejecucion->bindValue(3,$this->targetFile);
-        $ejecucion->bindValue(4,$this->Descripcion);
-        $ejecucion->bindValue(5,1);
-        $ejecucion->execute();
-        $this->desconectarDB();
-        $this->SubirFoto($this->foto["tmp_name"],$this->targetFile);
-      }catch (\PDOException $e) {       
-        header('Content-Type: application/json');
-        die(json_encode(array("error" => $e->getMessage())));
+      if($this->ComprobarId($identificador)){
+        $respuesta = ["error" => "Este Registro ya existe."];
+        die(json_encode($respuesta));
+      }else{
+        try{
+          $this->conectarDB();
+          $consulta="INSERT INTO tquimicos (idQuimico,nombre,foto,descripcion,habilitado) VALUES (?,?,?,?,?)";
+          $ejecucion=$this->con->prepare($consulta);
+          
+          $ejecucion->bindValue(1,$identificador);
+          $ejecucion->bindValue(2,$this->nombre);
+          $ejecucion->bindValue(3,$this->targetFile);
+          $ejecucion->bindValue(4,$this->Descripcion);
+          $ejecucion->bindValue(5,1);
+          $ejecucion->execute();
+          $this->desconectarDB();
+          $this->SubirFoto($this->foto["tmp_name"],$this->targetFile);
+        }catch (\PDOException $e) {       
+          header('Content-Type: application/json');
+          die(json_encode(array("error" => $e->getMessage())));
+        }
       }
+      
     }
     private function separarCadena($cadena) {
       // Reemplazar múltiples espacios en blanco con un solo espacio
@@ -161,9 +168,33 @@
       }
       return $cadena;
     }
+
+
+    private function ComprobarId($id){
+      try {
+        $this->conectarDB();
+        $consulta = "SELECT idQuimico FROM tquimicos WHERE idQuimico= :id";
+        $ejecucion=$this->con->prepare($consulta);
+        $ejecucion->bindParam(':id', $this->id);
+        $ejecucion->execute();
+        $data=$ejecucion->fetchAll(PDO::FETCH_ASSOC);
+        $this->desconectarDB();
+        if($data){
+        return !empty($data);
+        }
+      } catch (\PDOException $e) {
+        header('Content-Type: application/json');
+        die(json_encode(array("error" => $e->getMessage())));
+      }
+    }
+
+
+
+
     private function SubirFoto($temp,$targetFile){
       move_uploaded_file($temp,$targetFile);
     }
 }
+
 
 ?>

@@ -10,6 +10,21 @@
    private $descripcion;
    private $habilitado;
    private $nombre;
+
+
+   private function validarSTA($datoArray,$diff){
+    $arrayLogico = array(0 => "/^[A-Za-z]{3,30}$/", 
+    1 => "/^[0-9]{1,30}$/", 
+    2 => "/^[0-9A-Za-z- ]{0,30}$/", 3 => "/^[0-9:\/-]{1,30}$/", 4 => "/^[0-9A-Za-z ]{0,30}$/");
+    foreach ($datoArray as $key) {
+      $validador = preg_match_all($arrayLogico[$diff], $key);
+      if($validador!=1){
+        exit("Datos incorrectos");
+      }
+    }
+    return 0;
+  } 
+
     public function __construct(){
     	parent::__construct();
     } 
@@ -102,52 +117,58 @@
       $this->descripcion=$descripcion;
       $this->nombre=$nombre;
       $this->quimico=$quimico;
-      try{
-        $this->conectarDB();
-        $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Habilitar errores de PDO
-        $consulta = "UPDATE tservicios SET nombre = :nombre, quimico = :quimico, descripcion = :descripcion WHERE idServicio = :id";
-        $ejecucion = $this->con->prepare($consulta);
-        $ejecucion->bindParam(':nombre', $this->nombre);
-        $ejecucion->bindParam(':quimico', $this->quimico); // Aquí usamos targetFile en lugar de foto
-        $ejecucion->bindParam(':descripcion', $this->descripcion);
-        $ejecucion->bindParam(':id', $this->id);
-        /*  echo "Datos: ";
-        var_dump($this->nombre, $this->targetFile, $this->Descripcion, $this->id); // Imprimir los datos
-        echo "Consulta: $consulta"; // Imprimir la consulta */
-        $ejecucion->execute();
-        //echo "Filas afectadas: " . $ejecucion->rowCount(); // Imprimir el número de filas afectadas
-        $this->desconectarDB();
-      }catch (\PDOException $e) {       
-        header('Content-Type: application/json');
-        die(json_encode(array("error" => $e->getMessage())));
+      if($this->comprobarInsert($this->id,$this->quimico)){
+        $respuesta = ["error" => "Este Registro ya existe."];
+        die(json_encode($respuesta));
+      }else{
+        try{
+          $this->conectarDB();
+          $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Habilitar errores de PDO
+          $consulta = "UPDATE tservicios SET nombre = :nombre, quimico = :quimico, descripcion = :descripcion WHERE idServicio = :id";
+          $ejecucion = $this->con->prepare($consulta);
+          $ejecucion->bindParam(':nombre', $this->nombre);
+          $ejecucion->bindParam(':quimico', $this->quimico); // Aquí usamos targetFile en lugar de foto
+          $ejecucion->bindParam(':descripcion', $this->descripcion);
+          $ejecucion->bindParam(':id', $this->id);
+          /*  echo "Datos: ";
+          var_dump($this->nombre, $this->targetFile, $this->Descripcion, $this->id); // Imprimir los datos
+          echo "Consulta: $consulta"; // Imprimir la consulta */
+          $ejecucion->execute();
+          //echo "Filas afectadas: " . $ejecucion->rowCount(); // Imprimir el número de filas afectadas
+          $this->desconectarDB();
+        }catch (\PDOException $e) {       
+          header('Content-Type: application/json');
+          die(json_encode(array("error" => $e->getMessage())));
+        }
       }
-      
     }
     
     public function insert($nombre,$quimico,$descripcion){
       $this->descripcion=$descripcion;
       $this->nombre=$nombre;
       $this->quimico=$quimico;
-      try{
-        $this->conectarDB();
-        $consulta="INSERT INTO tservicios (idServicio,nombre,quimico,descripcion,habilitado) VALUES (?,?,?,?,?)";
-        $ejecucion=$this->con->prepare($consulta);
-        $identificador=$this->separarCadena($this->nombre);
-        $identificador=strtoupper($identificador);
-        $ejecucion->bindValue(1,$identificador);
-        $ejecucion->bindValue(2,$this->nombre);
-        $ejecucion->bindValue(3,$this->quimico);
-        $ejecucion->bindValue(4,$this->descripcion);
-        $ejecucion->bindValue(5,1);
-        $ejecucion->execute();
-        $this->desconectarDB();
-      }catch (\PDOException $error) {   
-        $resultado = ['error' => $error->getMessage()];    
-        die(json_encode($resultado));
+      $identificador=$this->separarCadena($this->nombre);
+      if($this->comprobarInsert($identificador,$this->quimico)){
+        $respuesta = ["error" => "Este Registro ya existe."];
+        die(json_encode($respuesta));
+      }else{
+        try{
+          $this->conectarDB();
+          $consulta="INSERT INTO tservicios (idServicio,nombre,quimico,descripcion,habilitado) VALUES (?,?,?,?,?)";
+          $ejecucion=$this->con->prepare($consulta);
+          $ejecucion->bindValue(1,$identificador);
+          $ejecucion->bindValue(2,$this->nombre);
+          $ejecucion->bindValue(3,$this->quimico);
+          $ejecucion->bindValue(4,$this->descripcion);
+          $ejecucion->bindValue(5,1);
+          $ejecucion->execute();
+          $this->desconectarDB();
+        }catch (\PDOException $error) {   
+          $resultado = ['error' => $error->getMessage()];    
+          die(json_encode($resultado));
+        }
       }
-    }
-    private function comprobarInsert(){
-
+      
     }
     private function separarCadena($cadena) {
       // Reemplazar múltiples espacios en blanco con un solo espacio
@@ -163,7 +184,7 @@
       for($i=0;$i<count($resultado);$i++){
         $cadena=$cadena.$resultado[$i];
       }
-      $variableAux=$this->ComprobarId($cadena);
+/*       $variableAux=$this->ComprobarId($cadena);
       if($variableAux==null){
         return $cadena;
       }else{
@@ -171,8 +192,9 @@
         $dateString = date('Y-m-d H:i:s', $timestamp);
         $cadena=$cadena.$dateString;
         return $cadena;
-      }
-      
+      } */
+      $cadena=strtoupper($cadena);
+      return $cadena;
     }
 
     private function ComprobarId($id){
@@ -191,6 +213,18 @@
         header('Content-Type: application/json');
         die(json_encode(array("error" => $e->getMessage())));
       }
+    }
+
+    private function comprobarInsert($id, $quimico) {
+      $this->conectarDB();
+      $consulta = "SELECT * FROM tservicios WHERE idServicio = :id AND quimico = :quimico";
+      $ejecucion = $this->con->prepare($consulta);
+      $ejecucion->bindParam(':id', $id);
+      $ejecucion->bindParam(':quimico', $quimico);
+      $ejecucion->execute();
+      $data = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+      $this->desconectarDB();
+      return !empty($data);
     }
 }
 

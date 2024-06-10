@@ -1,4 +1,6 @@
-$(document).ready(()=>{
+$(document).ready(async()=>{
+  const permisos = await getPermisos();
+  hideByPermisos(permisos);
   var rutaImagen="holaPrueba";
   let  datos;
   let quimico_id="";
@@ -26,7 +28,15 @@ $(document).ready(()=>{
         if (type === 'display') {
             let buttonClass = data.habilitado == 1 ? 'btn-success' : 'btn-danger';
             let icon = data.habilitado == 1 ? '<i class="fa-solid fa-toggle-on"></i>' : '<i class="fa-solid fa-toggle-off"></i>';
-            return `<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditar'><i class="fa-regular fa-pen-to-square"></i></button><button class='btn ${buttonClass} btn-sm btnBorrar'>${icon}</button></div></div>`;
+            let buttons = `<div class='text-center'><div class='btn-group'>`;
+            if (!_.isEmpty(permisos.Modificar)) {
+                buttons += `<button class='btn btn-primary btn-sm btnEditar'><i class="fa-regular fa-pen-to-square"></i></button>`;
+            }
+            if (!_.isEmpty(permisos.Eliminar)) {
+                buttons += `<button class='btn ${buttonClass} btn-sm btnBorrar'>${icon}</button>`;
+            }
+            buttons += `</div></div>`;
+            return buttons;
         }
         return data;
      }
@@ -89,6 +99,11 @@ $(document).ready(()=>{
       if(img.src.length!=0){
         setValidInput($("#rutaIcono"));
       }
+      if (file && file.size > 0) {
+        setValidInput($("#rutaIcono"));
+      } else {
+        setInvalidInput($("#rutaIcono"), "Debe seleccionar una imagen");
+      }      
       const formValid = checkFormValidity(form);
       if(formValid){
         const formHTML = document.getElementById("FormQuimico");
@@ -216,3 +231,15 @@ $(document).ready(()=>{
 
 
 })
+
+function getPermisos(){
+  return service.post('quimicos',{getPermisos: true})
+}
+
+function hideByPermisos(permisos){
+  console.log(permisos);
+  if(_.isEmpty(permisos.Crear)){
+    $("#btnNuevo").hide();
+  }
+
+}

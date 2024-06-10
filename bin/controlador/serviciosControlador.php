@@ -11,10 +11,14 @@
 	$permisos = $model->getPermisosRol($_SESSION['idRol']);
 	$permiso = $permisos['Servicios'];
 	
-	if(empty($permiso['Consultar'])) {
+	 if(empty($permiso['Consultar'])) {
 		die('<script> window.location = "/" </script>');
 	}
-
+	
+	if(isset($_POST['getPermisos']) && isset($permiso['Consultar'])){
+		die(json_encode($permiso));
+	}
+	
   if (isset($_POST['prueba'])) {
     $model->funcionPrueba();
   }

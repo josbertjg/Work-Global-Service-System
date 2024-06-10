@@ -53,6 +53,12 @@ function isContraseña(text){
   const exp = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{8,}$/;
   return (exp.test(text))
 }
+
+function esNumero(cadena) {
+  const regExp = /^[0-9]+$/;
+  return regExp.test(cadena);
+}
+
 // Setear un input como invalido
 function setInvalidInput(element, invalidMessage = "Este campo es requerido") {
   element.removeClass("is-valid");
@@ -136,17 +142,40 @@ function required(element) {
 
 //validar que un FileChooser no este vacio
 function validarFile(element, isRequired = true){
-  element.blur(()=>{
+  element.change(()=>{
+    if(isRequired)
+      if(_.isEmpty(element.val())) return setInvalidInput(element, "Este campo es requerido");
+    return setValidInput(element);
+  });
+}
+
+
+function validarNumeros(element, isRequired = true) {
+  element.blur(() => {
+    if(isRequired)
+      if(_.isEmpty(element.val())) return setInvalidInput(element, "Ingrese el numero aproximado")
+      
+    if (!esNumero(element.val().trim())) return setInvalidInput(element, "El numero no es válido")
+
+    if(element.val().length > 1500) return setInvalidInput(element, "el valor no puede superar los 1500.");
+
+    return setValidInput(element)
+  })
+
+  element.keyup(() => {
     if(isRequired)
       if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
      
-    //if (!isCorreo(element.val())) return setInvalidInput(element, "El correo no es válido")
-     
-    //if(element.val().trim().length > 100) return setInvalidInput(element, "El correo no puede tener mas de 100 caracteres.");
+    if (!esNumero(element.val())) return setInvalidInput(element, "El numero no es válido")
 
-  return setValidInput(element)
-  });
+    if(element.val().trim().length > 1500) return setInvalidInput(element, "El valor no puede superar los 1500.");
+
+    return setValidInput(element)
+  })
+
+  element.keydown(() => validarLength(element.val(),1500));
 }
+//valida un input con la logica para solo numeros
 
 
 // Valida un input con la logica para un correo

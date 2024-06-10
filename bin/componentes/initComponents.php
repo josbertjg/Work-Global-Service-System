@@ -407,24 +407,9 @@
 
 
 
-    //funcion para el DataTables se manda como parametro la variable vista para determinar 
-    // los Thead a imprimir mediante un Switch
     public function Tables($Vista){
-      // All, esta variable que sera retornada 
       $varAll='';
-      // variable de los Th
       $varth='';
-      //boton para agregar  nuevo
-      // $varBttAdd=
-      // '<div class="container">
-      //   <div class="row">
-      //     <div class="col-lg-12">            
-      //         <button id="btnNuevo" type="button" class="btn btn-info" data-toggle="modal"><i class="material-icons">library_add</i></button>    
-      //     </div>    
-      //   </div>    
-      // </div>    
-      // <br>';
-      // inicio de la tabla hasta el TH
       $varTStart =
       '<div class="container caja">
         <div class="row">
@@ -433,7 +418,6 @@
                   <div class="table-responsive">     
                       <table id="TableData" class="table table-striped table-bordered" cellspacing="0" width="100%">
                          <thead class="text-center">';
-      //cierrto la tabla
       $vartTend= 
       '</thead>
       <tbody>                           
@@ -443,9 +427,7 @@
       </div>
       </div>  
       </div>';
-      // iteramos cada tabla que se vaya a usar
       switch($Vista){
-
         case "quimicos":
           $varth = '<tr>
           <th>Id</th>
@@ -518,6 +500,18 @@
           <th>Crear</th>
           <th>Modificar</th>
           <th>Eliminar</th>
+          </tr>';
+          break;
+        
+        case "establecimientos":
+          $varth=
+          '<tr>
+          <th>Id</th>
+          <th>Establecimiento</th>
+          <th>Descripcion</th>
+          <th>Tamaño</th>
+          <th>Habilitado</th>
+          <th>Acciones</th>
           </tr>';
           break;
       }
