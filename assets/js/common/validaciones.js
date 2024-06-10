@@ -144,7 +144,7 @@ function required(element) {
 function validarFile(element, isRequired = true){
   element.change(()=>{
     if(isRequired)
-      if(_.isEmpty(element.val())) return setInvalidInput(element, "Este campo es requerido");
+      if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido");
     return setValidInput(element);
   });
 }
