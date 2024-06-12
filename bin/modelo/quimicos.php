@@ -11,6 +11,7 @@
     private $nombre;
     private $targetFile;
     private $rutaCarpeta="assets/img/uploads/";
+    private $habilitado;
 
     public function __construct(){
     	parent::__construct();
@@ -38,8 +39,53 @@
       else 
         die(json_encode($error));
     }
-    
-    public function SelectAll(){
+    private function validarSTA($datoArray,$diff){
+			$arrayLogico = array(0 => "/^[A-Za-z]{3,30}$/", 1 => "/^[0-9]{1,30}$/", 2 => "/^[0-9A-Za-z- ]{0,30}$/", 3 => "/^[0-9:\/-]{1,30}$/", 4 => "/^[0-9A-Za-z ]{0,30}$/");
+			foreach ($datoArray as $key) {
+				$validador = preg_match_all($arrayLogico[$diff], $key);
+				if($validador!=1){
+          $respuesta = ["error" => "Datos Incorrectos."];
+					die(json_encode($respuesta));
+				}
+			}
+			return 0;
+		}
+    public function getInsert($Descripcion,$foto,$nombre){
+      $letrasYnumeros= array($Descripcion,$nombre);
+      $this->validarSTA($letrasYnumeros,2);
+      $this->nombre=$nombre;
+      $this->Descripcion=$Descripcion;
+      $identificador=$this->separarCadena($this->nombre);
+      $identificador=strtoupper($identificador);
+      $this->id=$identificador;
+      $this->foto=$foto;
+      $this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
+      $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
+      $this->targetFile = $this->targetFile . "." . $Filetype;
+      $this->insert();
+    }
+
+    public function getUpdate($id,$Descripcion,$foto,$nombre,$opcion){
+      $letrasYnumeros= array($Descripcion,$nombre);
+      $this->validarSTA($letrasYnumeros,2);
+      $this->id=$id;
+      $this->Descripcion=$Descripcion;
+      $this->nombre=$nombre;
+      $opcion=$opcion;
+      if($opcion==1){
+        $this->targetFile=$foto; 
+      }else{
+        $this->foto=$foto;
+        $this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
+        $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
+        $this->targetFile = $this->targetFile . "." . $Filetype;
+      }
+      $this->update($opcion);
+    }
+    public function getAll(){
+      $this->SelectAll();
+    }
+    private function SelectAll(){
       //if(json_decode($_POST['opcion']))
       try{
         $this->conectarDB();
@@ -57,19 +103,7 @@
       }
       
     }
-    public function update($id,$Descripcion,$foto,$nombre,$opcion){//linea 75
-      $this->id=$id;
-      $this->Descripcion=$Descripcion;
-      $this->nombre=$nombre;
-      $opcion=$opcion;
-      if($opcion==1){
-        $this->targetFile=$foto; 
-      }else{
-        $this->foto=$foto;
-        $this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
-        $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
-        $this->targetFile = $this->targetFile . "." . $Filetype;
-      }
+    private function update($opcion){//linea 75
       try{
         $this->conectarDB();
         $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Habilitar errores de PDO
@@ -94,17 +128,25 @@
       }
       
     }
-
-    public function delete($id,$habilitado){
+    public function getDelete($id,$habilitado){
+      $letras=array($id);
+      $numeros=array($habilitado);
+      $this->validarSTA($letras,0);
+      $this->validarSTA($numeros,1);
       $this->id=$id;
       $habilitado=(int)$habilitado;
       $habilitado = $habilitado == 1 ? 0 : 1;
+      $this->habilitado=$habilitado;
+      $this->delete();
+
+    }
+    private function delete(){
       try{
         $this->conectarDB();
         $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Habilitar errores de PDO
         $consulta = "UPDATE tquimicos SET habilitado = :habilitado WHERE idQuimico = :id";
         $ejecucion = $this->con->prepare($consulta);
-        $ejecucion->bindParam(':habilitado',$habilitado);
+        $ejecucion->bindParam(':habilitado',$this->habilitado);
         $ejecucion->bindParam(':id', $this->id);
         /* echo "Datos: ";
         var_dump($this->nombre, $this->targetFile, $this->Descripcion, $this->id); // Imprimir los datos
@@ -118,17 +160,8 @@
       }
       
     }
-    public function insert($id,$Descripcion,$foto,$nombre){
-      $this->id=$id;
-      $this->Descripcion=$Descripcion;
-      $this->foto=$foto;
-      $this->nombre=$nombre;
-      $identificador=$this->separarCadena($this->nombre);
-      $identificador=strtoupper($identificador);
-      $this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
-      $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
-      $this->targetFile = $this->targetFile . "." . $Filetype;
-      if($this->ComprobarId($identificador)){
+    private function insert(){
+      if($this->ComprobarId($this->id)){
         $respuesta = ["error" => "Este Registro ya existe."];
         die(json_encode($respuesta));
       }else{
@@ -137,7 +170,7 @@
           $consulta="INSERT INTO tquimicos (idQuimico,nombre,foto,descripcion,habilitado) VALUES (?,?,?,?,?)";
           $ejecucion=$this->con->prepare($consulta);
           
-          $ejecucion->bindValue(1,$identificador);
+          $ejecucion->bindValue(1,$this->id);
           $ejecucion->bindValue(2,$this->nombre);
           $ejecucion->bindValue(3,$this->targetFile);
           $ejecucion->bindValue(4,$this->Descripcion);

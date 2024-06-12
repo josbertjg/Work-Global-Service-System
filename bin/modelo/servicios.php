@@ -19,7 +19,8 @@
     foreach ($datoArray as $key) {
       $validador = preg_match_all($arrayLogico[$diff], $key);
       if($validador!=1){
-        exit("Datos incorrectos");
+        $respuesta = ["error" => "Datos Incorrectos."];
+        die(json_encode($respuesta));
       }
     }
     return 0;
@@ -42,6 +43,9 @@
         die(json_encode($respuesta));
       else 
         die(json_encode($error));
+    }
+    public function getInsert(){
+      
     }
     public function delete($id,$habilitado){
       $this->id=$id;
@@ -73,7 +77,7 @@
       try{
         $this->conectarDB();
         $consulta = "SELECT tservicios.idServicio, tservicios.nombre, tquimicos.nombre
-         as quimico, tservicios.descripcion, tservicios.habilitado 
+         as quimico, tservicios.descripcion,tservicios.fotoServicio, tservicios.habilitado 
         FROM tservicios 
         INNER JOIN tquimicos on tservicios.quimico=tquimicos.idQuimico
         ";

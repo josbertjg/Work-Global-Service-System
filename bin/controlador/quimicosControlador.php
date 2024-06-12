@@ -22,32 +22,29 @@
    } 
 
    if(isset($_POST['opcion'])){
-	$model->SelectAll();
+	$model->getAll();
    }
 
    if(isset($_POST['insert'])){
-	$model->insert($_POST['idQuimico'],$_POST['Descripcion'],$_FILES['foto'],$_POST['nombre']);
-	$model->SelectAll();
+	$model->getInsert($_POST['Descripcion'],$_FILES['foto'],$_POST['nombre']);
+	$model->getAll();
    } 
 
    if(isset($_POST['update'])){
 	if(isset($_POST['fotoOriginal'])){
-		$model->update($_POST['idQuimico'],$_POST['Descripcion'],$_POST['fotoOriginal'],$_POST['nombre'],$opcion=1);
+		$model->getUpdate($_POST['idQuimico'],$_POST['Descripcion'],$_POST['fotoOriginal'],$_POST['nombre'],$opcion=1);
 	}
 	if(isset($_FILES['foto'])){
-		$model->update($_POST['idQuimico'],$_POST['Descripcion'],$_FILES['foto'],$_POST['nombre'],$opcion=2);
+		$model->getUpdate($_POST['idQuimico'],$_POST['Descripcion'],$_FILES['foto'],$_POST['nombre'],$opcion=2);
 	}
-	$model->SelectAll();
+	$model->getAll()();
    }
 
    if(isset($_POST['delete'])){
-	$model->delete($_POST['id'],$_POST['habilitado']);
-	$model->SelectAll();
+	$model->getDelete($_POST['id'],$_POST['habilitado']);
+	$model->getAll();
    }
- 
-//$model->CRUD($_POST['opcion'],$_POST['idQuimico'],$_POST['Descripcion'],$_FILES['rutaIcono'],$_POST['nombreQuimico']);
-	
-
+ 	
 	$components = new initComponents($permisos);	
 	require "vistas/quimicosVista.php";	
 ?>

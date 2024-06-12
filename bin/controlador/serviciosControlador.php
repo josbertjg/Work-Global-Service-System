@@ -14,8 +14,9 @@
 	if(empty($permiso['Consultar'])) {
 		die('<script> window.location = "/" </script>');
 	}
-
-
+	if(isset($_POST['getPermisos']) && isset($permiso['Consultar'])){
+		die(json_encode($permiso));
+	}
   if (isset($_POST['prueba'])) {
     $model->funcionPrueba();
   }
@@ -43,7 +44,7 @@
 	header('Content-Type: application/json');
     echo json_encode($datos);
 } */
-	// $components = new initComponents($permisos);	
+	$components = new initComponents($permisos);	
 	require "vistas/serviciosVista.php";	
 
 ?>
