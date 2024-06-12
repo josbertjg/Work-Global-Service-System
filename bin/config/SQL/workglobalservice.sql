@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-06-2024 a las 21:11:46
+-- Tiempo de generación: 12-06-2024 a las 13:05:03
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -95,7 +95,11 @@ INSERT INTO `taccesos` (`idAcceso`, `rol`, `permiso`, `modulo`, `status`) VALUES
 ('100878437622743096', 'SAWGS1', 'CONSULTARWGS', 'MUBICACIONESWGS', 1),
 ('100878437622743097', 'SAWGS1', 'CREATEWGS', 'MUBICACIONESWGS', 1),
 ('100878437622743098', 'SAWGS1', 'ELIMINARWGS', 'MUBICACIONESWGS', 1),
-('100878437622743099', 'SAWGS1', 'MODIFICARWGS', 'MUBICACIONESWGS', 1);
+('100878437622743099', 'SAWGS1', 'MODIFICARWGS', 'MUBICACIONESWGS', 1),
+('100878437622743100', 'SAWGS1', 'CONSULTARWGS', 'MPRECIOSWGS', 1),
+('100878437622743101', 'SAWGS1', 'CREATEWGS', 'MPRECIOSWGS', 1),
+('100878437622743102', 'SAWGS1', 'ELIMINARWGS', 'MPRECIOSWGS', 1),
+('100878437622743103', 'SAWGS1', 'MODIFICARWGS', 'MPRECIOSWGS', 1);
 
 -- --------------------------------------------------------
 
@@ -673,7 +677,7 @@ CREATE TABLE `testablecimientos` (
 --
 
 INSERT INTO `testablecimientos` (`idEstablecimientos`, `nombre`, `descripcion`, `sizeE`, `habilitado`) VALUES
-('ESTCYA', 'Casas y Apartamentos', 'Casas y Apartamentos de un máximo de 120 mts2 update', 120, 1),
+('ESTCYA', 'Casas y Apartamentos', 'Casas y Apartamentos de un máximo de 120 mts2 update', 120.5, 1),
 ('ESTVP', 'Vehiculos Pequeños', 'carros, camionetas, vehiculos que no excedan los 4 metros cuadrados', 4, 1);
 
 -- --------------------------------------------------------
@@ -786,6 +790,7 @@ INSERT INTO `tmodulos` (`idModulo`, `nombre`, `status`) VALUES
 ('MNOTIFICACIONESWGS', 'Notificaciones', 1),
 ('MORDENESDESERVICIOWGS', 'Ordenes de Servicio', 1),
 ('MPAGOSWGS', 'Pagos', 1),
+('MPRECIOSWGS', 'Precios', 1),
 ('MQUIMICOSWGS', 'Quimicos', 1),
 ('MREPORTESWGS', 'Reportes', 1),
 ('MROLESWGS', 'Roles', 1),
@@ -883,8 +888,17 @@ CREATE TABLE `tprecioservicios` (
   `id` int(11) NOT NULL,
   `servicio` varchar(20) NOT NULL,
   `establecimiento` varchar(20) NOT NULL,
-  `precio` float NOT NULL
+  `precio` float NOT NULL,
+  `habilitado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tprecioservicios`
+--
+
+INSERT INTO `tprecioservicios` (`id`, `servicio`, `establecimiento`, `precio`, `habilitado`) VALUES
+(1, 'SERVCYC', 'ESTVP', 45, 1),
+(2, 'SERVCYC', 'ESTCYA', 75, 1);
 
 -- --------------------------------------------------------
 
@@ -905,7 +919,7 @@ CREATE TABLE `tquimicos` (
 --
 
 INSERT INTO `tquimicos` (`idQuimico`, `nombre`, `foto`, `descripcion`, `habilitado`) VALUES
-('AS', 'asdasdasdasd', 'assets/img/uploads/C.U 04.drawio (1).png.png', 'adasdasdasdasdasdasdasdasdasdasd', 1),
+('AS', 'asdasdasdasd', 'assets/img/uploads/C.U 04.drawio (1).png.png', 'adasdasdasdasdasdasdasdasdasdasd prueba update', 1),
 ('QU', 'QuimicoPrueba1', 'assets/img/uploads/.', 'asdasdasdasdasdasdasdasdasdasd', 1),
 ('RAPLP', 'Raticida Plagatox P', 'assets/img/uploads/.', 'Prueba prueba prueba prueba ', 1);
 
@@ -943,6 +957,13 @@ CREATE TABLE `tservicios` (
   `descripcion` longtext NOT NULL,
   `habilitado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tservicios`
+--
+
+INSERT INTO `tservicios` (`idServicio`, `nombre`, `quimico`, `descripcion`, `habilitado`) VALUES
+('SERVCYC', 'Chiripas y Cucaracha', 'RAPLP', 'Prueba Prueba 01 de datos ', 1);
 
 -- --------------------------------------------------------
 
@@ -1011,6 +1032,29 @@ INSERT INTO `tusuarios` (`email`, `contraseña`, `nombre`, `apellido`, `telefono
 ('josbertjg@gmail.com', '', 'Josbert', 'Guedez', '', 'https://lh3.googleusercontent.com/a/ACg8ocIYxgSVKmpdVhUOFnSf7DM1UbzOGrdaaIBopvTOKnWhhNlccJxZ=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-04-30 23:21:27', 1),
 ('josetimaure60@gmail.com', '', 'Jose', 'Timaure', '', 'https://lh3.googleusercontent.com/a/ACg8ocJRESfHpvaFUA8v242WUFwFuXql-rmQ7fr05Ga-JlrNKARYpGxSeg=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-06-09 14:21:23', 1),
 ('workglobalserviceca@gmail.com', '', 'Josnel', 'Guedez', '', 'https://lh3.googleusercontent.com/a/ACg8ocJ7XYRMlybwZhYlo0ebVr57DV1ETJMQZnJR6vzAX3tkSr0YNQ=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-05-01 05:59:41', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vistapermisosadministrador`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vistapermisosadministrador` (
+`Modulo` varchar(20)
+,`Crear` tinyint(4)
+,`Consultar` tinyint(4)
+,`Eliminar` tinyint(4)
+,`Modificar` tinyint(4)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vistapermisosadministrador`
+--
+DROP TABLE IF EXISTS `vistapermisosadministrador`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vistapermisosadministrador`  AS SELECT `tmodulos`.`nombre` AS `Modulo`, (select `taccesos`.`status` from `taccesos` where `taccesos`.`modulo` = `tmodulos`.`idModulo` and `taccesos`.`permiso` = 'CREATEWGS') AS `Crear`, (select `taccesos`.`status` from `taccesos` where `taccesos`.`modulo` = `tmodulos`.`idModulo` and `taccesos`.`permiso` = 'CONSULTARWGS') AS `Consultar`, (select `taccesos`.`status` from `taccesos` where `taccesos`.`modulo` = `tmodulos`.`idModulo` and `taccesos`.`permiso` = 'ELIMINARWGS') AS `Eliminar`, (select `taccesos`.`status` from `taccesos` where `taccesos`.`modulo` = `tmodulos`.`idModulo` and `taccesos`.`permiso` = 'MODIFICARWGS') AS `Modificar` FROM (`taccesos` join `tmodulos` on(`tmodulos`.`idModulo` = `taccesos`.`modulo`)) WHERE `taccesos`.`rol` = 'SAWGS1' GROUP BY `taccesos`.`modulo` ;
 
 --
 -- Índices para tablas volcadas
@@ -1228,7 +1272,7 @@ ALTER TABLE `tpagodetalles`
 -- AUTO_INCREMENT de la tabla `tprecioservicios`
 --
 ALTER TABLE `tprecioservicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
