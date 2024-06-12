@@ -51,7 +51,7 @@ const service = {
         return Swal.fire({
           icon: "error",
           title: "Oops, ocurrió un error.",
-          text: JSON.stringify(response.statusText)
+          text: response.statusText
         });
       }
     })
@@ -63,7 +63,7 @@ const service = {
       return Swal.fire({
         icon: "error",
         title: "Oops, algo salió mal con el servidor desde el post.",
-        text: JSON.stringify(e)
+        text: e
       });
     })
 

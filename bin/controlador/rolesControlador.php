@@ -28,7 +28,7 @@
     $model->getRolesPermisos($_POST['rolID']);
   }
 
-	$components = new initComponents();	
+	$components = new initComponents($permisos);	
 	require "vistas/configuracion/rolesVista.php";	
 
 ?>

@@ -1,0 +1,16 @@
+#loading-btn{
+  display: none !important;
+}
+
+#loading{
+  .modal-content{
+    background-color: transparent;
+    text-align: center;
+    border: none;
+    user-select: none;
+  }
+  .modal-body{
+    font-size: 4rem;
+    color: white;
+  }
+}

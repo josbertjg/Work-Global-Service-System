@@ -33,4 +33,19 @@ body{
     border: none !important;
   }
 
+  .goBack{
+    background-color: whitesmoke;
+    border-radius: 100%;
+    font-size: 1.2rem;
+    box-shadow: $shadow;
+    padding: .8rem .9rem;
+    cursor: pointer;
+    transition: all 200ms;
+    &:hover{
+      background-color: $primary;
+      color: white;
+    }
+  }
+
+
 }

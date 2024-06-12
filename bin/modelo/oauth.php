@@ -240,8 +240,6 @@
       try{
 				parent::conectarDB();
         $new = $this->con->prepare("SELECT * FROM tusuarios WHERE email = ?");
-				parent::conectarDB();
-        $new = $this->con->prepare("SELECT * FROM tusuarios WHERE email = ?");
         $new->bindValue(1, $email);
         $new->execute();
         $usuario = $new->fetch(\PDO::FETCH_OBJ);
@@ -261,6 +259,7 @@
         "email"      => $this->email,
         "fotoPerfil" => $this->fotoPerfil,
         "idRol"      => $this->idRol,
+        "permisos"   => $this->getPermisosRol($this->idRol)
       );
       return $usuario;
     }
