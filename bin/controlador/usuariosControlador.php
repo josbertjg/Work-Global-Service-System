@@ -14,8 +14,12 @@
 	if(empty($permiso['Consultar'])) {
 		die('<script> window.location = "/" </script>');
 	}
+
+	if(isset($_POST['getPermisos']) && isset($permiso['Consultar'])){
+		die(json_encode($permiso));
+	}
 	
-	$components = new initComponents();	
+	$components = new initComponents($permisos);	
 	require "vistas/usuariosVista.php";	
 
 ?>

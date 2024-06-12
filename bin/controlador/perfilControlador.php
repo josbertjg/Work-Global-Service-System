@@ -9,12 +9,12 @@
 	}
 	
 	$model = new perfil();
-
+	$permisos = $model->getPermisosRol(!empty($_SESSION) ? $_SESSION['idRol'] : "");
   if (isset($_POST['prueba'])) {
     $model->funcionPrueba();
   }
 
-	$components = new initComponents();	
+	$components = new initComponents($permisos);	
 	require "vistas/perfilVista.php";	
 
 ?>

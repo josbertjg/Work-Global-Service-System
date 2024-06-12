@@ -19,7 +19,6 @@ async function llenarSelect(){
   const data = new FormData();
   data.append("solicitarQuimico",JSON.stringify(true));
   const respuesta = await service.post('servicios',data);
-  console.log(respuesta);
   respuesta.forEach(element => {
     let option= document.createElement('option');
     option.value=element.idQuimico;

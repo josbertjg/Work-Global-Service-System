@@ -1,0 +1,105 @@
+.fumigadores-list-wrapper{
+  padding: 0 12rem 0 8rem;
+  @include lg{
+    padding: 0 6rem 0 4rem;
+  }
+  @include md{
+    padding: 0%;
+  }
+  .fumigadores-list-container{
+    height: 88.8vh;
+    overflow-y: auto;
+    padding: 0 1rem;
+
+    .fumigador-item-container{
+      display: flex;
+      padding: 1.8rem;
+      background-color: whitesmoke;
+      box-shadow: $shadow;
+      border-radius: 20px;
+      transition: all 200ms;
+      margin-bottom: 1.5rem;
+      @include sm{
+        align-items: center;
+        flex-direction: column;
+      }
+  
+      &:hover{
+        background-color: white;
+        box-shadow: $shadow-bottom;
+        cursor: pointer;
+      }
+      .fumigador-img-container{
+        margin-right: 1.2rem;
+        img{
+          border-radius: 100%;
+        }
+      }
+      .fumigador-info-container{
+        .header{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .nombre{
+            font-size: 1.7rem;
+            color: $negro;
+            font-weight: bold;
+            i{
+              color: $primary;
+            }
+          }
+          img{
+            height: 3rem;
+            border-radius: 100%;
+          }
+        }
+  
+        .body{
+          .info-general{
+            margin-bottom: .5rem;
+            span{
+              font-size: 1.1rem;
+              font-weight: bold;
+            }
+          }
+        }
+  
+        .footer{
+          .descripcion{
+            margin: 0%;
+            color: gray;
+          }
+          .servicios{
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: bold;
+            span{
+              margin-right: .5rem;
+            }
+            .servicios-list{
+              margin: 0%;
+              padding: 0%;
+              img{
+                height: 2.5rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .no-fumigadores-found{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    font-size: 2.5rem;
+    color: $grey;
+    font-weight: 600;
+    p{
+      text-align: center;
+    }
+  }
+}
