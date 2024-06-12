@@ -6,12 +6,12 @@
   <?php $components->header(true) ?>
  
   <main class="w-100 pt-5"> 
-    <span class="hola">hola</span>
+    vista de las ordenes
   </main>
 
   <?php $components->footer(); ?>
   <?php $components->js() ?>
-  <script src="assets/js/app/inicio.js"></script>
+  <script src="assets/js/app/orden.js"></script>
 </body>
 
 </html>

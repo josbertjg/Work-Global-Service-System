@@ -3,15 +3,21 @@
   namespace componentes;
    
   class initComponents{
+
+    private $permisos;
+
+    public function __construct($permisos = []){
+      $this->permisos = $permisos;
+    }
     
     public function head($withGoogleMaps = false){
 
       // Condicionando el uso del script de google
       $GoogleMaps = $withGoogleMaps ? 
-      '<!-- Google Maps -->
-      <script src="https://maps.googleapis.com/maps/api/js?&key='.GOOGLE_MAPS_API_KEY.'&libraries=places&loading=async"></script>'
+        '<!-- Google Maps -->
+        <script src="https://maps.googleapis.com/maps/api/js?&key='.GOOGLE_MAPS_API_KEY.'&libraries=places&loading=async"></script>'
       :
-      "";
+        "";
 
       $varHead = '
 
@@ -55,10 +61,42 @@
       $showActionButtons = $userIsLogged ? 'd-inline-block' : 'd-none';
       $showOfferServicesBtn = $userIsLogged ? 'd-none' : 'd-inline-block';
 
+      $serviciosProfile = $userIsLogged && $this->hasModuleAccess("Servicios") && ($_SESSION["idRol"] != "SAWGS1") ? 
+      '<li><a class="dropdown-item navigation-link" href="servicios">Servicios</a></li>':'';
+
+      $configuracionProfile = $userIsLogged && $this->hasModuleAccess("Configuracion") ? 
+      '<li><a class="dropdown-item navigation-link" href="configuracion">Configuración</a></li>':'';
+
+      $serviciosItemHeader = $userIsLogged && $this->hasModuleAccess("Servicios") && ($_SESSION["idRol"] != "SAWGS1") && 
+      !$this->hasModuleAccess("Configuracion") ? 
+      '<a 
+        href="servicios" 
+        class="action-btn servicios-header-btn navigation-link me-2" 
+        data-bs-toggle="tooltip" 
+        data-bs-placement="bottom"
+        data-bs-custom-class="custom-tooltip-dark"
+        data-bs-title="Servicios"
+      >
+        <i class="fa-solid fa-calendar"></i>
+      </a>':'';
+
+      $configuracionItemHeader = $userIsLogged && $this->hasModuleAccess("Configuracion") ? 
+      '<a 
+        href="configuracion" 
+        class="action-btn configuracion-header-btn navigation-link me-2" 
+        data-bs-toggle="tooltip" 
+        data-bs-placement="bottom"
+        data-bs-custom-class="custom-tooltip-dark"
+        data-bs-title="Configuracion"
+      >
+        <i class="fa-solid fa-gear"></i>
+      </a>':'';
+
       $profileMenu = $userIsLogged ? 
         '
           <li><a class="dropdown-item navigation-link" href="perfil">Perfil</a></li>
-          <li><a class="dropdown-item navigation-link" href="servicios">Servicios</a></li>
+          '.$serviciosProfile.'
+          '.$configuracionProfile.'
           <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>
           <li><hr class="dropdown-divider m-0 p-0"></li>
           <li><a class="dropdown-item navigation-link" href="ayuda"><i class="fa-solid fa-circle-info me-1"></i> Ayuda</a></li>
@@ -80,59 +118,10 @@
           </li>
         ';
 
-        
-      $GoogleMaps = $withGoogleMaps ? '
-        <div class="autocomplete-container">
-          <select name="state" id="serviciosAutocomplete" multiple="multiple" style="width: 200px !important; max-height: 56px; height: 56px;"></select>
-        </div>
+       
+      $GoogleMaps = $withGoogleMaps && (empty($_SESSION) || ($_SESSION["idRol"] == "CLWGS1")) ? '' : 'd-none';
 
-        <div class="dropdown w-100">
-          <a class="dropdown-toggle w-100" type="button" id="map-toggle" data-toggle="dropdown" >
-            <div class="form-floating w-100">
-              <input type="text" class="form-control" id="searchHeaderPlaceField" placeholder="Direccion:">
-              <label for="searchHeaderPlaceField">Dirección</label>
-              <button type="button" href="#" class="btn-buscar">
-                <span class="d-flex">
-                  <i class="fa-solid fa-magnifying-glass me-lg-2"></i>
-                  <span class="d-lg-block d-none">Buscar</span>
-                </span>
-              </button>
-            </div>
-          </a>
-          <form class="dropdown-menu map-dropdown-menu" aria-labelledby="map-toggle">
-            <div class="map-dropdown-body">
-              <a href="#" class="back-map-btn map-btn">
-                <i class="fa-solid fa-chevron-left"></i>
-              </a>
-              <a href="#" class="close-map-btn map-btn">
-                <i class="fa-solid fa-xmark"></i>
-              </a>
-              <a href="#" class="user-location-btn useUserLocation map-btn">
-                <i class="fa-solid fa-location-crosshairs"></i>
-              </a>
-              <div id="header-map" class="header-map"></div>
-              <div class="aditional-options">
-                <span class="aditional-title">Detalles adicionales</span>
-                <div class="d-flex align-items-center my-3">
-                  <i class="fa-solid fa-sheet-plastic aditional-sheet"></i>
-                  <div class="form-floating w-100">
-                    <input type="text" class="form-control" id="aditional-info" placeholder="name@example.com">
-                    <label for="aditional-info">Indicaciones (opcional)</label>
-                  </div>
-                </div>
-                <div class="d-flex">
-                  <a href="#" class="confirm-address">
-                    Confirmar Dirección
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>'
-      :
-        '';
-
-      $varHead = '
+      $varHeader = '
       <header class="app-header">
         <nav class="row header-menu mx-sm-5 mx-1 px-xl-5">
           <section class="col-lg-2 col-3 p-0 d-flex justify-content-center align-items-center">
@@ -141,23 +130,80 @@
             </a>
           </section>
 
-          <section class="col-lg-6 col-9 p-0 d-flex align-items-center">
-            '.$GoogleMaps.'
+          <section class="col-lg-6 col-9 p-0 d-flex googleMaps-header-wrapper">
+            
+            <div class="d-flex align-items-center googleMaps-header-container flex-fill '.$GoogleMaps.'">
+              <div 
+                id="servicios-autocomplete-container"
+                class="autocomplete-container"
+                data-bs-toggle="tooltip" 
+                data-bs-placement="bottom"
+                data-bs-custom-class="custom-tooltip-primary"
+                data-bs-title="Debes seleccionar al menos un servicio para proceder."
+              >
+                <select name="state" id="serviciosAutocomplete" multiple="multiple" style="width: 200px !important; max-height: 56px; height: 56px;"></select>
+              </div>
+
+              <div class="dropdown w-100">
+                <a class="dropdown-toggle w-100" type="button" id="map-toggle" data-toggle="dropdown">
+                  <div 
+                    id="searchInputFloatingContainer"
+                    class="form-floating w-100"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="bottom"
+                    data-bs-custom-class="custom-tooltip-primary"
+                    data-bs-title="Debes seleccionar una dirección para proceder."
+                  >
+                    <input type="text" class="form-control" id="searchHeaderPlaceField" placeholder="Direccion:">
+                    <label for="searchHeaderPlaceField">Dirección</label>
+                    <button type="button" href="#" class="btn-buscar">
+                      <span class="d-flex">
+                        <i class="fa-solid fa-magnifying-glass me-lg-2"></i>
+                        <span class="d-lg-block d-none">Buscar</span>
+                      </span>
+                    </button>
+                  </div>
+                </a>
+                <form class="dropdown-menu map-dropdown-menu" aria-labelledby="map-toggle">
+                  <div class="map-dropdown-body">
+                    <a href="#" class="back-map-btn map-btn">
+                      <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                    <a href="#" class="close-map-btn map-btn">
+                      <i class="fa-solid fa-xmark"></i>
+                    </a>
+                    <a href="#" class="user-location-btn useUserLocation map-btn">
+                      <i class="fa-solid fa-location-crosshairs"></i>
+                    </a>
+                    <div id="header-map" class="header-map"></div>
+                    <div class="aditional-options">
+                      <span class="aditional-title">Detalles adicionales</span>
+                      <div class="d-flex align-items-center my-3">
+                        <i class="fa-solid fa-sheet-plastic aditional-sheet"></i>
+                        <div class="form-floating w-100">
+                          <input type="text" class="form-control" id="aditional-info" placeholder="name@example.com">
+                          <label for="aditional-info">Indicaciones (opcional)</label>
+                        </div>
+                      </div>
+                      <div class="d-flex">
+                        <a href="#" class="confirm-address">
+                          Confirmar Dirección
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
           </section>
 
           <section class="col-4 d-lg-flex d-none p-0 ps-xl-5 ps-lg-4 header-actions-container">
 
             <div class="d-flex justify-content-center align-items-center header-buttons">
-              <a 
-                href="servicios" 
-                class="action-btn servicios-header-btn navigation-link me-2 '.$showActionButtons.'" 
-                data-bs-toggle="tooltip" 
-                data-bs-placement="bottom"
-                data-bs-custom-class="custom-tooltip-dark"
-                data-bs-title="Servicios"
-              >
-                <i class="fa-solid fa-calendar"></i>
-              </a>
+              
+              '.$serviciosItemHeader.'
+              '.$configuracionItemHeader.'
               
               <div class="dropdown-center alertas-header-dropdown '.$showActionButtons.'">
                 <button 
@@ -358,20 +404,42 @@
             </div>
           </div>
         </div>
+
+        <!-- Modal de loading-->
+        <div class="modal fade" id="loading" data-bs-backdrop="static" tabindex="-1" aria-labelledby="loadingLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-body">
+                <i class="fas fa-spinner fa-pulse"></i>
+              </div>
+            </div>
+          </div>
+        </div>
         ';
 
-      echo $varHead;
+      echo $varHeader;
     }
 
     public function footer(){
       $userIsLogged = !empty($_SESSION["email"]) && !empty($_SESSION["idRol"]);
+
+      $serviciosItem = $userIsLogged && $this->hasModuleAccess("Servicios") && ($_SESSION["idRol"] != "SAWGS1") ? '
+      <a href="servicios" class="tab-item navigation-link">
+        <i class="fa-solid fa-calendar"></i>
+        <span>Servicios</span>
+      </a>':'';
+
+      $configuracionItem = $userIsLogged && $this->hasModuleAccess("Configuracion") ? '
+      <a href="configuracion" class="tab-item navigation-link">
+        <i class="fa-solid fa-gear"></i>
+        <span>Configuración</span>
+      </a>':'';
   
       $footerTabs   = $userIsLogged ?
-        '<a href="servicios" class="tab-item navigation-link">
-          <i class="fa-solid fa-calendar"></i>
-          <span>Servicios</span>
-        </a>
-        <a href="alertas" class="tab-item navigation-link">
+
+        $serviciosItem.
+        $configuracionItem.
+        '<a href="alertas" class="tab-item navigation-link">
           <i class="fa-solid fa-bell"></i>
           <span>Alertas</span>
         </a>
@@ -397,10 +465,7 @@
             <span>Home</span>
           </a>
           '.$footerTabs.'
-        </nav>
-        <footer>
-          este es el footer
-        </footer>';
+        </nav>';
 
       echo $footer;
     }
@@ -540,6 +605,7 @@
       <!-- <script src="'._URL_.'assets/js/imports/echarts.min.js"></script> -->
       <script src="'._URL_.'assets/js/imports/lodash.min.js"></script>
       <script src="'._URL_.'assets/js/imports/select2.min.js"></script>
+      <script src="'._URL_.'assets/js/imports/moment.js"></script>
 
       <!-- Global Custom JS Files -->
       <script>const urlBase = "'. _URL_ .'"</script>
@@ -554,6 +620,10 @@
 
       echo $varJs;
 
+    }
+
+    private function hasModuleAccess($nombreModulo){
+      return !empty($this->permisos[$nombreModulo]) && !empty($this->permisos[$nombreModulo]['Consultar']);
     }
   }
 

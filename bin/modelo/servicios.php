@@ -143,6 +143,25 @@
       }
     }
     
+    public function getAllServicios(){
+      $this->returnAllServicios();
+    }
+
+    private function returnAllServicios(){
+      try{
+				parent::conectarDB();
+        $new = $this->con->prepare("SELECT * FROM tservicios");
+        $new->execute();
+        $servicios = $new->fetchAll(\PDO::FETCH_OBJ);
+        parent::desconectarDB();
+
+        die(json_encode($servicios));
+
+      }catch(exection $error){
+        die(json_encode(["error"=>$error]));
+      }
+    }
+    
     public function insert($nombre,$quimico,$descripcion){
       $this->descripcion=$descripcion;
       $this->nombre=$nombre;

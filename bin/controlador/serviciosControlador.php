@@ -3,22 +3,19 @@
 	use componentes\initComponents as initComponents;
 	use modelo\servicios as servicio;
 
-	if(empty($_SESSION['idRol'])) {
-		die('<script> window.location = "/" </script>');
-	}
-	
 	$model = new servicio();
-	$permisos = $model->getPermisosRol($_SESSION['idRol']);
+	$permisos = $model->getPermisosRol($_SESSION['idRol'] ?? "");
 	$permiso = $permisos['Servicios'];
 	
-	 if(empty($permiso['Consultar'])) {
+	if(isset($_POST['getAllServicios'])){
+		$model->getAllServicios();
+	}
+
+	if(empty($permiso['Consultar'])) {
 		die('<script> window.location = "/" </script>');
 	}
-	
-	if(isset($_POST['getPermisos']) && isset($permiso['Consultar'])){
-		die(json_encode($permiso));
-	}
-	
+
+
   if (isset($_POST['prueba'])) {
     $model->funcionPrueba();
   }
@@ -46,7 +43,7 @@
 	header('Content-Type: application/json');
     echo json_encode($datos);
 } */
-	$components = new initComponents();	
+	// $components = new initComponents($permisos);	
 	require "vistas/serviciosVista.php";	
 
 ?>

@@ -30,6 +30,19 @@ body .form-control:focus {
 body .dropdown-menu {
   border: none !important;
 }
+body .goBack {
+  background-color: whitesmoke;
+  border-radius: 100%;
+  font-size: 1.2rem;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.246);
+  padding: 0.8rem 0.9rem;
+  cursor: pointer;
+  transition: all 200ms;
+}
+body .goBack:hover {
+  background-color: #DC3545;
+  color: white;
+}
 
 .app-header {
   position: fixed;
@@ -386,7 +399,7 @@ body .dropdown-menu {
 }
 
 main {
-  min-height: calc(100vh - 95px);
+  min-height: calc(100vh - 70px);
   margin-top: 70px;
 }
 
@@ -466,6 +479,21 @@ main {
   --bs-tooltip-color: var(--bs-white);
 }
 
+#loading-btn {
+  display: none !important;
+}
+
+#loading .modal-content {
+  background-color: transparent;
+  text-align: center;
+  border: none;
+  user-select: none;
+}
+#loading .modal-body {
+  font-size: 4rem;
+  color: white;
+}
+
 .notfound-container {
   height: 100vh;
 }
@@ -477,6 +505,107 @@ main {
 }
 .notfound-container p {
   color: grey;
+}
+
+.fumigadores-list-wrapper {
+  padding: 0 12rem 0 8rem;
+}
+@media screen and (max-width: 991px) {
+  .fumigadores-list-wrapper {
+    padding: 0 6rem 0 4rem;
+  }
+}
+@media screen and (max-width: 767px) {
+  .fumigadores-list-wrapper {
+    padding: 0%;
+  }
+}
+.fumigadores-list-wrapper .fumigadores-list-container {
+  height: 88.8vh;
+  overflow-y: auto;
+  padding: 0 1rem;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container {
+  display: flex;
+  padding: 1.8rem;
+  background-color: whitesmoke;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.246);
+  border-radius: 20px;
+  transition: all 200ms;
+  margin-bottom: 1.5rem;
+}
+@media screen and (max-width: 575px) {
+  .fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container {
+    align-items: center;
+    flex-direction: column;
+  }
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container:hover {
+  background-color: white;
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.246);
+  cursor: pointer;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-img-container {
+  margin-right: 1.2rem;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-img-container img {
+  border-radius: 100%;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-info-container .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-info-container .header .nombre {
+  font-size: 1.7rem;
+  color: #343a40;
+  font-weight: bold;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-info-container .header .nombre i {
+  color: #DC3545;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-info-container .header img {
+  height: 3rem;
+  border-radius: 100%;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-info-container .body .info-general {
+  margin-bottom: 0.5rem;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-info-container .body .info-general span {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-info-container .footer .descripcion {
+  margin: 0%;
+  color: gray;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-info-container .footer .servicios {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-info-container .footer .servicios span {
+  margin-right: 0.5rem;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-info-container .footer .servicios .servicios-list {
+  margin: 0%;
+  padding: 0%;
+}
+.fumigadores-list-wrapper .fumigadores-list-container .fumigador-item-container .fumigador-info-container .footer .servicios .servicios-list img {
+  height: 2.5rem;
+}
+.fumigadores-list-wrapper .no-fumigadores-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  font-size: 2.5rem;
+  color: grey;
+  font-weight: 600;
+}
+.fumigadores-list-wrapper .no-fumigadores-found p {
+  text-align: center;
 }
 
 /*# sourceMappingURL=index.css.map */

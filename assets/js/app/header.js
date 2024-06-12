@@ -1,18 +1,37 @@
-$(document).ready(()=>{
+$(document).ready(async ()=>{
   let mapDropdownHeader = null
   let showMap = false;
+  let selectedPlace = null;
+
   // Header dropdown
   if(!!document.getElementById("map-toggle")){
 
     mapDropdownHeader = new bootstrap.Dropdown(document.getElementById("map-toggle"))
+
+    // Getting place stored on localstorage
+    let placeStored = {};
+    if(!_.isEmpty(localStorage.getItem("selectedPlace"))){
+      try{
+        placeStored = JSON.parse(localStorage.getItem("selectedPlace"));
+      }catch(e){
+        console.log(e)
+      }
+    }
+
+    if(!_.isEmpty(placeStored)){
+      selectedPlace = placeStored 
+      showMap = true;
+    }else{
+      selectedPlace = {} 
+    }
     /* HEADER MAP */
     const center = {
       // lat: countryPlace.results[0].geometry.location.lat(),
       // lng: countryPlace.results[0].geometry.location.lng()
   
       /* Coords of Barquisimeto */
-      lat: 10.0677719,
-      lng: -69.3473509
+      lat: !_.isEmpty(selectedPlace) ? selectedPlace.lat : 10.0677719,
+      lng: !_.isEmpty(selectedPlace) ? selectedPlace.lng : -69.3473509
     }
   
     // INIT MAP
@@ -28,6 +47,11 @@ $(document).ready(()=>{
     });
   
     autocompleteHeader.bindTo('bounds', mapHeader)
+
+    // Setting the place value stored on localstorage to the autocomplete
+    if(!_.isEmpty(selectedPlace)){
+      $("#searchHeaderPlaceField").val(selectedPlace.formatted_address)
+    }
   
     // INIT MARKER
     const markerHeader = new google.maps.Marker({
@@ -37,28 +61,31 @@ $(document).ready(()=>{
     // PLACE CHANGED BY AUTOCOMPLETE SO MARKER IS SETTED
     autocompleteHeader.addListener('place_changed', ()=>{
       const place = autocompleteHeader.getPlace();
-  
+      
       let cityObj = place.address_components.filter((component) => component.types.includes('locality'))[0];
       const city = cityObj.short_name;
-  
+      
       let  stateObj = place.address_components.filter((component) => component.types.includes('administrative_area_level_1'))[0];
       const state = stateObj.short_name;
-  
+      
       let countryObj = place.address_components.filter((component) => component.types.includes('country'))[0];
       const country = countryObj.long_name;
-  
-      console.log(`Ciudad: ${city}, Estado: ${state}, País: ${country}`)
       
+      console.log(`Ciudad: ${city}, Estado: ${state}, País: ${country}`)
       if(place.geometry.viewport) mapHeader.fitBounds(place.geometry.viewport)
       else{
         mapHeader.setCenter(place.geometry.location);
         mapHeader.setZoom(10);
       }
-  
       markerHeader.setPosition(place.geometry.location);
       markerHeader.setVisible(true)
       mapDropdownHeader.show()
       showMap = true;
+      selectedPlace = {
+        ...place, 
+        lng: place.geometry.location.lng(), 
+        lat: place.geometry.location.lat()
+      }
     })
   
     // CLICK EVENT ON MAP
@@ -81,6 +108,12 @@ $(document).ready(()=>{
       console.log(`Ciudad: ${city}, Estado: ${state}, País: ${country}`)
       
       headerSearchInput.value = results[0].formatted_address;
+
+      selectedPlace = {
+        ...results[0], 
+        lng: results[0].geometry.location.lng(), 
+        lat: results[0].geometry.location.lat()
+      }
     })
   
     // Pedir permisos de ubicacion del usuario
@@ -96,7 +129,6 @@ $(document).ready(()=>{
           const { results } = await geocoder.getPlaceByCoords(LatLng)
   
           let cityObj = results[0].address_components.filter((component) => component.types.includes('locality'))[0];
-          console.log(cityObj)
           const city = cityObj.short_name ? cityObj.short_name : cityObj.long_name;
   
           let  stateObj = results[0].address_components.filter((component) => component.types.includes('administrative_area_level_1'))[0];
@@ -119,23 +151,37 @@ $(document).ready(()=>{
   // Servicios
   if(!!document.getElementById("serviciosAutocomplete")){
 
-    const availableServices = [
-      "Cucarachas",
-      "Termitas",
-      "Zancudos",
-      "Hormigas",
-      "Chiripas",
-    ];
+    const respuesta = await service.post("servicios",{getAllServicios:true})
+    const availableServices = _.map(respuesta,(servicio)=>({id: servicio.idServicio, text: servicio.nombre}));
+    let servicesStored = [];
+    if(!_.isEmpty(localStorage.getItem("selectedServices"))){
+      try{
+        servicesStored = JSON.parse(localStorage.getItem("selectedServices"))
+      }catch(e){
+        console.log(e)
+      }
+    }
+
+    let selectedServices = !_.isEmpty(servicesStored) ? servicesStored : [] 
 
     $('#serviciosAutocomplete').select2({
       placeholder: 'Servicios',
-      data: availableServices
+      data: _.isEmpty(selectedServices) ? 
+          availableServices 
+        : 
+          _.map(availableServices,(servicio)=>{
+            if(selectedServices.includes(servicio.id)) return { ...servicio, selected: true }
+            return servicio
+          })
     });
 
     $('#serviciosAutocomplete').on('select2:select', function (e) {
-      var data = e.params;
-      console.log(data);
-  });
+      selectedServices.push(e.params.data.id)
+    });
+
+    $('#serviciosAutocomplete').on('select2:unselect', function (e) {
+      selectedServices.splice(selectedServices.indexOf(e.params.data.id),1)
+    });
 
 
     // let selectedServices = [];
@@ -218,6 +264,7 @@ $(document).ready(()=>{
     //     }
     //   }
     // })
+    
   
     // Google Maps Dropdown
     $("#searchHeaderPlaceField").click(()=>{
@@ -240,6 +287,43 @@ $(document).ready(()=>{
       $("#searchHeaderPlaceField").trigger("focus")
       textArray.push(lastLetter)
       $("#searchHeaderPlaceField").val(textArray.join(""))
+    })
+
+    // Buscar fumigadores
+    const searchPlacesInputTooltip = new bootstrap.Tooltip('#searchInputFloatingContainer', {trigger: "manual"})
+    $("#searchInputFloatingContainer").hover(()=>{
+      searchPlacesInputTooltip.hide();
+    })
+
+    $(".btn-buscar").click(()=>{
+      if(_.isEmpty(selectedPlace)) searchPlacesInputTooltip.show();
+      if(_.isEmpty(selectedServices)) servicesTooltip.show();
+
+      if(!_.isEmpty(selectedPlace) && !_.selectedServices){
+        localStorage.setItem("selectedPlace",    JSON.stringify(selectedPlace));
+        localStorage.setItem("selectedServices", JSON.stringify(selectedServices));
+
+        if(window.location.pathname != "fumigadores" && window.location.pathname != "/fumigadores") return window.location = "fumigadores";
+
+        renderFumigadores(selectedServices);
+      }
+    })
+
+    // Confirmar Direccion para buscar fumigadores
+    const servicesTooltip = new bootstrap.Tooltip('#servicios-autocomplete-container', {trigger: "manual"})
+    $("#servicios-autocomplete-container").hover(()=>{
+      servicesTooltip.hide();
+    })
+
+    $(".confirm-address").click(()=>{
+      if(_.isEmpty(selectedServices)) return servicesTooltip.show();
+
+      localStorage.setItem("selectedPlace",    JSON.stringify(selectedPlace));
+      localStorage.setItem("selectedServices", JSON.stringify(selectedServices));
+
+      if(window.location.pathname != "fumigadores" && window.location.pathname != "/fumigadores") return window.location = "fumigadores"
+
+      renderFumigadores(selectedServices)
     })
 
   }
@@ -356,3 +440,64 @@ $(document).ready(()=>{
   // Logout
   $(document).on('click','.logout', () => logoutUser());
 })
+
+async function renderFumigadores(selectedServices){
+  toggleLoading(true);
+  $(".fumigadores-list-container").empty()
+  const fumigadores = await service.post("fumigadores",{getFumigadoresByServices: true, servicios: selectedServices})
+  // Renderizando los fumigadores obtenidos
+  if(!_.isEmpty(fumigadores)){
+    _.map(fumigadores,(fumigador)=>{
+      const dias  = moment().diff(moment(fumigador.fechaValidado), 'days');
+      const meses = moment().diff(moment(fumigador.fechaValidado), 'months');
+      const años  = moment().diff(moment(fumigador.fechaValidado), 'years');
+      $(".fumigadores-list-container").append(`
+        <article class="fumigador-item-container" fumigadorID="${fumigador.cedula}">
+          <div class="fumigador-img-container">
+            <img src="${fumigador.fotoPerfil}" alt="fumigador">
+          </div>
+          <div class="fumigador-info-container">
+            <div class="header mb-2">
+              <h1 class="nombre">
+                ${fumigador.nombre+" "+fumigador.apellido}
+                <i class="fa-solid fa-circle-check"></i>
+              </h1>
+              <img src="assets/img/fumigador.svg" alt="">
+            </div>
+            <div class="body mb-2">
+              <div class="info-general">
+                <span>${
+                  años <= 0 ?
+                    meses <= 0 ? 
+                      dias > 1 ? dias+" días" : dias+" día"
+                    :
+                      meses > 1 ? meses+" meses" : meses+" mes"
+                  :
+                    años > 1 ? años+" años" : años+" año"
+                } en Work Global Service</span>
+              </div>
+            </div>
+            <div class="footer">
+              <p class="descripcion mb-2">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae reiciendis ut rerum consectetur doloribus, culpa delectus id, suscipit minus molestiae dignissimos earum dolorem quam excepturi corporis optio soluta vitae aut?
+              </p>
+              <div class="servicios">
+                <ul class="servicios-list fumigador-${fumigador.cedula}"></ul>
+              </div>
+            </div>
+          </div>
+        </article>
+      `)
+         
+      _.map(fumigador.servicios,(servicio)=>{
+        $(`.fumigador-${fumigador.cedula}`).append(`<img src="${servicio.fotoServicio}" alt=""></img>`)
+      })
+    })
+  }else{
+    $(".fumigadores-list-container").append(`
+      <div class="no-fumigadores-found">
+        <p>No se encontraron fumigadores <i class="fa-regular fa-face-sad-cry"></i>, inténtalo con otras categorías.</p>
+      </div>`)
+  }
+  toggleLoading(false);
+}

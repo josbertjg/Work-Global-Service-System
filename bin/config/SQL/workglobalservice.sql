@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-06-2024 a las 13:05:03
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 12-06-2024 a las 06:10:52
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -95,12 +95,16 @@ INSERT INTO `taccesos` (`idAcceso`, `rol`, `permiso`, `modulo`, `status`) VALUES
 ('100878437622743096', 'SAWGS1', 'CONSULTARWGS', 'MUBICACIONESWGS', 1),
 ('100878437622743097', 'SAWGS1', 'CREATEWGS', 'MUBICACIONESWGS', 1),
 ('100878437622743098', 'SAWGS1', 'ELIMINARWGS', 'MUBICACIONESWGS', 1),
-('100878437622743099', 'SAWGS1', 'MODIFICARWGS', 'MUBICACIONESWGS', 1),
+('100878437622743099', 'SAWGS1', 'MODIFICARWGS', 'MUBICACIONESWGS', 1);
+('100880027079409665', 'CLWGS1', 'CONSULTARWGS', 'MSERVICIOSWGS', 1),
+('100880027079409666', 'SAWGS1', 'CONSULTARWGS', 'MCONFIGURACIONWGS', 1),
+('100880027079409667', 'SAWGS1', 'CREATEWGS', 'MCONFIGURACIONWGS', 1),
+('100880027079409668', 'SAWGS1', 'ELIMINARWGS', 'MCONFIGURACIONWGS', 1),
+('100880027079409669', 'SAWGS1', 'MODIFICARWGS', 'MCONFIGURACIONWGS', 1);
 ('100878437622743100', 'SAWGS1', 'CONSULTARWGS', 'MPRECIOSWGS', 1),
 ('100878437622743101', 'SAWGS1', 'CREATEWGS', 'MPRECIOSWGS', 1),
 ('100878437622743102', 'SAWGS1', 'ELIMINARWGS', 'MPRECIOSWGS', 1),
 ('100878437622743103', 'SAWGS1', 'MODIFICARWGS', 'MPRECIOSWGS', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -109,9 +113,9 @@ INSERT INTO `taccesos` (`idAcceso`, `rol`, `permiso`, `modulo`, `status`) VALUES
 
 CREATE TABLE `tbitacoras` (
   `id` int(11) NOT NULL,
-  `modulo` varchar(20) NOT NULL,
-  `usuario` varchar(40) NOT NULL,
-  `descripcion` varchar(500) NOT NULL,
+  `modulo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `usuario` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -123,8 +127,26 @@ INSERT INTO `tbitacoras` (`id`, `modulo`, `usuario`, `descripcion`, `fecha`) VAL
 (1, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-09 10:16:50'),
 (2, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-09 13:06:40'),
 (3, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-09 13:08:46'),
-(4, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-09 16:28:13'),
-(5, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-10 06:07:07');
+(7, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-09 23:11:14'),
+(13, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-09 23:42:24'),
+(14, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-09 23:45:31'),
+(15, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 21:04:03'),
+(16, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 21:08:16'),
+(17, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 21:08:30'),
+(18, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 22:46:15'),
+(19, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:09:34'),
+(20, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:34:06'),
+(21, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:44:45'),
+(22, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:52:40'),
+(23, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:53:08'),
+(24, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:55:23'),
+(25, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:55:50'),
+(26, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:56:46'),
+(27, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 00:00:49'),
+(28, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 00:01:59'),
+(29, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 00:02:50'),
+(30, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 00:02:58'),
+(31, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 00:09:19');
 
 -- --------------------------------------------------------
 
@@ -677,7 +699,7 @@ CREATE TABLE `testablecimientos` (
 --
 
 INSERT INTO `testablecimientos` (`idEstablecimientos`, `nombre`, `descripcion`, `sizeE`, `habilitado`) VALUES
-('ESTCYA', 'Casas y Apartamentos', 'Casas y Apartamentos de un máximo de 120 mts2 update', 120.5, 1),
+('ESTCYA', 'Casas y Apartamentos', 'Casas y Apartamentos de un máximo de 120 mts2 update', 120, 1),
 ('ESTVP', 'Vehiculos Pequeños', 'carros, camionetas, vehiculos que no excedan los 4 metros cuadrados', 4, 1);
 
 -- --------------------------------------------------------
@@ -767,6 +789,13 @@ CREATE TABLE `tfumigadores` (
   `fotoPerfil` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `tfumigadores`
+--
+
+INSERT INTO `tfumigadores` (`cedula`, `email`, `idUbicacion`, `fechaNacimiento`, `imagenCedula`, `activo`, `fechaValidado`, `fotoPerfil`) VALUES
+('28150010', 'josbertjg@gmail.com', '123', '2024-06-03', '123', 1, '2024-04-03', '123');
+
 -- --------------------------------------------------------
 
 --
@@ -785,6 +814,7 @@ CREATE TABLE `tmodulos` (
 
 INSERT INTO `tmodulos` (`idModulo`, `nombre`, `status`) VALUES
 ('MBITACORAWGS', 'Bitácora', 1),
+('MCONFIGURACIONWGS', 'Configuracion', 1),
 ('MESTABLECIMIENTOSWGS', 'Establecimientos', 1),
 ('MMANTENIMIENTOWGS', 'Mantenimiento', 1),
 ('MNOTIFICACIONESWGS', 'Notificaciones', 1),
@@ -888,17 +918,8 @@ CREATE TABLE `tprecioservicios` (
   `id` int(11) NOT NULL,
   `servicio` varchar(20) NOT NULL,
   `establecimiento` varchar(20) NOT NULL,
-  `precio` float NOT NULL,
-  `habilitado` tinyint(1) NOT NULL DEFAULT 1
+  `precio` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
---
--- Volcado de datos para la tabla `tprecioservicios`
---
-
-INSERT INTO `tprecioservicios` (`id`, `servicio`, `establecimiento`, `precio`, `habilitado`) VALUES
-(1, 'SERVCYC', 'ESTVP', 45, 1),
-(2, 'SERVCYC', 'ESTCYA', 75, 1);
 
 -- --------------------------------------------------------
 
@@ -907,10 +928,10 @@ INSERT INTO `tprecioservicios` (`id`, `servicio`, `establecimiento`, `precio`, `
 --
 
 CREATE TABLE `tquimicos` (
-  `idQuimico` varchar(20) NOT NULL,
-  `nombre` varchar(45) NOT NULL,
-  `foto` varchar(1000) NOT NULL,
-  `descripcion` longtext NOT NULL,
+  `idQuimico` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(45) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `foto` varchar(1000) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
   `habilitado` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -919,7 +940,7 @@ CREATE TABLE `tquimicos` (
 --
 
 INSERT INTO `tquimicos` (`idQuimico`, `nombre`, `foto`, `descripcion`, `habilitado`) VALUES
-('AS', 'asdasdasdasd', 'assets/img/uploads/C.U 04.drawio (1).png.png', 'adasdasdasdasdasdasdasdasdasdasd prueba update', 1),
+('AS', 'asdasdasdasd', 'assets/img/uploads/C.U 04.drawio (1).png.png', 'adasdasdasdasdasdasdasdasdasdasd', 1),
 ('QU', 'QuimicoPrueba1', 'assets/img/uploads/.', 'asdasdasdasdasdasdasdasdasdasd', 1),
 ('RAPLP', 'Raticida Plagatox P', 'assets/img/uploads/.', 'Prueba prueba prueba prueba ', 1);
 
@@ -951,19 +972,13 @@ INSERT INTO `troles` (`IdRol`, `nombre`, `status`) VALUES
 --
 
 CREATE TABLE `tservicios` (
-  `idServicio` varchar(20) NOT NULL,
-  `nombre` varchar(45) NOT NULL,
-  `quimico` varchar(20) NOT NULL,
-  `descripcion` longtext NOT NULL,
+  `idServicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(45) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `quimico` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fotoServicio` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
   `habilitado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
---
--- Volcado de datos para la tabla `tservicios`
---
-
-INSERT INTO `tservicios` (`idServicio`, `nombre`, `quimico`, `descripcion`, `habilitado`) VALUES
-('SERVCYC', 'Chiripas y Cucaracha', 'RAPLP', 'Prueba Prueba 01 de datos ', 1);
 
 -- --------------------------------------------------------
 
@@ -973,9 +988,18 @@ INSERT INTO `tservicios` (`idServicio`, `nombre`, `quimico`, `descripcion`, `hab
 
 CREATE TABLE `tserviciosfumigador` (
   `id` int(11) NOT NULL,
-  `idServicio` varchar(20) NOT NULL,
-  `cedula` varchar(20) NOT NULL
+  `idServicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `cedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tserviciosfumigador`
+--
+
+INSERT INTO `tserviciosfumigador` (`id`, `idServicio`, `cedula`) VALUES
+(0, 'SCUCARACHASWGS', '28150010'),
+(1, 'SCIENPIESWGS', '28150010'),
+(2, 'SRATASWGS', '28150010');
 
 -- --------------------------------------------------------
 
@@ -997,12 +1021,19 @@ CREATE TABLE `tsobrecargos` (
 --
 
 CREATE TABLE `tubicaciones` (
-  `idUbicacion` varchar(20) NOT NULL,
-  `latitud` varchar(20) NOT NULL,
-  `longitud` varchar(20) NOT NULL,
-  `direccion` longtext NOT NULL,
+  `idUbicacion` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `latitud` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `longitud` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `direccion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
   `ciudad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tubicaciones`
+--
+
+INSERT INTO `tubicaciones` (`idUbicacion`, `latitud`, `longitud`, `direccion`, `ciudad`) VALUES
+('123', '32132132', '32132131', 'una ubicacion', 4);
 
 -- --------------------------------------------------------
 
@@ -1029,32 +1060,9 @@ CREATE TABLE `tusuarios` (
 --
 
 INSERT INTO `tusuarios` (`email`, `contraseña`, `nombre`, `apellido`, `telefono`, `fotoPerfil`, `emailVerificado`, `oauth_type`, `idRol`, `creado`, `activo`) VALUES
-('josbertjg@gmail.com', '', 'Josbert', 'Guedez', '', 'https://lh3.googleusercontent.com/a/ACg8ocIYxgSVKmpdVhUOFnSf7DM1UbzOGrdaaIBopvTOKnWhhNlccJxZ=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-04-30 23:21:27', 1),
+('josbertjg@gmail.com', '', 'Josbert', 'Guedez', '', 'assets/img/perfil/josbertjg@gmail.com.jpg', 1, 'gmail_oauth', 'FGWGS1', '2024-06-10 04:23:29', 1),
 ('josetimaure60@gmail.com', '', 'Jose', 'Timaure', '', 'https://lh3.googleusercontent.com/a/ACg8ocJRESfHpvaFUA8v242WUFwFuXql-rmQ7fr05Ga-JlrNKARYpGxSeg=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-06-09 14:21:23', 1),
 ('workglobalserviceca@gmail.com', '', 'Josnel', 'Guedez', '', 'https://lh3.googleusercontent.com/a/ACg8ocJ7XYRMlybwZhYlo0ebVr57DV1ETJMQZnJR6vzAX3tkSr0YNQ=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-05-01 05:59:41', 1);
-
--- --------------------------------------------------------
-
---
--- Estructura Stand-in para la vista `vistapermisosadministrador`
--- (Véase abajo para la vista actual)
---
-CREATE TABLE `vistapermisosadministrador` (
-`Modulo` varchar(20)
-,`Crear` tinyint(4)
-,`Consultar` tinyint(4)
-,`Eliminar` tinyint(4)
-,`Modificar` tinyint(4)
-);
-
--- --------------------------------------------------------
-
---
--- Estructura para la vista `vistapermisosadministrador`
---
-DROP TABLE IF EXISTS `vistapermisosadministrador`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vistapermisosadministrador`  AS SELECT `tmodulos`.`nombre` AS `Modulo`, (select `taccesos`.`status` from `taccesos` where `taccesos`.`modulo` = `tmodulos`.`idModulo` and `taccesos`.`permiso` = 'CREATEWGS') AS `Crear`, (select `taccesos`.`status` from `taccesos` where `taccesos`.`modulo` = `tmodulos`.`idModulo` and `taccesos`.`permiso` = 'CONSULTARWGS') AS `Consultar`, (select `taccesos`.`status` from `taccesos` where `taccesos`.`modulo` = `tmodulos`.`idModulo` and `taccesos`.`permiso` = 'ELIMINARWGS') AS `Eliminar`, (select `taccesos`.`status` from `taccesos` where `taccesos`.`modulo` = `tmodulos`.`idModulo` and `taccesos`.`permiso` = 'MODIFICARWGS') AS `Modificar` FROM (`taccesos` join `tmodulos` on(`tmodulos`.`idModulo` = `taccesos`.`modulo`)) WHERE `taccesos`.`rol` = 'SAWGS1' GROUP BY `taccesos`.`modulo` ;
 
 --
 -- Índices para tablas volcadas
@@ -1121,7 +1129,8 @@ ALTER TABLE `tfacturasobrecargos`
 --
 ALTER TABLE `tfumigadores`
   ADD PRIMARY KEY (`cedula`),
-  ADD KEY `email` (`email`);
+  ADD KEY `email` (`email`),
+  ADD KEY `tfumigadores_ibfk_2` (`idUbicacion`);
 
 --
 -- Indices de la tabla `tmodulos`
@@ -1143,7 +1152,8 @@ ALTER TABLE `tordenes`
   ADD PRIMARY KEY (`IdOrdenes`),
   ADD KEY `fumigador` (`fumigador`),
   ADD KEY `cliente` (`cliente`),
-  ADD KEY `establecimiento` (`establecimiento`);
+  ADD KEY `establecimiento` (`establecimiento`),
+  ADD KEY `tordenes_ibfk_3` (`ubicacion`);
 
 --
 -- Indices de la tabla `tordenesservicios`
@@ -1230,7 +1240,7 @@ ALTER TABLE `tusuarios`
 -- AUTO_INCREMENT de la tabla `tbitacoras`
 --
 ALTER TABLE `tbitacoras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `tciudades`
@@ -1272,7 +1282,7 @@ ALTER TABLE `tpagodetalles`
 -- AUTO_INCREMENT de la tabla `tprecioservicios`
 --
 ALTER TABLE `tprecioservicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas

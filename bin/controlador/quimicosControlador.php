@@ -48,6 +48,6 @@
 //$model->CRUD($_POST['opcion'],$_POST['idQuimico'],$_POST['Descripcion'],$_FILES['rutaIcono'],$_POST['nombreQuimico']);
 	
 
-	$components = new initComponents();	
+	$components = new initComponents($permisos);	
 	require "vistas/quimicosVista.php";	
 ?>
