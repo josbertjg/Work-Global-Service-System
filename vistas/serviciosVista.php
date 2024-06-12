@@ -43,8 +43,14 @@
                 <div class="invalid-tooltip"></div>
               </div>
               <div class="mb-3">
+                <label for="imagenServicio" class="form-label">Imagen del Servicio:</label>
+                <input type="file" accept="image/png, image/jpeg, image/jpg" class="form-control" id="rutaIcono" name="Icono" isValid="false">
+                <img id="selectedImg" src="" alt="Vista previa de la imagen" style="max-width: 120px; max-height: 120px;" class="img-fluid">
+                <div class="invalid-tooltip"></div>
+              </div>
+              <div class="mb-3">
                 <label for="descripcionServicio" class="form-label">Descripción del Servicio:</label>
-                <textarea id="descripcionServicio" name="descripcion" rows="12" class="form-control" isValid="false"></textarea>
+                <textarea id="descripcionServicio" name="descripcion" rows="4" class="form-control" isValid="false"></textarea>
                 <div class="invalid-tooltip"></div>
               </div>
             </div>

@@ -45,6 +45,9 @@ $(document).ready(async ()=>{
       $(".modal-header").css( "background-color", "#d32535");
       $(".modal-header").css( "color", "white" );
       $(".modal-title").text("Registrar Precio de los Servicios");
+      $("#establecimientos").prop('disabled', false);
+      $("#servicios").prop('disabled', false);
+
       $('#modalCRUD').modal('show');
     });
   
@@ -57,10 +60,10 @@ $(document).ready(async ()=>{
       idPrecio=data.id;
       var selectEstablecimiento = document.getElementById('establecimientos');
       var textoEstablecimiento = data.Establecimiento;
-      console.log(data);
       for (var i = 0; i < selectEstablecimiento.options.length; i++) {
         if (selectEstablecimiento.options[i].text === textoEstablecimiento) {
           selectEstablecimiento.selectedIndex = i;
+          setValidInput($("#establecimientos"));
           break;
         }
       }
@@ -69,10 +72,14 @@ $(document).ready(async ()=>{
       for (var i=0; i<selectServicio.options.length;i++){
         if(selectServicio.options[i].text===textoServicio){
             selectServicio.selectedIndex=i;
+            setValidInput($("#servicios"));
             break;
         }
       }
+      $("#establecimientos").prop('disabled', true);
+      $("#servicios").prop('disabled', true);      
       $("#number").val(data.precio);
+      console.log(data.habilitado);
       $(".modal-header").css("background-color", "#d32535");
       $(".modal-header").css("color", "white" );
       $(".modal-title").text("Editar Precio");		
@@ -150,22 +157,26 @@ $(document).ready(async ()=>{
   
   function validarSelectEstablecimiento(){
     var selectElement = document.getElementById('establecimientos');
-    selectElement.addEventListener('change', function() {
-    var valorSeleccionado = this.value;
-    if(valorSeleccionado=="default"){
-      setInvalidInput($("#establecimientos"),"Debe Seleccionar Establecimiento");
-    }else{setValidInput($("#establecimientos"))}
-  });
+    selectElement.addEventListener('change', validar);
+    validar(); // Llama a la función de validación inmediatamente
+    function validar() {
+      var valorSeleccionado = selectElement.value;
+      if(valorSeleccionado=="default"){
+        setInvalidInput($("#establecimientos"),"Debe Seleccionar un Establecimiento");
+      }else{setValidInput($("#establecimientos"))}
+    }
   }
 
   function validarSelectServicio(){
     var selectElement = document.getElementById('servicios');
-    selectElement.addEventListener('change', function() {
-    var valorSeleccionado = this.value;
-    if(valorSeleccionado=="default"){
-      setInvalidInput($("#servicios"),"Debe Seleccionar un Servicio");
-    }else{setValidInput($("#servicios"))}
-  });
+    selectElement.addEventListener('change', validar);
+    validar(); // Llama a la función de validación inmediatamente
+    function validar() {
+      var valorSeleccionado = selectElement.value;
+      if(valorSeleccionado=="default"){
+        setInvalidInput($("#servicios"),"Debe Seleccionar un servicio");
+      }else{setValidInput($("#servicios"))}
+    }
   }
   
   function getPermisos(){

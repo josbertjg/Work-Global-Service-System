@@ -509,6 +509,7 @@
           <th>Nombre</th>
           <th>Quimico</th>
           <th>Descripcion</th>
+          <th>Foto</th>
           <th>Habilitado</th>
           <th>Acciones</th>
           </tr>';

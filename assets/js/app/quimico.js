@@ -100,16 +100,10 @@ $(document).ready(async()=>{
         setValidInput($("#rutaIcono"));
       }
      }
-     if(datos==1){
-      if(file!=undefined){
-        file = file.files[0];
-      }
-      if (file && file.size > 0) {
-        setValidInput($("#rutaIcono"));
-      } else {
-        setInvalidInput($("#rutaIcono"), "Debe seleccionar una imagen");
-      }
-     }
+     let file = $("#rutaIcono").get(0).files[0]; // Obtener el archivo del input
+     if(datos == 1 && (!file || file.size <= 0)) {
+      setInvalidInput($("#rutaIcono"), "Debe seleccionar una imagen");
+    }
       const formValid = checkFormValidity(form);
       if(formValid){
         const formHTML = document.getElementById("FormQuimico");
@@ -126,12 +120,17 @@ $(document).ready(async()=>{
           //caso 3 es un update y es lo que comentaba mas arriba
           //si el file esta undefined significa que no hizo cambios en la foto
           case 3:
-            data.append("update",JSON.stringify(true));
-            if(file==undefined){
-              data.append("fotoOriginal",rutaImagen);
+            // Caso de actualización: verificar si se seleccionó un nuevo archivo
+            if(!file) {
+              data.append("fotoOriginal", rutaImagen);
+              data.append("update1", JSON.stringify(true));
+              console.log("El file no esta definido")
+            } else {
+              data.append("foto", file);
+              data.append("update2", JSON.stringify(true));
+              console.log("El file esta definido");
             }
-            else{data.append("foto",file);}
-            break
+            break;
         }
         data.append("idQuimico",quimico_id);
         const respuesta = await service.post("quimicos",data);

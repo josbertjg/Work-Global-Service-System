@@ -10,6 +10,9 @@
    private $descripcion;
    private $habilitado;
    private $nombre;
+   private $foto;
+   private $targetFile;
+   private $rutaCarpeta="assets/img/servicios/";
 
 
    private function validarSTA($datoArray,$diff){
@@ -39,24 +42,26 @@
       $error = array(
         "error" => "esta es la respuesta personalizada cuanto ocurre un 'error' desde el modelo",
       );
-      if(json_decode($_POST['opcion'])) 
+      if(json_decode($_POST['update'])) 
         die(json_encode($respuesta));
       else 
         die(json_encode($error));
     }
-    public function getInsert(){
-      
-    }
-    public function delete($id,$habilitado){
+    public function getDelete($id,$habilitado){
+      $this->delete();
       $this->id=$id;
       $habilitado=(int)$habilitado;
       $habilitado = $habilitado == 1 ? 0 : 1;
+      $this->habilitado=$habilitado;
+      $this->delete();
+    }
+    private function delete(){
       try{
         $this->conectarDB();
         $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Habilitar errores de PDO
         $consulta = "UPDATE tservicios SET habilitado = :habilitado WHERE idServicio = :id";
         $ejecucion = $this->con->prepare($consulta);
-        $ejecucion->bindParam(':habilitado',$habilitado);
+        $ejecucion->bindParam(':habilitado',$this->habilitado);
         $ejecucion->bindParam(':id', $this->id);
         /* echo "Datos: ";
         var_dump($this->nombre, $this->targetFile, $this->Descripcion, $this->id); // Imprimir los datos
@@ -69,10 +74,10 @@
         die(json_encode(array("error" => $e->getMessage())));
       }
     }
-
-
-
-    public function SelectAll(){
+    public function getAll(){
+      $this->SelectAll();
+    }
+    private function SelectAll(){
       //if(json_decode($_POST['opcion']))
       try{
         $this->conectarDB();
@@ -116,35 +121,55 @@
       }
       
     }
-    public function update($id,$nombre,$quimico,$descripcion){//linea 75
+    public function getUpdate($id,$nombre,$quimico,$descripcion,$foto,$opcion){
+      //$letrasYnumeros= array($descripcion);
+      //$this->validarSTA($letrasYnumeros,2);
+      //$letras=array($nombre);
+      //$this->validarSTA($letras,0);
       $this->id=$id;
       $this->descripcion=$descripcion;
       $this->nombre=$nombre;
       $this->quimico=$quimico;
-      if($this->comprobarInsert($this->id,$this->quimico)){
-        $respuesta = ["error" => "Este Registro ya existe."];
-        die(json_encode($respuesta));
+      $opcion=$opcion;
+      if($opcion==1){
+        $this->targetFile=$foto; 
       }else{
+        $this->foto=$foto;
+        $this->targetFile=$rutaCarpeta.basename($this->foto["name"]);
+        $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
+        $this->targetFile = $this->targetFile . "." . $Filetype;
+      }
+      //$respuesta = ["error" => "Hola esta una prubea y no entiendo porque no esta garrando."];
+      //json_encode($respuesta);
+      //echo "Datos: ";
+      //var_dump($this->nombre, $this->targetFile, $this->Descripcion, $this->id);
+      $this->update($opcion);
+    }
+    private function update($opcion){
         try{
           $this->conectarDB();
           $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Habilitar errores de PDO
-          $consulta = "UPDATE tservicios SET nombre = :nombre, quimico = :quimico, descripcion = :descripcion WHERE idServicio = :id";
+          $consulta = "UPDATE tservicios SET nombre = :nombre, quimico = :quimico,
+           descripcion = :descripcion, fotoServicio= :fotoServicio
+           WHERE idServicio = :id";
           $ejecucion = $this->con->prepare($consulta);
           $ejecucion->bindParam(':nombre', $this->nombre);
-          $ejecucion->bindParam(':quimico', $this->quimico); // Aquí usamos targetFile en lugar de foto
+          $ejecucion->bindParam(':quimico', $this->quimico); 
           $ejecucion->bindParam(':descripcion', $this->descripcion);
+          $ejecucion->bindParam(':fotoServicio',$this->targetFile);
           $ejecucion->bindParam(':id', $this->id);
-          /*  echo "Datos: ";
-          var_dump($this->nombre, $this->targetFile, $this->Descripcion, $this->id); // Imprimir los datos
-          echo "Consulta: $consulta"; // Imprimir la consulta */
+          //echo "Consulta: $consulta"; // Imprimir la consulta */
           $ejecucion->execute();
           //echo "Filas afectadas: " . $ejecucion->rowCount(); // Imprimir el número de filas afectadas
           $this->desconectarDB();
+          if($opcion!=1){
+            $this->SubirFoto($this->foto["tmp_name"],$this->targetFile);//linea 104
+          }
         }catch (\PDOException $e) {       
           header('Content-Type: application/json');
           die(json_encode(array("error" => $e->getMessage())));
         }
-      }
+      
     }
     
     public function getAllServicios(){
@@ -165,27 +190,36 @@
         die(json_encode(["error"=>$error]));
       }
     }
-    
-    public function insert($nombre,$quimico,$descripcion){
+    public function getInsert($nombre,$quimico,$descripcion, $foto){
+      //$letras= array($nombre);
+      //$this->validarSTA($letras,2);
+      $this->foto=$foto;
+      $this->targetFile=$rutaCarpeta.basename($this->foto["name"]);
+      $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
+      $this->targetFile = $this->targetFile . "." . $Filetype;
+      $this->id=$this->separarCadena($this->nombre);
       $this->descripcion=$descripcion;
-      $this->nombre=$nombre;
       $this->quimico=$quimico;
-      $identificador=$this->separarCadena($this->nombre);
-      if($this->comprobarInsert($identificador,$this->quimico)){
+      $this->insert();
+    }
+    private function insert(){
+      if($this->comprobarInsert($this->id,$this->quimico)){
         $respuesta = ["error" => "Este Registro ya existe."];
         die(json_encode($respuesta));
       }else{
         try{
           $this->conectarDB();
-          $consulta="INSERT INTO tservicios (idServicio,nombre,quimico,descripcion,habilitado) VALUES (?,?,?,?,?)";
+          $consulta="INSERT INTO tservicios (idServicio,nombre,quimico,descripcion,fotoServicio,habilitado) VALUES (?,?,?,?,?,?)";
           $ejecucion=$this->con->prepare($consulta);
-          $ejecucion->bindValue(1,$identificador);
+          $ejecucion->bindValue(1,$this->id);
           $ejecucion->bindValue(2,$this->nombre);
           $ejecucion->bindValue(3,$this->quimico);
           $ejecucion->bindValue(4,$this->descripcion);
-          $ejecucion->bindValue(5,1);
+          $ejecucion->bindValue(5,$this->targetFile);
+          $ejecucion->bindValue(6,1);
           $ejecucion->execute();
           $this->desconectarDB();
+          $this->SubirFoto($this->foto["tmp_name"],$this->targetFile);
         }catch (\PDOException $error) {   
           $resultado = ['error' => $error->getMessage()];    
           die(json_encode($resultado));
@@ -194,31 +228,11 @@
       
     }
     private function separarCadena($cadena) {
-      // Reemplazar múltiples espacios en blanco con un solo espacio
-      $cadena = preg_replace('/\s+/', ' ', $cadena);
-      // Dividir la cadena en palabras si hay un espacio en blanco en medio
-      $partes = explode(' ', $cadena);
-      // Obtener las dos primeras letras de cada palabra
-      $resultado = array();
-      foreach ($partes as $parte) {
-        $resultado[] = substr($parte, 0, 1);
-      }
-      $cadena="SERV";
-      for($i=0;$i<count($resultado);$i++){
-        $cadena=$cadena.$resultado[$i];
-      }
-/*       $variableAux=$this->ComprobarId($cadena);
-      if($variableAux==null){
-        return $cadena;
-      }else{
-        $timestamp = time(); // Obtiene el timestamp actual
-        $dateString = date('Y-m-d H:i:s', $timestamp);
-        $cadena=$cadena.$dateString;
-        return $cadena;
-      } */
-      $cadena=strtoupper($cadena);
+      $partes = preg_split('/[\s,]+/', $cadena);
+      $primeraPalabra = $partes[0];
+      $cadena = "S" . strtoupper($primeraPalabra) . "WGS";
       return $cadena;
-    }
+  }
 
     private function ComprobarId($id){
       try {
@@ -249,6 +263,8 @@
       $this->desconectarDB();
       return !empty($data);
     }
+    private function SubirFoto($temp,$targetFile){
+      move_uploaded_file($temp,$targetFile);
+    }
 }
-
 ?>

@@ -29,16 +29,28 @@
 	$model->getInsert($_POST['Descripcion'],$_FILES['foto'],$_POST['nombre']);
 	$model->getAll();
    } 
+   if(isset($_POST['update1'])){
+	$model->getUpdate($_POST['idQuimico'],$_POST['Descripcion'],$_POST['fotoOriginal'],$_POST['nombre'],$opcion=1);
+	$model->getAll();
+   }
 
-   if(isset($_POST['update'])){
+   if(isset($_POST['update2'])){
+	$model->getUpdate($_POST['idQuimico'],$_POST['Descripcion'],$_FILES['foto'],$_POST['nombre'],$opcion=1);
+	$model->getAll();
+   }
+
+
+  /*  if(isset($_POST['update'])){
 	if(isset($_POST['fotoOriginal'])){
-		$model->getUpdate($_POST['idQuimico'],$_POST['Descripcion'],$_POST['fotoOriginal'],$_POST['nombre'],$opcion=1);
+	$model->getUpdate($_POST['idQuimico'],$_POST['Descripcion'],$_POST['fotoOriginal'],$_POST['nombre'],$opcion=1);
+	$model->getAll();
+		//;
 	}
 	if(isset($_FILES['foto'])){
 		$model->getUpdate($_POST['idQuimico'],$_POST['Descripcion'],$_FILES['foto'],$_POST['nombre'],$opcion=2);
 	}
-	$model->getAll()();
-   }
+	$model->getAll();
+   } */
 
    if(isset($_POST['delete'])){
 	$model->getDelete($_POST['id'],$_POST['habilitado']);

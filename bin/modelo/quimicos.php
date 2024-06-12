@@ -26,18 +26,14 @@
       $error = array(
         "error" => "esta es la respuesta personalizada cuanto ocurre un 'error' desde el modelo",
       );
-      $prueba1 = array(
-        "exito" => "si esta entrando cuando de le manda un File",
-      );
-      $prueba2 = array(
-        "exito" => "si esta entrando en la opcion 2 y aqui deberia deberia hacer un update",
-      );
-      if(json_decode($_POST['fotoOriginal'])){die(json_encode($prueba2));}
-      if(json_decode($_FILES['foto'])){die(json_encode($prueba1));}
-      if(json_decode($_POST['insert'])) 
+      if(json_decode($_POST['update1'])) 
         die(json_encode($respuesta));
       else 
         die(json_encode($error));
+    }
+    public function prueba(){
+      $respuesta=array("Prueba"=>"Si ingreso a la condicional");
+      die(json_encode($respuesta));
     }
     private function validarSTA($datoArray,$diff){
 			$arrayLogico = array(0 => "/^[A-Za-z]{3,30}$/", 1 => "/^[0-9]{1,30}$/", 2 => "/^[0-9A-Za-z- ]{0,30}$/", 3 => "/^[0-9:\/-]{1,30}$/", 4 => "/^[0-9A-Za-z ]{0,30}$/");
@@ -66,8 +62,8 @@
     }
 
     public function getUpdate($id,$Descripcion,$foto,$nombre,$opcion){
-      $letrasYnumeros= array($Descripcion,$nombre);
-      $this->validarSTA($letrasYnumeros,2);
+      //$letrasYnumeros= array($Descripcion,$nombre);
+      //$this->validarSTA($letrasYnumeros,2);
       $this->id=$id;
       $this->Descripcion=$Descripcion;
       $this->nombre=$nombre;
@@ -114,10 +110,10 @@
         $ejecucion->bindParam(':descripcion', $this->Descripcion);
         $ejecucion->bindParam(':id', $this->id);
         /*  echo "Datos: ";
-        var_dump($this->nombre, $this->targetFile, $this->Descripcion, $this->id); // Imprimir los datos
-        echo "Consulta: $consulta"; // Imprimir la consulta */
+        var_dump($this->nombre, $this->targetFile, $this->Descripcion, $this->id); // Imprimir los datos*/
+        echo "Consulta: $consulta"; // Imprimir la consulta 
         $ejecucion->execute();//linea 85
-        //echo "Filas afectadas: " . $ejecucion->rowCount(); // Imprimir el número de filas afectadas
+        echo "Filas afectadas: " . $ejecucion->rowCount(); // Imprimir el número de filas afectadas
         $this->desconectarDB();
         if($opcion!=1){
           $this->SubirFoto($this->foto["tmp_name"],$this->targetFile);//linea 104
@@ -131,8 +127,8 @@
     public function getDelete($id,$habilitado){
       $letras=array($id);
       $numeros=array($habilitado);
-      $this->validarSTA($letras,0);
-      $this->validarSTA($numeros,1);
+      //$this->validarSTA($letras,0);
+      //$this->validarSTA($numeros,1);
       $this->id=$id;
       $habilitado=(int)$habilitado;
       $habilitado = $habilitado == 1 ? 0 : 1;

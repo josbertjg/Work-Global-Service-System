@@ -1,5 +1,6 @@
 $(document).ready(async ()=>{
-   let datos=2;
+  var rutaImagen="holaPrueba";
+  let datos=2;
   let idServicio;
   const permisos = await getPermisos();
   hideByPermisos(permisos);
@@ -12,6 +13,10 @@ $(document).ready(async ()=>{
     {"data":"nombre"},
     {"data":"quimico" },
     {"data":"descripcion"},
+    {"data":"fotoServicio",
+     "render": function(data, type, row) {
+        return type === 'display' ? '<img src="' + data + '" height="50" style="text-align: center;"/>' : data;
+     } },
     {"data":"habilitado"},
     {"data": null,
      "render": function(data, type, row) {
@@ -46,7 +51,30 @@ $(document).ready(async ()=>{
     $(".modal-title").text("Registrar Servicio");
     $('#modalCRUD').modal('show');
   });
-
+    //seleciona el icono, valida y muestra una preview y valida que sean los formatos necesarios
+    let file = document.getElementById( 'rutaIcono' );
+    let img = document.getElementById( 'selectedImg' );
+    file.addEventListener( 'change', e => {
+      var archivo= e.target.files[0];
+      if(archivo){
+        var permitidos = ['image/png', 'image/jpeg', 'image/jpg']; //
+        if(permitidos.includes(archivo.type)){
+          setValidInput($("#rutaIcono"));
+          const reader = new FileReader( );
+          reader.onload = function( e ){
+            img.src = e.target.result;
+          }
+          reader.readAsDataURL(e.target.files[0])
+          }else{
+            setInvalidInput($("#rutaIcono"),"formato de foto no valido");
+            Swal.fire({
+              title: "Error!",
+              text: "Fortmato de foto Invalido!",
+              icon: "error"
+            });
+          }
+        }
+      });
   $(document).on("click", ".btnEditar", function(){		        
     datos = 3;//editar
     var tr = $(this).closest('tr');
@@ -56,11 +84,14 @@ $(document).ready(async ()=>{
     idServicio=data.idServicio;
     $("#nombreServicio").val(data.nombre);
     $("#descripcionServicio").val(data.descripcion);
+    rutaImagen=data.fotoServicio;
+    img.src=rutaImagen;
     var selectElement = document.getElementById('quimico');
     var textoDataTable = data.quimico;
     for (var i = 0; i < selectElement.options.length; i++) {
       if (selectElement.options[i].text === textoDataTable) {
         selectElement.selectedIndex = i;
+        setValidInput($("#quimico"));
         break;
       }
     }
@@ -74,10 +105,21 @@ $(document).ready(async ()=>{
   $("#FormServicio").on("submit", async(event)=>{
     event.preventDefault();
     const form = $("#FormServicio");
+    if(datos==3){
+      setValidInput($("#rutaIcono"));
+      if (img.src!="") {
+        setValidInput($("#rutaIcono"));
+      }
+     }
+     let file = $("#rutaIcono").get(0).files[0]; // Obtener el archivo del input
+     if(datos == 1 && (!file || file.size <= 0)) {
+      setInvalidInput($("#rutaIcono"), "Debe seleccionar una imagen");
+    }
     const formValid = checkFormValidity(form);
     if(formValid){
       const formHTML = document.getElementById("FormServicio");
       const data = new FormData(formHTML)
+
       switch(datos){
         //caso uno se crea y agrego la foto
         case 1:
@@ -87,8 +129,16 @@ $(document).ready(async ()=>{
           idServicio="prueba";
           break;
         case 3:
-          data.append("update",JSON.stringify(true));
-          break
+          if(!file) {
+            data.append("fotoOriginal", rutaImagen);
+            data.append("update1", JSON.stringify(true));
+            console.log("El file no esta definido")
+          } else {
+            data.append("foto", file);
+            data.append("update2", JSON.stringify(true));
+            console.log("El file esta definido");
+          }
+          break;
       }
       data.append("idServicio",idServicio);
       const respuesta = await service.post("servicios",data);
@@ -132,12 +182,14 @@ async function llenarSelect(){
 
 function validarSelect(){
   var selectElement = document.getElementById('quimico');
-  selectElement.addEventListener('change', function() {
-  var valorSeleccionado = this.value;
-  if(valorSeleccionado=="default"){
-    setInvalidInput($("#quimico"),"Debe Seleccionar un Quimico");
-  }else{setValidInput($("#quimico"))}
-});
+  selectElement.addEventListener('change', validar);
+  validar(); // Llama a la función de validación inmediatamente
+  function validar() {
+    var valorSeleccionado = selectElement.value;
+    if(valorSeleccionado=="default"){
+      setInvalidInput($("#quimico"),"Debe Seleccionar un Quimico");
+    }else{setValidInput($("#quimico"))}
+  }
 }
 
 function getPermisos(){

@@ -25,19 +25,27 @@
 	$model->SelectQuimicos();
   }
   if(isset($_POST['opcion'])){
-	$model-> SelectAll();
+	$model-> getAll();
   }
   if(isset($_POST['insert'])){
-	$model->insert($_POST['nombre'],$_POST['quimico'],$_POST['descripcion']);
-	$model-> SelectAll();
+	$model->getInsert($_POST['nombre'],$_POST['quimico'],$_POST['descripcion'],$_FILES['foto']);
+	$model-> getAll();
   }
-  if(isset($_POST['update'])){
-	$model->update($_POST['idServicio'],$_POST['nombre'],$_POST['quimico'],$_POST['descripcion']);
-	$model-> SelectAll();
-  }
+	if(isset($_POST['update1'])){
+		$model->getUpdate($_POST['idServicio'],$_POST['nombre'],$_POST['quimico'],$_POST['descripcion'],
+		$_POST['fotoOriginal'],$opcion=1);
+		$model->getAll();
+	}
+	if(isset($_POST['update2'])){
+		$model->getUpdate($_POST['idServicio'],$_POST['nombre'],$_POST['quimico'],$_POST['descripcion'],
+		$_FILES['foto'],$opcion=2);
+		$model->getAll();
+	} 
+	
+   
   if(isset($_POST['delete'])){
-	$model->delete($_POST['id'],$_POST['habilitado']);
-	$model-> SelectAll();
+	$model->getDelete($_POST['id'],$_POST['habilitado']);
+	$model-> getAll();
   }
 /* if($_SERVER['REQUEST_METHOD'] == 'GET'){
 	$datos = $model->SelectQuimicos();
