@@ -38,7 +38,7 @@
 	$model-> SelectAll();
   }
   if(isset($_POST['delete'])){
-	$model->delete($_POST['idServicio'],$_POST['habilitado']);
+	$model->delete($_POST['id'],$_POST['habilitado']);
 	$model-> SelectAll();
   }
 /* if($_SERVER['REQUEST_METHOD'] == 'GET'){

@@ -55,9 +55,15 @@ function isContraseña(text){
 }
 
 function esNumero(cadena) {
-  const regExp = /^[0-9]+$/;
+  const regExp = /^[0-9]*\.?[0-9]*$/;
+  const decimalRegExp = /\./g;
+  const match = cadena.match(decimalRegExp);
+  if (match != null && match.length > 1) {
+    return false;
+  }
   return regExp.test(cadena);
 }
+
 
 // Setear un input como invalido
 function setInvalidInput(element, invalidMessage = "Este campo es requerido") {

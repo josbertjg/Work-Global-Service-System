@@ -1,5 +1,5 @@
 $(document).ready(async ()=>{
-  let datos=2;
+   let datos=2;
   let idServicio;
   const permisos = await getPermisos();
   hideByPermisos(permisos);
@@ -114,65 +114,14 @@ $(document).ready(async ()=>{
     var data = row.data();
     idServicio=data.idServicio;
     let habilitado = data.habilitado; 
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: "btn btn-success",
-            cancelButton: "btn btn-danger"
-        },
-        buttonsStyling: false
-    });
-
-    let title = habilitado ? "¿Estás seguro de que quieres deshabilitar este Servicio?" : "¿Estás seguro de que quieres habilitar este servicio?";
-    let confirmText = habilitado ? "¡Sí, deshabilita!" : "¡Sí, habilita!";
-    let successTitle = habilitado ? "¡Deshabilitado!" : "¡Habilitado!";
-    let successText = habilitado ? "El servicio ha sido deshabilitado." : "El servicio ha sido habilitado.";
-
-    swalWithBootstrapButtons.fire({
-        title: title,
-        text: "¿Estas seguro de la accion?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: confirmText,
-        cancelButtonText: "¡No, cancela!",
-        reverseButtons: true
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            try {
-                const data = new FormData();
-                data.append("delete", JSON.stringify(true));
-                data.append("habilitado", JSON.stringify(habilitado));
-                data.append("idServicio",idServicio);
-                const respuesta = await service.post("servicios", data);
-                if("error" in respuesta){
-                  showFormAlerts(respuesta.error);
-                } else {
-                  TablaQuimicos.ajax.reload(null,false);
-                  swalWithBootstrapButtons.fire(
-                    successTitle,
-                    successText,
-                    'success'
-                  );
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            swalWithBootstrapButtons.fire(
-                'Cancelado',
-                'El servicio no ha sido modificado.',
-                'error'
-            );
-        }
-    });
-});
+    deshabilitar("servicios",idServicio,TablaQuimicos,"Servicio",habilitado);
+  }); 
 
 })
 
 async function llenarSelect(){
   let select= document.getElementById('quimico');
-  const data = new FormData();
-  data.append("solicitarQuimico",JSON.stringify(true));
-  const respuesta = await service.post('servicios',data);
+  const respuesta = await service.post('servicios',{solicitarQuimico:true});
   respuesta.forEach(element => {
     let option= document.createElement('option');
     option.value=element.idQuimico;

@@ -120,56 +120,7 @@ $(document).on("click", ".btnBorrar", async function(){
   var data = row.data();
   idEstablecimiento=data.idEstablecimientos;
   let habilitado = data.habilitado; 
-  const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-          confirmButton: "btn btn-success",
-          cancelButton: "btn btn-danger"
-      },
-      buttonsStyling: false
-  });
-
-  let title = habilitado ? "¿Estás seguro de que quieres deshabilitar este Establecimiento?" : "¿Estás seguro de que quieres habilitar este Establecimiento?";
-  let confirmText = habilitado ? "¡Sí, deshabilita!" : "¡Sí, habilita!";
-  let successTitle = habilitado ? "¡Deshabilitado!" : "¡Habilitado!";
-  let successText = habilitado ? "El establecimiento ha sido deshabilitado." : "El establecimiento ha sido habilitado.";
-
-  swalWithBootstrapButtons.fire({
-      title: title,
-      text: "¿Estas seguro de la accion?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: confirmText,
-      cancelButtonText: "¡No, cancela!",
-      reverseButtons: true
-  }).then(async (result) => {
-      if (result.isConfirmed) {
-          try {
-              const data = new FormData();
-              data.append("delete", JSON.stringify(true));
-              data.append("habilitado", JSON.stringify(habilitado));
-              data.append("idEstablecimiento",idEstablecimiento);
-              const respuesta = await service.post("establecimientos", data);
-              if("error" in respuesta){
-                showFormAlerts(respuesta.error);
-              } else {
-                TablaEstablecimientos.ajax.reload(null,false);
-                swalWithBootstrapButtons.fire(
-                  successTitle,
-                  successText,
-                  'success'
-                );
-              }
-          } catch (error) {
-              console.error("Error:", error);
-          }
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire(
-              'Cancelado',
-              'El Establecimiento no ha sido modificado.',
-              'error'
-          );
-      }
-  });
+  deshabilitar("establecimientos",idEstablecimiento,TablaEstablecimientos,"Establecimiento",habilitado);
 });
 
 })

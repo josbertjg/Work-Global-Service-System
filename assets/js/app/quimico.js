@@ -66,8 +66,8 @@ $(document).ready(async()=>{
 
 
   //seleciona el icono, valida y muestra una preview y valida que sean los formatos necesarios
-  const file = document.getElementById( 'rutaIcono' );
-  const img = document.getElementById( 'selectedImg' );
+  let file = document.getElementById( 'rutaIcono' );
+  let img = document.getElementById( 'selectedImg' );
   file.addEventListener( 'change', e => {
     var archivo= e.target.files[0];
     if(archivo){
@@ -94,21 +94,26 @@ $(document).ready(async()=>{
     $("#FormQuimico").on("submit", async(event)=>{
       event.preventDefault();
       const form = $("#FormQuimico");
-      //si el img tiene un src significa que el usario esta modificando una entrada 
-      //pero no necesariamente quiere cambiar de imagen
-      if(img.src.length!=0){
+     if(datos==3){
+      setValidInput($("#rutaIcono"));
+      if (img.src!="") {
         setValidInput($("#rutaIcono"));
+      }
+     }
+     if(datos==1){
+      if(file!=undefined){
+        file = file.files[0];
       }
       if (file && file.size > 0) {
         setValidInput($("#rutaIcono"));
       } else {
         setInvalidInput($("#rutaIcono"), "Debe seleccionar una imagen");
-      }      
+      }
+     }
       const formValid = checkFormValidity(form);
       if(formValid){
         const formHTML = document.getElementById("FormQuimico");
         const data = new FormData(formHTML)
-        const file = document.getElementById('rutaIcono').files[0];
         switch(datos){
           //caso uno se crea y agrego la foto
           case 1:
@@ -177,56 +182,7 @@ $(document).ready(async()=>{
     var data = row.data();
     quimico_id=data.idQuimico;
     let habilitado = data.habilitado; 
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: "btn btn-success",
-            cancelButton: "btn btn-danger"
-        },
-        buttonsStyling: false
-    });
-
-    let title = habilitado ? "¿Estás seguro de que quieres deshabilitar este químico?" : "¿Estás seguro de que quieres habilitar este químico?";
-    let confirmText = habilitado ? "¡Sí, deshabilita!" : "¡Sí, habilita!";
-    let successTitle = habilitado ? "¡Deshabilitado!" : "¡Habilitado!";
-    let successText = habilitado ? "El químico ha sido deshabilitado." : "El químico ha sido habilitado.";
-
-    swalWithBootstrapButtons.fire({
-        title: title,
-        text: "¿Estas seguro de la accion?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: confirmText,
-        cancelButtonText: "¡No, cancela!",
-        reverseButtons: true
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            try {
-                const data = new FormData();
-                data.append("delete", JSON.stringify(true));
-                data.append("habilitado", JSON.stringify(habilitado));
-                data.append("idQuimico",quimico_id);
-                const respuesta = await service.post("quimicos", data);
-                if("error" in respuesta){
-                  showFormAlerts(respuesta.error);
-                } else {
-                  TablaQuimicos.ajax.reload(null,false);
-                  swalWithBootstrapButtons.fire(
-                    successTitle,
-                    successText,
-                    'success'
-                  );
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            swalWithBootstrapButtons.fire(
-                'Cancelado',
-                'El químico no ha sido modificado.',
-                'error'
-            );
-        }
-    });
+    deshabilitar("quimicos",quimico_id,TablaQuimicos,"quimico",habilitado);
 });
 
 

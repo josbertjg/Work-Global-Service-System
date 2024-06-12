@@ -28,7 +28,7 @@
 		$model-> SelectAll();
 	  }
 	  if(isset($_POST['delete'])){
-		$model->delete($_POST['idEstablecimiento'],$_POST['habilitado']);
+		$model->delete($_POST['id'],$_POST['habilitado']);
 		$model-> SelectAll(); 
 	  }
    if (isset($_POST['prueba'])) {

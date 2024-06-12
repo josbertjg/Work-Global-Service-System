@@ -56,6 +56,61 @@ function iniciarTabla(columnas,url,opcion){
     });
     return Tabla;
 }
+
+
+function deshabilitar(url, id, Tabla, modulo, habilitado) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success",
+            cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: false
+    });
+
+    let title = habilitado ? `¿Estás seguro de que quieres deshabilitar este ${modulo}?` : `¿Estás seguro de que quieres habilitar este ${modulo}?`;
+    let confirmText = habilitado ? "¡Sí, deshabilita!" : "¡Sí, habilita!";
+    let successTitle = habilitado ? "¡Deshabilitado!" : "¡Habilitado!";
+    let successText = habilitado ? `El ${modulo} ha sido deshabilitado.` : `El ${modulo} ha sido habilitado.`;
+
+    swalWithBootstrapButtons.fire({
+        title: title,
+        text: "¿Estas seguro de la accion?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: confirmText,
+        cancelButtonText: "¡No, cancela!",
+        reverseButtons: true
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const data = new FormData();
+                data.append("delete", JSON.stringify(true));
+                data.append("habilitado", JSON.stringify(habilitado));
+                data.append("id", id);
+                const respuesta = await service.post(url, data);
+                if ("error" in respuesta) {
+                    showFormAlerts(respuesta.error);
+                } else {
+                    Tabla.ajax.reload(null, false);
+                    swalWithBootstrapButtons.fire(
+                        successTitle,
+                        successText,
+                        'success'
+                    );
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+                'Cancelado',
+                `El ${modulo} no ha sido modificado. `,
+                'error'
+            );
+        }
+    });
+}
+
 /**
  * // usuarios.js
 $(myDocument).ready(function(){

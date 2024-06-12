@@ -514,6 +514,17 @@
           <th>Acciones</th>
           </tr>';
           break;
+        case "precios":
+            $varth=
+            '<tr>
+            <th>Id</th>
+            <th>Servicio</th>
+            <th>Establecimiento</th>
+            <th>Precio</th>
+            <th>Habilitado</th>
+            <th>Acciones</th>
+            </tr>';
+            break;
       }
       $varAll= $varTStart.$varth.$vartTend;
       echo $varAll;
