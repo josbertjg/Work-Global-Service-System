@@ -149,16 +149,9 @@
       }
 
       private function separarCadena($cadena) {
-        $cadena = preg_replace('/\s+/', ' ', $cadena);
-        $partes = explode(' ', $cadena);
-        $resultado = array();
-        foreach ($partes as $parte) {
-            $resultado[] = substr($parte, 0, 1);
-        }
-        $cadena = "EST";
-        for($i=0;$i<count($resultado);$i++){
-            $cadena .= strtoupper($resultado[$i]);
-        }
+        $partes = preg_split('/[\s,]+/', $cadena);
+        $primeraPalabra = $partes[0];
+        $cadena = "E" . strtoupper($primeraPalabra) . "WGS";
         return $cadena;
     }
     
