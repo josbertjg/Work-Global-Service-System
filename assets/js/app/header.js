@@ -60,6 +60,7 @@ $(document).ready(async ()=>{
   
     // PLACE CHANGED BY AUTOCOMPLETE SO MARKER IS SETTED
     autocompleteHeader.addListener('place_changed', ()=>{
+      toggleLoading(true);
       const place = autocompleteHeader.getPlace();
       
       let cityObj = place.address_components.filter((component) => component.types.includes('locality'))[0];
@@ -86,10 +87,12 @@ $(document).ready(async ()=>{
         lng: place.geometry.location.lng(), 
         lat: place.geometry.location.lat()
       }
+      toggleLoading(false);
     })
   
     // CLICK EVENT ON MAP
     mapHeader.addListener('click', async (event) => {
+      toggleLoading(true);
       mapHeader.setCenter(event.latLng);
       markerHeader.setPosition(event.latLng);
       markerHeader.setVisible(true)
@@ -114,6 +117,7 @@ $(document).ready(async ()=>{
         lng: results[0].geometry.location.lng(), 
         lat: results[0].geometry.location.lat()
       }
+      toggleLoading(false);
     })
   
     // Pedir permisos de ubicacion del usuario
