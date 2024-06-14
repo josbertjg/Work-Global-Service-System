@@ -6,7 +6,6 @@
   <?php $components->header(true) ?>
  
   <main class="w-100 pt-5"> 
-    <span class="hola">hola</span>
   </main>
 
   <?php $components->footer(); ?>

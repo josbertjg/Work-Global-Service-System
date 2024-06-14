@@ -5,6 +5,7 @@
   top: 0%;
   background-color: $blanco;
   box-shadow: $shadow-bottom;
+  z-index: 999;
   .header-menu{
     height: 70px;
     .header-logo{

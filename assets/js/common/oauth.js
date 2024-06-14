@@ -4,7 +4,6 @@ function loginUser(userObj){
   delete userObj.permisos;
   localStorage.setItem("user",JSON.stringify(userObj));
 
-  console.log(userObj)
   // Ocultando o no el google maps del header
   if(userObj.idRol != "CLWGS1") {
     console.log("entro")

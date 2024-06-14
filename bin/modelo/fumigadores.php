@@ -24,7 +24,8 @@
                   u.apellido,
                   u.fotoPerfil,
                   f.fechaValidado,
-                  f.cedula
+                  f.cedula,
+                  f.descripcion
                 FROM tfumigadores f
                 JOIN tusuarios u ON f.email = u.email
                 JOIN tserviciosfumigador sf ON f.cedula = sf.cedula

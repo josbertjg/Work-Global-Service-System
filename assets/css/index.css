@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body {
   margin: 0%;
   padding: 0%;
@@ -51,6 +52,7 @@ body .goBack:hover {
   top: 0%;
   background-color: whitesmoke;
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.246);
+  z-index: 999;
 }
 .app-header .header-menu {
   height: 70px;
@@ -361,6 +363,7 @@ body .goBack:hover {
   margin: 0%;
   background-color: whitesmoke;
   box-shadow: 0 0px 16px 0 rgba(0, 0, 0, 0.246);
+  z-index: 999;
 }
 .footer-tabs .tab-item {
   display: flex;
@@ -494,6 +497,16 @@ main {
   color: white;
 }
 
+.arrowTop {
+  top: 155px !important;
+  background-color: white;
+}
+
+.hasTime {
+  top: 230px !important;
+  background-color: white;
+}
+
 .notfound-container {
   height: 100vh;
 }
@@ -620,7 +633,7 @@ main {
 }
 
 .btnConfi:hover {
-  background-color: #bd2130;
+  background-color: #921925;
 }
 
 .fa-house-chimney-user {
@@ -633,6 +646,309 @@ main {
   height: 120px;
   object-fit: contain;
   border-radius: 10px 10px 0 0;
+}
+
+.info-fumigador-container {
+  padding: 4rem 1rem 0 0;
+}
+.info-fumigador-container .presentation-card .header {
+  display: flex;
+}
+.info-fumigador-container .presentation-card .header img {
+  border-radius: 100%;
+  width: 140px;
+}
+.info-fumigador-container .presentation-card .header .nombre-container {
+  display: flex;
+  align-items: center;
+  padding-top: 1rem;
+  margin-bottom: 0.8rem;
+}
+.info-fumigador-container .presentation-card .header .nombre-container h1 {
+  font-size: 1.5rem;
+  color: #343a40;
+  margin: 0%;
+}
+.info-fumigador-container .presentation-card .header .nombre-container i {
+  margin-left: 0.5rem;
+  color: #DC3545;
+  font-size: 1.5rem;
+}
+.info-fumigador-container .presentation-card .header .aditional-info {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.2rem;
+}
+.info-fumigador-container .presentation-card .header .aditional-info span {
+  color: grey;
+  font-size: 1rem;
+}
+.info-fumigador-container .presentation-card .header .aditional-info .servicios-count {
+  color: #921925;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.info-fumigador-container .fumigador-info-section {
+  margin-bottom: 5rem;
+}
+.info-fumigador-container .fumigador-info-section h1 {
+  font-size: 1.5rem;
+  color: #921925;
+}
+.info-fumigador-container .fumigador-info-section h1 i {
+  color: #DC3545;
+}
+.info-fumigador-container .fumigador-info-section p {
+  margin: 0%;
+  color: #343a40;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+.info-fumigador-container .fumigador-info-section .accordion {
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+}
+.info-fumigador-container .fumigador-info-section .accordion .accordion-item .accordion-header .accordion-button {
+  transition: all 200ms;
+  background-color: rgba(220, 53, 69, 0.2);
+  box-shadow: none;
+}
+.info-fumigador-container .fumigador-info-section .accordion .accordion-item .accordion-header .accordion-button img {
+  height: 40px;
+  color: white !important;
+  margin-right: 0.5rem;
+}
+.info-fumigador-container .fumigador-info-section .accordion .accordion-item .accordion-header .accordion-button span {
+  color: #343a40;
+}
+.info-fumigador-container .fumigador-info-section .accordion .accordion-item .accordion-header .collapsed {
+  background-color: whitesmoke;
+}
+
+.realizar-orden-card {
+  position: relative;
+}
+.realizar-orden-card .orden-card-wrapper {
+  border-radius: 15px;
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.246);
+  padding: 1rem;
+}
+@media screen and (max-width: 991px) {
+  .realizar-orden-card .orden-card-wrapper {
+    position: static;
+  }
+}
+.realizar-orden-card .orden-card-wrapper #orden-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+.realizar-orden-card .orden-card-wrapper #orden-tabs .nav-item {
+  display: flex;
+}
+.realizar-orden-card .orden-card-wrapper #orden-tabs .nav-item .nav-link {
+  border-radius: 50px;
+  background-color: #343a40;
+  padding: 0.8rem 2rem;
+  color: white;
+  user-select: none;
+}
+@media screen and (max-width: 1199px) {
+  .realizar-orden-card .orden-card-wrapper #orden-tabs .nav-item .nav-link {
+    padding: 0.8rem 1.5rem;
+  }
+}
+@media screen and (max-width: 991px) {
+  .realizar-orden-card .orden-card-wrapper #orden-tabs .nav-item .nav-link {
+    padding: 0.8rem 2rem;
+  }
+}
+@media screen and (max-width: 575px) {
+  .realizar-orden-card .orden-card-wrapper #orden-tabs .nav-item .nav-link {
+    padding: 0.8rem 1.5rem;
+  }
+}
+.realizar-orden-card .orden-card-wrapper #orden-tabs .nav-item .active {
+  background-color: #DC3545;
+}
+.realizar-orden-card .orden-card-wrapper #orden-tabs #pills-choose-servicios-tab {
+  border-top-right-radius: 0%;
+  border-bottom-right-radius: 0%;
+  margin-right: 2px;
+}
+.realizar-orden-card .orden-card-wrapper #orden-tabs #pills-choose-disponibilidad-tab {
+  border-radius: 0;
+}
+.realizar-orden-card .orden-card-wrapper #orden-tabs #pills-validar-orden-tab {
+  border-top-left-radius: 0%;
+  border-bottom-left-radius: 0%;
+  margin-left: 2px;
+}
+.realizar-orden-card .orden-card-wrapper .footer-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.realizar-orden-card .orden-card-wrapper .footer-card .change-tab {
+  color: #343a40;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.realizar-orden-card .orden-card-wrapper .footer-card .verOrdenDisponibilidad {
+  flex: 1;
+  text-align: right;
+}
+.realizar-orden-card #pills-choose-servicios .servicio-label {
+  color: #343a40;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.realizar-orden-card #pills-choose-servicios .select2-container {
+  width: 100% !important;
+}
+.realizar-orden-card #pills-choose-servicios .select2-container .select2-selection__rendered {
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+.realizar-orden-card #pills-choose-servicios .select2-container .select2-selection {
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+.realizar-orden-card #pills-choose-servicios .select2-container .select2-selection__arrow {
+  display: none;
+}
+.realizar-orden-card #pills-choose-servicios .servicio-selected > div {
+  display: flex;
+  padding: 1rem 0;
+  color: grey;
+}
+.realizar-orden-card #pills-choose-servicios .servicio-selected > div .title {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  margin-right: 0.2rem;
+}
+.realizar-orden-card #pills-choose-servicios .servicio-selected > div .title img {
+  height: 40px;
+}
+.realizar-orden-card #pills-choose-servicios .servicio-selected > div .title i {
+  color: #DC3545;
+  font-size: 1.2rem;
+  margin: 0 0.2rem;
+}
+.realizar-orden-card #pills-choose-servicios .servicio-selected > div .monto {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #DC3545;
+}
+.realizar-orden-card #pills-choose-servicios .añadir-servicio {
+  display: block;
+  width: 100%;
+  padding: 0.7rem;
+  text-align: center;
+  background-color: #DC3545;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: all 200ms;
+}
+.realizar-orden-card #pills-choose-servicios .añadir-servicio:hover {
+  background-color: #e04b59;
+}
+.realizar-orden-card #pills-choose-servicios .orden-details {
+  display: none;
+}
+.realizar-orden-card #pills-choose-servicios .orden-details-section {
+  margin-top: 1rem;
+}
+.realizar-orden-card #pills-choose-servicios .orden-details-section h2 {
+  font-size: 1.5rem;
+  color: #921925;
+}
+.realizar-orden-card .servicios-seleccionados-container {
+  padding: 0%;
+}
+.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item .info-servicio {
+  color: #343a40;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item .info-servicio img {
+  height: 40px;
+}
+.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item .info-servicio i {
+  color: #DC3545;
+}
+.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item .extra-info .monto {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #DC3545;
+}
+.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item .extra-info i {
+  padding: 0.5rem;
+  border-radius: 7px;
+  color: white;
+  background-color: #DC3545;
+  cursor: pointer;
+}
+.realizar-orden-card #pills-choose-disponibilidad .datetimepicker-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.realizar-orden-card #pills-choose-disponibilidad .datetimepicker-container input {
+  padding-right: 2rem;
+}
+.realizar-orden-card #pills-choose-disponibilidad .datetimepicker-container i {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  color: white;
+  background-color: #DC3545;
+  font-size: 1.2rem;
+  border-top-right-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+  padding: 19.5px 1.5rem;
+}
+.realizar-orden-card #pills-choose-disponibilidad .datetimepicker-container .fa-clock {
+  padding: 19.5px 1.45rem;
+}
+.realizar-orden-card #pills-validar-orden .details .extra-info i {
+  display: none;
+}
+.realizar-orden-card #pills-validar-orden .date-orden-selected-container {
+  font-weight: bold;
+  color: #DC3545;
+  font-size: 1.2rem;
+}
+.realizar-orden-card #pills-validar-orden .date-orden-selected-container .date-orden-selected {
+  color: #343a40;
+  font-weight: 500;
+}
+.realizar-orden-card #pills-validar-orden .total-container {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.realizar-orden-card #pills-validar-orden .total-container .total {
+  color: #DC3545;
+}
+.realizar-orden-card #pills-validar-orden .total-container .monto {
+  color: #DC3545;
+}
+.realizar-orden-card #pills-validar-orden .pagarOrden {
+  background-color: #DC3545;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  color: white;
 }
 
 /*# sourceMappingURL=index.css.map */
