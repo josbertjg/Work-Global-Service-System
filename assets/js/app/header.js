@@ -296,8 +296,18 @@ $(document).ready(async ()=>{
     })
 
     $(".btn-buscar").click(()=>{
+      // No se ha seleccionado ninguna ubicacion
       if(_.isEmpty(selectedPlace)) searchPlacesInputTooltip.show();
-      if(_.isEmpty(selectedServices)) servicesTooltip.show();
+
+      // No se ha seleccionado ningun servicio
+      if(_.isEmpty(selectedServices)) return servicesTooltip.show();
+
+      // User no logueado
+      if(_.isEmpty(localStorage.getItem("user"))){
+        accederModal.show();
+        const form = $("#iniciarSesion-form");
+        return showFormAlerts(form,"Debes iniciar sesión para poder realizar la búsqueda de fumigadores.");
+      }
 
       if(!_.isEmpty(selectedPlace) && !_.selectedServices){
         localStorage.setItem("selectedPlace",    JSON.stringify(selectedPlace));
@@ -316,7 +326,15 @@ $(document).ready(async ()=>{
     })
 
     $(".confirm-address").click(()=>{
+      // No se ha seleccionado ningún servicio
       if(_.isEmpty(selectedServices)) return servicesTooltip.show();
+
+      // User no logueado
+      if(_.isEmpty(localStorage.getItem("user"))){
+        accederModal.show();
+        const form = $("#iniciarSesion-form");
+        return showFormAlerts(form,"Debes iniciar sesión para poder realizar la búsqueda de fumigadores.");
+      }
 
       localStorage.setItem("selectedPlace",    JSON.stringify(selectedPlace));
       localStorage.setItem("selectedServices", JSON.stringify(selectedServices));
@@ -392,9 +410,13 @@ $(document).ready(async ()=>{
       const data = new FormData(formHTML)
 
       data.append("account_password_login",JSON.stringify(true))
+
+      toggleLoading(true);
       const respuesta = await service.post("oauth",data)
-      
+      toggleLoading(false);
+
       if("error" in respuesta){
+        console.log(respuesta)
         showFormAlerts(form,respuesta.error);
         blankForm(form);
       }else{
@@ -452,7 +474,7 @@ async function renderFumigadores(selectedServices){
       const meses = moment().diff(moment(fumigador.fechaValidado), 'months');
       const años  = moment().diff(moment(fumigador.fechaValidado), 'years');
       $(".fumigadores-list-container").append(`
-        <article class="fumigador-item-container" fumigadorID="${fumigador.cedula}">
+        <a href="realizarorden?fumigador=${fumigador.cedula}" class="fumigador-item-container" fumigadorID="${fumigador.cedula}">
           <div class="fumigador-img-container">
             <img src="${fumigador.fotoPerfil}" alt="fumigador">
           </div>
@@ -478,15 +500,13 @@ async function renderFumigadores(selectedServices){
               </div>
             </div>
             <div class="footer">
-              <p class="descripcion mb-2">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae reiciendis ut rerum consectetur doloribus, culpa delectus id, suscipit minus molestiae dignissimos earum dolorem quam excepturi corporis optio soluta vitae aut?
-              </p>
+              <p class="descripcion mb-2">${fumigador.descripcion}</p>
               <div class="servicios">
                 <ul class="servicios-list fumigador-${fumigador.cedula}"></ul>
               </div>
             </div>
           </div>
-        </article>
+        </a>
       `)
          
       _.map(fumigador.servicios,(servicio)=>{

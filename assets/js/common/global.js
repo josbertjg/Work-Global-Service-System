@@ -20,12 +20,21 @@ tooltipTriggerList.forEach((tooltip)=>{
 })
 const tooltipList = [...formattedTooltipsList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
+// Mostrar alertas
+function showAlert(type, title, text){
+  Swal.fire({
+    icon: type,
+    title: title,
+    text: text
+  });
+}
+
 // Toast
 const Toast = Swal.mixin({
   toast: true,
   position: "top-end",
   showConfirmButton: false,
-  timer: 2000,
+  timer: 3000,
   timerProgressBar: true,
   didOpen: (toast) => {
     toast.onmouseenter = Swal.stopTimer;

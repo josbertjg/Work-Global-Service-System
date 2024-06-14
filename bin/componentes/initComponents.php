@@ -33,6 +33,7 @@
           <link href="'._URL_.'assets/css/imports/bootstrap.min.css" rel="stylesheet">
           <link href="'._URL_.'assets/css/imports/select2.min.css" rel="stylesheet">
           <link href="'._URL_.'assets/css/imports/fontawesome-all.css" rel="stylesheet">
+          <link href="'._URL_.'assets/css/imports/flatpickr.min.css" rel="stylesheet">
 
           <!-- Google Libraries -->
           <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -607,6 +608,7 @@
       <script src="'._URL_.'assets/js/imports/lodash.min.js"></script>
       <script src="'._URL_.'assets/js/imports/select2.min.js"></script>
       <script src="'._URL_.'assets/js/imports/moment.js"></script>
+      <script src="'._URL_.'assets/js/imports/flatpickr.js"></script>
 
       <!-- Global Custom JS Files -->
       <script>const urlBase = "'. _URL_ .'"</script>

@@ -144,6 +144,14 @@ function required(element) {
       setValidInput(element)
     }
   })
+
+  element.change(() => {
+    if (_.isEmpty(element.val().trim())) {
+      setInvalidInput(element)
+    } else {
+      setValidInput(element)
+    }
+  })
 }
 
 //validar que un FileChooser no este vacio

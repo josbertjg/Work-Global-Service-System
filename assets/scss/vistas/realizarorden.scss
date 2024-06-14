@@ -1,0 +1,338 @@
+.info-fumigador-container{
+  padding: 4rem 1rem 0 0;
+  .presentation-card{
+    .header{
+      display: flex;
+      img{
+        border-radius: 100%;
+        width: 140px;
+      }
+      .nombre-container{
+        display: flex;
+        align-items: center;
+        padding-top: 1rem;
+        margin-bottom: .8rem;
+        h1{
+          font-size: 1.5rem;
+          color: $negro;
+          margin: 0%;
+        }
+        i{
+          margin-left: .5rem;
+          color: $primary;
+          font-size: 1.5rem;
+        }
+      }
+      .aditional-info{
+        display: flex;
+        flex-direction: column;
+        padding-top: .2rem;
+        span{
+          color: $grey;
+          font-size: 1rem;
+        }
+        .servicios-count{
+          color: $secondary;
+          font-weight: bold;
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+  .fumigador-info-section{
+    margin-bottom: 5rem;
+    h1{
+      font-size: 1.5rem;
+      color: $secondary;
+      i{
+        color: $primary;
+      }
+    }
+    p{
+      margin: 0%;
+      color: $negro;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+
+    .accordion{
+      border-top: 1px solid $grey-lighter;
+      border-bottom: 1px solid $grey-lighter;
+      .accordion-item{
+        .accordion-header{
+          .accordion-button{
+            transition: all 200ms;
+            background-color: transparentize($primary,.8);
+            box-shadow: none;
+
+            img{
+              height: 40px;
+              color: white !important;
+              margin-right: .5rem;
+            }
+            span{
+              color: $negro;
+            }
+          }
+          .collapsed{
+            background-color: whitesmoke;
+          }
+        }
+        .accordion-body{
+
+        }
+      }
+    }
+  }
+}
+
+.realizar-orden-card{
+  position: relative;
+  .orden-card-wrapper{
+    border-radius: 15px;
+    box-shadow: $shadow-bottom;
+    padding: 1rem;
+    // position: fixed;
+
+    @include lg{
+      position: static;
+    }
+
+    #orden-tabs{
+      display: flex;
+      justify-content: center;
+      flex-wrap: nowrap;
+
+      .nav-item{
+        display: flex;
+        .nav-link{
+          border-radius: 50px;
+          background-color: $negro;
+          padding: .8rem 2rem;
+          color: white;
+          user-select: none;
+          @include xl{
+            padding: .8rem 1.5rem;
+          }
+          @include lg{
+            padding: .8rem 2rem;
+          }
+          @include sm{
+            padding: .8rem 1.5rem;
+          }
+          
+        }
+        .active{
+          background-color: $primary;
+        }
+      }
+      #pills-choose-servicios-tab{
+        border-top-right-radius: 0%;
+        border-bottom-right-radius: 0%;
+        margin-right: 2px;
+      }
+      #pills-choose-disponibilidad-tab{
+        border-radius: 0;
+      }
+      #pills-validar-orden-tab{
+        border-top-left-radius: 0%;
+        border-bottom-left-radius: 0%;
+        margin-left: 2px;
+      }
+      
+    }
+
+    .footer-card{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .change-tab{
+        color: $negro;
+        font-weight: bold;
+        font-size: 1.1rem;
+        cursor: pointer;
+      }
+      .verOrdenDisponibilidad{
+        flex: 1;
+        text-align: right;
+      }
+    }
+  }
+
+  // Servicios Content
+
+  #pills-choose-servicios{
+    .servicio-label{
+      color: $negro;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .select2-container{
+      width: 100% !important;
+      .select2-selection__rendered{
+        height: 56px;
+        display: flex;
+        align-items: center;
+      }
+      .select2-selection{
+        height: 56px;
+        display: flex;
+        align-items: center;
+      }
+      .select2-selection__arrow{
+        display: none;
+      }
+    }
+    .servicio-selected{
+     
+      & > div{
+        display: flex;
+        padding: 1rem 0;
+        color: $grey;
+
+        .title{
+          display: flex;
+          align-items: center;
+          font-size: 1.1rem;
+          margin-right: .2rem;
+          img{
+            height: 40px;
+          }
+          i{
+            color: $primary;
+            font-size: 1.2rem;
+            margin: 0 .2rem;
+          }
+        }
+        .monto{
+          font-size: 1.3rem;
+          font-weight: bold;
+          color: $primary;
+        }
+      }
+    }
+    .añadir-servicio{
+      display: block;
+      width: 100%;
+      padding: .7rem;
+      text-align: center;
+      background-color: $primary;
+      border-radius: 5px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      transition: all 200ms;
+
+      &:hover{
+        background-color: lighten($primary,5);
+      }
+    }
+
+    .orden-details{
+      display: none;
+    }
+    .orden-details-section{
+      margin-top: 1rem;
+      h2{
+        font-size: 1.5rem;
+        color: $secondary;
+      }
+      
+    }
+  }
+  .servicios-seleccionados-container{
+    padding: 0%;
+    .servicio-selected-item{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .info-servicio{
+        color: $negro;
+        font-size: 1.1rem;
+        font-weight: 500;
+
+        img{
+          height: 40px;
+        }
+        i{
+          color: $primary;
+        }
+      }
+
+      .extra-info{
+        .monto{
+          font-weight: bold;
+          font-size: 1.2rem;
+          color: $primary;
+        }
+        i{
+          padding: .5rem;
+          border-radius: 7px;
+          color: white;
+          background-color: $primary;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  // Disponibilidad Content
+  #pills-choose-disponibilidad{
+    .datetimepicker-container{
+      position: relative;
+      display: flex;
+      align-items: center;
+      input{
+        padding-right: 2rem;
+      }
+      i{
+        position: absolute;
+        top: 0%;
+        right: 0%;
+        color: white;
+        background-color: $primary;
+        font-size: 1.2rem;
+        border-top-right-radius: 0.375rem;
+        border-bottom-right-radius: 0.375rem;
+        padding: 19.5px 1.5rem;
+      }
+      .fa-clock{
+        padding: 19.5px 1.45rem;
+      }
+    }
+  }
+  #pills-validar-orden{
+    .details{
+      .extra-info{
+        i{
+          display: none;
+        }
+      }
+    }
+    .date-orden-selected-container{
+      font-weight: bold;
+      color: $primary;
+      font-size: 1.2rem;
+      .date-orden-selected{
+        color: $negro;
+        font-weight: 500;
+      }
+    }
+
+    .total-container{
+      font-size: 1.2rem;
+      font-weight: bold;
+      .total{
+        color: $primary;
+      }
+      .monto{
+        color: $primary;
+      }
+    }
+    .pagarOrden{
+      background-color: $primary;
+      border-radius: 5px;
+      padding: .5rem 1rem;
+      color: white;
+    }
+  }
+}
