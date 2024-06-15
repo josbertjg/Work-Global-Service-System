@@ -16,9 +16,10 @@
 
 
    private function validarSTA($datoArray,$diff){
-    $arrayLogico = array(0 => "/^[A-Za-z]{3,30}$/", 
-    1 => "/^[0-9]{1,30}$/", 
-    2 => "/^[0-9A-Za-z- ]{0,30}$/", 3 => "/^[0-9:\/-]{1,30}$/", 4 => "/^[0-9A-Za-z ]{0,30}$/");
+    $arrayLogico = array(0 => "/^[A-Za-z]{3,45}$/", 
+    1 => "/^[0-9]{1,45}$/", 
+    2 => "/^[0-9A-Za-z- ]{0,45}$/", 3 => "/^[0-9:\/-]{1,45}$/", 4 => "/^[0-9A-Za-z ]{0,45}$/",
+    5 => "/^[0-9A-Za-z ]{0,200}$/");
     foreach ($datoArray as $key) {
       $validador = preg_match_all($arrayLogico[$diff], $key);
       if($validador!=1){
@@ -122,20 +123,20 @@
       
     }
     public function getUpdate($id,$nombre,$quimico,$descripcion,$foto,$opcion){
-      //$letrasYnumeros= array($descripcion);
-      //$this->validarSTA($letrasYnumeros,2);
-      //$letras=array($nombre);
-      //$this->validarSTA($letras,0);
+      $letras= array($nombre);
+      $this->validarSTA($letras,0);
+      $this->nombre=$nombre;
+      $letrasYnumeros=array($descripcion);
+      $this->validarSTA($letrasYnumeros,5);
       $this->id=$id;
       $this->descripcion=$descripcion;
-      $this->nombre=$nombre;
       $this->quimico=$quimico;
       $opcion=$opcion;
       if($opcion==1){
         $this->targetFile=$foto; 
       }else{
         $this->foto=$foto;
-        $this->targetFile=$rutaCarpeta.basename($this->foto["name"]);
+        $this->targetFile="assets/img/servicios/".basename($this->foto["name"]);
         $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
         $this->targetFile = $this->targetFile . "." . $Filetype;
       }
@@ -191,15 +192,18 @@
       }
     }
     public function getInsert($nombre,$quimico,$descripcion, $foto){
-      //$letras= array($nombre);
-      //$this->validarSTA($letras,2);
+      $letras= array($nombre);
+      $this->validarSTA($letras,0);
+      $this->nombre=$nombre;
+      $letrasYnumeros=array($descripcion);
+      $this->validarSTA($letrasYnumeros,5);
       $this->foto=$foto;
-      $this->targetFile=$rutaCarpeta.basename($this->foto["name"]);
+      $this->targetFile="assets/img/servicios/".basename($this->foto["name"]);
       $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
       $this->targetFile = $this->targetFile . "." . $Filetype;
-      $this->id=$this->separarCadena($this->nombre);
       $this->descripcion=$descripcion;
       $this->quimico=$quimico;
+      $this->id=$this->separarCadena($this->nombre);
       $this->insert();
     }
     private function insert(){

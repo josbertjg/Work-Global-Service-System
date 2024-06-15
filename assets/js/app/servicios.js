@@ -46,6 +46,8 @@ $(document).ready(async ()=>{
     idServicio=null;
     blankForm($("#FormServicio"));
     $("#FormServicio").trigger("reset");
+    $("#selectedImg").removeAttr("src");
+    $("#selectedImg").attr("src","");
     $(".modal-header").css( "background-color", "#d32535");
     $(".modal-header").css( "color", "white" );
     $(".modal-title").text("Registrar Servicio");
@@ -124,6 +126,7 @@ $(document).ready(async ()=>{
         //caso uno se crea y agrego la foto
         case 1:
           data.append("insert",JSON.stringify(true));
+          data.append("foto",file);
           break
         case 2:
           idServicio="prueba";
@@ -152,9 +155,12 @@ $(document).ready(async ()=>{
           text: "se ha ingresado la entrada con exito!",
           icon: "success"
         });
+        $("#rutaIcono").replaceWith($("#rutaIcono").val('').clone(true));
         $('#modalCRUD').modal('hide');
       }
-      
+     }else{
+        $("#selectedImg").removeAttr("src");
+        $("#selectedImg").attr("src","");
      }
   });
   $(document).on("click", ".btnBorrar", async function(){

@@ -36,7 +36,12 @@
       die(json_encode($respuesta));
     }
     private function validarSTA($datoArray,$diff){
-			$arrayLogico = array(0 => "/^[A-Za-z]{3,30}$/", 1 => "/^[0-9]{1,30}$/", 2 => "/^[0-9A-Za-z- ]{0,30}$/", 3 => "/^[0-9:\/-]{1,30}$/", 4 => "/^[0-9A-Za-z ]{0,30}$/");
+			$arrayLogico = array(0 => "/^[A-Za-z]{3,45}$/",
+       1 => "/^[0-9]{1,45}$/",
+        2 => "/^[0-9A-Za-z- ]{0,45}$/",
+         3 => "/^[0-9:\/-]{1,45}$/", 
+         4 => "/^[0-9A-Za-z ]{0,45}$/",
+         5 => "/^[0-9A-Za-z ]{0,200}$/");
 			foreach ($datoArray as $key) {
 				$validador = preg_match_all($arrayLogico[$diff], $key);
 				if($validador!=1){
@@ -47,8 +52,10 @@
 			return 0;
 		}
     public function getInsert($Descripcion,$foto,$nombre){
-      $letrasYnumeros= array($Descripcion,$nombre);
-      $this->validarSTA($letrasYnumeros,2);
+      $letrasYnumeros= array($nombre);
+      $this->validarSTA($letrasYnumeros,4);
+      $ValidarDescrip=array($Descripcion);
+      $this->validarSTA($ValidarDescrip,5);
       $this->nombre=$nombre;
       $this->Descripcion=$Descripcion;
       $identificador=$this->separarCadena($this->nombre);
@@ -62,8 +69,8 @@
     }
 
     public function getUpdate($id,$Descripcion,$foto,$nombre,$opcion){
-      //$letrasYnumeros= array($Descripcion,$nombre);
-      //$this->validarSTA($letrasYnumeros,2);
+      $letrasYnumeros= array($Descripcion,$nombre);
+      $this->validarSTA($letrasYnumeros,4);
       $this->id=$id;
       $this->Descripcion=$Descripcion;
       $this->nombre=$nombre;
@@ -111,9 +118,9 @@
         $ejecucion->bindParam(':id', $this->id);
         /*  echo "Datos: ";
         var_dump($this->nombre, $this->targetFile, $this->Descripcion, $this->id); // Imprimir los datos*/
-        echo "Consulta: $consulta"; // Imprimir la consulta 
+        //echo "Consulta: $consulta"; // Imprimir la consulta 
         $ejecucion->execute();//linea 85
-        echo "Filas afectadas: " . $ejecucion->rowCount(); // Imprimir el número de filas afectadas
+        //echo "Filas afectadas: " . $ejecucion->rowCount(); // Imprimir el número de filas afectadas
         $this->desconectarDB();
         if($opcion!=1){
           $this->SubirFoto($this->foto["tmp_name"],$this->targetFile);//linea 104

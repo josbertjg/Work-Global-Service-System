@@ -9,17 +9,22 @@
     private $nombre;
     private $tamaño;
     private $descripcion;
-
+    private $habilitado;
 
 
    private function validarSTA($datoArray,$diff){
-    $arrayLogico = array(0 => "/^[A-Za-z]{3,30}$/", 
-    1 => "/^[0-9]{1,30}$/", 
-    2 => "/^[0-9A-Za-z- ]{0,30}$/", 3 => "/^[0-9:\/-]{1,30}$/", 4 => "/^[0-9A-Za-z ]{0,30}$/");
+    $arrayLogico = array(0 => "/^[A-Za-z]{3,45}$/", 
+    1 => "/^[0-9]{1,45}$/", 
+    2 => "/^[0-9A-Za-z- ]{0,45}$/", 
+    3 => "/^[0-9:\/-]{1,45}$/", 
+    4 => "/^[0-9A-Za-z ]{0,45}$/",
+    5 => "/^[0-9A-Za-z ]{0,200}$/",
+    6=> "/^[A-Za-z\s]{3,45}$/");
     foreach ($datoArray as $key) {
       $validador = preg_match_all($arrayLogico[$diff], $key);
       if($validador!=1){
-        exit("Datos incorrectos");
+        $respuesta = ["error" => "Datos Incorrectos."];
+					die(json_encode($respuesta));
       }
     }
     return 0;}
@@ -41,9 +46,10 @@
       else 
         die(json_encode($error));
     }
-
-
-    public function SelectAll(){
+    public function getAll(){
+      $this->SelectAll();
+    }
+    private function SelectAll(){
         try{
           $this->conectarDB();
           $consulta = "SELECT * FROM testablecimientos";
@@ -57,14 +63,19 @@
           die(json_encode(array("error" => $e->getMessage())));
         } 
       }
-
-
-      public function insert($nombre,$tamaño,$descripcion){
+      public function getInsert($nombre,$tamaño,$descripcion){
+        $letras=array($nombre);
+        $this->validarSTA($letras,6);
+        $validarDescr=array($descripcion);
+        $this->validarSTA($validarDescr,5);
         $this->descripcion=$descripcion;
         $this->nombre=$nombre;
         $this->tamaño=$tamaño;
-        $identificador=$this->separarCadena($this->nombre);
-        if($this->ComprobarId($identificador)){
+        $this->id=$this->separarCadena($this->nombre);
+        $this->insert();
+      }
+      private function insert(){
+        if($this->ComprobarId($this->id)){
           $respuesta = ["error" => "Este Registro ya existe."];
           die(json_encode($respuesta));
         }else{
@@ -72,7 +83,7 @@
             $this->conectarDB();
             $consulta="INSERT INTO testablecimientos (idEstablecimientos,nombre,descripcion,sizeE,habilitado) VALUES (?,?,?,?,?)";
             $ejecucion=$this->con->prepare($consulta);
-            $ejecucion->bindValue(1,$identificador);
+            $ejecucion->bindValue(1,$this->id);
             $ejecucion->bindValue(2,$this->nombre);
             $ejecucion->bindValue(3,$this->descripcion);
             $ejecucion->bindValue(4,$this->tamaño);
@@ -86,13 +97,20 @@
         }
         
       }
-
-
-      public function update($id,$nombre,$tamaño,$descripcion){
+      public function getUpdate($id,$nombre,$tamaño,$descripcion){
+        $letras=array($nombre);
+        $this->validarSTA($letras,6);
+        $validarId=array($id);
+        $this->validarSTA($validarId,0);
+        $validarDescr=array($descripcion);
+        $this->validarSTA($validarDescr,5);
         $this->id=$id;
         $this->descripcion=$descripcion;
         $this->nombre=$nombre;
         $this->tamaño=$tamaño;
+        $this->update();
+      }
+      private function update(){
           try{
             $this->conectarDB();
             $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Habilitar errores de PDO
@@ -109,17 +127,19 @@
             die(json_encode(array("error" => $e->getMessage())));
           }
       }
-
-      public function delete($id,$habilitado){
+      public function getDelete($id,$habilitado){
         $this->id=$id;
         $habilitado=(int)$habilitado;
         $habilitado = $habilitado == 1 ? 0 : 1;
+        $this->habilitado=$habilitado;
+      }
+      private function delete(){
         try{
           $this->conectarDB();
           $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Habilitar errores de PDO
           $consulta = "UPDATE testablecimientos SET habilitado = :habilitado WHERE idEstablecimientos = :id";
           $ejecucion = $this->con->prepare($consulta);
-          $ejecucion->bindParam(':habilitado',$habilitado);
+          $ejecucion->bindParam(':habilitado',$this->habilitado);
           $ejecucion->bindParam(':id', $this->id);
           $ejecucion->execute();
           $this->desconectarDB();
@@ -150,8 +170,11 @@
 
       private function separarCadena($cadena) {
         $partes = preg_split('/[\s,]+/', $cadena);
-        $primeraPalabra = $partes[0];
-        $cadena = "E" . strtoupper($primeraPalabra) . "WGS";
+        $cadena = "";
+        foreach ($partes as $palabra) {
+            $cadena .= strtoupper($palabra);
+        }
+        $cadena = "E" . $cadena . "WGS";
         return $cadena;
     }
     

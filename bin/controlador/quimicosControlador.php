@@ -35,7 +35,7 @@
    }
 
    if(isset($_POST['update2'])){
-	$model->getUpdate($_POST['idQuimico'],$_POST['Descripcion'],$_FILES['foto'],$_POST['nombre'],$opcion=1);
+	$model->getUpdate($_POST['idQuimico'],$_POST['Descripcion'],$_FILES['foto'],$_POST['nombre'],$opcion=2);
 	$model->getAll();
    }
 

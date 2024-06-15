@@ -124,11 +124,9 @@ $(document).ready(async()=>{
             if(!file) {
               data.append("fotoOriginal", rutaImagen);
               data.append("update1", JSON.stringify(true));
-              console.log("El file no esta definido")
             } else {
               data.append("foto", file);
               data.append("update2", JSON.stringify(true));
-              console.log("El file esta definido");
             }
             break;
         }
@@ -144,9 +142,13 @@ $(document).ready(async()=>{
             text: "se ha ingresado la entrada con exito!",
             icon: "success"
           });
+          $("#rutaIcono").replaceWith($("#rutaIcono").val('').clone(true));
           $('#modalCRUD').modal('hide');
         }
         
+       }else{
+        $("#selectedImg").removeAttr("src");
+        $("#selectedImg").attr("src","");
        }
     });
     //funcion para editar un row con el boton editar

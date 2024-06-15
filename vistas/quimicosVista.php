@@ -40,7 +40,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="Descripcion" class="form-label">Descripcion:</label>
-                        <textarea id="Descripcion" name="Descripcion" rows="12" class="form-control" isValid="false"></textarea>
+                        <textarea id="Descripcion" name="Descripcion" rows="4" class="form-control" isValid="false"></textarea>
                         <div class="invalid-tooltip"></div>
                     </div>
                     <div class="mb-3">

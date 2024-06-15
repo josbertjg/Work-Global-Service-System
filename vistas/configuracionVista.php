@@ -68,6 +68,24 @@
                 </section>
               </div>
               <!-- fin de dos cards -->
+                 <!-- inicio de dos cards -->
+                 <div class= "row mb-2">
+                <section class="col-6">
+                  <a href="permisos" >
+                  <button type="button" class="btn btn-light btnConfi">
+                  <i class="fa-solid fa-gear"></i>
+                  Administrar Permisos</button>   
+                  </a>              
+                </section>
+                <section class="col-6">
+                  <a href="ordenes">
+                  <button type="button" class="btn btn-light btnConfi">
+                  <i class="fa-solid fa-clipboard-list"></i>
+                  Ordenes de Servicio</button> 
+                  </a>
+                </section>
+              </div>
+              <!-- fin de dos cards -->
             </div>
           </div>
           <!-- fin del row de opciones -->

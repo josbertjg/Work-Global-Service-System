@@ -17,19 +17,19 @@
 		die(json_encode($permiso));
 	}
     if(isset($_POST['opcion'])){
-        $model->SelectAll();
+        $model->getAll();
     }
 	if(isset($_POST['insert'])){
-		$model->insert($_POST['nombre'],$_POST['number'],$_POST['descripcion']);
-		$model-> SelectAll();
+		$model->getInsert($_POST['nombre'],$_POST['number'],$_POST['descripcion']);
+		$model-> getAll();
 	  }
 	  if(isset($_POST['update'])){
-		$model->update($_POST['idEstablecimiento'],$_POST['nombre'],$_POST['number'],$_POST['descripcion']);
-		$model-> SelectAll();
+		$model->getUpdate($_POST['idEstablecimiento'],$_POST['nombre'],$_POST['number'],$_POST['descripcion']);
+		$model-> getAll();
 	  }
 	  if(isset($_POST['delete'])){
-		$model->delete($_POST['id'],$_POST['habilitado']);
-		$model-> SelectAll(); 
+		$model->getDelete($_POST['id'],$_POST['habilitado']);
+		$model-> getAll(); 
 	  }
    if (isset($_POST['prueba'])) {
      $model->funcionPrueba();
