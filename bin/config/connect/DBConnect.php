@@ -11,7 +11,7 @@
     private $contra;
     private $local;
     private $nameBD;
-
+    private $nameBDS;
     private $modulo;
     private $rol;
 
@@ -19,9 +19,10 @@
     public function __construct(){
 
       $this->usuario = parent::_USER_();
-      $this->contra = parent::_PASS_();
-      $this->local = parent::_LOCAL_();
-      $this->nameBD = parent::_BD_();
+      $this->contra  = parent::_PASS_();
+      $this->local   = parent::_LOCAL_();
+      $this->nameBD  = parent::_BD_();
+      $this->nameBDS = parent::_BDS_();
     }
 
     protected function conectarDB(){
@@ -31,14 +32,20 @@
         die("¡Error!: " . $e->getMessage());
       }
     }
-
+    protected function conectarDBS(){
+      try {
+        $this->con = new \PDO("mysql:host={$this->local};dbname={$this->nameBDS}", $this->usuario, $this->contra);  
+      } catch (\PDOException $e) {       
+        die("¡Error!: " . $e->getMessage());
+      }
+    }
     protected function desconectarDB(){
       $this->con = NULL;  
     }
 
     protected function registrarBitacora($modulo, $usuario, $descripcion){
       try {
-        $this->conectarDB();
+        $this->conectarDBS();
         $new = $this->con->prepare("INSERT INTO tbitacoras(modulo, usuario, descripcion) VALUES (?,?,?)");
         $new->bindValue(1, $modulo);
         $new->bindValue(2, $usuario);
@@ -64,7 +71,7 @@
     private function consultarPermisos(){
 
       try {
-        $this->conectarDB();
+        $this->conectarDBS();
         $new = $this->con->prepare('SELECT idModulo, nombre FROM tmodulos');
         $new->execute();
         $modulos = $new->fetchAll(\PDO::FETCH_OBJ);

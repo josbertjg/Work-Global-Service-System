@@ -1,0 +1,3 @@
+string(17) "MCONFIGURACIONWGS"
+int(1)
+string(12) "UNDEFINEDWGS"

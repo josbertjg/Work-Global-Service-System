@@ -563,10 +563,10 @@
           $varth=
           '<tr>
           <th>Modulo</th>
-          <th>Consultar</th>
           <th>Crear</th>
-          <th>Modificar</th>
+          <th>Consultar</th>
           <th>Eliminar</th>
+          <th>Modificar</th>
           </tr>';
           break;
         

@@ -49,7 +49,7 @@
 
       if(empty($usuarioEncontrado)){
         try{
-          parent::conectarDB();
+          parent::conectarDBS();
           
           $this->fotoPerfil = $this->uploadGoogleUserImage($this->fotoPerfil);
           $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `fotoPerfil`, `oauth_type`, `idRol`, `emailVerificado`, `activo`) VALUES (?,?,?,?,?,?,1,1)");
@@ -61,10 +61,11 @@
           $new->bindValue(6, $this->idRol);
           $exito = $new->execute();
           parent::desconectarDB();
-  
           if($exito){
             $respuesta = $this->userInfo();
             $this->saveUserSession();
+            $this->registrarWGS();
+            $this->registrarBitacora("registro",$this->email,"Usario se ha registrado con Google al sistema");
           }else{
             $respuesta = array("error" => $new->errorCode());
           }
@@ -77,7 +78,7 @@
         if($usuarioEncontrado->activo == 1){
           if($usuarioEncontrado->oauth_type === "account_password"){
   
-            $this->conectarDB();
+            $this->conectarDBS();
             $new = $this->con->prepare("UPDATE tusuarios SET `oauth_type`= 'multi_oauth' ,`emailVerificado`= 1 WHERE email = ?");
             $new->bindValue(1, $this->email);
             $exito = $new->execute();
@@ -198,7 +199,7 @@
     }
 
     private function registerAccountPassword(){
-      $this->conectarDB();
+      $this->conectarDBS();
 
       $new = $this->con->prepare("INSERT INTO `tusuarios`(`email`, `nombre`, `apellido`, `contraseña`, `idRol`, `oauth_type`, `activo`) VALUES (?,?,?,?,?,?,1)"); 
       $new->bindValue(1 , $this->email);
@@ -214,6 +215,7 @@
       $resultado = null;
       if($exito){
         $resultado = ['success' => "Usuario registrado exitosamente."];
+        $this->registrarWGS();
         $this->registrarBitacora("Registro", $this->email, "Se ha registrado con usuario y contraseña.");
       }else{
         $resultado = ['error' => 'Usuario o contraseña incorrectos.'];
@@ -238,7 +240,7 @@
 
     private function buscarUsuario($email){
       try{
-				parent::conectarDB();
+				parent::conectarDBS();
         $new = $this->con->prepare("SELECT * FROM tusuarios WHERE email = ?");
         $new->bindValue(1, $email);
         $new->execute();
@@ -279,7 +281,16 @@
       file_put_contents($dir.$nombre,$imagen);
       return $dir.$nombre;
     }
-
+    private function registrarWGS(){
+      try{
+				parent::conectarDB();
+        $new = $this->con->prepare("INSERT INTO tclientes (email) VALUES (?)");
+        $new->bindValue(1,$this->email);
+        $new->execute();
+        parent::desconectarDB();
+      }catch(exection $error){
+        return $error;
+      }
+    }
   }
-
 ?>

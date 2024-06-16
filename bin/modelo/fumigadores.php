@@ -27,7 +27,7 @@
                   f.cedula,
                   f.descripcion
                 FROM tfumigadores f
-                JOIN tusuarios u ON f.email = u.email
+                JOIN swgs.tusuarios u ON f.email = u.email
                 JOIN tserviciosfumigador sf ON f.cedula = sf.cedula
                 JOIN tservicios s ON s.idServicio = sf.idServicio
                 WHERE f.activo = 1 AND (";

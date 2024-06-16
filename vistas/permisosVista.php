@@ -13,11 +13,11 @@
             </div>
             <div class="row">
                 <div class="col-lg-3">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select" aria-label="Roles" id="roles" name="roles">
+                        <option selected value="default">Seleccione un Rol</option>
+                        <option value="1">Cliente</option>
+                        <option value="2">Fumigador</option>
+                        <option value="3">Super Administrador</option>
                     </select>
                 </div>  
             </div>     
