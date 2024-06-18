@@ -2,6 +2,7 @@ function loginUser(userObj){
   //Guardando en el local storage
   const permisos = userObj.permisos;
   delete userObj.permisos;
+  console.log(userObj)
   localStorage.setItem("user",JSON.stringify(userObj));
 
   // Ocultando o no el google maps del header

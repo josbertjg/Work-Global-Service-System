@@ -1,4 +1,3 @@
-@charset "UTF-8";
 body {
   margin: 0%;
   padding: 0%;
@@ -820,85 +819,38 @@ main {
 .realizar-orden-card #pills-choose-servicios .select2-container .select2-selection__arrow {
   display: none;
 }
-.realizar-orden-card #pills-choose-servicios .servicio-selected > div {
-  display: flex;
-  padding: 1rem 0;
-  color: grey;
-}
-.realizar-orden-card #pills-choose-servicios .servicio-selected > div .title {
-  display: flex;
-  align-items: center;
-  font-size: 1.1rem;
-  margin-right: 0.2rem;
-}
-.realizar-orden-card #pills-choose-servicios .servicio-selected > div .title img {
-  height: 40px;
-}
-.realizar-orden-card #pills-choose-servicios .servicio-selected > div .title i {
-  color: #DC3545;
-  font-size: 1.2rem;
-  margin: 0 0.2rem;
-}
-.realizar-orden-card #pills-choose-servicios .servicio-selected > div .monto {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #DC3545;
-}
-.realizar-orden-card #pills-choose-servicios .añadir-servicio {
-  display: block;
-  width: 100%;
-  padding: 0.7rem;
-  text-align: center;
-  background-color: #DC3545;
-  border-radius: 5px;
-  color: white;
-  font-size: 1.1rem;
-  font-weight: bold;
-  transition: all 200ms;
-}
-.realizar-orden-card #pills-choose-servicios .añadir-servicio:hover {
-  background-color: #e04b59;
-}
-.realizar-orden-card #pills-choose-servicios .orden-details {
+.realizar-orden-card #pills-choose-servicios .available-services-label {
   display: none;
-}
-.realizar-orden-card #pills-choose-servicios .orden-details-section {
-  margin-top: 1rem;
-}
-.realizar-orden-card #pills-choose-servicios .orden-details-section h2 {
-  font-size: 1.5rem;
-  color: #921925;
-}
-.realizar-orden-card .servicios-seleccionados-container {
-  padding: 0%;
-}
-.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item .info-servicio {
   color: #343a40;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item .info-servicio img {
-  height: 40px;
-}
-.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item .info-servicio i {
-  color: #DC3545;
-}
-.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item .extra-info .monto {
   font-weight: bold;
-  font-size: 1.2rem;
-  color: #DC3545;
+  font-size: 1.1rem;
 }
-.realizar-orden-card .servicios-seleccionados-container .servicio-selected-item .extra-info i {
-  padding: 0.5rem;
-  border-radius: 7px;
-  color: white;
-  background-color: #DC3545;
-  cursor: pointer;
+.realizar-orden-card #pills-choose-servicios .available-services-list {
+  padding: 0%;
+  margin: 0%;
+  list-style-type: none;
+}
+.realizar-orden-card #pills-choose-servicios .available-services-list .available-services-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.realizar-orden-card #pills-choose-servicios .available-services-list .available-services-item .available-service-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.realizar-orden-card #pills-choose-servicios .available-services-list .available-services-item .available-service-info img {
+  width: 40px;
+}
+.realizar-orden-card #pills-choose-servicios .available-services-list .available-services-item .available-service-actions {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.realizar-orden-card #pills-choose-servicios .available-services-list .no-available-services {
+  color: grey;
+  font-size: 1rem;
+  font-weight: 500;
 }
 .realizar-orden-card #pills-choose-disponibilidad .datetimepicker-container {
   position: relative;

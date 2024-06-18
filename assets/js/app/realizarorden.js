@@ -7,7 +7,7 @@ $(document).ready(async ()=>{
   const currentFumigador = await service.post("realizarorden",{getCurrentFumigador: true, fumigadorID: fumigadorID});
   const establecimientos = await service.post("realizarorden", {getAllEstablecimientos: true});
   const preciosServicios = await service.post("realizarorden", {getAllPreciosServicios: true});
-  let   user             = null;
+  let user               = null;
   try{
     user = JSON.parse(localStorage.getItem("user"));
   }catch(e){
@@ -26,39 +26,7 @@ $(document).ready(async ()=>{
   }
 
   // Mostrando la info del fumigador
-  const dias  = moment().diff(moment(currentFumigador.fechaValidado), 'days');
-  const meses = moment().diff(moment(currentFumigador.fechaValidado), 'months');
-  const años  = moment().diff(moment(currentFumigador.fechaValidado), 'years');
-  $(".info-fumigador-container .presentation-card .header .fotoPerfil").attr("src",currentFumigador.fotoPerfil)
-  $(".info-fumigador-container .presentation-card .header .nombre").text(`${currentFumigador.nombre} ${currentFumigador.apellido}`)
-  $(".info-fumigador-container .presentation-card .header .nombre").text(`${currentFumigador.nombre} ${currentFumigador.apellido}`)
-  $(".info-fumigador-container .presentation-card .header .servicios-count").text(`0 Servicios realizados`)
-  $(".info-fumigador-container .presentation-card .header .tiempo").text(`
-    ${años <= 0 ?
-      meses <= 0 ? 
-        dias > 1 ? dias+" días" : dias+" día"
-      :
-        meses > 1 ? meses+" meses" : meses+" mes"
-    :
-      años > 1 ? años+" años" : años+" año"}
-    en Work Global Service
-  `)
-  $(".fumigador-info-section .descripcion").text(currentFumigador.descripcion)
-  _.map(currentFumigador.servicios,(servicio)=>{
-    $("#accordionServiciosFumigador").append(`
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#servicio-${servicio.idServicio}" aria-expanded="false" aria-controls="servicio-${servicio.idServicio}">
-          <img src="${servicio.fotoServicio}" alt="servicio fumigador">
-          <span>${servicio.nombre}</span>
-        </button>
-      </h2>
-      <div id="servicio-${servicio.idServicio}" class="accordion-collapse collapse" data-bs-parent="#accordionServiciosFumigador">
-        <div class="accordion-body">${servicio.descripcion}</div>
-      </div>
-    </div>
-    `)
-  })
+  mostrarInfoFumigador(currentFumigador);
  
   // Orden Tabs
   const serviciosTab      = new bootstrap.Tab(document.getElementById("pills-choose-servicios-tab"))
@@ -66,117 +34,89 @@ $(document).ready(async ()=>{
   const detallesOrdenTabs = new bootstrap.Tab(document.getElementById("pills-validar-orden-tab"))
 
   // Servicios Tab
-  let selectedService = null;
   let selectedEstablecimiento = null;
-  let selectedPrecioServicio = null;
-  let precioServiciosArray = [];
-
-  $('#ordenServiciosAutocomplete').select2({
-    placeholder: 'Plaga',
-    data: _.map(currentFumigador.servicios,(servicio)=>({id: servicio.idServicio, text: servicio.nombre}))
-  });
+  let precioServiciosArray = null;
+  let selectedPrecioServiciosArray = [];
 
   $('#ordenEstablecimientosAutocomplete').select2({
-    placeholder: 'Lugar',
+    placeholder: 'Vivienda/Lugar',
     data: _.map(establecimientos,(establecimiento)=>({id: establecimiento.idEstablecimientos, text: establecimiento.nombre}))
   });
 
   // Clearing all selections
-  $('#ordenServiciosAutocomplete').val(null).trigger('change');
   $('#ordenEstablecimientosAutocomplete').val(null).trigger('change');
 
-  // Eventos de los selects
-  $('#ordenServiciosAutocomplete').on('select2:select', function (e) {
-    selectedService = _.find(currentFumigador.servicios,(servicio)=>(servicio.idServicio === e.params.data.id));
-    
-    if(!_.isEmpty(selectedEstablecimiento)){
-      selectedPrecioServicio = _.find(preciosServicios,(item)=>(item.servicio === selectedService.idServicio && item.establecimiento === selectedEstablecimiento.idEstablecimientos))
-      if(!_.isEmpty(selectedPrecioServicio)){
-        $(".servicio-selected .service-notfound").html("")
-        $(".servicio-selected .title").html(`${selectedService.nombre} <i class="fa-solid fa-plus"></i> ${selectedEstablecimiento.nombre}`)
-        $(".servicio-selected .monto").text(`${selectedPrecioServicio.precio}$`)
-      }else{
-        $(".servicio-selected .title").text("")
-        $(".servicio-selected .monto").text("")
-        $(".servicio-selected .service-notfound").html('Servicio no disponible o inhabilitado <i class="fa-regular fa-face-sad-cry"></i>')
-      }
-    }
-  });
-
+  // Eventos del autocomplete
   $('#ordenEstablecimientosAutocomplete').on('select2:select', function (e) {
     selectedEstablecimiento = _.find(establecimientos,(establecimiento)=>(establecimiento.idEstablecimientos === e.params.data.id));
-    
-    if(!_.isEmpty(selectedService)){
-      selectedPrecioServicio = _.find(preciosServicios,(item)=>(item.servicio === selectedService.idServicio && item.establecimiento === selectedEstablecimiento.idEstablecimientos))
-      if(!_.isEmpty(selectedPrecioServicio)){
-        $(".servicio-selected .service-notfound").html("")
-        $(".servicio-selected .title").html(`${selectedService.nombre} <i class="fa-solid fa-plus"></i> ${selectedEstablecimiento.nombre}`)
-        $(".servicio-selected .monto").text(`${selectedPrecioServicio.precio}$`)
+    if(!_.isEmpty(selectedEstablecimiento)){
+      precioServiciosArray = _.filter(preciosServicios,(item)=>(item.establecimiento === selectedEstablecimiento.idEstablecimientos))
+      if(!_.isEmpty(precioServiciosArray)){
+        $(".available-services-list").empty();
+
+        _.map(precioServiciosArray,(item)=>{
+          const servicio = _.find(currentFumigador.servicios,(servicio)=>(servicio.idServicio == item.servicio))
+          if(_.isEmpty(servicio)) return;
+
+          $(".available-services-list").append(`
+            <li class="available-services-item">
+              <div class="available-service-info">
+                <img 
+                  src="assets/img/servicios/cienpies.svg"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip-dark"
+                  data-bs-title="${selectedEstablecimiento.nombre}"
+                />
+                <i class="fa-solid fa-plus"></i>
+                ${servicio.nombre}
+              </div>
+              <div class="available-service-actions">
+                <i 
+                  class="fa-solid fa-circle-info"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip-dark"
+                  data-bs-title="Exterminación de ${servicio.nombre} en ${selectedEstablecimiento.nombre}"
+                ></i>
+                <i class="fa-solid fa-plus añadir-servicio" idPrecioServicio="${item.id}"></i>
+              </div>
+            </li>
+          `);
+        })
+        initTooltips();
       }else{
-        $(".servicio-selected .title").text("")
-        $(".servicio-selected .monto").text("")
-        $(".servicio-selected .service-notfound").html('Servicio no disponible o inhabilitado <i class="fa-regular fa-face-sad-cry"></i>')
+        $(".available-services-label").show();
+        $(".available-services-list").empty();
+        $(".available-services-list").html('<span class="no-available-services">Este fumigador no tiene servicios disponibles para dicho tipo de vivienda/establecimiento <i class="fa-regular fa-face-sad-cry"></i>, intenta con otro tipo o selecciona otro fumigador.</span>');
       }
     }
   });
 
   // Añadir un servicio a la orden
-  $(".añadir-servicio").click(()=>{
-    if(!_.isEmpty(selectedEstablecimiento) && !_.isEmpty(selectedService) && !_.isEmpty(selectedPrecioServicio)){
-      if(_.isEmpty(_.find(precioServiciosArray,(item)=>(item.id === selectedPrecioServicio.id)))){
-        $(".servicios-seleccionados-container").append(`
-          <li class="servicio-selected-item servicio-selected-${selectedPrecioServicio.id}">
-            <div class="info-servicio">
-              <img src="${selectedService.fotoServicio}" alt="imagen del servicio">
-              <span class="nombre">${selectedService.nombre} <i class="fa-solid fa-plus"></i></span>
-              <span class="nombre">${selectedEstablecimiento.nombre}</span>
-            </div>
-            <div class="extra-info">
-              <span class="monto">${selectedPrecioServicio.precio}$</span>
-              <a class="eliminar-servicio" idPrecioServicio="${selectedPrecioServicio.id}">
-                <i class="fa-solid fa-trash"></i>
-              </a>
-            </div>
-          </li>
-        `)
+  $(document).on('click','.añadir-servicio', (event) => {
+    if(!_.isEmpty(selectedEstablecimiento)){
+      const percioServicioId = $(event.target).attr("idPrecioServicio");
+      if(_.isEmpty(_.find(selectedPrecioServiciosArray,(item)=>(item.id === percioServicioId)))){
+
   
-        precioServiciosArray.push(selectedPrecioServicio);
-        selectedService = null;
-        selectedEstablecimiento = null;
-        selectedPrecioServicio = null;
+        selectedPrecioServiciosArray.push(_.find(precioServiciosArray,(item)=>(item.id === percioServicioId)));
   
-        $(".total-container .monto").empty();
-        $(".total-container .monto").text(`${_.sum(_.map(precioServiciosArray,(item)=>parseFloat(item.precio)))}$`);
-        $(".orden-details").show();
-        $(".servicio-selected .title").text("")
-        $(".servicio-selected .monto").text("")
-        $(".servicio-selected .service-notfound").html("")
-        $(".no-services-selected").text("")
-        $('#ordenServiciosAutocomplete').val(null).trigger('change');
-        $('#ordenEstablecimientosAutocomplete').val(null).trigger('change');
+        // $(".total-container .monto").empty();
+        // $(".total-container .monto").text(`${_.sum(_.map(precioServiciosArray,(item)=>parseFloat(item.precio)))}$`);
       }else{
         Toast.fire({
           icon: "info",
           title: "Ya añadiste esta selección a la orden."
         });
       }
+      console.log(selectedPrecioServiciosArray)
     }
-  })
-
-  $(document).on('click','.eliminar-servicio', (e) => {
-    const idPrecioServicio = $($(e.target).parent()).attr("idPrecioServicio");
-    precioServiciosArray = _.filter(precioServiciosArray,(item)=>(item.id != idPrecioServicio))
-
-    $(".total-container .monto").empty();
-    $(".total-container .monto").text(`${_.sum(_.map(precioServiciosArray,(item)=>parseFloat(item.precio)))}$`);
-
-    $(`.servicio-selected-${idPrecioServicio}`).remove();
-    if(_.isEmpty(precioServiciosArray)) $(".orden-details").hide();
   });
 
   $(".volver-serviciosTab").click(()=>serviciosTab.show())
   $(".verOrdenDisponibilidad").click(()=>{
-    if(_.isEmpty(precioServiciosArray)){
+    if(_.isEmpty(selectedPrecioServiciosArray)){
       Toast.fire({
         icon: "warning",
         title: "Debes añadir al menos un servicio para poder proceder."
@@ -246,14 +186,29 @@ $(document).ready(async ()=>{
 
   // Ir a pagar Orden
   $(".pagarOrden").click(async ()=>{
-    if(!_.isEmpty(selectedDateTime) && !_.isEmpty(precioServiciosArray)){
-      // const respuesta = await service.post("realizarorden",{
-      //   createOrden:   true,
-      //   fumigador:     currentFumigador.cedula,
-      //   cliente:       user.email,
-      //   fechaServicio: selectedDateTime
-      // });
-      window.location = "pagarorden";
+    if(!_.isEmpty(selectedDateTime) && !_.isEmpty(selectedPrecioServiciosArray)){
+      toggleLoading(true);
+      const dataToSend = {
+        createOrden:     true,
+        fumigador:       currentFumigador.cedula,
+        clienteID:       user.clientID,
+        clienteEmail:    user.email,
+        fechaServicio:   selectedDateTime,
+        ubicacion:       "123",
+        establecimiento: selectedEstablecimiento.idEstablecimientos,
+        servicios:       JSON.stringify(_.map(selectedPrecioServiciosArray,(item)=>(item.servicio)))
+      }
+      const respuesta = await service.post("realizarorden",dataToSend);
+      if("error" in respuesta){
+        showAlert("error","Upss, ocurrió un error inesperado.", respuesta.error)
+      }else{
+        Toast.fire({
+          icon: "success",
+          title: respuesta.success
+        });
+      }
+      toggleLoading(false);
+      // window.location = "pagarorden";
     }else{
       serviciosTab.show()
       Toast.fire({
@@ -263,3 +218,39 @@ $(document).ready(async ()=>{
     }
   })
 })
+
+function mostrarInfoFumigador(fumigador){
+  const dias  = moment().diff(moment(fumigador.fechaValidado), 'days');
+  const meses = moment().diff(moment(fumigador.fechaValidado), 'months');
+  const años  = moment().diff(moment(fumigador.fechaValidado), 'years');
+  $(".info-fumigador-container .presentation-card .header .fotoPerfil").attr("src",fumigador.fotoPerfil)
+  $(".info-fumigador-container .presentation-card .header .nombre").text(`${fumigador.nombre} ${fumigador.apellido}`)
+  $(".info-fumigador-container .presentation-card .header .nombre").text(`${fumigador.nombre} ${fumigador.apellido}`)
+  $(".info-fumigador-container .presentation-card .header .servicios-count").text(`0 Servicios realizados`)
+  $(".info-fumigador-container .presentation-card .header .tiempo").text(`
+    ${años <= 0 ?
+      meses <= 0 ? 
+        dias > 1 ? dias+" días" : dias+" día"
+      :
+        meses > 1 ? meses+" meses" : meses+" mes"
+    :
+      años > 1 ? años+" años" : años+" año"}
+    en Work Global Service
+  `)
+  $(".fumigador-info-section .descripcion").text(fumigador.descripcion)
+  _.map(fumigador.servicios,(servicio)=>{
+    $("#accordionServiciosFumigador").append(`
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#servicio-${servicio.idServicio}" aria-expanded="false" aria-controls="servicio-${servicio.idServicio}">
+          <img src="${servicio.fotoServicio}" alt="servicio fumigador">
+          <span>${servicio.nombre}</span>
+        </button>
+      </h2>
+      <div id="servicio-${servicio.idServicio}" class="accordion-collapse collapse" data-bs-parent="#accordionServiciosFumigador">
+        <div class="accordion-body">${servicio.descripcion}</div>
+      </div>
+    </div>
+    `)
+  })
+}

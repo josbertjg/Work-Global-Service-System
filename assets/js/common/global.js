@@ -6,19 +6,22 @@ $(document).ready(()=>{
     if(href == ($(element).attr("href"))) $(element).addClass("active") 
     else if(href == (`/${$(element).attr("href")}`)) $(element).addClass("active") 
   });
+  initTooltips();
 })
 
 // INIT Bootstrap Tooltips
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-let formattedTooltipsList = [];
-tooltipTriggerList.forEach((tooltip)=>{
-  if(
-    $(tooltip).attr("class") != "autocomplete-container" && 
-    $(tooltip).attr("id") != "searchInputFloatingContainer"
-  ) 
-    formattedTooltipsList.push(tooltip)
-})
-const tooltipList = [...formattedTooltipsList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+function initTooltips(){
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  let formattedTooltipsList = [];
+  tooltipTriggerList.forEach((tooltip)=>{
+    if(
+      $(tooltip).attr("class") != "autocomplete-container" && 
+      $(tooltip).attr("id") != "searchInputFloatingContainer"
+    ) 
+      formattedTooltipsList.push(tooltip)
+  })
+  const tooltipList = [...formattedTooltipsList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+}
 
 // Mostrar alertas
 function showAlert(type, title, text){

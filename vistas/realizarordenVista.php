@@ -61,31 +61,17 @@
 
               <!-- SERVICIOS CONTENT -->
               <div class="tab-pane fade show active" id="pills-choose-servicios" role="tabpanel" aria-labelledby="pills-choose-servicios-tab" tabindex="0">
-                <p>Selecciona la plaga que quieres exterminar y el tipo de establecimiento en el cual se encuentra dicha plaga:</p>
+                <p>Elige el tipo de Vivienda / Establecimiento el cual se ajusta más al lugar en donde se realizará la fumigación:</p>
                 <div class="d-flex">
-                  <div class="flex-fill d-flex flex-column w-50">
-                    <label class="servicio-label" for="ordenServiciosAutocomplete">Plaga a exterminar:</label>
-                    <select class="flex-fill" id="ordenServiciosAutocomplete" style="height: 56px !important;"></select>
-                  </div>
-                  <div class="flex-fill d-flex flex-column w-50 ms-1">
-                    <label class="servicio-label" for="ordenEstablecimientosAutocomplete">Tipo de lugar:</label>
+                  <div class="flex-fill d-flex flex-column w-100 mb-3">
+                    <label class="servicio-label" for="ordenEstablecimientosAutocomplete">Tipo de Establecimiento:</label>
                     <select class="flex-fill" id="ordenEstablecimientosAutocomplete" style="height: 56px !important;"></select>
                   </div>
                 </div>
-                <div class="servicio-selected">
-                  <div>
-                    <span class="title"></span>
-                    <span class="monto"></span>
-                    <div class="service-notfound"></div>
-                  </div>
-                </div>
-                <button class="añadir-servicio mb-2">Añadir Servicio <i class="fa-solid fa-plus"></i></button>
-                <div class="orden-details">
-                  <div class="orden-details-section">
-                    <h2>Servicios Seleccionados</h2>
-                    <ul class="servicios-seleccionados-container"></ul>
-                  </div>
-                </div>
+
+                <label class="available-services-label">Servicios disponibles:</label>
+                <ul class="available-services-list mb-3"></ul>
+               
                 <div class="footer-card">
                   <button class="change-tab verOrdenDisponibilidad">Siguiente <i class="fa-solid fa-arrow-right"></i></button>
                 </div>

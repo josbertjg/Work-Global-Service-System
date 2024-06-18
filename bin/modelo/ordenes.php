@@ -6,6 +6,12 @@
 
   class ordenes extends DBConnect{
     private $fumigadorID;
+    private $clienteID;
+    private $fechaServicio;
+    private $ubicacionID;
+    private $establecimientoID;
+    private $serviciosArr;
+    private $clienteEmail;
 
     public function __construct(){
     	parent::__construct();
@@ -32,8 +38,8 @@
           f.fechaNacimiento,
           f.fechaValidado,
           f.descripcion
-        FROM tfumigadores f
-        JOIN tusuarios u ON u.email = f.email
+        FROM workglobalservice.tfumigadores f
+        JOIN swgs.tusuarios u ON u.email = f.email
         WHERE f.activo = 1 AND f.cedula = ?");
         $new->bindValue(1, $this->fumigadorID);
         $new->execute();
@@ -122,6 +128,60 @@
       }catch(exection $error){
         die(json_encode(["error"=>$error]));
       }
+    }
+
+    public function createOrden($fumigador,$clienteID,$clienteEmail,$fechaServicio,$ubicacion,$establecimiento,$servicios){
+      $this->fumigadorID = $fumigador;
+      $this->clienteID = $clienteID;
+      $this->clienteEmail = $clienteEmail;
+      $this->fechaServicio = $fechaServicio;
+      $this->ubicacionID = $ubicacion;
+      $this->establecimientoID = $establecimiento;
+      $this->serviciosArr = json_decode($servicios);
+      $this->insertNewOrden();
+    }
+
+    private function insertNewOrden(){
+      $this->conectarDB();
+      $idOrden = parent::uniqueID();
+      $new = $this->con->prepare("INSERT INTO `tordenes`(`fumigador`, `cliente`, `fechaServicio`, `ubicacion`, `establecimiento`, `idOrdenes`) VALUES (?,?,?,?,?,?)"); 
+      $new->bindValue(1 , $this->fumigadorID);
+      $new->bindValue(2 , $this->clienteID);
+      $new->bindValue(3 , $this->fechaServicio);
+      $new->bindValue(4 , $this->ubicacionID);
+      $new->bindValue(5 , $this->establecimientoID);
+      $new->bindValue(6 , $idOrden);
+      $exito = $new->execute();
+      $this->desconectarDB();
+
+      $resultado = null;
+      if($exito){
+        $resultado = ['success' => "Orden creada exitosamente."];
+
+        try{
+          parent::conectarDB();
+
+          foreach($this->serviciosArr as $servicio){
+            $new = $this->con->prepare("INSERT INTO `tordenesservicios`(`orden`, `servicio`) VALUES (?,?)"); 
+            $new->bindValue(1 , $idOrden);
+            $new->bindValue(2 , $servicio);
+            $exito = $new->execute();
+          }
+          
+          parent::desconectarDB();
+          
+  
+        }catch(exection $error){
+          $resultado = ['error' => "Error al registrar los servicios de la orden, inténtalo de nuevo. ".$error];
+          die($resultado);
+        }
+        
+        $this->registrarBitacora("Realizar Orden", $this->clienteEmail, "Ha realizado una nueva orden de servicio al fumigador de cedula: ".$this->fumigadorID);
+      }else{
+        $resultado = ['error' => 'Ocurrió un error al registrar la nueva orden, inténtalo de nuevo mas tarde.'];
+      }
+
+      die(json_encode($resultado));
     }
 
     private function validarFumigadorID($fumigadorID){

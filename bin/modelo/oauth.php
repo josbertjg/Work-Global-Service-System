@@ -14,6 +14,7 @@
     private $oauth_type;
     private $emailVerificado;
     private $idRol;
+    private $clientID;
 
     public function __construct(){
       parent::__construct();
@@ -62,9 +63,9 @@
           $exito = $new->execute();
           parent::desconectarDB();
           if($exito){
+            $this->registrarWGS();
             $respuesta = $this->userInfo();
             $this->saveUserSession();
-            $this->registrarWGS();
             $this->registrarBitacora("registro",$this->email,"Usario se ha registrado con Google al sistema");
           }else{
             $respuesta = array("error" => $new->errorCode());
@@ -96,10 +97,23 @@
             $this->registrarBitacora("Iniciar Sesión",$this->email,"Inicio sesión en el sistema con GMAIL.");
           }
 
+          try{
+            parent::conectarDB();
+            $new = $this->con->prepare("SELECT * FROM tclientes WHERE email = ?");
+            $new->bindValue(1, $this->email);
+            $new->execute();
+            $cliente = $new->fetch(\PDO::FETCH_OBJ);
+            $this->clientID = $cliente->id;
+            parent::desconectarDB();
+    
+          }catch(exception $error){
+            $respuesta = ["error" => $error];
+          }
           $this->fotoPerfil = $usuarioEncontrado->fotoPerfil;
           $this->nombre = $usuarioEncontrado->nombre;
           $this->apellido = $usuarioEncontrado->apellido;
           $this->idRol = $usuarioEncontrado->idRol;
+
           $respuesta = $this->userInfo();
           $this->saveUserSession();
 
@@ -142,6 +156,18 @@
           if($usuarioEncontrado->activo == 0){
             $resultado = ['error' => 'Usuario desactivado o inhabilitado.'];
           }else{
+            try{
+              parent::conectarDB();
+              $new = $this->con->prepare("SELECT * FROM tclientes WHERE email = ?");
+              $new->bindValue(1, $this->email);
+              $new->execute();
+              $usuario = $new->fetch(\PDO::FETCH_OBJ);
+              $this->clientID = $this->usuario->id;
+              parent::desconectarDB();
+      
+            }catch(exception $error){
+              $respuesta = ["error" => $error];
+            }
             $this->nombre     = $usuarioEncontrado->nombre;
             $this->apellido   = $usuarioEncontrado->apellido;
             $this->fotoPerfil = $usuarioEncontrado->fotoPerfil;
@@ -256,6 +282,7 @@
 
     private function userInfo(){
       $usuario = array(
+        "clientID"   => $this->clientID,
         "nombre"     => $this->nombre,
         "apellido"   => $this->apellido,
         "email"      => $this->email,
@@ -267,6 +294,7 @@
     }
 
     private function saveUserSession(){
+      $_SESSION["clientID"]   = $this->clientID;
       $_SESSION["email"]      = $this->email;
       $_SESSION["nombre"]     = $this->nombre;
       $_SESSION["apellido"]   = $this->apellido;
@@ -287,6 +315,7 @@
         $new = $this->con->prepare("INSERT INTO tclientes (email) VALUES (?)");
         $new->bindValue(1,$this->email);
         $new->execute();
+        $this->clientID = $this->con->lastInsertId();
         parent::desconectarDB();
       }catch(exection $error){
         return $error;

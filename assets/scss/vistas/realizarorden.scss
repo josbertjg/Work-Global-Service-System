@@ -157,7 +157,6 @@
   }
 
   // Servicios Content
-
   #pills-choose-servicios{
     .servicio-label{
       color: $negro;
@@ -180,98 +179,43 @@
         display: none;
       }
     }
-    .servicio-selected{
-     
-      & > div{
-        display: flex;
-        padding: 1rem 0;
-        color: $grey;
-
-        .title{
-          display: flex;
-          align-items: center;
-          font-size: 1.1rem;
-          margin-right: .2rem;
-          img{
-            height: 40px;
-          }
-          i{
-            color: $primary;
-            font-size: 1.2rem;
-            margin: 0 .2rem;
-          }
-        }
-        .monto{
-          font-size: 1.3rem;
-          font-weight: bold;
-          color: $primary;
-        }
-      }
-    }
-    .añadir-servicio{
-      display: block;
-      width: 100%;
-      padding: .7rem;
-      text-align: center;
-      background-color: $primary;
-      border-radius: 5px;
-      color: white;
-      font-size: 1.1rem;
-      font-weight: bold;
-      transition: all 200ms;
-
-      &:hover{
-        background-color: lighten($primary,5);
-      }
-    }
-
-    .orden-details{
+    .available-services-label{
       display: none;
+      color: $negro;
+      font-weight: bold;
+      font-size: 1.1rem;
     }
-    .orden-details-section{
-      margin-top: 1rem;
-      h2{
-        font-size: 1.5rem;
-        color: $secondary;
+    .available-services-list{
+      padding: 0%;
+      margin: 0%;
+      list-style-type: none;
+
+      .available-services-item{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .available-service-info{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          img{
+            width: 40px;
+          }
+        }
+        .available-service-actions{
+          display: flex;
+          flex-wrap: nowrap;
+        }
       }
-      
-    }
-  }
-  .servicios-seleccionados-container{
-    padding: 0%;
-    .servicio-selected-item{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .info-servicio{
-        color: $negro;
-        font-size: 1.1rem;
+
+      .no-available-services{
+        color: $grey;
+        font-size: 1rem;
         font-weight: 500;
-
-        img{
-          height: 40px;
-        }
-        i{
-          color: $primary;
-        }
-      }
-
-      .extra-info{
-        .monto{
-          font-weight: bold;
-          font-size: 1.2rem;
-          color: $primary;
-        }
-        i{
-          padding: .5rem;
-          border-radius: 7px;
-          color: white;
-          background-color: $primary;
-          cursor: pointer;
-        }
       }
     }
   }
+
   // Disponibilidad Content
   #pills-choose-disponibilidad{
     .datetimepicker-container{
