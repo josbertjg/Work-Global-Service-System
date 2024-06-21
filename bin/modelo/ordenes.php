@@ -157,7 +157,6 @@
       $new->bindValue(6 , $this->establecimientoID);
       $new->bindValue(7 , "agendada");
       $exito = $new->execute();
-      $idOrden = $this->con->lastInsertId();
       $this->desconectarDB();
 
       $resultado = null;
@@ -194,23 +193,24 @@
       $regExp = '/^(\d{5,})$/';
       return preg_match_all($regExp, $fumigadorID);
     }
-   private function generarId($fechaServicio){
-      $this->conectarDB();
-      $consulta = "SELECT COUNT(*)
-      FROM tordenes
-      WHERE DATE(fechaServicio) = DATE(:fechaServicio);";
-      $ejecucion = $this->con->prepare($consulta);
-      $ejecucion->bindParam(':fechaServicio', $fechaServicio);
-      $ejecucion->execute();
-      $data = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
-      $this->desconectarDB();
-      $count = $data[0]['COUNT(*)'];
-      $count++; // Incrementar el conteo
-      //$fechaServicioObj = new DateTime($fechaServicio);
-      $fechaServicioObj = DateTime::createFromFormat('Y-m-d H:i', $fechaServicio);
-      $formattedDate = $fechaServicioObj->format('Ymd');
-      $finalID=$formattedDate ."-".  $count;
-      return $finalID;
-    }
+
+    private function generarId($fechaServicio){
+        $this->conectarDB();
+        $consulta = "SELECT COUNT(*)
+        FROM tordenes
+        WHERE DATE(fechaServicio) = DATE(:fechaServicio);";
+        $ejecucion = $this->con->prepare($consulta);
+        $ejecucion->bindParam(':fechaServicio', $fechaServicio);
+        $ejecucion->execute();
+        $data = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+        $this->desconectarDB();
+        $count = $data[0]['COUNT(*)'];
+        $count++; // Incrementar el conteo
+        //$fechaServicioObj = new DateTime($fechaServicio);
+        $fechaServicioObj = DateTime::createFromFormat('Y-m-d H:i', $fechaServicio);
+        $formattedDate = $fechaServicioObj->format('Ymd');
+        $finalID=$formattedDate ."-".  $count;
+        return $finalID;
+      }
   }
 ?>
