@@ -29,9 +29,10 @@ $(document).ready(async ()=>{
   mostrarInfoFumigador(currentFumigador);
  
   // Orden Tabs
-  const serviciosTab      = new bootstrap.Tab(document.getElementById("pills-choose-servicios-tab"))
-  const disponibilidadTab = new bootstrap.Tab(document.getElementById("pills-choose-disponibilidad-tab"))
-  const detallesOrdenTabs = new bootstrap.Tab(document.getElementById("pills-validar-orden-tab"))
+  const serviciosTab      = new bootstrap.Tab  (document.getElementById("pills-choose-servicios-tab"))
+  const disponibilidadTab = new bootstrap.Tab  (document.getElementById("pills-choose-disponibilidad-tab"))
+  const detallesOrdenTabs = new bootstrap.Tab  (document.getElementById("pills-validar-orden-tab"))
+  const ordenDetailsModal = new bootstrap.Modal(document.getElementById("ordenDetailsModal"))
 
   // Servicios Tab
   let selectedEstablecimiento = null;
@@ -52,13 +53,16 @@ $(document).ready(async ()=>{
     if(!_.isEmpty(selectedEstablecimiento)){
       precioServiciosArray = _.filter(preciosServicios,(item)=>(item.establecimiento === selectedEstablecimiento.idEstablecimientos))
       if(!_.isEmpty(precioServiciosArray)){
+        $(".available-services-label").show();
         $(".available-services-list").empty();
 
         _.map(precioServiciosArray,(item)=>{
           const servicio = _.find(currentFumigador.servicios,(servicio)=>(servicio.idServicio == item.servicio))
           if(_.isEmpty(servicio)) return;
+          const selected = !_.isEmpty(_.find(selectedPrecioServiciosArray,(servicio)=>(servicio.id == item.id)))
 
           $(".available-services-list").append(`
+            <hr class="my-2"/>
             <li class="available-services-item">
               <div class="available-service-info">
                 <img 
@@ -79,14 +83,22 @@ $(document).ready(async ()=>{
                   data-bs-custom-class="custom-tooltip-dark"
                   data-bs-title="Exterminación de ${servicio.nombre} en ${selectedEstablecimiento.nombre}"
                 ></i>
-                <i class="fa-solid fa-plus añadir-servicio" idPrecioServicio="${item.id}"></i>
+                <i 
+                  class="fa-solid fa-${selected ? 'minus' : 'plus'} añadir-servicio" 
+                  idPrecioServicio="${item.id}"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip-primary"
+                  tooltip-can-change="true"
+                  data-bs-title="${selected ? '¡Eliminar!' : '¡Lo quiero!'}"
+                ></i>
               </div>
             </li>
           `);
         })
         initTooltips();
       }else{
-        $(".available-services-label").show();
+        $(".available-services-label").hide();
         $(".available-services-list").empty();
         $(".available-services-list").html('<span class="no-available-services">Este fumigador no tiene servicios disponibles para dicho tipo de vivienda/establecimiento <i class="fa-regular fa-face-sad-cry"></i>, intenta con otro tipo o selecciona otro fumigador.</span>');
       }
@@ -96,25 +108,106 @@ $(document).ready(async ()=>{
   // Añadir un servicio a la orden
   $(document).on('click','.añadir-servicio', (event) => {
     if(!_.isEmpty(selectedEstablecimiento)){
-      const percioServicioId = $(event.target).attr("idPrecioServicio");
-      if(_.isEmpty(_.find(selectedPrecioServiciosArray,(item)=>(item.id === percioServicioId)))){
 
-  
-        selectedPrecioServiciosArray.push(_.find(precioServiciosArray,(item)=>(item.id === percioServicioId)));
-  
-        // $(".total-container .monto").empty();
-        // $(".total-container .monto").text(`${_.sum(_.map(precioServiciosArray,(item)=>parseFloat(item.precio)))}$`);
+      const percioServicioId = $(event.target).attr("idPrecioServicio");
+      $(event.target).removeClass("fa-plus");
+      $(event.target).addClass("fa-minus");
+      $(event.target).attr("data-bs-title","¡Eliminar!")
+      initTooltips();
+
+      if(_.isEmpty(_.find(selectedPrecioServiciosArray,(item)=>(item.id === percioServicioId)))){
+        const precioServicioSelected = _.find(precioServiciosArray,(item)=>(item.id === percioServicioId));
+        const servicioSelected = _.find(currentFumigador.servicios,(servicio)=>(servicio.idServicio === precioServicioSelected.servicio));
+
+        selectedPrecioServiciosArray.push(precioServicioSelected);
+
+        $("#ordenDetailsAccordion").append(`
+          <div class="accordion-item details-item-${precioServicioSelected.id}">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item-${precioServicioSelected.id}" aria-expanded="false" aria-controls="item-${precioServicioSelected.id}">
+                <div class="servicio-icons">
+                  <img 
+                    src="assets/img/servicios/cienpies.svg" 
+                    alt="establecimiento"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip-primary"
+                    data-bs-title="${selectedEstablecimiento.nombre}"
+                  />
+                  <i class="fa-solid fa-plus mx-3"></i>
+                  <img 
+                    src="${servicioSelected.fotoServicio}" 
+                    alt="plaga"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip-primary"
+                    data-bs-title="${servicioSelected.nombre}"
+                  />
+                </div>
+                <div class="servicio-actions">
+                  <span class="monto">${precioServicioSelected.precio}$</span>
+                  <i 
+                    class="fa-solid fa-trash eliminar-servicio"
+                    idPrecioServicio="${precioServicioSelected.id}"
+                  ></i>
+                </div>
+              </button>
+            </h2>
+            <div id="item-${precioServicioSelected.id}" class="accordion-collapse collapse" data-bs-parent="#ordenDetailsAccordion">
+              <div class="accordion-body">
+                <strong>Fumigación de ${servicioSelected.nombre} en ${selectedEstablecimiento.nombre}:</strong> se exterminará la plaga <b>${servicioSelected.nombre}</b> en el tipo de establecimiento <b>${selectedEstablecimiento.nombre}</b>, por un costo de <b>${precioServicioSelected.precio}$</b>
+              </div>
+            </div>
+          </div>
+          <hr class="m-0 p-0"/>
+        `);
+
+        $(".orden-details-monto-total .monto").text(`${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
+        $(".submenu-servicios-count").text(selectedPrecioServiciosArray.length.toString())
+        if(selectedPrecioServiciosArray.length == 1) $(".orden-details-submenu").fadeIn()
+        initTooltips();
       }else{
-        Toast.fire({
-          icon: "info",
-          title: "Ya añadiste esta selección a la orden."
-        });
+        selectedPrecioServiciosArray = _.filter(selectedPrecioServiciosArray,(item)=>item.id !== percioServicioId)
+        $(`details-item-${percioServicioId}`).remove();
+        $(".orden-details-monto-total .monto").text(`${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
+        $(".submenu-servicios-count").text(selectedPrecioServiciosArray.length.toString())
+        if(_.isEmpty(selectedPrecioServiciosArray)) $(".orden-details-submenu").hide()
+        $(event.target).removeClass("fa-minus");
+        $(event.target).addClass("fa-plus");
+        $(event.target).attr("data-bs-title","¡Lo quiero!")
+        initTooltips();
       }
-      console.log(selectedPrecioServiciosArray)
     }
   });
 
-  $(".volver-serviciosTab").click(()=>serviciosTab.show())
+  $(document).on('click','.eliminar-servicio', (event) => {
+      const percioServicioId = $(event.target).attr("idPrecioServicio");
+      $(`.details-item-${percioServicioId}`).remove();
+
+      selectedPrecioServiciosArray = _.filter(selectedPrecioServiciosArray,(item)=>item.id !== percioServicioId)
+      
+      $(".orden-details-monto-total .monto").text(`${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
+
+      $(".submenu-servicios-count").text(selectedPrecioServiciosArray.length.toString())
+
+      if(_.isEmpty(selectedPrecioServiciosArray)){
+        $(".orden-details-submenu").hide();
+        ordenDetailsModal.hide();
+      }
+      $(`i[tooltip-can-change='true'][idPrecioServicio='${percioServicioId}']`).removeClass("fa-minus");
+      $(`i[tooltip-can-change='true'][idPrecioServicio='${percioServicioId}']`).addClass("fa-plus");
+      $(`i[tooltip-can-change='true'][idPrecioServicio='${percioServicioId}']`).attr("data-bs-title","¡Lo quiero!")
+      initTooltips();
+  });
+
+  $(".volver-serviciosTab").click(()=>{
+    serviciosTab.show()
+    $(".orden-details-submenu").removeClass("icon-submenu");
+    setTimeout(() => ($(".orden-details-submenu .btn-text").fadeIn()), 500);
+
+    $(".orden-details-submenu").animate({left: "15px", bottom: "10px"}).css({right: "unset", top: "unset"});
+  })
+
   $(".verOrdenDisponibilidad").click(()=>{
     if(_.isEmpty(selectedPrecioServiciosArray)){
       Toast.fire({
@@ -123,6 +216,12 @@ $(document).ready(async ()=>{
       });
     }else{
       disponibilidadTab.show()
+      $(".orden-details-submenu").addClass("icon-submenu");
+      $(".orden-details-submenu .btn-text").hide();
+
+      if($( document ).width() < 992)  $(".orden-details-submenu").css({left: "unset",bottom: "unset"}).animate({right: "-15px", top: "10px"});
+      else $(".orden-details-submenu").css({left: "unset",bottom: "unset"}).animate({right: "-15px", top: "-20px"});
+      
     }
   })
 

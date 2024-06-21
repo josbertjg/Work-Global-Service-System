@@ -143,15 +143,14 @@
 
     private function insertNewOrden(){
       $this->conectarDB();
-      $idOrden = parent::uniqueID();
-      $new = $this->con->prepare("INSERT INTO `tordenes`(`fumigador`, `cliente`, `fechaServicio`, `ubicacion`, `establecimiento`, `idOrdenes`) VALUES (?,?,?,?,?,?)"); 
+      $new = $this->con->prepare("INSERT INTO `tordenes`(`fumigador`, `cliente`, `fechaServicio`, `ubicacion`, `establecimiento`) VALUES (?,?,?,?,?)"); 
       $new->bindValue(1 , $this->fumigadorID);
       $new->bindValue(2 , $this->clienteID);
       $new->bindValue(3 , $this->fechaServicio);
       $new->bindValue(4 , $this->ubicacionID);
       $new->bindValue(5 , $this->establecimientoID);
-      $new->bindValue(6 , $idOrden);
       $exito = $new->execute();
+      $idOrden = $this->con->lastInsertId();
       $this->desconectarDB();
 
       $resultado = null;

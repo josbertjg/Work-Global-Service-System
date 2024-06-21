@@ -89,10 +89,25 @@
     border-radius: 15px;
     box-shadow: $shadow-bottom;
     padding: 1rem;
-    // position: fixed;
+    margin-top: 2rem;
+    position: fixed;
+
+    @include xxxl{
+      width: 550px;
+    }
+
+    @include xxl{
+      width: 475px;
+    }
+
+    @include xl{
+      width: 400px;
+    }
 
     @include lg{
       position: static;
+      width: 100%;
+      max-height: none;
     }
 
     #orden-tabs{
@@ -147,12 +162,18 @@
         color: $negro;
         font-weight: bold;
         font-size: 1.1rem;
+        margin-top: 1rem;
         cursor: pointer;
       }
       .verOrdenDisponibilidad{
         flex: 1;
         text-align: right;
       }
+    }
+
+    .tab-content{
+      max-height: 70vh;
+      overflow-y: auto;
     }
   }
 
@@ -201,10 +222,34 @@
           img{
             width: 40px;
           }
+          i{
+            margin: 0% .2rem;
+            font-size: 1.2rem;
+          }
         }
         .available-service-actions{
           display: flex;
           flex-wrap: nowrap;
+          i{
+            padding: .5rem;
+            color: white;
+            border-radius: 5px;
+            transition: all 200ms;
+            cursor: pointer;
+            user-select: none;
+          }
+          i:first-child{
+            background-color: $info;
+            margin-right: .2rem;
+          }
+          i:last-child{
+            background-color: $primary;
+            border: 1px solid $primary;
+            &:hover{
+              background-color: transparent;
+              color: $primary;
+            }
+          }
         }
       }
 
@@ -241,6 +286,8 @@
       }
     }
   }
+
+  // Ordenar Content
   #pills-validar-orden{
     .details{
       .extra-info{
@@ -274,6 +321,136 @@
       border-radius: 5px;
       padding: .5rem 1rem;
       color: white;
+    }
+  }
+}
+
+// Detalles de la orden Submenu
+.orden-details-submenu{
+  display: none;
+  position: absolute;
+  transition: all 500ms;
+  bottom: 10px;
+
+  .orden-submenu-btn{
+    display: flex;
+    align-items: center;
+    background-color: $info;
+    color: white;
+    border-radius: 8px;
+    padding: .6rem 1rem;
+    font-weight: 500;
+    border: 2px solid $info;
+    transition: all 200ms;
+    &:hover{
+      background-color: white;
+      color: $info;
+    }
+
+    i{
+      font-size: 1.5rem;
+      margin-left: .4rem;
+    }
+  }
+}
+
+.icon-submenu{
+  .orden-submenu-btn{
+    border-radius: 100%;
+    padding: .7rem 1rem;
+  }
+  i{
+    font-size: 2rem !important;
+    margin: 0% !important;
+  }
+}
+
+// Modal de los detalles de la orden
+#ordenDetailsModal{
+  .modal-header{
+    background-color: $negro;
+    .modal-title{
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem !important;
+      color: $grey-lighter;
+      i{
+        font-size: 2rem;
+        margin-left: .5rem;
+        color: $grey-light;
+      }
+    }
+  }
+
+  // Acordion
+  #ordenDetailsAccordion{
+    .accordion-item{
+      .accordion-button{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: $grey-lighter;
+        box-shadow: none;
+        &:hover{
+          background-color: $grey-lighter;
+        }
+        &::after{
+          display: none;
+        }
+        .servicio-icons{
+          display: flex;
+          align-items: center;
+          i{
+            font-size: 2rem;
+            color: $negro;
+          }
+          img{
+            height: 50px;
+          }
+        }
+
+        .servicio-actions{
+          .monto{
+            font-weight: bold;
+            font-size: 1.6rem;
+            color: $negro;
+          }
+          i{
+            font-size: 1.2rem;
+            padding: .5rem;
+            background-color: $primary;
+            color: white;
+            border-radius: 5px;
+          }
+        }
+
+      }
+      .collapsed{
+        background-color: white;
+      }
+
+      .accordion-body{
+        b{
+          color: $primary;
+        }
+      }
+    }
+
+  }
+  .orden-details-monto-total{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $negro;
+    color: white;
+    padding: .5rem 1.5rem;
+
+    span{
+      font-weight: bold;
+    }
+    b{
+      font-size: 1.2rem;
+      font-weight: bold;
     }
   }
 }

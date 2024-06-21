@@ -5,7 +5,7 @@
 
   <?php $components->header(true) ?>
  
-  <main class="container-fluid d-flex justify-content-center px-0"> 
+  <main class="container-fluid d-flex justify-content-center px-0 position-relative pb-5"> 
     <div class="container">
       <div class="row pt-3 px-0">
 
@@ -44,7 +44,6 @@
 
         <!-- CARD DE LA ORDEN -->
         <section class="col-lg-5 col-12 px-0 realizar-orden-card">
-
           <div class="orden-card-wrapper">
             <ul class="nav nav-pills mb-3" id="orden-tabs" role="tablist">
               <li class="nav-item" role="presentation">
@@ -57,11 +56,11 @@
                 <button class="nav-link" id="pills-validar-orden-tab" data-bs-toggle="pill" data-bs-target="#pills-validar-orden" type="button" role="tab" aria-controls="pills-validar-orden" aria-selected="false" disabled>Ordenar</button>
               </li>
             </ul>
-            <div class="tab-content" id="orden-tabsContent">
+            <div class="tab-content position-relative" id="orden-tabsContent">
 
               <!-- SERVICIOS CONTENT -->
               <div class="tab-pane fade show active" id="pills-choose-servicios" role="tabpanel" aria-labelledby="pills-choose-servicios-tab" tabindex="0">
-                <p>Elige el tipo de Vivienda / Establecimiento el cual se ajusta más al lugar en donde se realizará la fumigación:</p>
+                <p>Elige el tipo de Vivienda / Establecimiento el cual se ajusta más al lugar en donde se realizará la fumigación y luego selecciona el servicio que se ajuste mas a tus necesidades:</p>
                 <div class="d-flex">
                   <div class="flex-fill d-flex flex-column w-100 mb-3">
                     <label class="servicio-label" for="ordenEstablecimientosAutocomplete">Tipo de Establecimiento:</label>
@@ -114,12 +113,84 @@
                   <a class="change-tab pagarOrden">Ir a Pagar <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
               </div>
+
             </div>
-
+            
+            <!-- DETALLES DE LA ORDEN SUB MENU -->
+            <div class="orden-details-submenu">
+              <button type="button" class="orden-submenu-btn position-relative" data-bs-toggle="modal" data-bs-target="#ordenDetailsModal">
+                <span class="btn-text">Ver detalles de la orden</span>
+                <i class="fa-solid fa-clipboard-list"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  <span class="submenu-servicios-count">0</span>
+                  <span class="visually-hidden">Servicios añadidos</span>
+                </span>
+              </button>
+            </div>
+            
           </div>
-
         </section>
 
+      </div>
+    </div>  
+
+    <!-- ORDEN DETAILS MODAL -->
+    <div class="modal fade" id="ordenDetailsModal" tabindex="-1" aria-labelledby="ordenDetailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg modal-fullscreen-lg-down">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="ordenDetailsModalLabel">Detalles de mi orden <i class="fa-solid fa-clipboard-list"></i></h1>
+            <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-0">
+            <div class="accordion accordion-flush" id="ordenDetailsAccordion">
+              <!-- <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <div class="servicio-icons">
+                      <img 
+                        src="assets/img/servicios/cienpies.svg" 
+                        alt="establecimiento"
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top"
+                        data-bs-custom-class="custom-tooltip-primary"
+                        data-bs-title="Casas"
+                      />
+                      <i class="fa-solid fa-plus mx-3"></i>
+                      <img 
+                        src="assets/img/servicios/cucarachas.svg" 
+                        alt="plaga"
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top"
+                        data-bs-custom-class="custom-tooltip-primary"
+                        data-bs-title="Cucarachas"
+                      />
+                    </div>
+                    <div class="servicio-actions">
+                      <span class="monto">70$</span>
+                      <i 
+                        class="fa-solid fa-trash eliminar-servicio"
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top"
+                        data-bs-custom-class="custom-tooltip-primary"
+                        data-bs-title="Eliminar de la orden"
+                      ></i>
+                    </div>
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#ordenDetailsAccordion">
+                  <div class="accordion-body">
+                    <strong>Fumigación de cucarachas en casas:</strong> se exterminará la plaga <b>Cucarachas</b> en el tipo de establecimiento <b>Casas</b>, por un costo de <b>70$</b>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+          <div class="orden-details-monto-total">
+            <span>Monto Total</span>
+            <b class="monto">70$</b>
+          </div>
+        </div>
       </div>
     </div>
   </main>

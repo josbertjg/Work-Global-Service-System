@@ -12,6 +12,8 @@ $(document).ready(()=>{
 // INIT Bootstrap Tooltips
 function initTooltips(){
   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  $('[tooltip-can-change="true"]').tooltip("hide");
+  $('[tooltip-can-change="true"]').tooltip("hide");
   let formattedTooltipsList = [];
   tooltipTriggerList.forEach((tooltip)=>{
     if(
