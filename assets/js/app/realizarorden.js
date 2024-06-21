@@ -33,7 +33,7 @@ $(document).ready(async ()=>{
   const disponibilidadTab = new bootstrap.Tab  (document.getElementById("pills-choose-disponibilidad-tab"))
   const detallesOrdenTabs = new bootstrap.Tab  (document.getElementById("pills-validar-orden-tab"))
   const ordenDetailsModal = new bootstrap.Modal(document.getElementById("ordenDetailsModal"))
-
+  disponibilidadTab.show()
   // Servicios Tab
   let selectedEstablecimiento = null;
   let precioServiciosArray = null;
@@ -168,10 +168,13 @@ $(document).ready(async ()=>{
         initTooltips();
       }else{
         selectedPrecioServiciosArray = _.filter(selectedPrecioServiciosArray,(item)=>item.id !== percioServicioId)
-        $(`details-item-${percioServicioId}`).remove();
+        $(`.details-item-${percioServicioId}`).remove();
         $(".orden-details-monto-total .monto").text(`${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
         $(".submenu-servicios-count").text(selectedPrecioServiciosArray.length.toString())
-        if(_.isEmpty(selectedPrecioServiciosArray)) $(".orden-details-submenu").hide()
+        if(_.isEmpty(selectedPrecioServiciosArray)){
+          $(".orden-details-submenu").hide();
+          ordenDetailsModal.hide();
+        }
         $(event.target).removeClass("fa-minus");
         $(event.target).addClass("fa-plus");
         $(event.target).attr("data-bs-title","¡Lo quiero!")
@@ -229,7 +232,7 @@ $(document).ready(async ()=>{
   let selectedDate     = null;
   let selectedHour     = null;
   let selectedDateTime = null;
-  $("#choose-date").flatpickr({
+  const datePicker = $("#choose-date").flatpickr({
     onChange: function(selectedDates, dateStr, instance) {
       selectedDate = dateStr;
       if(!_.isEmpty(selectedHour)){
@@ -251,7 +254,7 @@ $(document).ready(async ()=>{
     minDate: moment().format()
   });
 
-  $("#choose-time").flatpickr({
+  const timePicker = $("#choose-time").flatpickr({
     enableTime: true,
     noCalendar: true,
     minTime: "08:00",
@@ -265,6 +268,9 @@ $(document).ready(async ()=>{
       }
     }
   });
+
+  $(".fa-calendar-days").click(()=> datePicker.open())
+  $(".fa-clock").click(()=> timePicker.open())
 
   $(".volver-disponibilidadTab").click(()=>disponibilidadTab.show())
 

@@ -280,6 +280,12 @@
         border-top-right-radius: 0.375rem;
         border-bottom-right-radius: 0.375rem;
         padding: 19.5px 1.5rem;
+        cursor: pointer;
+        user-select: none;
+        transition: all 200ms;
+        &:hover{
+          background-color: lighten($primary,10);
+        }
       }
       .fa-clock{
         padding: 19.5px 1.45rem;
@@ -452,5 +458,23 @@
       font-size: 1.2rem;
       font-weight: bold;
     }
+  }
+}
+
+// DateTime Pickers
+.arrowTop{
+  top: 290px !important;
+  bottom: unset !important;
+  @include lg{
+    top: unset !important;
+    bottom: 100px !important;
+  }
+}
+.hasTime{
+  top: 350px !important;
+  bottom: unset !important;
+  @include lg{
+    top: unset !important;
+    bottom: 220px !important;
   }
 }
