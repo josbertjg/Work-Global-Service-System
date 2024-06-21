@@ -497,12 +497,10 @@ main {
 }
 
 .arrowTop {
-  top: 155px !important;
   background-color: white;
 }
 
 .hasTime {
-  top: 230px !important;
   background-color: white;
 }
 
@@ -918,6 +916,12 @@ main {
   border-top-right-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
   padding: 19.5px 1.5rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 200ms;
+}
+.realizar-orden-card #pills-choose-disponibilidad .datetimepicker-container i:hover {
+  background-color: #e4606d;
 }
 .realizar-orden-card #pills-choose-disponibilidad .datetimepicker-container .fa-clock {
   padding: 19.5px 1.45rem;
@@ -1056,6 +1060,28 @@ main {
 #ordenDetailsModal .orden-details-monto-total b {
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+.arrowTop {
+  top: 290px !important;
+  bottom: unset !important;
+}
+@media screen and (max-width: 991px) {
+  .arrowTop {
+    top: unset !important;
+    bottom: 100px !important;
+  }
+}
+
+.hasTime {
+  top: 350px !important;
+  bottom: unset !important;
+}
+@media screen and (max-width: 991px) {
+  .hasTime {
+    top: unset !important;
+    bottom: 220px !important;
+  }
 }
 
 /*# sourceMappingURL=index.css.map */
