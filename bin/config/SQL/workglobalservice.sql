@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-06-2024 a las 17:53:31
+-- Tiempo de generación: 21-06-2024 a las 21:09:14
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `workglobalservice`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `datosordenserviciocliente`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `datosordenserviciocliente` (
+`Nro Orden` varchar(40)
+,`Cliente` varchar(201)
+,`Email` varchar(50)
+,`Ubicacion` varchar(100)
+,`Dia del Servicio` date
+,`Hora` time
+,`Fumigador` varchar(20)
+,`Establecimiento` varchar(155)
+,`Precio Inicial` double
+,`Estado` enum('cancelada','agendada','Completada')
+);
 
 -- --------------------------------------------------------
 
@@ -672,7 +691,8 @@ CREATE TABLE `tfacturas` (
 --
 
 INSERT INTO `tfacturas` (`idFactura`, `orden`, `fecha`, `precioInicial`, `precioFinal`, `pagado`) VALUES
-('FACT-00001', '240619-01', '2024-06-19 02:39:51', 110, 155, 0);
+('FACT-00001', '240619-01', '2024-06-19 02:39:51', 110, 155, 0),
+('FACT-00002', '240620-01', '2024-06-20 18:17:20', 55, 0, 0);
 
 --
 -- Disparadores `tfacturas`
@@ -781,32 +801,29 @@ CREATE TABLE `tordenes` (
   `fumigador` varchar(20) NOT NULL,
   `ubicacion` varchar(100) NOT NULL,
   `establecimiento` varchar(25) NOT NULL,
-  `fechaSolicitado` timestamp NOT NULL DEFAULT current_timestamp()
+  `status` enum('cancelada','agendada','Completada') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `tordenes`
 --
 
-INSERT INTO `tordenes` (`idOrdenes`, `fechaServicio`, `cliente`, `fumigador`, `ubicacion`, `establecimiento`, `fechaSolicitado`) VALUES
-('103ff04dbb', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', '2024-06-18 22:20:52'),
-('142424c930', '2024-06-27 12:00:00', 4, '28150010', '123', 'ECASASWGS', '2024-06-18 22:20:52'),
-('240619-01', '2024-06-19 15:30:00', 13, '28150010', '123', 'ECASASWGS', '2024-06-18 22:36:31'),
-('240701-01', '2024-07-01 09:00:00', 13, '28150010', 'Conjunto, 406, Cabudare 3023, Lara', 'ECASASWGS', '2024-06-19 00:00:16'),
-('72d90b1186', '2024-06-21 16:00:00', 4, '28150010', '123', 'ECASASWGS', '2024-06-18 22:20:52'),
-('8e23daca9a', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', '2024-06-18 22:20:52'),
-('fd4f34d60a', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', '2024-06-18 22:20:52');
-
---
--- Disparadores `tordenes`
---
-DELIMITER $$
-CREATE TRIGGER `ID_Ordenes` BEFORE INSERT ON `tordenes` FOR EACH ROW BEGIN
-    SET @orderCount = (SELECT COUNT(*) FROM tordenes WHERE DATE(fechaServicio) = NEW.fechaServicio) + 1;
-    SET NEW.idOrdenes = CONCAT(DATE_FORMAT(NEW.fechaServicio, '%y%m%d'), '-', LPAD(@orderCount, 2, '0'));
-END
-$$
-DELIMITER ;
+INSERT INTO `tordenes` (`idOrdenes`, `fechaServicio`, `cliente`, `fumigador`, `ubicacion`, `establecimiento`, `status`) VALUES
+('103ff04dbb', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada'),
+('142424c930', '2024-06-27 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada'),
+('20240625-1', '2024-06-25 12:00:00', 1, '28150010', '123', 'ECASASWGS', 'agendada'),
+('20240625-2', '2024-06-25 16:00:00', 1, '28150010', '123', 'ECASASWGS', 'agendada'),
+('20240627-2', '2024-06-27 08:00:00', 1, '28150010', '123', 'EAUTOSWGS', 'agendada'),
+('20240627-3', '2024-06-27 08:00:00', 1, '28150010', '123', 'EAUTOSWGS', 'agendada'),
+('20240628-2', '2024-06-28 16:00:00', 1, '28150010', '123', 'ECASASWGS', 'agendada'),
+('240619-01', '2024-06-19 15:30:00', 13, '28150010', '123', 'ECASASWGS', 'cancelada'),
+('240620-01', '2024-06-20 13:00:00', 13, '28150010', '2JXQ+WGF, Av. Los Horcones, Av. La Salle, Barquisimeto 3001, Lara', 'EAUTOSWGS', 'agendada'),
+('240620-05', '2024-06-20 16:00:00', 12, '987654321', '2JXQ+WGF, Av. Los Horcones, Av. La Salle, Barquisimeto 3001, Lara', 'ECASASWGS', 'agendada'),
+('240628-01', '2024-06-28 10:00:00', 12, '28150010', 'Conjunto, 406, Cabudare 3023, Lara', 'EGALPONESWGS', 'agendada'),
+('240701-01', '2024-07-01 09:00:00', 13, '28150010', 'Conjunto, 406, Cabudare 3023, Lara', 'ECASASWGS', 'cancelada'),
+('72d90b1186', '2024-06-21 16:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada'),
+('8e23daca9a', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada'),
+('fd4f34d60a', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada');
 
 -- --------------------------------------------------------
 
@@ -833,7 +850,19 @@ INSERT INTO `tordenesservicios` (`id`, `orden`, `servicio`) VALUES
 (6, '8e23daca9a', 'SCUCARACHASWGS'),
 (7, '240701-01', 'SCUCARACHASWGS'),
 (8, '240619-01', 'SCUCARACHASWGS'),
-(9, '240619-01', 'SPULGASWGS');
+(9, '240619-01', 'SPULGASWGS'),
+(10, '240620-01', 'SRATASWGS'),
+(11, '240620-01', 'SCUCARACHASWGS'),
+(12, '20240625-1', 'SCUCARACHASWGS'),
+(13, '20240625-1', 'SPULGASWGS'),
+(14, '20240625-2', 'SCUCARACHASWGS'),
+(15, '20240625-2', 'SPULGASWGS'),
+(16, '20240628-2', 'SPULGASWGS'),
+(17, '20240628-2', 'SCUCARACHASWGS'),
+(18, '20240627-2', 'SCUCARACHASWGS'),
+(19, '20240627-2', 'SPULGASWGS'),
+(20, '20240627-3', 'SCUCARACHASWGS'),
+(21, '20240627-3', 'SPULGASWGS');
 
 -- --------------------------------------------------------
 
@@ -1001,6 +1030,15 @@ INSERT INTO `tubicaciones` (`idUbicacion`, `latitud`, `longitud`, `direccion`, `
 ('2Q64+J69, Cabudare 3023, Lara', '10.011673028496663', '-69.24375564934013', 'Urb Los Bucares', 214),
 ('Conjunto, 406, Cabudare 3023, Lara', '10.013177240167913', '-69.243349112457', 'Conjunto Residencial 406 Cabudare', 214);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `datosordenserviciocliente`
+--
+DROP TABLE IF EXISTS `datosordenserviciocliente`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `datosordenserviciocliente`  AS SELECT `tordenes`.`idOrdenes` AS `Nro Orden`, concat(`swgs`.`tusuarios`.`nombre`,' ',`swgs`.`tusuarios`.`apellido`) AS `Cliente`, `tclientes`.`email` AS `Email`, `tordenes`.`ubicacion` AS `Ubicacion`, cast(`tordenes`.`fechaServicio` as date) AS `Dia del Servicio`, cast(`tordenes`.`fechaServicio` as time) AS `Hora`, `tordenes`.`fumigador` AS `Fumigador`, `testablecimientos`.`nombre` AS `Establecimiento`, coalesce(sum(`tprecioservicios`.`precio`),0) AS `Precio Inicial`, `tordenes`.`status` AS `Estado` FROM (((((`tclientes` join `swgs`.`tusuarios` on(`tclientes`.`email` = `swgs`.`tusuarios`.`email`)) join `tordenes` on(`tclientes`.`id` = `tordenes`.`cliente`)) join `testablecimientos` on(`tordenes`.`establecimiento` = `testablecimientos`.`idEstablecimientos`)) left join `tordenesservicios` on(`tordenesservicios`.`orden` = `tordenes`.`idOrdenes`)) left join `tprecioservicios` on(`tordenesservicios`.`servicio` = `tprecioservicios`.`servicio`)) WHERE `tprecioservicios`.`establecimiento` = `tordenes`.`establecimiento` GROUP BY `tordenes`.`idOrdenes` ;
+
 --
 -- Índices para tablas volcadas
 --
@@ -1159,7 +1197,7 @@ ALTER TABLE `tfacturasobrecargos`
 -- AUTO_INCREMENT de la tabla `tordenesservicios`
 --
 ALTER TABLE `tordenesservicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `tpagodetalles`

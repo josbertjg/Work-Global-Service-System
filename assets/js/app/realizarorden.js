@@ -49,9 +49,9 @@ $(document).ready(async ()=>{
 
   // Eventos del autocomplete
   $('#ordenEstablecimientosAutocomplete').on('select2:select', function (e) {
-    selectedEstablecimiento = _.find(establecimientos,(establecimiento)=>(establecimiento.idEstablecimientos === e.params.data.id));
+    selectedEstablecimiento = _.find(establecimientos,(establecimiento)=>(establecimiento.idEstablecimientos == e.params.data.id));
     if(!_.isEmpty(selectedEstablecimiento)){
-      precioServiciosArray = _.filter(preciosServicios,(item)=>(item.establecimiento === selectedEstablecimiento.idEstablecimientos))
+      precioServiciosArray = _.filter(preciosServicios,(item)=>(item.establecimiento == selectedEstablecimiento.idEstablecimientos))
       if(!_.isEmpty(precioServiciosArray)){
         $(".available-services-label").show();
         $(".available-services-list").empty();
@@ -167,7 +167,7 @@ $(document).ready(async ()=>{
         if(selectedPrecioServiciosArray.length == 1) $(".orden-details-submenu").fadeIn()
         initTooltips();
       }else{
-        selectedPrecioServiciosArray = _.filter(selectedPrecioServiciosArray,(item)=>item.id !== percioServicioId)
+        selectedPrecioServiciosArray = _.filter(selectedPrecioServiciosArray,(item)=>item.id != percioServicioId)
         $(`.details-item-${percioServicioId}`).remove();
         $(".orden-details-monto-total .monto").text(`${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
         $(".submenu-servicios-count").text(selectedPrecioServiciosArray.length.toString())
@@ -187,7 +187,7 @@ $(document).ready(async ()=>{
       const percioServicioId = $(event.target).attr("idPrecioServicio");
       $(`.details-item-${percioServicioId}`).remove();
 
-      selectedPrecioServiciosArray = _.filter(selectedPrecioServiciosArray,(item)=>item.id !== percioServicioId)
+      selectedPrecioServiciosArray = _.filter(selectedPrecioServiciosArray,(item)=>item.id != percioServicioId)
       
       $(".orden-details-monto-total .monto").text(`${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
 
@@ -244,7 +244,7 @@ $(document).ready(async ()=>{
     "disable": [
       function(date) {
           // return true to disable
-          return (date.getDay() === 0 || date.getDay() === 6);
+          return (date.getDay() == 0 || date.getDay() == 6);
 
       }
     ],
