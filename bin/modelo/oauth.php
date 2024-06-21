@@ -63,7 +63,7 @@
           $exito = $new->execute();
           parent::desconectarDB();
           if($exito){
-            $this->registrarWGS();
+            //$this->registrarWGS();
             $respuesta = $this->userInfo();
             $this->saveUserSession();
             $this->registrarBitacora("registro",$this->email,"Usario se ha registrado con Google al sistema");

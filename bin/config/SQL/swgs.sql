@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-06-2024 a las 05:54:37
--- Versión del servidor: 10.4.18-MariaDB
--- Versión de PHP: 8.0.5
+-- Tiempo de generación: 19-06-2024 a las 22:28:23
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `taccesos` (
-  `idAcceso` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `rol` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `permiso` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `modulo` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idAcceso` varchar(40) NOT NULL,
+  `rol` varchar(40) NOT NULL,
+  `permiso` varchar(40) NOT NULL,
+  `modulo` varchar(40) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -110,7 +110,9 @@ INSERT INTO `taccesos` (`idAcceso`, `rol`, `permiso`, `modulo`, `status`) VALUES
 ('100888792637898752', 'SAWGS1', 'CONSULTARWGS', 'MPERMISOSWGS', 1),
 ('100888792637898753', 'SAWGS1', 'CREATEWGS', 'MPERMISOSWGS', 1),
 ('100888792637898754', 'SAWGS1', 'ELIMINARWGS', 'MPERMISOSWGS', 1),
-('100888792637898755', 'SAWGS1', 'MODIFICARWGS', 'MPERMISOSWGS', 1);
+('100888792637898755', 'SAWGS1', 'MODIFICARWGS', 'MPERMISOSWGS', 1),
+('100892973369131008', 'FGWGS1', 'CONSULTARWGS', 'MSERVICIOSWGS', 1),
+('100892973369131009', 'FGWGS1', 'CONSULTARWGS', 'MPRECIOSWGS', 1);
 
 -- --------------------------------------------------------
 
@@ -120,9 +122,9 @@ INSERT INTO `taccesos` (`idAcceso`, `rol`, `permiso`, `modulo`, `status`) VALUES
 
 CREATE TABLE `tbitacoras` (
   `id` int(11) NOT NULL,
-  `modulo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `usuario` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `descripcion` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `modulo` varchar(20) NOT NULL,
+  `usuario` varchar(40) NOT NULL,
+  `descripcion` varchar(500) NOT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -168,7 +170,8 @@ INSERT INTO `tbitacoras` (`id`, `modulo`, `usuario`, `descripcion`, `fecha`) VAL
 (61, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-06-17 23:48:33'),
 (62, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-06-17 23:51:17'),
 (63, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-06-17 23:51:55'),
-(64, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-06-17 23:53:31');
+(64, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-06-17 23:53:31'),
+(65, 'Iniciar Sesión', 'jentimo0205@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-19 15:52:35');
 
 -- --------------------------------------------------------
 
@@ -177,8 +180,8 @@ INSERT INTO `tbitacoras` (`id`, `modulo`, `usuario`, `descripcion`, `fecha`) VAL
 --
 
 CREATE TABLE `tmodulos` (
-  `idModulo` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idModulo` varchar(40) NOT NULL,
+  `nombre` varchar(20) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -214,9 +217,9 @@ INSERT INTO `tmodulos` (`idModulo`, `nombre`, `status`) VALUES
 
 CREATE TABLE `tnofiticaciones` (
   `id` int(11) NOT NULL,
-  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
-  `status` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `usuario` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
+  `descripcion` longtext NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `usuario` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -226,8 +229,8 @@ CREATE TABLE `tnofiticaciones` (
 --
 
 CREATE TABLE `tpermisos` (
-  `idPermiso` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idPermiso` varchar(40) NOT NULL,
+  `nombre` varchar(20) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -248,8 +251,8 @@ INSERT INTO `tpermisos` (`idPermiso`, `nombre`, `status`) VALUES
 --
 
 CREATE TABLE `troles` (
-  `IdRol` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `IdRol` varchar(10) NOT NULL,
+  `nombre` varchar(20) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -269,15 +272,15 @@ INSERT INTO `troles` (`IdRol`, `nombre`, `status`) VALUES
 --
 
 CREATE TABLE `tusuarios` (
-  `email` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `contraseña` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `nombre` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `apellido` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `telefono` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `fotoPerfil` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `email` varchar(40) NOT NULL,
+  `contraseña` varchar(255) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `apellido` varchar(100) NOT NULL,
+  `telefono` varchar(20) NOT NULL,
+  `fotoPerfil` varchar(500) NOT NULL,
   `emailVerificado` tinyint(1) NOT NULL DEFAULT 0,
-  `oauth_type` enum('gmail_oauth','account_password','multi_oauth','') COLLATE utf8mb4_spanish_ci NOT NULL,
-  `idRol` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT 'CLWGS1',
+  `oauth_type` enum('gmail_oauth','account_password','multi_oauth','') NOT NULL,
+  `idRol` varchar(10) NOT NULL DEFAULT 'CLWGS1',
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `activo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -287,11 +290,34 @@ CREATE TABLE `tusuarios` (
 --
 
 INSERT INTO `tusuarios` (`email`, `contraseña`, `nombre`, `apellido`, `telefono`, `fotoPerfil`, `emailVerificado`, `oauth_type`, `idRol`, `creado`, `activo`) VALUES
+('AndreinaPTorres@gmail.com', '', 'Andreina', 'Torres', '04141239876', '', 1, 'account_password', 'CLWGS1', '2024-06-18 22:02:29', 1),
+('CamilaOropeza1089@gmail.com', '', 'Camila Oriana', 'Oropeza', '04167894576', '', 1, 'account_password', 'CLWGS1', '2024-06-18 22:02:29', 1),
+('EmmaE@gmail.com', '', 'Emmanuel', 'Espinoza', '0426498678', '', 1, 'account_password', 'FGWGS1', '2024-06-18 23:47:00', 1),
+('isabelmosquera@gmail.com', 'prueba de contraseña', 'Isabel', 'Mosquera', '04145399966', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:22:26', 1),
 ('jentimo0205@gmail.com', '', 'José', 'Timaure', '', 'assets/img/perfil/jentimo0205@gmail.com.jpg', 1, 'gmail_oauth', 'CLWGS1', '2024-06-16 02:59:01', 1),
 ('josbertjg@gmail.com', '', 'Josbert', 'Guedez', '', 'https://lh3.googleusercontent.com/a/ACg8ocIYxgSVKmpdVhUOFnSf7DM1UbzOGrdaaIBopvTOKnWhhNlccJxZ=s96-c', 1, 'gmail_oauth', 'FGWGS1', '2024-06-17 21:19:11', 1),
 ('josetimaure60@gmail.com', '', 'Jose', 'Timaure', '', 'https://lh3.googleusercontent.com/a/ACg8ocJRESfHpvaFUA8v242WUFwFuXql-rmQ7fr05Ga-JlrNKARYpGxSeg=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-06-09 14:21:23', 1),
+('KatherineLameda99@gmail.com', '', 'Katherine Joana', 'Lameda Mosquera', '04123458865', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:51:11', 1),
 ('luisanagimenez18@gmail.com', '', 'Luisana', 'Gimenez', '', 'assets/img/perfil/luisanagimenez18@gmail.com.jpg', 1, 'gmail_oauth', 'SAWGS1', '2024-06-13 18:51:42', 1),
-('workglobalserviceca@gmail.com', '', 'Josnel', 'Guedez', '', 'assets/img/perfil/workglobalserviceca@gmail.com.jpg', 1, 'gmail_oauth', 'CLWGS1', '2024-06-18 03:19:58', 1);
+('mariaLameda18@gmail.com', '', 'Maria Isabel', 'Lameda', '04246674321', '', 1, 'multi_oauth', 'CLWGS1', '2024-06-18 21:51:11', 1),
+('PedroTimaure@gmail.com', '', 'Pedro', 'Timaure', '04265510200', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:44:54', 1),
+('royferSuarez39@gmail.com', '', 'Royfer', 'Suarez', '04263458756', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:48:23', 1),
+('SarahiTimaure@gmail.com', '', 'Sarahi', 'Timaure', '04145678903', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:46:56', 1),
+('tugo0220@gmail.com', '', 'Rolando', 'Ramirez', '04269074598', '', 1, 'account_password', 'CLWGS1', '2024-06-18 23:47:00', 1),
+('workglobalserviceca@gmail.com', '', 'Josnel', 'Guedez', '', 'assets/img/perfil/workglobalserviceca@gmail.com.jpg', 1, 'gmail_oauth', 'CLWGS1', '2024-06-18 03:19:58', 1),
+('yadiraMosquera@gmail.com', '', 'Yadira', 'Mosquera', '04169996534', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:40:31', 1);
+
+--
+-- Disparadores `tusuarios`
+--
+DELIMITER $$
+CREATE TRIGGER `insertarCliente` AFTER INSERT ON `tusuarios` FOR EACH ROW BEGIN
+    IF NEW.IdRol = 'CLWGS1' THEN
+        INSERT INTO workglobalservice.tclientes (id,email) VALUES (NULL,NEW.email);
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -422,7 +448,7 @@ ALTER TABLE `tusuarios`
 -- AUTO_INCREMENT de la tabla `tbitacoras`
 --
 ALTER TABLE `tbitacoras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de la tabla `tnofiticaciones`

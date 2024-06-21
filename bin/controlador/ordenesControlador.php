@@ -1,18 +1,18 @@
 <?php
 
 	use componentes\initComponents as initComponents;
-	use modelo\permisos as permiso;
+	use modelo\ordenes as orden;
 
 	if(empty($_SESSION['idRol'])) {
 		die('<script> window.location = "/" </script>');
 	}
-	$model = new permiso();
+	$model = new orden();
 	$permisos = $model->getPermisosRol(!empty($_SESSION) ? $_SESSION['idRol'] : "");
 	$permiso = $permisos['Permisos'];
 	if(empty($permiso['Consultar'])) {
 		die('<script> window.location = "/" </script>');
 	}
-	if(isset($_POST['opcion'])){
+	/* if(isset($_POST['opcion'])){
 		$model->getTableData($_POST['opcion']);
 	}
 	if(isset($_POST['update'])){
@@ -27,7 +27,7 @@
 		$model->getInsert($_POST['Rol'],$_POST['modulo'],$_POST['permisos']);
 		$model->getTableData($_POST['Rol']);
 		//$model->funcionPrueba();
-	}
+	} */
 	$components = new initComponents($permisos);	
-	require "vistas/permisosVista.php";	
+	require "vistas/ordenesAdministradorVista.php";	
 ?>

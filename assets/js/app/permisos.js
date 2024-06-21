@@ -10,6 +10,9 @@ const uncheckBots='<div class="form-check form-switch">' +
 
 
 $(document).ready(async () => {
+    llenarSelecteModulos();
+    validarModulos();
+    validarPermiso();
     var columnas = [
         {"data": "Modulo"},
         {"data": "Crear",
@@ -68,7 +71,7 @@ $(document).ready(async () => {
                 habilitado=data.Crear;
                 break;
             case 2:
-                switchType = 'Consutar';
+                switchType = 'Consultar';
                 habilitado=data.Consultar;
                 break;
             case 3:
@@ -115,6 +118,78 @@ $(document).ready(async () => {
             }
         });
     });
-    
-
+    $("#btnNuevo").click(function(){
+        datos = 1; //crear         
+        idPrecio=null;
+        blankForm($("#FormPermisos"));
+        $("#FormPermisos").trigger("reset");
+        $(".modal-header").css( "background-color", "#d32535");
+        $(".modal-header").css( "color", "white" );
+        $(".modal-title").text("Registrar Permiso");
+        $('#modalCRUD').modal('show');
+      });
+       //submit el form
+    $("#FormPermisos").on("submit", async(event)=>{
+        event.preventDefault();
+        const form = $("#FormPermisos");
+        const formValid = checkFormValidity(form);
+        if(formValid){
+          const formHTML = document.getElementById("FormPermisos");
+          const data = new FormData(formHTML)
+          data.append("insert",JSON.stringify(true));
+          var option=document.getElementById('roles');
+          var opcion=option.value;
+          data.append("Rol",opcion);
+          const respuesta = await service.post('permisos',data);
+          if("error" in respuesta){
+            showFormAlerts(form,respuesta.error);
+            blankForm(form);
+          }else{
+            TablaPermisos.ajax.reload(null,false);
+            Swal.fire({
+              title: "Exito!",
+              text: "se ha ingresado la entrada con exito!",
+              icon: "success"
+            });
+            $('#modalCRUD').modal('hide');
+          }
+          
+         }
+      });
+      
 });
+
+async function llenarSelecteModulos(){
+    let select= document.getElementById('modulo');
+    const respuesta = await service.post('permisos',{solicitarModulo:true});
+    respuesta.forEach(element => {
+      let option= document.createElement('option');
+      option.value=element.idModulo;
+      option.text=element.nombre;
+      select.appendChild(option);
+    });
+  }
+
+  function validarModulos(){
+    var selectElement = document.getElementById('modulo');
+    selectElement.addEventListener('change', validar);
+    validar(); // Llama a la función de validación inmediatamente
+    function validar() {
+      var valorSeleccionado = selectElement.value;
+      if(valorSeleccionado=="default"){
+        setInvalidInput($("#modulo"),"Debe Seleccionar un Modulo");
+      }else{setValidInput($("#modulo"))}
+    }
+  }
+
+  function validarPermiso(){
+    var selectElement = document.getElementById('permisos');
+    selectElement.addEventListener('change', validar);
+    validar(); // Llama a la función de validación inmediatamente
+    function validar() {
+      var valorSeleccionado = selectElement.value;
+      if(valorSeleccionado=="default"){
+        setInvalidInput($("#permisos"),"Debe Seleccionar un Permiso");
+      }else{setValidInput($("#permisos"))}
+    }
+  }
