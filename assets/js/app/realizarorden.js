@@ -33,7 +33,7 @@ $(document).ready(async ()=>{
   const disponibilidadTab = new bootstrap.Tab  (document.getElementById("pills-choose-disponibilidad-tab"))
   const detallesOrdenTabs = new bootstrap.Tab  (document.getElementById("pills-validar-orden-tab"))
   const ordenDetailsModal = new bootstrap.Modal(document.getElementById("ordenDetailsModal"))
-  disponibilidadTab.show()
+  
   // Servicios Tab
   let selectedEstablecimiento = null;
   let precioServiciosArray = null;
