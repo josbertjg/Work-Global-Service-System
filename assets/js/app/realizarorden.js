@@ -115,9 +115,9 @@ $(document).ready(async ()=>{
       $(event.target).attr("data-bs-title","¡Eliminar!")
       initTooltips();
 
-      if(_.isEmpty(_.find(selectedPrecioServiciosArray,(item)=>(item.id === percioServicioId)))){
-        const precioServicioSelected = _.find(precioServiciosArray,(item)=>(item.id === percioServicioId));
-        const servicioSelected = _.find(currentFumigador.servicios,(servicio)=>(servicio.idServicio === precioServicioSelected.servicio));
+      if(_.isEmpty(_.find(selectedPrecioServiciosArray,(item)=>(item.id == percioServicioId)))){
+        const precioServicioSelected = _.find(precioServiciosArray,(item)=>(item.id == percioServicioId));
+        const servicioSelected = _.find(currentFumigador.servicios,(servicio)=>(servicio.idServicio == precioServicioSelected.servicio));
 
         selectedPrecioServiciosArray.push(precioServicioSelected);
 

@@ -1,9 +1,9 @@
 <?php 
 
   namespace modelo;
-
   use config\connect\DBConnect as DBConnect;
-
+  use \PDO;
+  use DateTime;
   class ordenes extends DBConnect{
     private $fumigadorID;
     private $clienteID;
@@ -12,6 +12,7 @@
     private $establecimientoID;
     private $serviciosArr;
     private $clienteEmail;
+    private $idOrden;
 
     public function __construct(){
     	parent::__construct();
@@ -138,17 +139,23 @@
       $this->ubicacionID = $ubicacion;
       $this->establecimientoID = $establecimiento;
       $this->serviciosArr = json_decode($servicios);
+      $this->idOrden=$this->generarId($fechaServicio);
       $this->insertNewOrden();
     }
 
     private function insertNewOrden(){
       $this->conectarDB();
-      $new = $this->con->prepare("INSERT INTO `tordenes`(`fumigador`, `cliente`, `fechaServicio`, `ubicacion`, `establecimiento`) VALUES (?,?,?,?,?)"); 
-      $new->bindValue(1 , $this->fumigadorID);
-      $new->bindValue(2 , $this->clienteID);
-      $new->bindValue(3 , $this->fechaServicio);
-      $new->bindValue(4 , $this->ubicacionID);
-      $new->bindValue(5 , $this->establecimientoID);
+      $new = $this->con->prepare("
+      INSERT INTO `tordenes`
+      (`idOrdenes`,`fechaServicio`,`cliente`,`fumigador`,`ubicacion`, `establecimiento`,`status`)
+       VALUES (?,?,?,?,?,?,?)"); 
+      $new->bindValue(1 , $this->idOrden);
+      $new->bindValue(2 , $this->fechaServicio);
+      $new->bindValue(3 , $this->clienteID);
+      $new->bindValue(4 , $this->fumigadorID);
+      $new->bindValue(5 , $this->ubicacionID);
+      $new->bindValue(6 , $this->establecimientoID);
+      $new->bindValue(7 , "agendada");
       $exito = $new->execute();
       $idOrden = $this->con->lastInsertId();
       $this->desconectarDB();
@@ -162,7 +169,7 @@
 
           foreach($this->serviciosArr as $servicio){
             $new = $this->con->prepare("INSERT INTO `tordenesservicios`(`orden`, `servicio`) VALUES (?,?)"); 
-            $new->bindValue(1 , $idOrden);
+            $new->bindValue(1 , $this->idOrden);
             $new->bindValue(2 , $servicio);
             $exito = $new->execute();
           }
@@ -187,6 +194,23 @@
       $regExp = '/^(\d{5,})$/';
       return preg_match_all($regExp, $fumigadorID);
     }
+   private function generarId($fechaServicio){
+      $this->conectarDB();
+      $consulta = "SELECT COUNT(*)
+      FROM tordenes
+      WHERE DATE(fechaServicio) = DATE(:fechaServicio);";
+      $ejecucion = $this->con->prepare($consulta);
+      $ejecucion->bindParam(':fechaServicio', $fechaServicio);
+      $ejecucion->execute();
+      $data = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+      $this->desconectarDB();
+      $count = $data[0]['COUNT(*)'];
+      $count++; // Incrementar el conteo
+      //$fechaServicioObj = new DateTime($fechaServicio);
+      $fechaServicioObj = DateTime::createFromFormat('Y-m-d H:i', $fechaServicio);
+      $formattedDate = $fechaServicioObj->format('Ymd');
+      $finalID=$formattedDate ."-".  $count;
+      return $finalID;
+    }
   }
-
 ?>
