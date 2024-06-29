@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-06-2024 a las 21:09:14
+-- Tiempo de generación: 29-06-2024 a las 03:55:49
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -21,6 +21,29 @@ SET time_zone = "+00:00";
 -- Base de datos: `workglobalservice`
 --
 
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ClienteFactura` (IN `correo` VARCHAR(45))   BEGIN
+SELECT u.nombre, u.apellido,
+f.idFactura as "Nro Factura", Date(f.fecha) as "Fecha",
+o.idOrdenes as "Nro Orden",
+f.precioInicial as "Precio inicial", f.Sobrecargo, f.precioFinal as "Precio Final",
+f.pagado 
+FROM workglobalservice.tfacturas f INNER JOIN
+workglobalservice.tordenes o on f.orden = o.idOrdenes
+INNER JOIN workglobalservice.tclientes c on o.cliente=c.id
+INNER JOIN swgs.tusuarios as u on u.email=c.email
+WHERE c.email=correo;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `registrarOrden` (IN `id` VARCHAR(15), IN `fechaHora` DATETIME, IN `Cliente` INT(10), IN `fumigador` VARCHAR(45), IN `ubicacion` VARCHAR(45), IN `establecimiento` VARCHAR(45), IN `estado` VARCHAR(20))   BEGIN
+INSERT INTO tordenes VALUES(id,fechaHora,Cliente,fumigador,ubicacion, establecimiento,estado);
+END$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -28,16 +51,14 @@ SET time_zone = "+00:00";
 -- (Véase abajo para la vista actual)
 --
 CREATE TABLE `datosordenserviciocliente` (
-`Nro Orden` varchar(40)
+`NroOrden` varchar(40)
 ,`Cliente` varchar(201)
 ,`Email` varchar(50)
-,`Ubicacion` varchar(100)
-,`Dia del Servicio` date
+,`Dia` date
 ,`Hora` time
-,`Fumigador` varchar(20)
-,`Establecimiento` varchar(155)
-,`Precio Inicial` double
+,`Ubicacion` varchar(100)
 ,`Estado` enum('cancelada','agendada','Completada')
+,`Establecimiento` varchar(155)
 );
 
 -- --------------------------------------------------------
@@ -682,6 +703,7 @@ CREATE TABLE `tfacturas` (
   `orden` varchar(20) NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `precioInicial` float NOT NULL,
+  `Sobrecargo` float NOT NULL,
   `precioFinal` float NOT NULL,
   `pagado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -690,9 +712,10 @@ CREATE TABLE `tfacturas` (
 -- Volcado de datos para la tabla `tfacturas`
 --
 
-INSERT INTO `tfacturas` (`idFactura`, `orden`, `fecha`, `precioInicial`, `precioFinal`, `pagado`) VALUES
-('FACT-00001', '240619-01', '2024-06-19 02:39:51', 110, 155, 0),
-('FACT-00002', '240620-01', '2024-06-20 18:17:20', 55, 0, 0);
+INSERT INTO `tfacturas` (`idFactura`, `orden`, `fecha`, `precioInicial`, `Sobrecargo`, `precioFinal`, `pagado`) VALUES
+('FACT-00001', '240619-01', '2024-06-25 23:43:30', 110, 45, 155, 0),
+('FACT-00002', '240620-01', '2024-06-25 23:43:41', 55, 0, 55, 0),
+('FACT-00004', '240701-01', '2024-06-25 23:24:53', 30, 0, 30, 0);
 
 --
 -- Disparadores `tfacturas`
@@ -701,21 +724,6 @@ DELIMITER $$
 CREATE TRIGGER `ID_FACTURA` BEFORE INSERT ON `tfacturas` FOR EACH ROW BEGIN
     SET @CONTADOR = (SELECT COUNT(*) FROM tfacturas) + 1;
     SET NEW.idFactura = CONCAT('FACT-', LPAD(@CONTADOR, 5, '0'));
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `P_INICIAL` BEFORE INSERT ON `tfacturas` FOR EACH ROW BEGIN
-    DECLARE precioInicial DECIMAL(10,2);
-    
-    -- Calcula el precio inicial basado en las órdenes de servicio y los precios de servicio
-   SELECT COALESCE(SUM(tprecioservicios.precio), 0) INTO precioInicial
-FROM tordenesservicios
-INNER JOIN tprecioservicios ON tordenesservicios.servicio = tprecioservicios.servicio
-WHERE tordenesservicios.orden = NEW.orden
-  AND tprecioservicios.establecimiento = (SELECT establecimiento FROM tordenes WHERE idOrdenes = NEW.orden);
-    -- Asigna el precio inicial a la nueva factura antes de insertarla
-    SET NEW.precioInicial = precioInicial;
 END
 $$
 DELIMITER ;
@@ -757,7 +765,7 @@ CREATE TRIGGER `PRECIO_FINAL` AFTER INSERT ON `tfacturasobrecargos` FOR EACH ROW
     SET precioFinal = precioInicialFactura + totalSobrecargos;
     
     -- Actualiza el precio final en la factura
-    UPDATE tfacturas SET precioFinal = precioFinal WHERE idFactura = NEW.factura;
+    UPDATE tfacturas SET precioFinal = precioFinal, Sobrecargo=totalSobrecargos WHERE idFactura = NEW.factura;
 END
 $$
 DELIMITER ;
@@ -811,19 +819,21 @@ CREATE TABLE `tordenes` (
 INSERT INTO `tordenes` (`idOrdenes`, `fechaServicio`, `cliente`, `fumigador`, `ubicacion`, `establecimiento`, `status`) VALUES
 ('103ff04dbb', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada'),
 ('142424c930', '2024-06-27 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada'),
-('20240625-1', '2024-06-25 12:00:00', 1, '28150010', '123', 'ECASASWGS', 'agendada'),
-('20240625-2', '2024-06-25 16:00:00', 1, '28150010', '123', 'ECASASWGS', 'agendada'),
-('20240627-2', '2024-06-27 08:00:00', 1, '28150010', '123', 'EAUTOSWGS', 'agendada'),
-('20240627-3', '2024-06-27 08:00:00', 1, '28150010', '123', 'EAUTOSWGS', 'agendada'),
-('20240628-2', '2024-06-28 16:00:00', 1, '28150010', '123', 'ECASASWGS', 'agendada'),
 ('240619-01', '2024-06-19 15:30:00', 13, '28150010', '123', 'ECASASWGS', 'cancelada'),
 ('240620-01', '2024-06-20 13:00:00', 13, '28150010', '2JXQ+WGF, Av. Los Horcones, Av. La Salle, Barquisimeto 3001, Lara', 'EAUTOSWGS', 'agendada'),
-('240620-05', '2024-06-20 16:00:00', 12, '987654321', '2JXQ+WGF, Av. Los Horcones, Av. La Salle, Barquisimeto 3001, Lara', 'ECASASWGS', 'agendada'),
-('240628-01', '2024-06-28 10:00:00', 12, '28150010', 'Conjunto, 406, Cabudare 3023, Lara', 'EGALPONESWGS', 'agendada'),
 ('240701-01', '2024-07-01 09:00:00', 13, '28150010', 'Conjunto, 406, Cabudare 3023, Lara', 'ECASASWGS', 'cancelada'),
-('72d90b1186', '2024-06-21 16:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada'),
 ('8e23daca9a', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada'),
 ('fd4f34d60a', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada');
+
+--
+-- Disparadores `tordenes`
+--
+DELIMITER $$
+CREATE TRIGGER `crearFactura` AFTER INSERT ON `tordenes` FOR EACH ROW BEGIN
+ INSERT INTO tfacturas VALUES ("", NEW.idOrdenes, CURRENT_TIMESTAMP,0,0,0,0);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -852,17 +862,27 @@ INSERT INTO `tordenesservicios` (`id`, `orden`, `servicio`) VALUES
 (8, '240619-01', 'SCUCARACHASWGS'),
 (9, '240619-01', 'SPULGASWGS'),
 (10, '240620-01', 'SRATASWGS'),
-(11, '240620-01', 'SCUCARACHASWGS'),
-(12, '20240625-1', 'SCUCARACHASWGS'),
-(13, '20240625-1', 'SPULGASWGS'),
-(14, '20240625-2', 'SCUCARACHASWGS'),
-(15, '20240625-2', 'SPULGASWGS'),
-(16, '20240628-2', 'SPULGASWGS'),
-(17, '20240628-2', 'SCUCARACHASWGS'),
-(18, '20240627-2', 'SCUCARACHASWGS'),
-(19, '20240627-2', 'SPULGASWGS'),
-(20, '20240627-3', 'SCUCARACHASWGS'),
-(21, '20240627-3', 'SPULGASWGS');
+(11, '240620-01', 'SCUCARACHASWGS');
+
+--
+-- Disparadores `tordenesservicios`
+--
+DELIMITER $$
+CREATE TRIGGER `P_INICIAL` AFTER INSERT ON `tordenesservicios` FOR EACH ROW BEGIN
+    DECLARE precioInicial DECIMAL(10,2);
+    
+    -- Calcula el precio inicial basado en las órdenes de servicio y los precios de servicio
+   SELECT COALESCE(SUM(tprecioservicios.precio), 0) INTO precioInicial
+FROM tordenesservicios
+INNER JOIN tprecioservicios ON tordenesservicios.servicio = tprecioservicios.servicio
+WHERE tordenesservicios.orden = NEW.orden
+  AND tprecioservicios.establecimiento = (SELECT establecimiento FROM tordenes WHERE idOrdenes = NEW.orden);
+    -- Asigna el precio inicial a la nueva factura antes de insertarla
+    UPDATE tfacturas set precioInicial=precioInicial,
+    precioFinal=precioInicial WHERE orden=NEW.orden;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -956,7 +976,6 @@ CREATE TABLE `tservicios` (
 INSERT INTO `tservicios` (`idServicio`, `nombre`, `quimico`, `descripcion`, `fotoServicio`, `habilitado`) VALUES
 ('SCIENPIESWGS', 'Bachacos, Gusanos, Culebras y Cien pies', 'INPLCHPE15PR', 'Servicio especializado en la eliminación de zancudos y mosquitos', 'assets/img/servicios/cienpies.svg', 1),
 ('SCUCARACHASWGS', 'Cucarachas, Chiripas y Hormigas', 'INPLCHPE15PR', 'Servicio especializado en la eliminación de Cucarachas, chiripas y hormigas', 'assets/img/servicios/cucarachas.svg', 1),
-('SMADURISTASWGS', 'MADURISTAS', 'MACU', 'Prueba de un update desde el formulario el formulario en si', 'assets/img/servicios/images.jpeg.jpeg', 1),
 ('SPULGASWGS', 'Pulgas y Garrapatas', 'INPLCHPE15PR', 'Servicio especializado en la eliminación de pulgas y garrapatas', 'assets/img/servicios/pulgas.svg', 1),
 ('SRATASWGS', 'Ratas y Ratones', 'INPLCHPE15PR', 'Servicio especializado en la eliminación de ratas y ratones', 'assets/img/servicios/ratones.svg', 1),
 ('STERMITASWGS', 'Termitas y Comején', 'INPLCHPE15PR', 'Servicio especializado en la eliminación de termitas y comején', 'assets/img/servicios/termitas.svg', 1),
@@ -1037,7 +1056,7 @@ INSERT INTO `tubicaciones` (`idUbicacion`, `latitud`, `longitud`, `direccion`, `
 --
 DROP TABLE IF EXISTS `datosordenserviciocliente`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `datosordenserviciocliente`  AS SELECT `tordenes`.`idOrdenes` AS `Nro Orden`, concat(`swgs`.`tusuarios`.`nombre`,' ',`swgs`.`tusuarios`.`apellido`) AS `Cliente`, `tclientes`.`email` AS `Email`, `tordenes`.`ubicacion` AS `Ubicacion`, cast(`tordenes`.`fechaServicio` as date) AS `Dia del Servicio`, cast(`tordenes`.`fechaServicio` as time) AS `Hora`, `tordenes`.`fumigador` AS `Fumigador`, `testablecimientos`.`nombre` AS `Establecimiento`, coalesce(sum(`tprecioservicios`.`precio`),0) AS `Precio Inicial`, `tordenes`.`status` AS `Estado` FROM (((((`tclientes` join `swgs`.`tusuarios` on(`tclientes`.`email` = `swgs`.`tusuarios`.`email`)) join `tordenes` on(`tclientes`.`id` = `tordenes`.`cliente`)) join `testablecimientos` on(`tordenes`.`establecimiento` = `testablecimientos`.`idEstablecimientos`)) left join `tordenesservicios` on(`tordenesservicios`.`orden` = `tordenes`.`idOrdenes`)) left join `tprecioservicios` on(`tordenesservicios`.`servicio` = `tprecioservicios`.`servicio`)) WHERE `tprecioservicios`.`establecimiento` = `tordenes`.`establecimiento` GROUP BY `tordenes`.`idOrdenes` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `datosordenserviciocliente`  AS SELECT `o`.`idOrdenes` AS `NroOrden`, concat(`u`.`nombre`,' ',`u`.`apellido`) AS `Cliente`, `c`.`email` AS `Email`, cast(`o`.`fechaServicio` as date) AS `Dia`, cast(`o`.`fechaServicio` as time) AS `Hora`, `o`.`ubicacion` AS `Ubicacion`, `o`.`status` AS `Estado`, `e`.`nombre` AS `Establecimiento` FROM (((`tordenes` `o` join `tclientes` `c` on(`o`.`cliente` = `c`.`id`)) join `swgs`.`tusuarios` `u` on(`c`.`email` = `u`.`email`)) join `testablecimientos` `e` on(`o`.`establecimiento` = `e`.`idEstablecimientos`)) ;
 
 --
 -- Índices para tablas volcadas
@@ -1080,6 +1099,7 @@ ALTER TABLE `testados`
 --
 ALTER TABLE `tfacturas`
   ADD PRIMARY KEY (`idFactura`),
+  ADD UNIQUE KEY `orden` (`orden`),
   ADD KEY `ordenesServicio` (`orden`);
 
 --
@@ -1197,7 +1217,7 @@ ALTER TABLE `tfacturasobrecargos`
 -- AUTO_INCREMENT de la tabla `tordenesservicios`
 --
 ALTER TABLE `tordenesservicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tpagodetalles`
