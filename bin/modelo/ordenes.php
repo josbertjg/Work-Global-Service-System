@@ -18,6 +18,14 @@
     	parent::__construct();
     } 
 
+    public function prueba() {
+      die("Función prueba ejecutada");
+      header('Content-Type: application/json'); // Establece el tipo de contenido como JSON
+      die(json_encode(["error" => "Mensaje de error"]));
+
+  }
+  
+
     public function getCurrentFumigador($fumigadorID){
       $fumigadorIdIsValid = $this->validarFumigadorID($fumigadorID);
       if(!$fumigadorIdIsValid) die(json_encode(["error"=>"El id recibido no es un id de fumigador válido"]));
@@ -212,5 +220,52 @@
         $finalID=$formattedDate ."-".  $count;
         return $finalID;
       }
+    public function getPrecioServicio($idOrden){
+      $this->idOrden=$idOrden;
+      $this->PrecioServicio($this->idOrden);
+    }
+    private function PrecioServicio($idOrden){
+      try{
+        $this->conectarDB();
+        $consulta = "SELECT
+        s.nombre,
+        ps.precio
+        FROM tordenes o
+        JOIN tordenesservicios os ON o.idOrdenes = os.orden
+        JOIN tservicios s ON os.servicio = s.idServicio
+        JOIN tprecioservicios ps ON s.idServicio = ps.servicio
+        WHERE o.idOrdenes=:idOrden
+        AND ps.establecimiento = o.establecimiento;";
+        $ejecucion = $this->con->prepare($consulta);
+        $ejecucion->bindParam(':idOrden', $idOrden);
+        $ejecucion->execute();
+        $data = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+        $this->desconectarDB();
+        die(json_encode($data));
+      }catch (\PDOException $e) {       
+        header('Content-Type: application/json');
+        die(json_encode(array("error" => $e->getMessage())));
+      }
+    }
+    public function getOrdenesAdministrador(){
+      $this->OrdenesAdministrador();
+    }
+    private function OrdenesAdministrador(){
+      try{
+        $this->conectarDB();
+        $consulta = "SELECT * FROM datosordenserviciocliente";
+        $ejecucion=$this->con->prepare($consulta);
+        $ejecucion->execute();
+        $data=$ejecucion->fetchAll(PDO::FETCH_ASSOC);
+        $this->desconectarDB();
+        die(json_encode($data));
+      }catch (\PDOException $e) {       
+        header('Content-Type: application/json');
+        die(json_encode(array("error" => $e->getMessage())));
+      }
+    }
+
+
+
   }
 ?>

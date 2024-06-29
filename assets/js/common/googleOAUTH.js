@@ -1,6 +1,7 @@
 // Funcion que maneja las respuestas de credenciales de google de manera global en la app
 async function googleCredentialResponse (response){
   toggleLoading(true);
+  console.log(response.credential);
   const respuesta = await service.post("oauth",{
     gmail_oauth: true, 
     credentials: response.credential

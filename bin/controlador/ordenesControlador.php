@@ -12,6 +12,23 @@
 	if(empty($permiso['Consultar'])) {
 		die('<script> window.location = "/" </script>');
 	}
+	/*if(isset($_POST['getOrdenes'])){
+		$model->getOrdenesAdministrador();
+	}*/
+	if(isset($_POST['opcion']) && $_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){
+		$model->getOrdenesAdministrador();
+	}
+	if(isset($_POST['getPrecioServicio']) && $_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){
+		$model->getPrecioServicio($_POST['idOrden']);
+	}
+	$components = new initComponents($permisos);
+	if($_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){
+		require "vistas/ordenesAdministradorVista.php";
+	}
+	
+	//if($_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar']) && isset($_POST['opcion'])){
+		//$model->getOrdenesAdministrador();
+	//}
 	/* if(isset($_POST['opcion'])){
 		$model->getTableData($_POST['opcion']);
 	}
@@ -27,7 +44,5 @@
 		$model->getInsert($_POST['Rol'],$_POST['modulo'],$_POST['permisos']);
 		$model->getTableData($_POST['Rol']);
 		//$model->funcionPrueba();
-	} */
-	$components = new initComponents($permisos);	
-	require "vistas/ordenesAdministradorVista.php";	
+	} */		
 ?>

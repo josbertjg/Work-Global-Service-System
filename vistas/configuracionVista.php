@@ -17,21 +17,23 @@
         </a>
         <!-- El resto -->
       </section>
-        <section class="col-11">
+      <!--  -->
+      <section class="col-3">
+        <div class="col-12">
+          <div class="card">
+            <img src="assets\img\user.svg" alt="" class="card-img-top " id="userIMG">
+            <div class="card-body">
+              <h5 class="card-title" id="ususario">Nombre del fumigador </h5>
+              <a href="" class="btn btn-primary">Ir al Perfil</a>
+            </div>
+          </div>
+        </div>
+      </section>
+        <section class="col-8">
           <!-- row de las opciones -->
           <div class="row">
-            <!-- inicio del perfil -->
-            <div class="col-4">
-              <div class="card">
-                <img src="assets\img\user.svg" alt="" class="card-img-top">
-                <div class="card-body">
-                  <h5 class="card-title">Nombre del fumigador</h5>
-                  <a href="" class="btn btn-primary">Ir al Perfil</a>
-                </div>
-              </div>
-            </div>
             <!-- inicio de las cards -->
-            <div class="col-8">
+            <div class="col-12">
               <!-- inicio de dos cards -->
               <div class= "row mb-2">
                 <section class="col-6">

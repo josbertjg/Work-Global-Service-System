@@ -592,6 +592,19 @@
             <th>Acciones</th>
             </tr>';
             break;
+        case "OrdenesServicio":
+          $varth=
+          '<tr>
+          <th>NRO Orden</th>
+          <th>Cliente</th>
+          <th>Email</th>
+          <th>Dia</th>
+          <th>Hora</th>
+          <th>Ubicacion</th>
+          <th>Status</th>
+          <th>Detalles</th>
+          </tr>';
+          break;
       }
       $varAll= $varTStart.$varth.$vartTend;
       echo $varAll;

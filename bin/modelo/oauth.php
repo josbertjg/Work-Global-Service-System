@@ -96,7 +96,7 @@
           }else{
             $this->registrarBitacora("Iniciar Sesión",$this->email,"Inicio sesión en el sistema con GMAIL.");
           }
-
+          if($usuarioEncontrado->idRol=="CLWGS1"){
           try{
             parent::conectarDB();
             $new = $this->con->prepare("SELECT * FROM tclientes WHERE email = ?");
@@ -108,7 +108,7 @@
     
           }catch(exception $error){
             $respuesta = ["error" => $error];
-          }
+          }}
           $this->fotoPerfil = $usuarioEncontrado->fotoPerfil;
           $this->nombre = $usuarioEncontrado->nombre;
           $this->apellido = $usuarioEncontrado->apellido;
