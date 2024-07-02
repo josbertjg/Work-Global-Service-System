@@ -474,9 +474,6 @@ async function renderFumigadores(selectedServices){
   // Renderizando los fumigadores obtenidos
   if(!_.isEmpty(fumigadores)){
     _.map(fumigadores,(fumigador)=>{
-      const dias  = moment().diff(moment(fumigador.fechaValidado), 'days');
-      const meses = moment().diff(moment(fumigador.fechaValidado), 'months');
-      const años  = moment().diff(moment(fumigador.fechaValidado), 'years');
       $(".fumigadores-list-container").append(`
         <a href="realizarorden?fumigador=${fumigador.cedula}" class="fumigador-item-container" fumigadorID="${fumigador.cedula}">
           <div class="fumigador-img-container">
@@ -492,15 +489,7 @@ async function renderFumigadores(selectedServices){
             </div>
             <div class="body mb-2">
               <div class="info-general">
-                <span>${
-                  años <= 0 ?
-                    meses <= 0 ? 
-                      dias > 1 ? dias+" días" : dias+" día"
-                    :
-                      meses > 1 ? meses+" meses" : meses+" mes"
-                  :
-                    años > 1 ? años+" años" : años+" año"
-                } en Work Global Service</span>
+                <span>${formatDateTimeAgo(fumigador.fechaValidado)} en Work Global Service</span>
               </div>
             </div>
             <div class="footer">
