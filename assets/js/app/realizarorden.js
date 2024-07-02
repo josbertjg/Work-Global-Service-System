@@ -233,14 +233,6 @@ $(document).ready(async ()=>{
   let selectedHour     = null;
   let selectedDateTime = null;
   const datePicker = $("#choose-date").flatpickr({
-    onChange: function(selectedDates, dateStr, instance) {
-      selectedDate = dateStr;
-      if(!_.isEmpty(selectedHour)){
-        selectedDateTime = `${selectedDate} ${selectedHour}`;
-        $(".date-orden-selected").empty();
-        $(".date-orden-selected").append(`${selectedDate} a las ${selectedHour}`)
-      }
-    },
     "disable": [
       function(date) {
           // return true to disable
@@ -251,7 +243,14 @@ $(document).ready(async ()=>{
     "locale": {
       "firstDayOfWeek": 1 // start week on Monday
     },
-    minDate: moment().format()
+    minDate: moment().format(),
+    onChange: function(selectedDates, dateStr, instance) {
+      selectedDate = dateStr;
+      if(!_.isEmpty(selectedHour)){
+        selectedDateTime = `${selectedDate} ${selectedHour}`;
+        setDateTime(selectedDate,selectedHour)
+      }
+    }
   });
 
   const timePicker = $("#choose-time").flatpickr({
@@ -263,8 +262,7 @@ $(document).ready(async ()=>{
       selectedHour = dateStr
       if(!_.isEmpty(selectedDate)){
         selectedDateTime = `${selectedDate} ${selectedHour}`;
-        $(".date-orden-selected").empty();
-        $(".date-orden-selected").append(`${selectedDate} a las ${selectedHour}`)
+        setDateTime(selectedDate,selectedHour)
       }
     }
   });
@@ -325,23 +323,11 @@ $(document).ready(async ()=>{
 })
 
 function mostrarInfoFumigador(fumigador){
-  const dias  = moment().diff(moment(fumigador.fechaValidado), 'days');
-  const meses = moment().diff(moment(fumigador.fechaValidado), 'months');
-  const años  = moment().diff(moment(fumigador.fechaValidado), 'years');
   $(".info-fumigador-container .presentation-card .header .fotoPerfil").attr("src",fumigador.fotoPerfil)
   $(".info-fumigador-container .presentation-card .header .nombre").text(`${fumigador.nombre} ${fumigador.apellido}`)
   $(".info-fumigador-container .presentation-card .header .nombre").text(`${fumigador.nombre} ${fumigador.apellido}`)
   $(".info-fumigador-container .presentation-card .header .servicios-count").text(`0 Servicios realizados`)
-  $(".info-fumigador-container .presentation-card .header .tiempo").text(`
-    ${años <= 0 ?
-      meses <= 0 ? 
-        dias > 1 ? dias+" días" : dias+" día"
-      :
-        meses > 1 ? meses+" meses" : meses+" mes"
-    :
-      años > 1 ? años+" años" : años+" año"}
-    en Work Global Service
-  `)
+  $(".info-fumigador-container .presentation-card .header .tiempo").text(`${formatDateTimeAgo(fumigador.fechaValidado)} en Work Global Service`)
   $(".fumigador-info-section .descripcion").text(fumigador.descripcion)
   _.map(fumigador.servicios,(servicio)=>{
     $("#accordionServiciosFumigador").append(`
@@ -358,4 +344,11 @@ function mostrarInfoFumigador(fumigador){
     </div>
     `)
   })
+}
+
+function setDateTime(date, hour){
+  $(".date-orden-selected").empty();
+  $(".date-orden-selected").append(`${formatDate(date)}`)
+  $(".time-orden-selected").empty();
+  $(".time-orden-selected").append(`${formatTime(hour)}`)
 }

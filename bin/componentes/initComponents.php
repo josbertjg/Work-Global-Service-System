@@ -471,8 +471,6 @@
       echo $footer;
     }
 
-
-
     public function Tables($Vista){
       $varAll='';
       $varth='';
@@ -627,6 +625,7 @@
       <script>const urlBase = "'. _URL_ .'"</script>
       <script src="'._URL_.'assets/js/common/validaciones.js"></script> 
       <script src="'._URL_.'assets/js/common/service.js"></script>
+      <script src="'._URL_.'assets/js/common/datetime.js"></script>
       <script src="'._URL_.'assets/js/common/notificaciones.js"></script>
       <script src="'._URL_.'assets/js/common/googleOAUTH.js"></script>
       <script src="'._URL_.'assets/js/common/googleMaps.js"></script>

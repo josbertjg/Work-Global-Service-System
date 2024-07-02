@@ -13,7 +13,7 @@
         <section class="col-lg-7 col-12 info-fumigador-container">
           <div class="presentation-card">
             <div class="header mb-5">
-              <img class="fotoPerfil me-md-3 me-none" src="assets/img/perfil/josbertjg@gmail.com.jpg" alt="fumigador imagen">
+              <img class="fotoPerfil me-md-3 me-none" src="" alt="fumigador imagen">
               <section>
                 <div class="nombre-container">
                   <h1 class="nombre"></h1>
@@ -102,15 +102,12 @@
 
               <!-- ORDENAR CONTENT -->
               <div class="tab-pane fade" id="pills-validar-orden" role="tabpanel" aria-labelledby="pills-validar-orden-tab" tabindex="0">
-                <div class="date-orden-selected-container mb-2">Fecha: <span class="date-orden-selected"></span></div>
+                <div class="date-orden-selected-container mb-2"><i class="fa-solid fa-calendar-day"></i> <span class="date-orden-selected"></span></div>
+                <div class="time-orden-selected-container mb-2"><i class="fa-solid fa-clock"></i> <span class="time-orden-selected"></span></div>
                 <ul class="servicios-seleccionados-container details"></ul>
-                <div class="total-container d-flex justify-content-between mb-3">
-                  <span class="total">Total:</span>
-                  <span class="monto"></span>
-                </div>
                 <div class="footer-card">
                   <a class="change-tab volver-disponibilidadTab"><i class="fa-solid fa-arrow-left"></i> Volver</a>
-                  <a class="change-tab pagarOrden">Ir a Pagar <i class="fa-solid fa-arrow-right"></i></a>
+                  <a class="change-tab pagarOrden"><span class="text">Solicitar por 70$</span> <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
               </div>
 
