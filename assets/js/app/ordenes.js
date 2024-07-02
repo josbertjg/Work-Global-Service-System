@@ -27,11 +27,10 @@ $(document).ready(async ()=>{
         var table = $('#TableData').DataTable();
         var row = table.row(tr);
         var data = row.data(); // Obtiene todos los datos de la fila
-        console.log(data);
         const serviciosOrden = await service.post("ordenes",{getPrecioServicio:true,idOrden:data.NroOrden});
-        console.log(serviciosOrden);
+        const fumigdorOrden = await service.post("ordenes",{getFumigadorServicio:true,idOrden:data.NroOrden});
+        let fumigador = fumigdorOrden[0];
         $('#contenidoModal').empty();
-        console.log(data.Establecimiento);
         var body=`
         <div class="modal-body">
             <table class="table table-borderless">
@@ -62,7 +61,7 @@ $(document).ready(async ()=>{
                 </tr>
                 <tr>
                   <th scope="row">fumigador asignado</th>
-                  <td>xxxxxx</td>
+                  <td>${fumigador.fumigador}</td>
                 </tr>
                 <tr>
                   <th scope="row">----------</th>
@@ -72,15 +71,6 @@ $(document).ready(async ()=>{
                   <th scope="row">Servicios</th>
                 </tr>
                 `;
-                var servicios=`
-                <tr>
-                  <th scope="row">Curacachas</th>
-                  <td>$45</td>
-                </tr>
-                <tr>
-                  <th scope="row">Cien Pies</th>
-                  <td>$50</td>
-                </tr>`;
           var bodyend=`</tbody></table></div>`;
           var precioFinal=0
           serviciosOrden.forEach(element => {

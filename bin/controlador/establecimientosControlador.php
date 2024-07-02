@@ -20,13 +20,17 @@
         $model->getAll();
     }
 	if(isset($_POST['insert'])){
-		$model->getInsert($_POST['nombre'],$_POST['number'],$_POST['descripcion']);
+		$model->getInsert($_POST['nombre'],$_POST['number'],$_POST['descripcion'], $_FILES['foto']);
+		$model-> getAll();
+	  }
+	  if(isset($_POST['update1'])){
+		$model->getUpdate($_POST['idEstablecimiento'],$_POST['nombre'],$_POST['number'],$_POST['descripcion'],$_FILES['foto'],$opcion=1);
 		$model-> getAll();
 	  }
 	  if(isset($_POST['update'])){
-		$model->getUpdate($_POST['idEstablecimiento'],$_POST['nombre'],$_POST['number'],$_POST['descripcion']);
+		$model->getUpdate($_POST['idEstablecimiento'],$_POST['nombre'],$_POST['number'],$_POST['descripcion'],$_POST['fotoOriginal'],$opcion=2);
 		$model-> getAll();
-	  }
+	}
 	  if(isset($_POST['delete'])){
 		$model->getDelete($_POST['id'],$_POST['habilitado']);
 		$model-> getAll(); 

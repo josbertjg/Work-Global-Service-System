@@ -21,10 +21,14 @@
 	if(isset($_POST['getPrecioServicio']) && $_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){
 		$model->getPrecioServicio($_POST['idOrden']);
 	}
+	if(isset($_POST['getFumigadorServicio']) && $_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){
+		$model->getFumigadorServicio($_POST['idOrden']);
+	}
 	$components = new initComponents($permisos);
 	if($_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){
 		require "vistas/ordenesAdministradorVista.php";
 	}
+	
 	
 	//if($_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar']) && isset($_POST['opcion'])){
 		//$model->getOrdenesAdministrador();

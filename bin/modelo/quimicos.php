@@ -69,8 +69,10 @@
     }
 
     public function getUpdate($id,$Descripcion,$foto,$nombre,$opcion){
-      $letrasYnumeros= array($Descripcion,$nombre);
-      $this->validarSTA($letrasYnumeros,4);
+      //$letrasYnumeros= array($Descripcion,$nombre);
+      //$this->validarSTA($letrasYnumeros,2);
+      //$validarDescrip=array($Descripcion);
+      //$this->validarSTA($validarDescrip,5);
       $this->id=$id;
       $this->Descripcion=$Descripcion;
       $this->nombre=$nombre;

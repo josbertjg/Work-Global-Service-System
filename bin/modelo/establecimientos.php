@@ -10,7 +10,8 @@
     private $tamaño;
     private $descripcion;
     private $habilitado;
-
+    private $targetFile;
+    private $rutaCarpeta="assets/img/establecimientos/";
 
    private function validarSTA($datoArray,$diff){
     $arrayLogico = array(0 => "/^[A-Za-z]{3,45}$/", 
@@ -63,7 +64,7 @@
           die(json_encode(array("error" => $e->getMessage())));
         } 
       }
-      public function getInsert($nombre,$tamaño,$descripcion){
+      public function getInsert($nombre,$tamaño,$descripcion,$foto){
         $letras=array($nombre);
         $this->validarSTA($letras,6);
         $validarDescr=array($descripcion);
@@ -72,6 +73,10 @@
         $this->nombre=$nombre;
         $this->tamaño=$tamaño;
         $this->id=$this->separarCadena($this->nombre);
+        $this->foto=$foto;
+        $this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
+        $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
+        $this->targetFile = $this->targetFile . "." . $Filetype;
         $this->insert();
       }
       private function insert(){
@@ -81,15 +86,17 @@
         }else{
           try{
             $this->conectarDB();
-            $consulta="INSERT INTO testablecimientos (idEstablecimientos,nombre,descripcion,sizeE,habilitado) VALUES (?,?,?,?,?)";
+            $consulta="INSERT INTO testablecimientos (idEstablecimientos,nombre,descripcion,sizeE,icono,habilitado) VALUES (?,?,?,?,?,?)";
             $ejecucion=$this->con->prepare($consulta);
             $ejecucion->bindValue(1,$this->id);
             $ejecucion->bindValue(2,$this->nombre);
             $ejecucion->bindValue(3,$this->descripcion);
             $ejecucion->bindValue(4,$this->tamaño);
-            $ejecucion->bindValue(5,1);
+            $ejecucion->bindValue(5,$this->targetFile);
+            $ejecucion->bindValue(6,1);
             $ejecucion->execute();
             $this->desconectarDB();
+            $this->SubirFoto($this->foto["tmp_name"],$this->targetFile);
           }catch (\PDOException $error) {   
             $resultado = ['error' => $error->getMessage()];    
             die(json_encode($resultado));
@@ -97,31 +104,44 @@
         }
         
       }
-      public function getUpdate($id,$nombre,$tamaño,$descripcion){
-        $letras=array($nombre);
-        $this->validarSTA($letras,6);
-        $validarId=array($id);
-        $this->validarSTA($validarId,0);
-        $validarDescr=array($descripcion);
-        $this->validarSTA($validarDescr,5);
+      public function getUpdate($id,$nombre,$tamaño,$descripcion,$foto,$opcion){
+        //$letras=array($nombre);
+        //$this->validarSTA($letras,6);
+        //$validarId=array($id);
+        //$this->validarSTA($validarId,0);
+        //$validarDescr=array($descripcion);
+        //$this->validarSTA($validarDescr,5);
         $this->id=$id;
         $this->descripcion=$descripcion;
         $this->nombre=$nombre;
         $this->tamaño=$tamaño;
-        $this->update();
+        $opcion=$opcion;
+        if($opcion==2){
+        $this->targetFile=$foto; 
+        }else{
+        $this->foto=$foto;
+        $this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
+        $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
+        $this->targetFile = $this->targetFile . "." . $Filetype;
+        }
+        $this->update($opcion);
       }
-      private function update(){
+      private function update($opcion){
           try{
             $this->conectarDB();
             $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Habilitar errores de PDO
-            $consulta = "UPDATE testablecimientos SET nombre = :nombre, descripcion = :descripcion, sizeE = :sizeE WHERE idEstablecimientos = :id";
+            $consulta = "UPDATE testablecimientos SET nombre = :nombre, descripcion = :descripcion, sizeE = :sizeE, icono=:icono WHERE idEstablecimientos = :id";
             $ejecucion = $this->con->prepare($consulta);
             $ejecucion->bindParam(':nombre', $this->nombre);
             $ejecucion->bindParam(':descripcion', $this->descripcion);
             $ejecucion->bindParam(':sizeE', $this->tamaño);
             $ejecucion->bindParam(':id', $this->id);
+            $ejecucion->bindParam(':icono',$this->targetFile);
             $ejecucion->execute();
             $this->desconectarDB();
+            if($opcion!=2){
+              $this->SubirFoto($this->foto["tmp_name"],$this->targetFile);//linea 104
+            }
           }catch (\PDOException $e) {       
             header('Content-Type: application/json');
             die(json_encode(array("error" => $e->getMessage())));
@@ -176,6 +196,10 @@
         }
         $cadena = "E" . $cadena . "WGS";
         return $cadena;
+    }
+
+    private function SubirFoto($temp,$targetFile){
+      move_uploaded_file($temp,$targetFile);
     }
     
     

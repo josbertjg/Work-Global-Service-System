@@ -44,7 +44,7 @@
               </div>
               <div class="mb-3">
                 <label for="rutaIcono" class="form-label">Icono:</label>
-                <input type="file" accept="image/png, image/jpeg, image/jpg" class="form-control" id="rutaIcono" name="Icono" isValid="false">
+                <input type="file" accept="image/png, image/jpeg, image/jpg, image/svg+xml" class="form-control" id="rutaIcono" name="Icono" isValid="false">
                 <img id="selectedImg" src="" alt="Vista previa de la imagen" style="max-width: 120px; max-height: 120px;" class="img-fluid">
                 <div class="invalid-tooltip"></div>
               </div>

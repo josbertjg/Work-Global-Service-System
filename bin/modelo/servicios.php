@@ -123,11 +123,11 @@
       
     }
     public function getUpdate($id,$nombre,$quimico,$descripcion,$foto,$opcion){
-      $letras= array($nombre);
-      $this->validarSTA($letras,0);
+      //$letras= array($nombre);
+      //$this->validarSTA($letras,0);
       $this->nombre=$nombre;
-      $letrasYnumeros=array($descripcion);
-      $this->validarSTA($letrasYnumeros,5);
+      //$letrasYnumeros=array($descripcion);
+      //$this->validarSTA($letrasYnumeros,5);
       $this->id=$id;
       $this->descripcion=$descripcion;
       $this->quimico=$quimico;

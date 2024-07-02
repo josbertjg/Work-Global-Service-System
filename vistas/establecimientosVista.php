@@ -27,7 +27,7 @@
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <form id="FormEstablecimiento" novalidate>
+          <form id="FormEstablecimiento" novalidate enctype="multipart/form-data">
             <div class="modal-body">
               <div class="mb-3">
                 <label for="nombreEstablecimiento" class="form-label">Establecimiento:</label>
@@ -43,6 +43,14 @@
                 <label for="descripcion" class="form-label">Descripción del Establecimiento:</label>
                 <textarea id="descripcion" name="descripcion" rows="5" class="form-control" isValid="false"></textarea>
                 <div class="invalid-tooltip"></div>
+              </div>
+              <div class="mb-3">
+                <label for="rutaIcono" class="form-label">Icono:</label>
+                <input type="file" accept="image/png, image/jpeg, image/jpg" class="form-control" id="rutaIcono" name="Icono" isValid="false">
+                <div class="invalid-tooltip"></div>
+              </div>
+              <div class="mb-3">
+                <img id="selectedImg" src="" class="img-fluid">
               </div>
             </div>
             <div class="modal-footer">

@@ -53,13 +53,12 @@ $(document).ready(async ()=>{
     $(".modal-title").text("Registrar Servicio");
     $('#modalCRUD').modal('show');
   });
-    //seleciona el icono, valida y muestra una preview y valida que sean los formatos necesarios
-    let file = document.getElementById( 'rutaIcono' );
+    //seleciona el icono, valida y muestra una preview y valida que sean los formatos necesario
     let img = document.getElementById( 'selectedImg' );
-    file.addEventListener( 'change', e => {
+    $("#rutaIcono").on("change",e => {
       var archivo= e.target.files[0];
       if(archivo){
-        var permitidos = ['image/png', 'image/jpeg', 'image/jpg']; //
+        var permitidos = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml']; //
         if(permitidos.includes(archivo.type)){
           setValidInput($("#rutaIcono"));
           const reader = new FileReader( );
@@ -83,6 +82,10 @@ $(document).ready(async ()=>{
     var table = $('#TableData').DataTable();
     var row = table.row(tr);
     var data = row.data(); 
+    blankForm($("#FormServicio"));
+    $("#FormServicio").trigger("reset");
+    $("#selectedImg").removeAttr("src");
+    $("#selectedImg").attr("src","");
     idServicio=data.idServicio;
     $("#nombreServicio").val(data.nombre);
     $("#descripcionServicio").val(data.descripcion);
@@ -109,6 +112,10 @@ $(document).ready(async ()=>{
     const form = $("#FormServicio");
     if(datos==3){
       setValidInput($("#rutaIcono"));
+      if($("#nombreServicio").val().length > 2){ 
+        setValidInput($("#nombreServicio"));
+        console.log("se esta validando el nombre")  
+      }
       if (img.src!="") {
         setValidInput($("#rutaIcono"));
       }

@@ -220,6 +220,30 @@
         $finalID=$formattedDate ."-".  $count;
         return $finalID;
       }
+      public function getFumigadorServicio($idOrden){
+        $this->idOrden=$idOrden;
+        $this->FumigadorOrden($this->idOrden);
+      }
+      private function FumigadorOrden($idOrden){
+        try{
+          $this->conectarDB();
+          $consulta = "SELECT 
+          CONCAT(u.nombre,' ',u.apellido) as fumigador
+          FROM workglobalservice.tordenes o
+          INNER JOIN workglobalservice.tfumigadores f on o.fumigador=f.cedula
+          INNER JOIN swgs.tusuarios u on f.email=u.email
+          WHERE o.idOrdenes=:idOrden;";
+          $ejecucion = $this->con->prepare($consulta);
+          $ejecucion->bindParam(':idOrden', $idOrden);
+          $ejecucion->execute();
+          $data = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+          $this->desconectarDB();
+          die(json_encode($data));
+        }catch (\PDOException $e) {       
+          header('Content-Type: application/json');
+          die(json_encode(array("error" => $e->getMessage())));
+        }
+      }
     public function getPrecioServicio($idOrden){
       $this->idOrden=$idOrden;
       $this->PrecioServicio($this->idOrden);
@@ -264,8 +288,5 @@
         die(json_encode(array("error" => $e->getMessage())));
       }
     }
-
-
-
   }
 ?>

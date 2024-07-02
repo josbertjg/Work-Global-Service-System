@@ -68,10 +68,10 @@ $(document).ready(async()=>{
   //seleciona el icono, valida y muestra una preview y valida que sean los formatos necesarios
   let file = document.getElementById( 'rutaIcono' );
   let img = document.getElementById( 'selectedImg' );
-  file.addEventListener( 'change', e => {
+  $("#rutaIcono").on("change",e => {
     var archivo= e.target.files[0];
     if(archivo){
-      var permitidos = ['image/png', 'image/jpeg', 'image/jpg']; //
+      var permitidos = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg']; //
       if(permitidos.includes(archivo.type)){
         setValidInput($("#rutaIcono"));
         const reader = new FileReader( );
@@ -89,12 +89,13 @@ $(document).ready(async()=>{
         }
       }
     });
-
     //submit el form
     $("#FormQuimico").on("submit", async(event)=>{
       event.preventDefault();
       const form = $("#FormQuimico");
      if(datos==3){
+      
+      if($("#nombreQuimico").val().length > 2){ setValidInput($("#nombreQuimico"));}
       setValidInput($("#rutaIcono"));
       if (img.src!="") {
         setValidInput($("#rutaIcono"));
@@ -106,6 +107,7 @@ $(document).ready(async()=>{
     }
       const formValid = checkFormValidity(form);
       if(formValid){
+        console.log("entra al form is valid");
         const formHTML = document.getElementById("FormQuimico");
         const data = new FormData(formHTML)
         switch(datos){
@@ -143,6 +145,7 @@ $(document).ready(async()=>{
             icon: "success"
           });
           $("#rutaIcono").replaceWith($("#rutaIcono").val('').clone(true));
+          img.src = "";
           $('#modalCRUD').modal('hide');
         }
         
@@ -165,15 +168,19 @@ $(document).ready(async()=>{
       quimico_id = data.idQuimico; // Obtiene el ID del químico
   
       nombreQuimico = data.nombre; // Obtiene el nombre del químico
+      blankForm($("#FormQuimico"));
+      $("#FormQuimico").trigger("reset");
+      $("#selectedImg").removeAttr("src");
+      $("#selectedImg").attr("src","");
+      $(".modal-header").css( "background-color", "#d32535");
+      $(".modal-header").css( "color", "white" );
+      $(".modal-title").text("Editar Quimico");
       $("#nombreQuimico").val(nombreQuimico);
       //quimico_id=$(fila).find('td:eq(0)').text();
       rutaImagen=data.foto;
       img.src=rutaImagen;
       $("#Descripcion").val(data.descripcion);
-      $(".modal-header").css("background-color", "#d32535");
-      $(".modal-header").css("color", "white" );
-      $(".modal-title").text("Editar Quimico");		
-      $('#modalCRUD').modal('show');		   
+      $('#modalCRUD').modal('show');	   
   });
 
   $(document).on("click", ".btnBorrar", async function(){

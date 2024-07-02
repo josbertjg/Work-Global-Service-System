@@ -577,6 +577,7 @@
           <th>Establecimiento</th>
           <th>Descripcion</th>
           <th>Tamaño</th>
+          <th>Icono</th>
           <th>Habilitado</th>
           <th>Acciones</th>
           </tr>';
