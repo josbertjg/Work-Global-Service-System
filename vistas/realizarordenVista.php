@@ -102,12 +102,14 @@
 
               <!-- ORDENAR CONTENT -->
               <div class="tab-pane fade" id="pills-validar-orden" role="tabpanel" aria-labelledby="pills-validar-orden-tab" tabindex="0">
-                <div class="date-orden-selected-container mb-2"><i class="fa-solid fa-calendar-day"></i> <span class="date-orden-selected"></span></div>
-                <div class="time-orden-selected-container mb-2"><i class="fa-solid fa-clock"></i> <span class="time-orden-selected"></span></div>
-                <ul class="servicios-seleccionados-container details"></ul>
+                <div class="row overflow-hidden w-100">
+                  <div class="col-sm-6 col-lg-12 col-xl-6 col-12 date-orden-selected-container mb-2"><i class="fa-solid fa-calendar-day"></i> <span class="date-orden-selected"></span></div>
+                  <div class="col-sm-6 col-lg-12 col-xl-6 col-12 time-orden-selected-container mb-2"><i class="fa-solid fa-clock"></i> <span class="time-orden-selected"></span></div>
+                </div>
+                
                 <div class="footer-card">
                   <a class="change-tab volver-disponibilidadTab"><i class="fa-solid fa-arrow-left"></i> Volver</a>
-                  <a class="change-tab pagarOrden"><span class="text">Solicitar por 70$</span> <i class="fa-solid fa-arrow-right"></i></a>
+                  <a class="change-tab pagarOrden"><span class="text"></span> <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
               </div>
 
@@ -140,52 +142,11 @@
             <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body p-0">
-            <div class="accordion accordion-flush" id="ordenDetailsAccordion">
-              <!-- <div class="accordion-item">
-                <h2 class="accordion-header">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <div class="servicio-icons">
-                      <img 
-                        src="assets/img/servicios/cienpies.svg" 
-                        alt="establecimiento"
-                        data-bs-toggle="tooltip" 
-                        data-bs-placement="top"
-                        data-bs-custom-class="custom-tooltip-primary"
-                        data-bs-title="Casas"
-                      />
-                      <i class="fa-solid fa-plus mx-3"></i>
-                      <img 
-                        src="assets/img/servicios/cucarachas.svg" 
-                        alt="plaga"
-                        data-bs-toggle="tooltip" 
-                        data-bs-placement="top"
-                        data-bs-custom-class="custom-tooltip-primary"
-                        data-bs-title="Cucarachas"
-                      />
-                    </div>
-                    <div class="servicio-actions">
-                      <span class="monto">70$</span>
-                      <i 
-                        class="fa-solid fa-trash eliminar-servicio"
-                        data-bs-toggle="tooltip" 
-                        data-bs-placement="top"
-                        data-bs-custom-class="custom-tooltip-primary"
-                        data-bs-title="Eliminar de la orden"
-                      ></i>
-                    </div>
-                  </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#ordenDetailsAccordion">
-                  <div class="accordion-body">
-                    <strong>Fumigación de cucarachas en casas:</strong> se exterminará la plaga <b>Cucarachas</b> en el tipo de establecimiento <b>Casas</b>, por un costo de <b>70$</b>
-                  </div>
-                </div>
-              </div> -->
-            </div>
+            <div class="accordion accordion-flush" id="ordenDetailsAccordion"></div>
           </div>
           <div class="orden-details-monto-total">
             <span>Monto Total</span>
-            <b class="monto">70$</b>
+            <b class="monto"></b>
           </div>
         </div>
       </div>

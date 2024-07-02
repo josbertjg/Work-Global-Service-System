@@ -110,66 +110,158 @@ $(document).ready(async ()=>{
     if(!_.isEmpty(selectedEstablecimiento)){
 
       const percioServicioId = $(event.target).attr("idPrecioServicio");
-      $(event.target).removeClass("fa-plus");
-      $(event.target).addClass("fa-minus");
-      $(event.target).attr("data-bs-title","¡Eliminar!")
-      initTooltips();
-
+      
+      // Agrega un nuevo servicio
       if(_.isEmpty(_.find(selectedPrecioServiciosArray,(item)=>(item.id == percioServicioId)))){
         const precioServicioSelected = _.find(precioServiciosArray,(item)=>(item.id == percioServicioId));
         const servicioSelected = _.find(currentFumigador.servicios,(servicio)=>(servicio.idServicio == precioServicioSelected.servicio));
 
-        selectedPrecioServiciosArray.push(precioServicioSelected);
+        // Intenta añadir un servicio de un establecimiento distinto
+        if(!_.isEmpty(_.filter(selectedPrecioServiciosArray,(item)=>(item.establecimiento != precioServicioSelected.establecimiento)))){
 
-        $("#ordenDetailsAccordion").append(`
-          <div class="accordion-item details-item-${precioServicioSelected.id}">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item-${precioServicioSelected.id}" aria-expanded="false" aria-controls="item-${precioServicioSelected.id}">
-                <div class="servicio-icons">
-                  <img 
-                    src="assets/img/servicios/cienpies.svg" 
-                    alt="establecimiento"
-                    data-bs-toggle="tooltip" 
-                    data-bs-placement="top"
-                    data-bs-custom-class="custom-tooltip-primary"
-                    data-bs-title="${selectedEstablecimiento.nombre}"
-                  />
-                  <i class="fa-solid fa-plus mx-3"></i>
-                  <img 
-                    src="${servicioSelected.fotoServicio}" 
-                    alt="plaga"
-                    data-bs-toggle="tooltip" 
-                    data-bs-placement="top"
-                    data-bs-custom-class="custom-tooltip-primary"
-                    data-bs-title="${servicioSelected.nombre}"
-                  />
+          Swal.fire({
+            icon: "warning",
+            title: "¡Atencion!",
+            html: "Intentas añadir un servicio que pertenece a otro tipo de establecimiento, si lo haces perderás todos los servicios que hayas añadido a la orden previamente <br/> <b>¿quieres añadir el servicio?</b>",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: "Añadir",
+            confirmButtonColor: "#198754",
+            denyButtonText: `Cancelar`
+          }).then((result) => {
+            /* Dió en el botón confirmar */
+            if (result.isConfirmed) {
+
+              // Eliminamos todos los servicios seleccionados
+              $("#ordenDetailsAccordion").empty();
+
+              selectedPrecioServiciosArray = [];
+              
+              $(".orden-details-monto-total .monto").text(`0$`)
+
+              $(".pagarOrden .text").text(`Solicitar por 0$`)
+
+              $(".submenu-servicios-count").text(selectedPrecioServiciosArray.length.toString())
+
+              // Añadimos el nuevo servicio escogido
+              selectedPrecioServiciosArray.push(precioServicioSelected);
+              
+              $("#ordenDetailsAccordion").append(`
+                <div class="accordion-item details-item-${precioServicioSelected.id}">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item-${precioServicioSelected.id}" aria-expanded="false" aria-controls="item-${precioServicioSelected.id}">
+                      <div class="servicio-icons">
+                        <img 
+                          src="assets/img/servicios/cienpies.svg" 
+                          alt="establecimiento"
+                          data-bs-toggle="tooltip" 
+                          data-bs-placement="top"
+                          data-bs-custom-class="custom-tooltip-primary"
+                          data-bs-title="${selectedEstablecimiento.nombre}"
+                        />
+                        <i class="fa-solid fa-plus mx-3"></i>
+                        <img 
+                          src="${servicioSelected.fotoServicio}" 
+                          alt="plaga"
+                          data-bs-toggle="tooltip" 
+                          data-bs-placement="top"
+                          data-bs-custom-class="custom-tooltip-primary"
+                          data-bs-title="${servicioSelected.nombre}"
+                        />
+                      </div>
+                      <div class="servicio-actions">
+                        <span class="monto">${precioServicioSelected.precio}$</span>
+                        <i 
+                          class="fa-solid fa-trash eliminar-servicio"
+                          idPrecioServicio="${precioServicioSelected.id}"
+                        ></i>
+                      </div>
+                    </button>
+                  </h2>
+                  <div id="item-${precioServicioSelected.id}" class="accordion-collapse collapse" data-bs-parent="#ordenDetailsAccordion">
+                    <div class="accordion-body">
+                      <strong>Fumigación de ${servicioSelected.nombre} en ${selectedEstablecimiento.nombre}:</strong> se exterminará la plaga <b>${servicioSelected.nombre}</b> en el tipo de establecimiento <b>${selectedEstablecimiento.nombre}</b>, por un costo de <b>${precioServicioSelected.precio}$</b>
+                    </div>
+                  </div>
                 </div>
-                <div class="servicio-actions">
-                  <span class="monto">${precioServicioSelected.precio}$</span>
-                  <i 
-                    class="fa-solid fa-trash eliminar-servicio"
-                    idPrecioServicio="${precioServicioSelected.id}"
-                  ></i>
+                <hr class="m-0 p-0"/>
+              `);
+
+              $(event.target).removeClass("fa-plus");
+              $(event.target).addClass("fa-minus");
+              $(event.target).attr("data-bs-title","¡Eliminar!")
+
+              $(".orden-details-monto-total .monto").text(`${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
+              $(".pagarOrden .text").text(`Solicitar por ${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
+              $(".submenu-servicios-count").text(selectedPrecioServiciosArray.length.toString())
+              if(selectedPrecioServiciosArray.length == 1) $(".orden-details-submenu").fadeIn()
+              initTooltips();
+
+            }
+          });
+
+        }else{ // Es el mismo establecimiento
+
+          selectedPrecioServiciosArray.push(precioServicioSelected);
+
+          $("#ordenDetailsAccordion").append(`
+            <div class="accordion-item details-item-${precioServicioSelected.id}">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item-${precioServicioSelected.id}" aria-expanded="false" aria-controls="item-${precioServicioSelected.id}">
+                  <div class="servicio-icons">
+                    <img 
+                      src="assets/img/servicios/cienpies.svg" 
+                      alt="establecimiento"
+                      data-bs-toggle="tooltip" 
+                      data-bs-placement="top"
+                      data-bs-custom-class="custom-tooltip-primary"
+                      data-bs-title="${selectedEstablecimiento.nombre}"
+                    />
+                    <i class="fa-solid fa-plus mx-3"></i>
+                    <img 
+                      src="${servicioSelected.fotoServicio}" 
+                      alt="plaga"
+                      data-bs-toggle="tooltip" 
+                      data-bs-placement="top"
+                      data-bs-custom-class="custom-tooltip-primary"
+                      data-bs-title="${servicioSelected.nombre}"
+                    />
+                  </div>
+                  <div class="servicio-actions">
+                    <span class="monto">${precioServicioSelected.precio}$</span>
+                    <i 
+                      class="fa-solid fa-trash eliminar-servicio"
+                      idPrecioServicio="${precioServicioSelected.id}"
+                    ></i>
+                  </div>
+                </button>
+              </h2>
+              <div id="item-${precioServicioSelected.id}" class="accordion-collapse collapse" data-bs-parent="#ordenDetailsAccordion">
+                <div class="accordion-body">
+                  <strong>Fumigación de ${servicioSelected.nombre} en ${selectedEstablecimiento.nombre}:</strong> se exterminará la plaga <b>${servicioSelected.nombre}</b> en el tipo de establecimiento <b>${selectedEstablecimiento.nombre}</b>, por un costo de <b>${precioServicioSelected.precio}$</b>
                 </div>
-              </button>
-            </h2>
-            <div id="item-${precioServicioSelected.id}" class="accordion-collapse collapse" data-bs-parent="#ordenDetailsAccordion">
-              <div class="accordion-body">
-                <strong>Fumigación de ${servicioSelected.nombre} en ${selectedEstablecimiento.nombre}:</strong> se exterminará la plaga <b>${servicioSelected.nombre}</b> en el tipo de establecimiento <b>${selectedEstablecimiento.nombre}</b>, por un costo de <b>${precioServicioSelected.precio}$</b>
               </div>
             </div>
-          </div>
-          <hr class="m-0 p-0"/>
-        `);
+            <hr class="m-0 p-0"/>
+          `);
 
-        $(".orden-details-monto-total .monto").text(`${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
-        $(".submenu-servicios-count").text(selectedPrecioServiciosArray.length.toString())
-        if(selectedPrecioServiciosArray.length == 1) $(".orden-details-submenu").fadeIn()
-        initTooltips();
-      }else{
+          $(event.target).removeClass("fa-plus");
+          $(event.target).addClass("fa-minus");
+          $(event.target).attr("data-bs-title","¡Eliminar!")
+
+          $(".orden-details-monto-total .monto").text(`${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
+          $(".pagarOrden .text").text(`Solicitar por ${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
+          $(".submenu-servicios-count").text(selectedPrecioServiciosArray.length.toString())
+          if(selectedPrecioServiciosArray.length == 1) $(".orden-details-submenu").fadeIn()
+          initTooltips();
+
+        }
+
+      }else{ // Da click en el icono "-" minus
         selectedPrecioServiciosArray = _.filter(selectedPrecioServiciosArray,(item)=>item.id != percioServicioId)
         $(`.details-item-${percioServicioId}`).remove();
         $(".orden-details-monto-total .monto").text(`${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
+        $(".pagarOrden .text").text(`Solicitar por ${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
         $(".submenu-servicios-count").text(selectedPrecioServiciosArray.length.toString())
         if(_.isEmpty(selectedPrecioServiciosArray)){
           $(".orden-details-submenu").hide();
@@ -190,6 +282,8 @@ $(document).ready(async ()=>{
       selectedPrecioServiciosArray = _.filter(selectedPrecioServiciosArray,(item)=>item.id != percioServicioId)
       
       $(".orden-details-monto-total .monto").text(`${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
+
+      $(".pagarOrden .text").text(`Solicitar por ${_.sum(_.map(selectedPrecioServiciosArray,(item)=>(parseFloat(item.precio))))}$`)
 
       $(".submenu-servicios-count").text(selectedPrecioServiciosArray.length.toString())
 
@@ -219,10 +313,11 @@ $(document).ready(async ()=>{
       });
     }else{
       disponibilidadTab.show()
+      $(".orden-details-submenu").removeClass("details-button");
       $(".orden-details-submenu").addClass("icon-submenu");
       $(".orden-details-submenu .btn-text").hide();
 
-      if($( document ).width() < 992)  $(".orden-details-submenu").css({left: "unset",bottom: "unset"}).animate({right: "-15px", top: "10px"});
+      if($( document ).width() < 992)  $(".orden-details-submenu").css({left: "unset",bottom: "unset"}).animate({right: "10px", top: "-15px"});
       else $(".orden-details-submenu").css({left: "unset",bottom: "unset"}).animate({right: "-15px", top: "-20px"});
       
     }
@@ -270,7 +365,15 @@ $(document).ready(async ()=>{
   $(".fa-calendar-days").click(()=> datePicker.open())
   $(".fa-clock").click(()=> timePicker.open())
 
-  $(".volver-disponibilidadTab").click(()=>disponibilidadTab.show())
+  $(".volver-disponibilidadTab").click(()=>{
+    disponibilidadTab.show();
+    $(".orden-details-submenu").removeClass("details-button");
+    $(".orden-details-submenu").addClass("icon-submenu");
+    $(".orden-details-submenu .btn-text").hide();
+
+    if($( document ).width() < 992)  $(".orden-details-submenu").css({left: "unset",bottom: "unset"}).animate({right: "10px", top: "-15px"});
+    else $(".orden-details-submenu").css({left: "unset",bottom: "unset"}).animate({right: "-15px", top: "-20px"});
+  })
 
   // Form Disponibilidad
   required($("#choose-date"));
@@ -284,6 +387,17 @@ $(document).ready(async ()=>{
     
     if(formValid){
       detallesOrdenTabs.show();
+
+      // $(".orden-details-submenu").removeClass("icon-submenu");
+      // $(".orden-details-submenu .btn-text").show();
+      
+      // $(".orden-details-submenu").animate({bottom: "70px", left: "0px"}).css({right: "unset",top: "unset"});
+      
+      $(".orden-details-submenu").removeClass("icon-submenu");
+      setTimeout(() => ($(".orden-details-submenu .btn-text").fadeIn()), 700);
+      setTimeout(() => ($(".orden-details-submenu").addClass("details-button")), 700)
+      
+      $(".orden-details-submenu").animate({left: "0px", bottom: "70px"}).css({right: "unset", top: "unset"});
     }
   })
 
