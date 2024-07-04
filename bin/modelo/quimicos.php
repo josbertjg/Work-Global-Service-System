@@ -41,7 +41,7 @@
         2 => "/^[0-9A-Za-z- ]{0,45}$/",
          3 => "/^[0-9:\/-]{1,45}$/", 
          4 => "/^[0-9A-Za-z ]{0,45}$/",
-         5 => "/^[0-9A-Za-z ]{0,200}$/");
+         5 => '/^[0-9A-Za-záéíóúÁÉÍÓÚñÑüÜ,.!@#$%^&*()_+=\[\]{}|;:\'"<>\/\\\\? ]{0,200}$/');
 			foreach ($datoArray as $key) {
 				$validador = preg_match_all($arrayLogico[$diff], $key);
 				if($validador!=1){
@@ -69,10 +69,10 @@
     }
 
     public function getUpdate($id,$Descripcion,$foto,$nombre,$opcion){
-      //$letrasYnumeros= array($Descripcion,$nombre);
-      //$this->validarSTA($letrasYnumeros,2);
-      //$validarDescrip=array($Descripcion);
-      //$this->validarSTA($validarDescrip,5);
+      $letrasYnumeros= array($nombre);
+      $this->validarSTA($letrasYnumeros,2);
+      $validarDescrip=array($Descripcion);
+      $this->validarSTA($validarDescrip,5);
       $this->id=$id;
       $this->Descripcion=$Descripcion;
       $this->nombre=$nombre;

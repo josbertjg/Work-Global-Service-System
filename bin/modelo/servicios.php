@@ -18,8 +18,9 @@
    private function validarSTA($datoArray,$diff){
     $arrayLogico = array(0 => "/^[A-Za-z]{3,45}$/", 
     1 => "/^[0-9]{1,45}$/", 
-    2 => "/^[0-9A-Za-z- ]{0,45}$/", 3 => "/^[0-9:\/-]{1,45}$/", 4 => "/^[0-9A-Za-z ]{0,45}$/",
-    5 => "/^[0-9A-Za-z ]{0,200}$/");
+    2 => "/^[0-9A-Za-z- ]{0,45}$/", 3 => "/^[0-9:\/-]{1,45}$/", 
+    4 => "/^[0-9A-Za-z ]{0,45}$/",
+    5 => '/^[0-9A-Za-záéíóúÁÉÍÓÚñÑüÜ,.!@#$%^&*()_+=\[\]{}|;:\'"<>\/\\\\? ]{0,200}$/');
     foreach ($datoArray as $key) {
       $validador = preg_match_all($arrayLogico[$diff], $key);
       if($validador!=1){
@@ -123,11 +124,11 @@
       
     }
     public function getUpdate($id,$nombre,$quimico,$descripcion,$foto,$opcion){
-      //$letras= array($nombre);
-      //$this->validarSTA($letras,0);
+      $letras= array($nombre);
+      $this->validarSTA($letras,0);
       $this->nombre=$nombre;
-      //$letrasYnumeros=array($descripcion);
-      //$this->validarSTA($letrasYnumeros,5);
+      $letrasYnumeros=array($descripcion);
+      $this->validarSTA($letrasYnumeros,5);
       $this->id=$id;
       $this->descripcion=$descripcion;
       $this->quimico=$quimico;
@@ -142,8 +143,8 @@
       }
       //$respuesta = ["error" => "Hola esta una prubea y no entiendo porque no esta garrando."];
       //json_encode($respuesta);
-      //echo "Datos: ";
-      //var_dump($this->nombre, $this->targetFile, $this->Descripcion, $this->id);
+      echo "Datos: ";
+      var_dump($this->nombre, $this->targetFile, $this->descripcion, $this->id);
       $this->update($opcion);
     }
     private function update($opcion){

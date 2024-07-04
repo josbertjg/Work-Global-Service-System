@@ -162,7 +162,7 @@
               $new->bindValue(1, $this->email);
               $new->execute();
               $usuario = $new->fetch(\PDO::FETCH_OBJ);
-              $this->clientID = $this->usuario->id;
+              $this->clientID = $usuario->id;
               parent::desconectarDB();
       
             }catch(exception $error){
