@@ -27,6 +27,23 @@ $(document).ready(async ()=>{
 
   // Mostrando la info del fumigador
   mostrarInfoFumigador(currentFumigador);
+
+  // Añadiendo los establecimientos al accordion de info establecimientos
+  _.map(establecimientos,(item)=>{
+    $("#accordionEstablecimientosInfo").append(`
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${item.idEstablecimientos}" aria-expanded="false" aria-controls="${item.idEstablecimientos}">
+            <img src="${item.icono}" alt="establecimientos icono">
+            ${item.nombre}
+          </button>
+        </h2>
+        <div id="${item.idEstablecimientos}" class="accordion-collapse collapse" data-bs-parent="#accordionEstablecimientosInfo">
+          <div class="accordion-body">${item.descripcion}, <b>Metros Cuadrados aproximados: ${item.sizeE}</b></div>
+        </div>
+      </div>
+    `)
+  })
  
   // Orden Tabs
   const serviciosTab      = new bootstrap.Tab  (document.getElementById("pills-choose-servicios-tab"))
@@ -41,7 +58,8 @@ $(document).ready(async ()=>{
 
   $('#ordenEstablecimientosAutocomplete').select2({
     placeholder: 'Vivienda/Lugar',
-    data: _.map(establecimientos,(establecimiento)=>({id: establecimiento.idEstablecimientos, text: establecimiento.nombre}))
+    data: _.map(establecimientos,(establecimiento)=>({id: establecimiento.idEstablecimientos, text: establecimiento.nombre, icono: establecimiento.icono})),
+    templateResult: (item) => ($(`<div class="list-item-container"><img src="${item.icono}" class="list-item-img" /> <span class="list-item-text">${item.text}</span></div>`))
   });
 
   // Clearing all selections
@@ -52,6 +70,7 @@ $(document).ready(async ()=>{
     selectedEstablecimiento = _.find(establecimientos,(establecimiento)=>(establecimiento.idEstablecimientos == e.params.data.id));
     if(!_.isEmpty(selectedEstablecimiento)){
       precioServiciosArray = _.filter(preciosServicios,(item)=>(item.establecimiento == selectedEstablecimiento.idEstablecimientos))
+      console.log(precioServiciosArray)
       if(!_.isEmpty(precioServiciosArray)){
         $(".available-services-label").show();
         $(".available-services-list").empty();
@@ -66,7 +85,7 @@ $(document).ready(async ()=>{
             <li class="available-services-item">
               <div class="available-service-info">
                 <img 
-                  src="assets/img/servicios/cienpies.svg"
+                  src="${selectedEstablecimiento.icono}"
                   data-bs-toggle="tooltip" 
                   data-bs-placement="top"
                   data-bs-custom-class="custom-tooltip-dark"
@@ -152,7 +171,7 @@ $(document).ready(async ()=>{
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item-${precioServicioSelected.id}" aria-expanded="false" aria-controls="item-${precioServicioSelected.id}">
                       <div class="servicio-icons">
                         <img 
-                          src="assets/img/servicios/cienpies.svg" 
+                          src="${selectedEstablecimiento.icono}" 
                           alt="establecimiento"
                           data-bs-toggle="tooltip" 
                           data-bs-placement="top"
@@ -210,7 +229,7 @@ $(document).ready(async ()=>{
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item-${precioServicioSelected.id}" aria-expanded="false" aria-controls="item-${precioServicioSelected.id}">
                   <div class="servicio-icons">
                     <img 
-                      src="assets/img/servicios/cienpies.svg" 
+                      src="${selectedEstablecimiento.icono}" 
                       alt="establecimiento"
                       data-bs-toggle="tooltip" 
                       data-bs-placement="top"
@@ -457,6 +476,7 @@ function mostrarInfoFumigador(fumigador){
       </div>
     </div>
     `)
+
   })
 }
 

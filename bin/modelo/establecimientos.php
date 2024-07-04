@@ -74,7 +74,7 @@
         $this->tamaño=$tamaño;
         $this->id=$this->separarCadena($this->nombre);
         $this->foto=$foto;
-        $this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
+        $this->targetFile="assets/img/establecimientos/".basename($this->foto["name"]);
         $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
         $this->targetFile = $this->targetFile . "." . $Filetype;
         $this->insert();
@@ -120,7 +120,7 @@
         $this->targetFile=$foto; 
         }else{
         $this->foto=$foto;
-        $this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
+        $this->targetFile="assets/img/establecimientos/".basename($this->foto["name"]);
         $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
         $this->targetFile = $this->targetFile . "." . $Filetype;
         }

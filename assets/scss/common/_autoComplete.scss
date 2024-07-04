@@ -28,14 +28,17 @@
   }
 }
 .select2-results__option--highlighted{
-  background-color: $negro !important;
+  transition: all 200ms;
+  background-color: lighten($primary,10) !important;
 }
-.select2-selection__choice{
-  background-color: $negro !important;
-  border-radius: 50px !important;
-  font-size: .8rem;
-  color: white;
-  button{
-    transition: all 200ms;
+.list-item-container{
+  display: flex;
+  align-items: center;
+  .list-item-img{
+    margin-right: .2rem;
+    height: 50px !important;
+  }
+  .list-item-text{
+    font-weight: bold;
   }
 }

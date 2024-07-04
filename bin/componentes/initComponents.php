@@ -143,6 +143,13 @@
                 data-bs-title="Debes seleccionar al menos un servicio para proceder."
               >
                 <select name="state" id="serviciosAutocomplete" multiple="multiple" style="width: 200px !important; max-height: 56px; height: 56px;"></select>
+                <button type="button" class="btn-selected-services-modal position-relative" data-bs-toggle="modal" data-bs-target="#selectedServicesModal">
+                  <i class="fa-solid fa-list"></i>
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    <span class="selected-services-count">0</span>
+                    <span class="visually-hidden">Servicios seleccionados</span>
+                  </span>
+                </button>
               </div>
 
               <div class="dropdown w-100">
@@ -413,6 +420,19 @@
               <div class="modal-body">
                 <i class="fas fa-spinner fa-pulse"></i>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal de servicios seleccionados -->
+        <div class="modal fade" id="selectedServicesModal" tabindex="-1" aria-labelledby="selectedServicesModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="selectedServicesModalLabel">Servicios Seleccionados</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body p-0"><div class="accordion accordion-flush" id="accordionServiciosSeleccionados"></div></div>
             </div>
           </div>
         </div>

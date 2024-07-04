@@ -156,7 +156,7 @@ $(document).ready(async ()=>{
   if(!!document.getElementById("serviciosAutocomplete")){
 
     const respuesta = await service.post("servicios",{getAllServicios:true})
-    const availableServices = _.map(respuesta,(servicio)=>({id: servicio.idServicio, text: servicio.nombre}));
+    const availableServices = _.map(respuesta,(servicio)=>({id: servicio.idServicio, text: servicio.nombre, foto: servicio.fotoServicio, descripcion: servicio.descripcion}));
     let servicesStored = [];
     if(!_.isEmpty(localStorage.getItem("selectedServices"))){
       try{
@@ -166,8 +166,61 @@ $(document).ready(async ()=>{
       }
     }
 
+    const selectedServicesModal = new bootstrap.Modal(document.getElementById("selectedServicesModal"));
     let selectedServices = !_.isEmpty(servicesStored) ? servicesStored : [] 
 
+    if(!_.isEmpty(selectedServices)){ 
+      $(".btn-selected-services-modal").fadeIn()
+      $(".selected-services-count").text(selectedServices.length.toString())
+
+      _.map(_.map(selectedServices,(id)=>{
+        const encontrado = _.find(availableServices, (servicio)=>(servicio.id == id))
+        if(!_.isEmpty(encontrado)) return encontrado;
+      }), (item)=>{
+        $("#accordionServiciosSeleccionados").append(`
+          <div class="accordion-item accordion-selected-service-${item.id}">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${item.id}" aria-expanded="false" aria-controls="${item.id}">
+                <div>
+                  <img src="${item.foto}" alt="establecimientos icono">
+                  ${item.text}
+                </div>
+                <div>
+                  <i class="fa-solid fa-trash delete-selected-service" idServicio="${item.id}"></i>
+                </div>
+              </button>
+            </h2>
+            <div id="${item.id}" class="accordion-collapse collapse" data-bs-parent="#accordionServiciosSeleccionados">
+              <div class="accordion-body">${item.descripcion}</b></div>
+            </div>
+          </div>
+        `)
+      })
+    }
+
+    // Eliminar un servicio Seleccionado desde el modal
+    $(document).on("click", ".delete-selected-service", (e)=>{
+      const serviceId = $(e.target).attr("idServicio")
+
+      selectedServices.splice(selectedServices.indexOf(serviceId),1)
+
+      $('#serviciosAutocomplete').val(selectedServices).trigger('change')
+
+      $(".selected-services-count").text(selectedServices.length.toString())
+
+      $(`.accordion-selected-service-${serviceId}`).remove();
+
+      // Mejorando el aspecto visual del autocomplete
+      $(".select2-selection__rendered").empty()
+      $(".select2-search__field").attr("placeholder","Servicios:")
+
+      if(_.isEmpty(selectedServices)){
+        $(".btn-selected-services-modal").fadeOut()
+        selectedServicesModal.hide();
+      }
+    })
+
+    // Servicios Autocomplete
     $('#serviciosAutocomplete').select2({
       placeholder: 'Servicios',
       data: _.isEmpty(selectedServices) ? 
@@ -176,99 +229,58 @@ $(document).ready(async ()=>{
           _.map(availableServices,(servicio)=>{
             if(selectedServices.includes(servicio.id)) return { ...servicio, selected: true }
             return servicio
-          })
+          }),
+      templateResult: (service) => ($(`<div class="list-item-container"><img src="${service.foto}" class="list-item-img" /> <span class="list-item-text">${service.text}</span></div>`))
     });
 
     $('#serviciosAutocomplete').on('select2:select', function (e) {
       selectedServices.push(e.params.data.id)
-    });
+      $(".btn-selected-services-modal").fadeIn()
+      $(".selected-services-count").text(selectedServices.length.toString())
 
+      const seleccionado = _.find(availableServices, (servicio)=>(servicio.id == e.params.data.id))
+
+      $("#accordionServiciosSeleccionados").append(`
+        <div class="accordion-item accordion-selected-service-${seleccionado.id}">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${seleccionado.id}" aria-expanded="false" aria-controls="${seleccionado.id}">
+              <div>
+                <img src="${seleccionado.foto}" alt="establecimientos icono">
+                ${seleccionado.text}
+              </div>
+              <div>
+                <i class="fa-solid fa-trash delete-selected-service" idServicio="${seleccionado.id}"></i>
+              </div>
+            </button>
+          </h2>
+          <div id="${seleccionado.id}" class="accordion-collapse collapse" data-bs-parent="#accordionServiciosSeleccionados">
+            <div class="accordion-body">${seleccionado.descripcion}</b></div>
+          </div>
+        </div>
+      `)
+
+      // Mejorando el aspecto visual del autocomplete
+      $(".select2-selection__rendered").empty()
+      $(".select2-search__field").attr("placeholder","Servicios:")
+    });
+    
     $('#serviciosAutocomplete').on('select2:unselect', function (e) {
       selectedServices.splice(selectedServices.indexOf(e.params.data.id),1)
-    });
+      $(".selected-services-count").text(selectedServices.length.toString())
+      $(`.accordion-selected-service-${e.params.data.id}`).remove();
+      if(_.isEmpty(selectedServices)){ 
+        $(".btn-selected-services-modal").fadeOut()
+        selectedServicesModal.hide();
+      }
 
+      // Mejorando el aspecto visual del autocomplete
+      $(".select2-selection__rendered").empty()
+      $(".select2-search__field").attr("placeholder","Servicios:")
+    });    
 
-    // let selectedServices = [];
-    // let servicesMenuHovered = false;
-    // let servicesInputBlur = false;
-    // const servicesDropdown = new bootstrap.Dropdown(document.getElementById("services-toggle"))
-
-    // Services Autocomplete
-    // $( "#servicios" ).autocomplete({
-    //   source: availableServices,
-    //   select: (e, ui)=>{
-    //     e.preventDefault();
-        
-    //     if(!_.find(selectedServices,(item)=> ui.item.label == item.label)){
-    //       selectedServices.push(ui.item)
-    //       $(".services-dropdown-body").append(`
-    //         <span class="badge rounded-pill bg-dark me-1" service="${ui.item.label}">
-    //           ${ui.item.label}
-    //           <i class="fa-solid fa-x btn-delete-service"></i>
-    //         </span>`)
-    //     }
-    //     if(selectedServices.length == 0) {
-    //       $(".no-services").show();
-    //       $(".badge-services-count").hide();
-    //     }else{
-    //       $(".no-services").hide();
-    //     }
-    //     servicesDropdown.show();
-    //     $( "#servicios" ).val("");
-    //     $(".badge-services-count").show()
-    //     $(".badge-count-number").text(selectedServices.length)
-  
-    //   }
-    // });
-  
-    // // Services Dropdown
-    // $( "#servicios" ).click(()=> {   
-    //   // Searching on autocomplete
-    //   $( "#servicios" ).autocomplete( "search" )
-      
-    //   servicesInputBlur = false;
-    //   if(!_.isEmpty(selectedServices)){
-    //     servicesDropdown.show();
-    //   }
-    // });
-    
-    // $( "#servicios" ).blur(()=> {
-    //   if(!servicesMenuHovered){ 
-    //     servicesDropdown.hide();
-    //     servicesMenuHovered = false;
-    //   }
-    //   servicesInputBlur = true;
-    // });
-  
-    // $(".services-dropdown-menu").click(()=>{
-    //   servicesDropdown.show();
-    //   servicesInputBlur = true;
-    // })
-  
-    // $(".services-dropdown-menu").mousemove(()=>{
-    //   servicesMenuHovered = true;
-    // })
-  
-    // $(".services-dropdown-menu").mouseleave(()=>{
-    //   if(servicesInputBlur){
-    //     servicesDropdown.hide();
-    //   }
-    //   servicesMenuHovered = false;
-    // })
-  
-    // $(".services-dropdown-body").click((e)=>{
-    //   if($(e.target).hasClass("btn-delete-service")){
-    //     const service = $($(e.target).parent()[0]).attr("service");
-    //     selectedServices = selectedServices.filter((item)=>item.label != service)
-    //     $(".badge-count-number").text(selectedServices.length)
-    //     $($(e.target).parent()[0]).remove();
-    //     if(selectedServices.length == 0) {
-    //       $(".badge-services-count").hide();
-    //       $(".no-services").show();
-    //     }
-    //   }
-    // })
-    
+    // Mejorando el aspecto visual del autocomplete
+    $(".select2-selection__rendered").empty()
+    $(".select2-search__field").attr("placeholder","Servicios:")
   
     // Google Maps Dropdown
     $("#searchHeaderPlaceField").click(()=>{

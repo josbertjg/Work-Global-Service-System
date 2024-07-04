@@ -63,7 +63,19 @@
                 <p>Elige el tipo de Vivienda / Establecimiento el cual se ajusta más al lugar en donde se realizará la fumigación y luego selecciona el servicio que se ajuste mas a tus necesidades:</p>
                 <div class="d-flex">
                   <div class="flex-fill d-flex flex-column w-100 mb-3">
-                    <label class="servicio-label" for="ordenEstablecimientosAutocomplete">Tipo de Establecimiento:</label>
+                    <label class="servicio-label" for="ordenEstablecimientosAutocomplete">
+                      Tipo de Establecimiento 
+                      <!-- Boton de Info Establecimientos Modal -->
+                      <button class="ps-0" type="button" data-bs-toggle="modal" data-bs-target="#infoEstablecimientosModal">
+                        <i 
+                          class="fa-solid fa-circle-info"
+                          data-bs-toggle="tooltip" 
+                          data-bs-placement="top"
+                          data-bs-custom-class="custom-tooltip-primary"
+                          data-bs-title='Has click para ver mas sobre "Establecimientos"'
+                        ></i>
+                      </button>
+                    </label>
                     <select class="flex-fill" id="ordenEstablecimientosAutocomplete" style="height: 56px !important;"></select>
                   </div>
                 </div>
@@ -147,6 +159,21 @@
           <div class="orden-details-monto-total">
             <span>Monto Total</span>
             <b class="monto"></b>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO ESTABLECIMIENTOS MODAL -->
+    <div class="modal fade" id="infoEstablecimientosModal" tabindex="-1" aria-labelledby="infoEstablecimientosModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="infoEstablecimientosModalLabel">Establecimientos</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-0">
+            <div class="accordion accordion-flush" id="accordionEstablecimientosInfo"></div>
           </div>
         </div>
       </div>

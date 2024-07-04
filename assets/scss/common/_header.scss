@@ -21,11 +21,50 @@
       }
     }
 
+    #servicios-autocomplete-container{
+      position: relative;
+      .btn-selected-services-modal{
+        display: none;
+        position: absolute !important;
+        top: 8px;
+        right: 0px;
+        z-index: 100;
+        transition: all 200ms;
+
+        &:hover i{
+          background-color: transparent;
+          color: $primary;
+        }
+
+        i{
+          background-color: $primary;
+          border: 2px solid $primary;
+          border-radius: 5px;
+          color: white;
+          font-size: 1.5rem;
+          padding: .3rem;
+          transition: all 200ms;
+        }
+      }
+      .select2-selection__choice{
+        display: none !important;
+      }
+
+      .select2-search__field{
+        min-width: 100%;
+      }
+
+      .select2-search__field{
+        padding-right: 30px;
+      }
+    }
+
     #servicios{
       border-radius: 0px;
       border-top-left-radius: 50px;
       border-bottom-left-radius: 50px;
     }
+
     #searchHeaderPlaceField{
       border-radius: 0px;
       border-top-right-radius: 50px;
@@ -354,5 +393,46 @@
       }
     }
 
+  }
+}
+
+// Acordion de servicios seleccionados
+#accordionServiciosSeleccionados{
+  .accordion-button{
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-weight: 500;
+    background-color: lighten($primary,20);
+    color: white;
+    box-shadow: none;
+
+    &::before{
+      display: none;
+    }
+    &::after{
+      display: none;
+    }
+
+    img{
+      height: 50px;
+      margin-right: .5rem;
+    }
+
+    i{
+      background-color: white;
+      padding: .6rem .5rem;
+      border-radius: 5px;
+      color: $negro;
+    }
+  }
+  .collapsed{
+    background-color: white;
+    color: $negro;
+
+    i{
+      background-color: $primary;
+      color: white;
+    }
   }
 }
