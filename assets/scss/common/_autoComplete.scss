@@ -29,7 +29,7 @@
 }
 .select2-results__option--highlighted{
   transition: all 200ms;
-  background-color: $grey-light !important;
+  background-color: lighten($primary,10) !important;
 }
 .list-item-container{
   display: flex;

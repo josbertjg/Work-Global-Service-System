@@ -70,23 +70,24 @@ body .goBack:hover {
   position: relative;
 }
 .app-header .header-menu #servicios-autocomplete-container .btn-selected-services-modal {
+  display: none;
   position: absolute !important;
-  top: 6px;
+  top: 8px;
   right: 0px;
   z-index: 100;
   transition: all 200ms;
 }
 .app-header .header-menu #servicios-autocomplete-container .btn-selected-services-modal:hover i {
-  background-color: #DC3545;
-  color: white;
+  background-color: transparent;
+  color: #DC3545;
 }
 .app-header .header-menu #servicios-autocomplete-container .btn-selected-services-modal i {
-  background-color: transparent;
+  background-color: #DC3545;
   border: 2px solid #DC3545;
   border-radius: 5px;
-  color: #DC3545;
+  color: white;
   font-size: 1.5rem;
-  padding: 0.5rem;
+  padding: 0.3rem;
   transition: all 200ms;
 }
 .app-header .header-menu #servicios-autocomplete-container .select2-selection__choice {
@@ -386,6 +387,40 @@ body .goBack:hover {
   font-weight: 600;
 }
 
+#accordionServiciosSeleccionados .accordion-button {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background-color: #eb8c95;
+  color: white;
+  box-shadow: none;
+}
+#accordionServiciosSeleccionados .accordion-button::before {
+  display: none;
+}
+#accordionServiciosSeleccionados .accordion-button::after {
+  display: none;
+}
+#accordionServiciosSeleccionados .accordion-button img {
+  height: 50px;
+  margin-right: 0.5rem;
+}
+#accordionServiciosSeleccionados .accordion-button i {
+  background-color: white;
+  padding: 0.6rem 0.5rem;
+  border-radius: 5px;
+  color: #343a40;
+}
+#accordionServiciosSeleccionados .collapsed {
+  background-color: white;
+  color: #343a40;
+}
+#accordionServiciosSeleccionados .collapsed i {
+  background-color: #DC3545;
+  color: white;
+}
+
 .footer-tabs {
   height: 80px;
   display: flex;
@@ -490,7 +525,7 @@ main {
 
 .select2-results__option--highlighted {
   transition: all 200ms;
-  background-color: #a6a6a6 !important;
+  background-color: #e4606d !important;
 }
 
 .list-item-container {
@@ -1143,6 +1178,22 @@ main {
 #ordenDetailsModal .orden-details-monto-total b {
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+#infoEstablecimientosModal #accordionEstablecimientosInfo .accordion-button {
+  font-size: 1.2rem;
+  font-weight: 500;
+  background-color: #e4606d;
+  color: white;
+  box-shadow: none;
+}
+#infoEstablecimientosModal #accordionEstablecimientosInfo .accordion-button img {
+  height: 50px;
+  margin-right: 0.5rem;
+}
+#infoEstablecimientosModal #accordionEstablecimientosInfo .collapsed {
+  background-color: white;
+  color: #343a40;
 }
 
 .arrowTop {
