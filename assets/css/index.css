@@ -66,6 +66,38 @@ body .goBack:hover {
 .app-header .header-menu .dropdown-toggle::after {
   display: none !important;
 }
+.app-header .header-menu #servicios-autocomplete-container {
+  position: relative;
+}
+.app-header .header-menu #servicios-autocomplete-container .btn-selected-services-modal {
+  position: absolute !important;
+  top: 6px;
+  right: 0px;
+  z-index: 100;
+  transition: all 200ms;
+}
+.app-header .header-menu #servicios-autocomplete-container .btn-selected-services-modal:hover i {
+  background-color: #DC3545;
+  color: white;
+}
+.app-header .header-menu #servicios-autocomplete-container .btn-selected-services-modal i {
+  background-color: transparent;
+  border: 2px solid #DC3545;
+  border-radius: 5px;
+  color: #DC3545;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  transition: all 200ms;
+}
+.app-header .header-menu #servicios-autocomplete-container .select2-selection__choice {
+  display: none !important;
+}
+.app-header .header-menu #servicios-autocomplete-container .select2-search__field {
+  min-width: 100%;
+}
+.app-header .header-menu #servicios-autocomplete-container .select2-search__field {
+  padding-right: 30px;
+}
 .app-header .header-menu #servicios {
   border-radius: 0px;
   border-top-left-radius: 50px;
@@ -457,17 +489,20 @@ main {
 }
 
 .select2-results__option--highlighted {
-  background-color: #343a40 !important;
+  transition: all 200ms;
+  background-color: #a6a6a6 !important;
 }
 
-.select2-selection__choice {
-  background-color: #343a40 !important;
-  border-radius: 50px !important;
-  font-size: 0.8rem;
-  color: white;
+.list-item-container {
+  display: flex;
+  align-items: center;
 }
-.select2-selection__choice button {
-  transition: all 200ms;
+.list-item-container .list-item-img {
+  margin-right: 0.2rem;
+  height: 50px !important;
+}
+.list-item-container .list-item-text {
+  font-weight: bold;
 }
 
 .custom-tooltip-primary {
