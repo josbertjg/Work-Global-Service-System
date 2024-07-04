@@ -21,6 +21,43 @@
       }
     }
 
+    #servicios-autocomplete-container{
+      position: relative;
+      .btn-selected-services-modal{
+        position: absolute !important;
+        top: 6px;
+        right: 0px;
+        z-index: 100;
+        transition: all 200ms;
+
+        &:hover i{
+          background-color: $primary;
+          color: white;
+        }
+
+        i{
+          background-color: transparent;
+          border: 2px solid $primary;
+          border-radius: 5px;
+          color: $primary;
+          font-size: 1.5rem;
+          padding: .5rem;
+          transition: all 200ms;
+        }
+      }
+      .select2-selection__choice{
+        display: none !important;
+      }
+
+      .select2-search__field{
+        min-width: 100%;
+      }
+
+      .select2-search__field{
+        padding-right: 30px;
+      }
+    }
+
     #servicios{
       border-radius: 0px;
       border-top-left-radius: 50px;
