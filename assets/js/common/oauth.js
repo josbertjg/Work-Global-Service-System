@@ -21,7 +21,7 @@ function loginUser(userObj){
   $(".profile-dropdown-menu").empty();
   $(".profile-dropdown-menu").append(`
     <li><a class="dropdown-item navigation-link" href="perfil">Perfil</a></li>
-    ${!_.isEmpty(permisos.Servicios) && !_.isEmpty(permisos.Servicios.Consultar) && userObj.idRol != "SAWGS1" ? '<li><a class="dropdown-item navigation-link" href="servicios">Servicios</a></li>' : ''}
+    ${!_.isEmpty(permisos.MisOrdenes) && !_.isEmpty(permisos.MisOrdenes.Consultar) && userObj.idRol != "SAWGS1" ? '<li><a class="dropdown-item navigation-link" href="Mis-Ordenes">MisOrdenes</a></li>' : ''}
     ${!_.isEmpty(permisos.Configuracion) && !_.isEmpty(permisos.Configuracion.Consultar) ? '<li><a class="dropdown-item navigation-link" href="configuracion">Configuración</a></li>' : ''}
     <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>
     <li><hr class="dropdown-divider m-0 p-0"></li>
@@ -30,15 +30,15 @@ function loginUser(userObj){
   `);
   $(".close-acceder-modal").trigger("click")
 
-  if(!_.isEmpty(permisos.Servicios) && !_.isEmpty(permisos.Servicios.Consultar) && userObj.idRol != "SAWGS1"){
+  if(!_.isEmpty(permisos.MisOrdenes) && !_.isEmpty(permisos.MisOrdenes.Consultar) && userObj.idRol != "SAWGS1"){
     $(".header-buttons").prepend(`
       <a 
-        href="servicios" 
+        href="Mis-Ordenes" 
         class="action-btn servicios-header-btn navigation-link me-2" 
         data-bs-toggle="tooltip" 
         data-bs-placement="bottom"
         data-bs-custom-class="custom-tooltip-dark"
-        data-bs-title="Servicios"
+        data-bs-title="MisOrdenes"
       >
         <i class="fa-solid fa-calendar"></i>
       </a>
@@ -71,8 +71,8 @@ function loginUser(userObj){
     <i class="fa-solid fa-house-chimney"></i>
       <span>Home</span>
     </a>
-    ${!_.isEmpty(permisos.Servicios) && !_.isEmpty(permisos.Servicios.Consultar) && userObj.idRol != "SAWGS1" ? `
-      <a href="servicios" class="tab-item navigation-link">
+    ${!_.isEmpty(permisos.MisOrdenes) && !_.isEmpty(permisos.MisOrdenes.Consultar) && userObj.idRol != "SAWGS1" ? `
+      <a href="Mis-Ordenes" class="tab-item navigation-link">
         <i class="fa-solid fa-calendar"></i>
         <span>Servicios</span>
       </a>`:''}

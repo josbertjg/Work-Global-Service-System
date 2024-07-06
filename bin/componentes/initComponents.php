@@ -447,7 +447,7 @@
       $serviciosItem = $userIsLogged && $this->hasModuleAccess("MisOrdenes") && ($_SESSION["idRol"] != "SAWGS1") ? '
       <a href="Mis-Ordenes" class="tab-item navigation-link">
         <i class="fa-solid fa-calendar"></i>
-        <span>Servicios</span>
+        <span>Mis Ordenes</span>
       </a>':'';
 
       $configuracionItem = $userIsLogged && $this->hasModuleAccess("Configuracion") ? '
