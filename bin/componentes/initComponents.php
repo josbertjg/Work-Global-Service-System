@@ -62,21 +62,21 @@
       $showActionButtons = $userIsLogged ? 'd-inline-block' : 'd-none';
       $showOfferServicesBtn = $userIsLogged ? 'd-none' : 'd-inline-block';
 
-      $serviciosProfile = $userIsLogged && $this->hasModuleAccess("Servicios") && ($_SESSION["idRol"] != "SAWGS1") ? 
-      '<li><a class="dropdown-item navigation-link" href="servicios">Servicios</a></li>':'';
+      $serviciosProfile = $userIsLogged && $this->hasModuleAccess("MisOrdenes") && ($_SESSION["idRol"] != "SAWGS1") ? 
+      '<li><a class="dropdown-item navigation-link" href="Mis-Ordenes">Mis Ordenes</a></li>':'';
 
       $configuracionProfile = $userIsLogged && $this->hasModuleAccess("Configuracion") ? 
       '<li><a class="dropdown-item navigation-link" href="configuracion">Configuración</a></li>':'';
 
-      $serviciosItemHeader = $userIsLogged && $this->hasModuleAccess("Servicios") && ($_SESSION["idRol"] != "SAWGS1") && 
+      $serviciosItemHeader = $userIsLogged && $this->hasModuleAccess("MisOrdenes") && ($_SESSION["idRol"] != "SAWGS1") && 
       !$this->hasModuleAccess("Configuracion") ? 
       '<a 
-        href="servicios" 
+        href="Mis-Ordenes" 
         class="action-btn servicios-header-btn navigation-link me-2" 
         data-bs-toggle="tooltip" 
         data-bs-placement="bottom"
         data-bs-custom-class="custom-tooltip-dark"
-        data-bs-title="Servicios"
+        data-bs-title="MisOrdenes"
       >
         <i class="fa-solid fa-calendar"></i>
       </a>':'';
@@ -444,8 +444,8 @@
     public function footer(){
       $userIsLogged = !empty($_SESSION["email"]) && !empty($_SESSION["idRol"]);
 
-      $serviciosItem = $userIsLogged && $this->hasModuleAccess("Servicios") && ($_SESSION["idRol"] != "SAWGS1") ? '
-      <a href="servicios" class="tab-item navigation-link">
+      $serviciosItem = $userIsLogged && $this->hasModuleAccess("MisOrdenes") && ($_SESSION["idRol"] != "SAWGS1") ? '
+      <a href="Mis-Ordenes" class="tab-item navigation-link">
         <i class="fa-solid fa-calendar"></i>
         <span>Servicios</span>
       </a>':'';
@@ -548,14 +548,17 @@
           </tr>';
           break;
         
-        case "vivienda":
+        case "OrdenesServicio":
         $varth=
         '<tr>
-        <th>idVivienda</th>
-        <th>Precio Base</th>
-        <th>Descripcion</th>
-        <th>Activo</th>
-        <th>Acciones</th>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Email</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Ubicacion</th>
+        <th>Estado</th>
+        <th>Detalles<th>
         </tr>';
         break;
 
@@ -611,19 +614,18 @@
             <th>Acciones</th>
             </tr>';
             break;
-        case "OrdenesServicio":
+        case "Factura":
           $varth=
           '<tr>
+          <th>NRO Factura</th>
           <th>NRO Orden</th>
-          <th>Cliente</th>
-          <th>Email</th>
-          <th>Dia</th>
-          <th>Hora</th>
-          <th>Ubicacion</th>
-          <th>Status</th>
+          <th>Fecha</th>
+          <th>Monto Total</th>
+          <th>Pagado</th>
           <th>Detalles</th>
           </tr>';
           break;
+        
       }
       $varAll= $varTStart.$varth.$vartTend;
       echo $varAll;

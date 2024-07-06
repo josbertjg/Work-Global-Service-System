@@ -79,7 +79,8 @@ $(document).ready(async ()=>{
               <th scope="row">${element.nombre}</th>
               <td>$ ${element.precio}</td>
             </tr>`;
-            precioFinal+=element.precio;
+            precioFinal+=parseInt(element.precio);
+            console.log(precioFinal);
         });
         body+=`
         <tr>
