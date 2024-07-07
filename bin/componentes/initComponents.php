@@ -247,7 +247,7 @@
                   </div>
                 </ul>
               </div>
-              <a href="registroFumigador" class="ofrecerServicios-header-btn '.$showOfferServicesBtn.'">Ofrecer Servicios</a>
+              <a href="registrarFumigador" class="ofrecerServicios-header-btn '.$showOfferServicesBtn.'">Ofrecer Servicios</a>
             </div>
 
             <div class="dropdown d-flex align-items-center">
@@ -349,29 +349,29 @@
                       <button type="button" class="btn-close close-acceder-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="crearCuenta-form" novalidate>
-                      <div class="row mb-4">
-                        <div class="form-floating position-relative col-md-6">
+                      <div class="row px-3 mb-4">
+                        <div class="form-floating position-relative col-md-6 ps-0">
                           <input type="text" class="form-control" id="crearCuentaUserNombre" name="nombre" placeholder="Nombre:" isValid="false">
                           <label for="crearCuentaUserEmail">Nombre:</label>
                           <div class="invalid-tooltip"></div>
                         </div>
-                        <div class="form-floating position-relative col-md-6 ps-0">
+                        <div class="form-floating position-relative col-md-6 p-0">
                           <input type="text" class="form-control" id="crearCuentaUserApellido" name="apellido" placeholder="Apellido:" isValid="false">
                           <label for="crearCuentaUserPassword">Apellido:</label>
                           <div class="invalid-tooltip"></div>
                         </div>    
                       </div>
-                      <div class="form-floating position-relative mb-4">
+                      <div class="form-floating position-relative mb-4 px-1">
                         <input type="email" class="form-control" id="crearCuentaUserEmail" name="email" placeholder="email@ejemplo.com" isValid="false">
                         <label for="crearCuentaUserEmail">E-Mail:</label>
                         <div class="invalid-tooltip"></div>
                       </div>
-                      <div class="form-floating position-relative mb-4">
+                      <div class="form-floating position-relative mb-4 px-1">
                         <input type="password" class="form-control" id="crearCuentaUserPassword" name="contraseña" placeholder="Password" isValid="false">
                         <label for="crearCuentaUserPassword">Contraseña:</label>
                         <div class="invalid-tooltip"></div>
                       </div>
-                      <div class="form-floating position-relative mb-2">
+                      <div class="form-floating position-relative mb-2 px-1">
                         <input type="password" class="form-control" id="crearCuentaUserConfirmPassword" name="confirmContraseña" placeholder="Confirm Password" isValid="false">
                         <label for="crearCuentaUserConfirmPassword">Confirmar Contraseña:</label>
                         <div class="invalid-tooltip"></div>

@@ -193,14 +193,14 @@ function validarNumeros(element, isRequired = true) {
 
 
 // Valida un input con la logica para un correo
-function validarCorreo(element, isRequired = true) {
+function validarCorreo(element, longitudMax=45, isRequired = true) {
   element.blur(() => {
     if(isRequired)
       if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
       
     if (!isCorreo(element.val())) return setInvalidInput(element, "El correo no es válido")
 
-    if(element.val().trim().length > 100) return setInvalidInput(element, "El correo no puede tener mas de 100 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "El correo no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(element)
   })
@@ -211,22 +211,22 @@ function validarCorreo(element, isRequired = true) {
      
     if (!isCorreo(element.val())) return setInvalidInput(element, "El correo no es válido")
 
-    if(element.val().trim().length > 100) return setInvalidInput(element, "El correo no puede tener mas de 100 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "El correo no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(element)
   })
 
-  element.keydown(() => validarLength(element.val(),100));
+  element.keydown(() => validarLength(element.val(),longitudMax));
 }
 // Valida un input con la logica para una contraseña
-function validarContraseña(element, isRequired = true) {
+function validarContraseña(element, longitudMax=45, isRequired = true) {
   element.blur(() => {
     if(isRequired)
       if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
       
     if (!isContraseña(element.val())) return setInvalidInput(element, "La contraseña debe tener al menos un número, una letra minúscula, una letra mayúscula, un caracter especial y una longitud de 8 caracteres.")
 
-    if(element.val().trim().length > 100) return setInvalidInput(element, "La contraseña no puede tener mas de 100 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "La contraseña no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(element)
   })
@@ -237,15 +237,15 @@ function validarContraseña(element, isRequired = true) {
      
     if (!isContraseña(element.val())) return setInvalidInput(element, "La contraseña debe tener al menos un número, una letra minúscula, una letra mayúscula, un caracter especial y una longitud de 8 caracteres.")
 
-    if(element.val().trim().length > 100) return setInvalidInput(element, "La contraseña no puede tener mas de 100 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "La contraseña no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(element)
   })
 
-  element.keydown(() => validarLength(element.val(),100));
+  element.keydown(() => validarLength(element.val(),longitudMax));
 }
 // Valida un input con la logica para confirmar una contraseña
-function validarConfirmarContraseña(confirmPasswordElement, passwordElement, isRequired = true) {
+function validarConfirmarContraseña(confirmPasswordElement, passwordElement, longitudMax=45, isRequired = true) {
   confirmPasswordElement.blur(() => {
     if(isRequired)
       if(_.isEmpty(confirmPasswordElement.val().trim())) return setInvalidInput(confirmPasswordElement, "Este campo es requerido")
@@ -253,7 +253,7 @@ function validarConfirmarContraseña(confirmPasswordElement, passwordElement, is
     if (confirmPasswordElement.val() != passwordElement.val()) 
       return setInvalidInput(confirmPasswordElement, "Ambas contraseñas deben coincidir.")
 
-    if(confirmPasswordElement.val().trim().length > 100) return setInvalidInput(confirmPasswordElement, "La contraseña no puede tener mas de 100 caracteres.");
+    if(confirmPasswordElement.val().trim().length > longitudMax) return setInvalidInput(confirmPasswordElement, "La contraseña no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(confirmPasswordElement)
   })
@@ -265,21 +265,21 @@ function validarConfirmarContraseña(confirmPasswordElement, passwordElement, is
     if (confirmPasswordElement.val() != passwordElement.val()) 
       return setInvalidInput(confirmPasswordElement, "Ambas contraseñas deben coincidir.")
 
-    if(confirmPasswordElement.val().trim().length > 100) return setInvalidInput(confirmPasswordElement, "La contraseña no puede tener mas de 100 caracteres.");
+    if(confirmPasswordElement.val().trim().length > longitudMax) return setInvalidInput(confirmPasswordElement, "La contraseña no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(confirmPasswordElement)
   })
 
-  confirmPasswordElement.keydown(() => validarLength(confirmPasswordElement.val(),100));
+  confirmPasswordElement.keydown(() => validarLength(confirmPasswordElement.val(),longitudMax));
 }
 // Valida un input con la logica para nombres
-function validarNombre(element, isRequired = true) {
+function validarNombre(element, longitudMax=45, isRequired = true) {
   element.blur(() => {
     if(isRequired)
       if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido");
       
     if(element.val().trim().length < 2)  return setInvalidInput(element, "El nombre no puede tener menos de dos caracteres.");
-    if(element.val().trim().length > 45) return setInvalidInput(element, "El nombre no puede tener mas de 45 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "El nombre no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(element)
   })
@@ -289,24 +289,24 @@ function validarNombre(element, isRequired = true) {
       if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
      
     if(element.val().trim().length < 2)  return setInvalidInput(element, "El nombre no puede tener menos de dos caracteres.");
-    if(element.val().trim().length > 45) return setInvalidInput(element, "El nombre no puede tener mas de 45 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "El nombre no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(element)
   })
 
-  element.keydown((event) => soloLetras(event) && validarLength(element.val(),45));
+  element.keydown((event) => soloLetras(event) && validarLength(element.val(),longitudMax));
   
 }
 
 
 // Valida un input
-function validarDescripcion(element, isRequired = true) {
+function validarDescripcion(element, longitudMax=5000, isRequired = true) {
   element.blur(() => {
     if(isRequired)
       if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido");
       
     if(element.val().trim().length < 25)  return setInvalidInput(element, "La descripcion  no puede tener menos de 25 caracteres.");
-    if(element.val().trim().length > 300) return setInvalidInput(element, "La descripcion no puede tener mas de 300 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "La descripcion no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(element)
   })
@@ -316,22 +316,22 @@ function validarDescripcion(element, isRequired = true) {
       if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
      
     if(element.val().trim().length < 25)  return setInvalidInput(element, "La descripcion no puede tener menos de 25 caracteres.");
-    if(element.val().trim().length > 300) return setInvalidInput(element, "la descripcion no puede tener mas de 300 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "la descripcion no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(element)
   })
 
-  element.keydown(() => validarLength(element.val(),300));
+  element.keydown(() => validarLength(element.val(),longitudMax));
   
 }
 
-function validarInputNombre(element, isRequired = true) {
+function validarInputNombre(element, longitudMax=45, isRequired = true) {
   element.blur(() => {
     if(isRequired)
       if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido");
       
     if(element.val().trim().length < 2)  return setInvalidInput(element, "Este Campo  no puede tener menos de 2 caracteres.");
-    if(element.val().trim().length > 45) return setInvalidInput(element, "Este no puede tener mas de 45 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "Este no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(element)
   })
@@ -341,11 +341,11 @@ function validarInputNombre(element, isRequired = true) {
       if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
      
     if(element.val().trim().length < 2)  return setInvalidInput(element, "Este Campo no puede tener menos de 2 caracteres.");
-    if(element.val().trim().length > 45) return setInvalidInput(element, "Este campo no puede tener mas de 45 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "Este campo no puede tener mas de "+longitudMax+" caracteres.");
 
     return setValidInput(element)
   })
 
-  element.keydown(() => validarLength(element.val(),45));
+  element.keydown(() => validarLength(element.val(),longitudMax));
   
 }

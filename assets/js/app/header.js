@@ -443,11 +443,11 @@ $(document).ready(async ()=>{
   })
 
   // Form Crear Cuenta
-  validarNombre($("#crearCuentaUserNombre"));
-  validarNombre($("#crearCuentaUserApellido"));
-  validarCorreo($("#crearCuentaUserEmail"));
-  validarContraseña($("#crearCuentaUserPassword"));
-  validarConfirmarContraseña($("#crearCuentaUserConfirmPassword"),$("#crearCuentaUserPassword"));
+  validarNombre($("#crearCuentaUserNombre"),100);
+  validarNombre($("#crearCuentaUserApellido"),100);
+  validarCorreo($("#crearCuentaUserEmail"),40);
+  validarContraseña($("#crearCuentaUserPassword"),255);
+  validarConfirmarContraseña($("#crearCuentaUserConfirmPassword"),$("#crearCuentaUserPassword"),255);
 
   $("#crearCuenta-form").on("submit",async (event)=>{
     event.preventDefault();
