@@ -3,8 +3,8 @@ $(document).ready(async()=>{
   let datos=2;
   let rutaImagen="hola";
   hideByPermisos(permisos);
-  validarNombre($("#nombreEstablecimiento"));
-  validarDescripcion($("#descripcion"));
+  validarNombre($("#nombreEstablecimiento"),155);
+  validarDescripcion($("#descripcion"),2600);
   validarNumeros($("#number"));
   validarFile($("#rutaIcono"));
   let idEstablecimiento;

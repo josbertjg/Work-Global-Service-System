@@ -4,8 +4,8 @@ $(document).ready(async ()=>{
   let idServicio;
   const permisos = await getPermisos();
   hideByPermisos(permisos);
-  validarNombre($("#nombreServicio"));
-  validarDescripcion($("#descripcionServicio"));
+  validarNombre($("#nombreServicio"),45);
+  validarDescripcion($("#descripcionServicio"),2600);
   llenarSelect();
   validarSelect();
   var columnas = [
