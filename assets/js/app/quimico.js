@@ -61,8 +61,8 @@ $(document).ready(async()=>{
   });
   //se le da las funciones para validar los campos
   validarFile($("#rutaIcono"));
-  validarInputNombre($("#nombreQuimico"));
-  validarDescripcion($("#Descripcion"));
+  validarInputNombre($("#nombreQuimico"),45);
+  validarDescripcion($("#Descripcion"),1200);
 
 
   //seleciona el icono, valida y muestra una preview y valida que sean los formatos necesarios

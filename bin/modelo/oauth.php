@@ -109,6 +109,20 @@
           }catch(exception $error){
             $respuesta = ["error" => $error];
           }}
+          if($usuarioEncontrado->idRol=="FGWGS1"){
+            try{
+              parent::conectarDB();
+              $new = $this->con->prepare("SELECT * FROM tfumigadores WHERE email = ?");
+              $new->bindValue(1, $this->email);
+              $new->execute();
+              $cliente = $new->fetch(\PDO::FETCH_OBJ);
+              $this->clientID = $cliente->cedula;
+              parent::desconectarDB();
+      
+            }catch(exception $error){
+              $respuesta = ["error" => $error];
+            }
+          }
           $this->fotoPerfil = $usuarioEncontrado->fotoPerfil;
           $this->nombre = $usuarioEncontrado->nombre;
           $this->apellido = $usuarioEncontrado->apellido;
@@ -156,18 +170,33 @@
           if($usuarioEncontrado->activo == 0){
             $resultado = ['error' => 'Usuario desactivado o inhabilitado.'];
           }else{
-            try{
-              parent::conectarDB();
-              $new = $this->con->prepare("SELECT * FROM tclientes WHERE email = ?");
-              $new->bindValue(1, $this->email);
-              $new->execute();
-              $usuario = $new->fetch(\PDO::FETCH_OBJ);
-              $this->clientID = $usuario->id;
-              parent::desconectarDB();
-      
-            }catch(exception $error){
-              $respuesta = ["error" => $error];
-            }
+            if($usuarioEncontrado->idRol=="CLWGS1"){
+              try{
+                parent::conectarDB();
+                $new = $this->con->prepare("SELECT * FROM tclientes WHERE email = ?");
+                $new->bindValue(1, $this->email);
+                $new->execute();
+                $cliente = $new->fetch(\PDO::FETCH_OBJ);
+                $this->clientID = $cliente->id;
+                parent::desconectarDB();
+        
+              }catch(exception $error){
+                $respuesta = ["error" => $error];
+              }}
+              if($usuarioEncontrado->idRol=="FGWGS1"){
+                try{
+                  parent::conectarDB();
+                  $new = $this->con->prepare("SELECT * FROM tfumigadores WHERE email = ?");
+                  $new->bindValue(1, $this->email);
+                  $new->execute();
+                  $cliente = $new->fetch(\PDO::FETCH_OBJ);
+                  $this->clientID = $cliente->cedula;
+                  parent::desconectarDB();
+          
+                }catch(exception $error){
+                  $respuesta = ["error" => $error];
+                }
+              }
             $this->nombre     = $usuarioEncontrado->nombre;
             $this->apellido   = $usuarioEncontrado->apellido;
             $this->fotoPerfil = $usuarioEncontrado->fotoPerfil;

@@ -101,6 +101,43 @@
       }
     }
 
+
+    public function getOrdenesFumi($cedula){
+      $this->clienteID=$cedula;
+      $this->returnOrdenesFumi();
+    }
+    private function returnOrdenesFumi(){
+      try{
+        parent::conectarDB();
+        $new = $this->con->prepare("SELECT * from tordenes where fumigador =:fumi");
+        $new->bindParam(":fumi",$this->clienteID);
+        $new->execute();
+        $data=$new->fetchAll(PDO::FETCH_ASSOC);
+        parent::desconectarDB();
+        die(json_encode($data));
+        }catch(\PDOException $e){
+          eader('Content-Type: application/json');
+          die(json_encode(array("error" => $e->getMessage())));
+      }
+    }
+    public function getOrdenesClient($clienteID){
+      $this->clienteID=$clienteID;
+      $this->returnAllOrdenesClient();
+    }
+    private function returnAllOrdenesClient(){
+      try{
+        parent::conectarDB();
+        $new = $this->con->prepare("SELECT * from tordenes where cliente=:id");
+        $new->bindParam(":id",$this->clienteID);
+        $new->execute();
+        $data=$new->fetchAll(PDO::FETCH_ASSOC);
+        parent::desconectarDB();
+        die(json_encode($data));
+      }catch (\PDOException $e) {       
+        header('Content-Type: application/json');
+        die(json_encode(array("error" => $e->getMessage())));
+      }
+    }
     public function getAllEstablecimientos(){
       $this->returnAllEstablecimientos();
     }
@@ -163,7 +200,7 @@
       $new->bindValue(4 , $this->fumigadorID);
       $new->bindValue(5 , $this->ubicacionID);
       $new->bindValue(6 , $this->establecimientoID);
-      $new->bindValue(7 , "agendada");
+      $new->bindValue(7 , "Agendada");
       $exito = $new->execute();
       $this->desconectarDB();
 

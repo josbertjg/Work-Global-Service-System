@@ -558,7 +558,7 @@
         <th>Hora</th>
         <th>Ubicacion</th>
         <th>Estado</th>
-        <th>Detalles<th>
+        <th>Detalles</th>
         </tr>';
         break;
 
