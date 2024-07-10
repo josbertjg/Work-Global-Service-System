@@ -1,0 +1,28 @@
+#registrarFumigador-form{
+  .select2-container{
+    width: 100% !important;
+    border-color: $grey-light;
+    .select2-selection__rendered{
+      height: 56px;
+      display: flex;
+      align-items: center;
+      border-color: $grey-light;
+    }
+    .select2-selection{
+      height: 56px;
+      display: flex;
+      align-items: center;
+      border-color: $grey-light;
+    }
+    .select2-selection__arrow{
+      display: none;
+    }
+  }
+  #registrarFumigador-map{
+    height: 185px;
+    width: 100%;
+  }
+  .regFumig-map-wrapper{
+    display: none;
+  }
+}

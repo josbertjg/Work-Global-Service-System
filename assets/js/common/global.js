@@ -54,6 +54,6 @@ function toggleLoading(toggle){
   else{
     setTimeout(() => {
       loading.hide();
-    }, 500);
+    }, 600);
   }
 }

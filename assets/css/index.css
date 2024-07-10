@@ -1218,4 +1218,31 @@ main {
   }
 }
 
+#registrarFumigador-form .select2-container {
+  width: 100% !important;
+  border-color: #a6a6a6;
+}
+#registrarFumigador-form .select2-container .select2-selection__rendered {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  border-color: #a6a6a6;
+}
+#registrarFumigador-form .select2-container .select2-selection {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  border-color: #a6a6a6;
+}
+#registrarFumigador-form .select2-container .select2-selection__arrow {
+  display: none;
+}
+#registrarFumigador-form #registrarFumigador-map {
+  height: 185px;
+  width: 100%;
+}
+#registrarFumigador-form .regFumig-map-wrapper {
+  display: none;
+}
+
 /*# sourceMappingURL=index.css.map */

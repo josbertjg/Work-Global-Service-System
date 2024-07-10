@@ -27,9 +27,13 @@ function validarCantidad(num, limite, base) {
   return ((num >= base) && (num <= limite))
 }
 //VALIDANDO QUE LA CADENA PASADA POR PARAMETRO TENGA UNA CANTIDAD DETERMINADA DE CARACTERES
-function validarLength(texto, base) {
+function validarLength(texto, base, evento) {
   if (base == undefined) base = 1;
-  return (texto.trim().length < base);
+
+  if (evento.keyCode == 13 || evento.keyCode == 8 || evento.keyCode == 9 || evento.keyCode == 32)
+    return true;
+  else
+    return (texto.trim().length < base);
 }
 //VALIDAR NUMERO DE TELEFONO
 function isTelefono(numero, expReg) {
@@ -85,6 +89,7 @@ function checkFormValidity(element){
 
   Array.from(invalidInputs).forEach(element => {
     $(element).trigger("blur")
+    $(element).trigger("change")
   });
 
   return invalidInputsCount == 0;
@@ -146,10 +151,19 @@ function required(element) {
   })
 
   element.change(() => {
-    if (_.isEmpty(element.val().trim())) {
-      setInvalidInput(element)
-    } else {
-      setValidInput(element)
+    try{
+      if (_.isEmpty(element.val().trim())) {
+        setInvalidInput(element)
+      } else {
+        setValidInput(element)
+      }
+    }catch(error){
+      console.log("error del trim en validaciones: ",error)
+      if (_.isEmpty(element.val())) {
+        setInvalidInput(element)
+      } else {
+        setValidInput(element)
+      }
     }
   })
 }
@@ -187,7 +201,7 @@ function validarNumeros(element, isRequired = true) {
     return setValidInput(element)
   })
 
-  element.keydown(() => validarLength(element.val(),1500));
+  element.keydown((event) => validarLength(element.val(),1500,event));
 }
 //valida un input con la logica para solo numeros
 
@@ -216,7 +230,7 @@ function validarCorreo(element, longitudMax=45, isRequired = true) {
     return setValidInput(element)
   })
 
-  element.keydown(() => validarLength(element.val(),longitudMax));
+  element.keydown((event) => validarLength(element.val(),longitudMax,event));
 }
 // Valida un input con la logica para una contraseña
 function validarContraseña(element, longitudMax=45, isRequired = true) {
@@ -242,7 +256,7 @@ function validarContraseña(element, longitudMax=45, isRequired = true) {
     return setValidInput(element)
   })
 
-  element.keydown(() => validarLength(element.val(),longitudMax));
+  element.keydown((event) => validarLength(element.val(),longitudMax,event));
 }
 // Valida un input con la logica para confirmar una contraseña
 function validarConfirmarContraseña(confirmPasswordElement, passwordElement, longitudMax=45, isRequired = true) {
@@ -270,7 +284,7 @@ function validarConfirmarContraseña(confirmPasswordElement, passwordElement, lo
     return setValidInput(confirmPasswordElement)
   })
 
-  confirmPasswordElement.keydown(() => validarLength(confirmPasswordElement.val(),longitudMax));
+  confirmPasswordElement.keydown((event) => validarLength(confirmPasswordElement.val(),longitudMax,event));
 }
 // Valida un input con la logica para nombres
 function validarNombre(element, longitudMax=45, isRequired = true) {
@@ -294,10 +308,58 @@ function validarNombre(element, longitudMax=45, isRequired = true) {
     return setValidInput(element)
   })
 
-  element.keydown((event) => soloLetras(event) && validarLength(element.val(),longitudMax));
+  element.keydown((event) => soloLetras(event) && validarLength(element.val(),longitudMax,event));
   
 }
+// Valida un input con la logica para cedulas
+function validarCedula(element, longitudMax=8, isRequired = true) {
+  element.blur(() => {
+    if(isRequired)
+      if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido");
+      
+    if(element.val().trim().length < 6)  return setInvalidInput(element, "La cedula no puede tener menos de 6 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "La cedula no puede tener mas de "+longitudMax+" caracteres.");
 
+    return setValidInput(element)
+  })
+
+  element.keyup(() => {
+    if(isRequired)
+      if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
+     
+    if(element.val().trim().length < 6)  return setInvalidInput(element, "La cedula no puede tener menos de 6 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "La cedula no puede tener mas de "+longitudMax+" caracteres.");
+
+    return setValidInput(element)
+  })
+
+  element.keydown((event) => soloNumeros(event) && validarLength(element.val(),longitudMax,event));
+  
+}
+// Valida un input con la logica para telefonos
+function validarTelefono(element, longitudMax=11, isRequired = true) {
+  element.blur(() => {
+    if(isRequired)
+      if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido");
+      
+    if(element.val().trim().length < 10)  return setInvalidInput(element, "El telefono no puede tener menos de 10 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "El telefono no puede tener mas de "+longitudMax+" caracteres.");
+    return setValidInput(element)
+  })
+
+  element.keyup(() => {
+    if(isRequired)
+      if(_.isEmpty(element.val().trim())) return setInvalidInput(element, "Este campo es requerido")
+     
+    if(element.val().trim().length < 6)  return setInvalidInput(element, "El telefono no puede tener menos de 10 caracteres.");
+    if(element.val().trim().length > longitudMax) return setInvalidInput(element, "El telefono no puede tener mas de "+longitudMax+" caracteres.");
+
+    return setValidInput(element)
+  })
+
+  element.keydown((event) => soloNumeros(event) && validarLength(element.val(),longitudMax,event));
+  
+}
 
 // Valida un input
 function validarDescripcion(element, longitudMax=5000, isRequired = true) {
@@ -321,7 +383,7 @@ function validarDescripcion(element, longitudMax=5000, isRequired = true) {
     return setValidInput(element)
   })
 
-  element.keydown(() => validarLength(element.val(),longitudMax));
+  element.keydown((event) => validarLength(element.val(),longitudMax,event));
   
 }
 
@@ -346,6 +408,6 @@ function validarInputNombre(element, longitudMax=45, isRequired = true) {
     return setValidInput(element)
   })
 
-  element.keydown(() => validarLength(element.val(),longitudMax));
+  element.keydown((event) => validarLength(element.val(),longitudMax,event));
   
 }

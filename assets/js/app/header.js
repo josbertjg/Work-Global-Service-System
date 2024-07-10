@@ -204,6 +204,7 @@ $(document).ready(async ()=>{
 
       selectedServices.splice(selectedServices.indexOf(serviceId),1)
 
+      console.log(selectedServices)
       $('#serviciosAutocomplete').val(selectedServices).trigger('change')
 
       $(".selected-services-count").text(selectedServices.length.toString())
