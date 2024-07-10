@@ -130,7 +130,7 @@
         $new = $this->con->prepare("SELECT * from tordenes where cliente=:id");
         $new->bindParam(":id",$this->clienteID);
         $new->execute();
-        $data=$new->fetchAll(PDO::FETCH_ASSOC);
+        $data = $new->fetchAll(PDO::FETCH_ASSOC);
         parent::desconectarDB();
         die(json_encode($data));
       }catch (\PDOException $e) {       
@@ -289,12 +289,13 @@
       try{
         $this->conectarDB();
         $consulta = "SELECT
-        s.nombre,
-        ps.precio
+        s.nombre, s.fotoServicio,
+        ps.precio, ps.id, e.nombre as Establecimiento, e.icono as IconoE
         FROM tordenes o
         JOIN tordenesservicios os ON o.idOrdenes = os.orden
         JOIN tservicios s ON os.servicio = s.idServicio
         JOIN tprecioservicios ps ON s.idServicio = ps.servicio
+        JOIN testablecimientos e on o.establecimiento=e.idEstablecimientos
         WHERE o.idOrdenes=:idOrden
         AND ps.establecimiento = o.establecimiento;";
         $ejecucion = $this->con->prepare($consulta);

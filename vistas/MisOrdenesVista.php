@@ -19,68 +19,29 @@
       <div class="row">
         <div class="col-md-12">
           <div class="list-group list-group-flush">
-            <!-- List group item 1 -->
-            <a href="#" class="list-group-item list-group-item-action">
-              Item 1
-              <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modal1">
-                Show Modal
-              </button>
-            </a>
-            <!-- List group item 2 -->
-            <a href="#" class="list-group-item list-group-item-action">
-              Item 2
-              <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modal2">
-                Show Modal
-              </button>
-            </a>
-            <!-- List gourp Item  -->
- 
-          <!-- Add more list group items dynamically using JS -->
+            <!-- Add more list group items dynamically using JS -->
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Modal 1 -->
-  <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="modal1Label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modal1Label">Modal 1</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- Modal content here -->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <!-- ORDEN DETAILS MODAL -->
+    <div class="modal fade" id="ordenDetailsModal" tabindex="-1" aria-labelledby="ordenDetailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg modal-fullscreen-lg-down">
+        <div class="modal-content">
+          <div class="modal-header" id="modalHead">
+            
+          </div>
+          <div class="modal-body p-0">
+            <div class="accordion accordion-flush" id="ordenDetailsAccordion"></div>
+          </div>
+          <div class="orden-details-monto-total">
+            <span>Monto Total</span>
+            <b class="monto"></b>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Modal 2 -->
-  <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modal2Label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modal2Label">Modal 2</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- Modal content here -->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
+  </main>
 
   <?php $components->footer(); ?>
   <?php $components->js() ?>

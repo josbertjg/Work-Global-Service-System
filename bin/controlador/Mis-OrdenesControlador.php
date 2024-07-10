@@ -12,11 +12,14 @@
 	if(empty($permiso['Consultar'])) {
 		die('<script> window.location = "/" </script>');
 	}
-	if(isset($_POST['getOrdenesByClient']) && !empty($permiso['Consultar'])){
+	if(isset($_POST['getOrdenesByClient']) && !empty($permiso['Consultar']) && $_SESSION['idRol']=='CLWGS1'){
 		$model->getOrdenesClient($_POST['ID']);
 	}
-	if(isset($_POST['getOrdenesFumi']) && !empty($permiso['Consultar'])){
+	if(isset($_POST['getOrdenesFumi']) && !empty($permiso['Consultar']) && $_SESSION['idRol']=='FGWGS1'){
 		$model->getOrdenesFumi($_POST['ID']);
+	}
+	if(isset($_POST['getPrecioServicio']) && $_SESSION['idRol']!="SAWGS1" && !empty($permiso['Consultar'])){
+		$model->getPrecioServicio($_POST['idOrden']);
 	}
 	require "vistas/MisOrdenesVista.php";	
 

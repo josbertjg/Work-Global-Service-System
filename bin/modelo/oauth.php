@@ -64,6 +64,18 @@
           parent::desconectarDB();
           if($exito){
             //$this->registrarWGS();
+            try{
+              parent::conectarDB();
+              $new = $this->con->prepare("SELECT * FROM tclientes WHERE email = ?");
+              $new->bindValue(1, $this->email);
+              $new->execute();
+              $cliente = $new->fetch(\PDO::FETCH_OBJ);
+              $this->clientID = $cliente->id;
+              parent::desconectarDB();
+      
+            }catch(exception $error){
+              $respuesta = ["error" => $error];
+            }
             $respuesta = $this->userInfo();
             $this->saveUserSession();
             $this->registrarBitacora("registro",$this->email,"Usario se ha registrado con Google al sistema");
@@ -122,6 +134,9 @@
             }catch(exception $error){
               $respuesta = ["error" => $error];
             }
+          }
+          if($usuarioEncontrado->idRol=="SAWGS1"){
+            $this->clientID=$this->email;
           }
           $this->fotoPerfil = $usuarioEncontrado->fotoPerfil;
           $this->nombre = $usuarioEncontrado->nombre;
@@ -196,6 +211,9 @@
                 }catch(exception $error){
                   $respuesta = ["error" => $error];
                 }
+              }
+              if($usuarioEncontrado->idRol=="SAWGS1"){
+                $this->clientID=$this->email;
               }
             $this->nombre     = $usuarioEncontrado->nombre;
             $this->apellido   = $usuarioEncontrado->apellido;
