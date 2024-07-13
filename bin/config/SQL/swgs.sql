@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-06-2024 a las 22:28:23
+-- Tiempo de generación: 13-07-2024 a las 00:07:22
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -112,7 +112,19 @@ INSERT INTO `taccesos` (`idAcceso`, `rol`, `permiso`, `modulo`, `status`) VALUES
 ('100888792637898754', 'SAWGS1', 'ELIMINARWGS', 'MPERMISOSWGS', 1),
 ('100888792637898755', 'SAWGS1', 'MODIFICARWGS', 'MPERMISOSWGS', 1),
 ('100892973369131008', 'FGWGS1', 'CONSULTARWGS', 'MSERVICIOSWGS', 1),
-('100892973369131009', 'FGWGS1', 'CONSULTARWGS', 'MPRECIOSWGS', 1);
+('100892973369131009', 'FGWGS1', 'CONSULTARWGS', 'MPRECIOSWGS', 1),
+('100925140560248832', 'SAWGS1', 'CREATEWGS', 'MFACTURASWGS', 1),
+('100925140560248833', 'SAWGS1', 'CONSULTARWGS', 'MFACTURASWGS', 1),
+('100925140560248834', 'SAWGS1', 'MODIFICARWGS', 'MFACTURASWGS', 1),
+('100925140560248835', 'SAWGS1', 'ELIMINARWGS', 'MFACTURASWGS', 1),
+('100925140560248836', 'SAWGS1', 'CREATEWGS', 'MORDENESWGS', 1),
+('100925140560248837', 'SAWGS1', 'CONSULTARWGS', 'MORDENESWGS', 1),
+('100925140560248838', 'SAWGS1', 'ELIMINARWGS', 'MORDENESWGS', 1),
+('100925140560248839', 'SAWGS1', 'MODIFICARWGS', 'MORDENESWGS', 1),
+('100925140560248840', 'FGWGS1', 'CONSULTARWGS', 'MMISORDENESWGS', 1),
+('100925140560248841', 'FGWGS1', 'MODIFICARWGS', 'MMISORDENESWGS', 1),
+('100925140560248842', 'CLWGS1', 'CONSULTARWGS', 'MMISORDENESWGS', 1),
+('100925140560248843', 'CLWGS1', 'MODIFICARWGS', 'MMISORDENESWGS', 1);
 
 -- --------------------------------------------------------
 
@@ -133,45 +145,22 @@ CREATE TABLE `tbitacoras` (
 --
 
 INSERT INTO `tbitacoras` (`id`, `modulo`, `usuario`, `descripcion`, `fecha`) VALUES
-(1, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-09 10:16:50'),
-(2, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-09 13:06:40'),
-(3, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-09 13:08:46'),
-(15, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 21:04:03'),
-(16, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 21:08:16'),
-(17, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 21:08:30'),
-(18, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 22:46:15'),
-(19, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:09:34'),
-(20, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:34:06'),
-(22, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:52:40'),
-(24, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:55:23'),
-(25, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:55:50'),
-(26, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-11 23:56:46'),
-(27, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 00:00:49'),
-(28, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 00:01:59'),
-(29, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 00:02:50'),
-(31, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 00:09:19'),
-(33, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 14:35:06'),
-(34, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 14:42:05'),
-(35, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-12 14:42:44'),
-(37, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-13 12:01:51'),
-(38, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-13 12:02:24'),
-(39, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-13 12:04:12'),
-(42, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-13 14:50:45'),
-(43, 'Iniciar Sesión', 'luisanagimenez18@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-13 14:51:56'),
-(45, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-15 17:02:41'),
-(46, 'registro', 'jentimo0205@gmail.com', 'Usario se ha registrado con Google al sistema', '2024-06-15 22:59:01'),
-(47, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-15 23:10:58'),
-(48, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-16 07:57:29'),
-(49, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-17 16:57:46'),
-(50, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-17 17:01:22'),
-(58, 'registro', 'workglobalserviceca@gmail.com', 'Usario se ha registrado con Google al sistema', '2024-06-17 23:19:58'),
-(59, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-06-17 23:40:35'),
-(60, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-06-17 23:44:26'),
-(61, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-06-17 23:48:33'),
-(62, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-06-17 23:51:17'),
-(63, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-06-17 23:51:55'),
-(64, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-06-17 23:53:31'),
-(65, 'Iniciar Sesión', 'jentimo0205@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-06-19 15:52:35');
+(107, 'registro', 'josetimaure60@gmail.com', 'Usario se ha registrado con Google al sistema', '2024-07-11 07:54:07'),
+(109, 'registro', 'jentimo0205@gmail.com', 'Usario se ha registrado con Google al sistema', '2024-07-11 07:55:41'),
+(115, 'Registro', 'Josetimaure40@gmail.com', 'Se ha registrado con usuario y contraseña.', '2024-07-11 08:56:55'),
+(116, 'Iniciar Sesión', 'Josetimaure40@gmail.com', 'Inicio sesión en el sistema con usuario y contraseña', '2024-07-11 08:56:57'),
+(117, 'Iniciar Sesión', 'Josetimaure40@gmail.com', 'Inicio sesión en el sistema con usuario y contraseña', '2024-07-11 22:49:48'),
+(118, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-11 22:51:44'),
+(119, 'Iniciar Sesión', 'Josetimaure40@gmail.com', 'Inicio sesión en el sistema con usuario y contraseña', '2024-07-11 23:15:51'),
+(120, 'Iniciar Sesión', 'jentimo0205@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-11 23:16:01'),
+(121, 'Realizar Orden', 'jentimo0205@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28276746', '2024-07-11 23:34:31'),
+(122, 'Iniciar Sesión', 'josetimaure60@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-11 23:37:39'),
+(123, 'Iniciar Sesión', 'jentimo0205@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-12 12:48:06'),
+(124, 'Realizar Orden', 'jentimo0205@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28276746', '2024-07-12 12:50:51'),
+(125, 'Realizar Orden', 'jentimo0205@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28276746', '2024-07-12 12:51:05'),
+(126, 'Realizar Orden', 'jentimo0205@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28276746', '2024-07-12 12:51:52'),
+(127, 'Realizar Orden', 'jentimo0205@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28276746', '2024-07-12 13:21:33'),
+(128, 'Realizar Orden', 'jentimo0205@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28276746', '2024-07-12 13:21:58');
 
 -- --------------------------------------------------------
 
@@ -193,9 +182,12 @@ INSERT INTO `tmodulos` (`idModulo`, `nombre`, `status`) VALUES
 ('MBITACORAWGS', 'Bitácora', 1),
 ('MCONFIGURACIONWGS', 'Configuracion', 1),
 ('MESTABLECIMIENTOSWGS', 'Establecimientos', 1),
+('MFACTURASWGS', 'Facturas', 1),
 ('MMANTENIMIENTOWGS', 'Mantenimiento', 1),
+('MMISORDENESWGS', 'MisOrdenes', 1),
 ('MNOTIFICACIONESWGS', 'Notificaciones', 1),
 ('MORDENESDESERVICIOWGS', 'Ordenes de Servicio', 1),
+('MORDENESWGS', 'Ordenes', 1),
 ('MPAGOSWGS', 'Pagos', 1),
 ('MPERMISOSWGS', 'Permisos', 1),
 ('MPRECIOSWGS', 'Precios', 1),
@@ -290,22 +282,9 @@ CREATE TABLE `tusuarios` (
 --
 
 INSERT INTO `tusuarios` (`email`, `contraseña`, `nombre`, `apellido`, `telefono`, `fotoPerfil`, `emailVerificado`, `oauth_type`, `idRol`, `creado`, `activo`) VALUES
-('AndreinaPTorres@gmail.com', '', 'Andreina', 'Torres', '04141239876', '', 1, 'account_password', 'CLWGS1', '2024-06-18 22:02:29', 1),
-('CamilaOropeza1089@gmail.com', '', 'Camila Oriana', 'Oropeza', '04167894576', '', 1, 'account_password', 'CLWGS1', '2024-06-18 22:02:29', 1),
-('EmmaE@gmail.com', '', 'Emmanuel', 'Espinoza', '0426498678', '', 1, 'account_password', 'FGWGS1', '2024-06-18 23:47:00', 1),
-('isabelmosquera@gmail.com', 'prueba de contraseña', 'Isabel', 'Mosquera', '04145399966', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:22:26', 1),
-('jentimo0205@gmail.com', '', 'José', 'Timaure', '', 'assets/img/perfil/jentimo0205@gmail.com.jpg', 1, 'gmail_oauth', 'CLWGS1', '2024-06-16 02:59:01', 1),
-('josbertjg@gmail.com', '', 'Josbert', 'Guedez', '', 'https://lh3.googleusercontent.com/a/ACg8ocIYxgSVKmpdVhUOFnSf7DM1UbzOGrdaaIBopvTOKnWhhNlccJxZ=s96-c', 1, 'gmail_oauth', 'FGWGS1', '2024-06-17 21:19:11', 1),
-('josetimaure60@gmail.com', '', 'Jose', 'Timaure', '', 'https://lh3.googleusercontent.com/a/ACg8ocJRESfHpvaFUA8v242WUFwFuXql-rmQ7fr05Ga-JlrNKARYpGxSeg=s96-c', 1, 'gmail_oauth', 'SAWGS1', '2024-06-09 14:21:23', 1),
-('KatherineLameda99@gmail.com', '', 'Katherine Joana', 'Lameda Mosquera', '04123458865', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:51:11', 1),
-('luisanagimenez18@gmail.com', '', 'Luisana', 'Gimenez', '', 'assets/img/perfil/luisanagimenez18@gmail.com.jpg', 1, 'gmail_oauth', 'SAWGS1', '2024-06-13 18:51:42', 1),
-('mariaLameda18@gmail.com', '', 'Maria Isabel', 'Lameda', '04246674321', '', 1, 'multi_oauth', 'CLWGS1', '2024-06-18 21:51:11', 1),
-('PedroTimaure@gmail.com', '', 'Pedro', 'Timaure', '04265510200', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:44:54', 1),
-('royferSuarez39@gmail.com', '', 'Royfer', 'Suarez', '04263458756', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:48:23', 1),
-('SarahiTimaure@gmail.com', '', 'Sarahi', 'Timaure', '04145678903', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:46:56', 1),
-('tugo0220@gmail.com', '', 'Rolando', 'Ramirez', '04269074598', '', 1, 'account_password', 'CLWGS1', '2024-06-18 23:47:00', 1),
-('workglobalserviceca@gmail.com', '', 'Josnel', 'Guedez', '', 'assets/img/perfil/workglobalserviceca@gmail.com.jpg', 1, 'gmail_oauth', 'CLWGS1', '2024-06-18 03:19:58', 1),
-('yadiraMosquera@gmail.com', '', 'Yadira', 'Mosquera', '04169996534', '', 1, 'account_password', 'CLWGS1', '2024-06-18 21:40:31', 1);
+('jentimo0205@gmail.com', '', 'José', 'Timaure', '', 'assets/img/perfil/jentimo0205@gmail.com.jpg', 1, 'gmail_oauth', 'CLWGS1', '2024-07-11 11:55:41', 1),
+('Josetimaure40@gmail.com', '$2y$10$0HzkLQJ40P/AB3nur4MGCuBzj1QM4Ycpb6ZSDTdkHJTWRN4JVhLzW', 'Jose', 'Timaure', '04145399966', '', 1, 'account_password', 'FGWGS1', '2024-07-11 19:37:13', 1),
+('josetimaure60@gmail.com', '', 'Jose', 'Timaure', '', 'assets/img/perfil/josetimaure60@gmail.com.jpg', 1, 'gmail_oauth', 'SAWGS1', '2024-07-11 11:54:48', 1);
 
 --
 -- Disparadores `tusuarios`
@@ -448,7 +427,7 @@ ALTER TABLE `tusuarios`
 -- AUTO_INCREMENT de la tabla `tbitacoras`
 --
 ALTER TABLE `tbitacoras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- AUTO_INCREMENT de la tabla `tnofiticaciones`

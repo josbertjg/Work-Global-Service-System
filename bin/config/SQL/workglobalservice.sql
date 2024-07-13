@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-06-2024 a las 03:55:49
+-- Tiempo de generación: 13-07-2024 a las 00:06:54
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -57,7 +57,7 @@ CREATE TABLE `datosordenserviciocliente` (
 ,`Dia` date
 ,`Hora` time
 ,`Ubicacion` varchar(100)
-,`Estado` enum('cancelada','agendada','Completada')
+,`Estado` enum('Cancelada','Agendada','Finalizada','Enviada')
 ,`Establecimiento` varchar(155)
 );
 
@@ -609,17 +609,8 @@ CREATE TABLE `tclientes` (
 --
 
 INSERT INTO `tclientes` (`id`, `email`) VALUES
-(13, 'AndreinaPTorres@gmail.com'),
-(12, 'CamilaOropeza1089@gmail.com'),
-(6, 'isabelmosquera@gmail.com'),
 (1, 'jentimo0205@gmail.com'),
-(10, 'KatherineLameda99@gmail.com'),
-(11, 'mariaLameda18@gmail.com'),
-(9, 'royferSuarez39@gmail.com'),
-(8, 'SarahiTimaure@gmail.com'),
-(14, 'tugo0220@gmail.com'),
-(4, 'workglobalserviceca@gmail.com'),
-(7, 'yadiraMosquera@gmail.com');
+(2, 'Josetimaure40@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -632,6 +623,7 @@ CREATE TABLE `testablecimientos` (
   `nombre` varchar(155) NOT NULL,
   `descripcion` longtext NOT NULL,
   `sizeE` float NOT NULL,
+  `icono` varchar(50) NOT NULL,
   `habilitado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -639,15 +631,13 @@ CREATE TABLE `testablecimientos` (
 -- Volcado de datos para la tabla `testablecimientos`
 --
 
-INSERT INTO `testablecimientos` (`idEstablecimientos`, `nombre`, `descripcion`, `sizeE`, `habilitado`) VALUES
-('EAUTOSGRANDESWGS', 'Autos Grandes', 'Vehículos de mayor tamaño como por ejemplo: buses o camiones', 2, 1),
-('EAUTOSWGS', 'Autos', 'Vehículos pequeños como por ejemplo: carros o camionetas.', 1, 1),
-('ECASAGRANDEWGS', 'Casas Grandes', 'Casas o apartamentos grandes o de más de un piso.', 2, 1),
-('ECASASWGS', 'Casas', 'Casas y apartamentos pequeños o de un solo piso.', 1, 1),
-('EGALPONESGRANDESWGS', 'Galpones Grandes', 'Prueba de un insert con las validaciones de string listas para ser ejecutadas', 600, 1),
-('EGALPONESWGS', 'Galpones', 'Galpones Industriales y almacenes update', 150, 1),
-('ELOCALGRANDEWGS', 'Locales Grandes', 'Locales de un tamaño mayor o con más de un piso.', 2, 1),
-('ELOCALWGS', 'Locales', 'Locales pequeños o de un solo piso.', 1, 1);
+INSERT INTO `testablecimientos` (`idEstablecimientos`, `nombre`, `descripcion`, `sizeE`, `icono`, `habilitado`) VALUES
+('EAUTOSGRANDESWGS', 'Autos Grandes', 'Vehículos de mayor tamaño como por ejemplo: buses o camiones', 5, 'assets/img/establecimientos/vehiculos_grandes.svg', 1),
+('EAUTOSWGS', 'Autos', 'Vehículos pequeños como por ejemplo: carros o camionetas.', 1, 'assets/img/establecimientos/vehiculos.svg', 1),
+('ECASAGRANDEWGS', 'Casas Grandes', 'Casas o apartamentos grandes o de más de un piso.', 2, 'assets/img/establecimientos/casas_grandes.svg', 1),
+('ECASASWGS', 'Casas', 'Casas y apartamentos pequeños o de un solo piso.', 1, 'assets/img/establecimientos/casas.svg', 1),
+('ELOCALGRANDEWGS', 'Locales Grandes', 'Locales de un tamaño mayor o con más de un piso.', 2, 'assets/img/establecimientos/locales_grandes.svg', 1),
+('ELOCALWGS', 'Locales', 'Locales pequeños o de un solo piso.', 1, 'assets/img/establecimientos/locales.svg', 1);
 
 -- --------------------------------------------------------
 
@@ -709,15 +699,6 @@ CREATE TABLE `tfacturas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tfacturas`
---
-
-INSERT INTO `tfacturas` (`idFactura`, `orden`, `fecha`, `precioInicial`, `Sobrecargo`, `precioFinal`, `pagado`) VALUES
-('FACT-00001', '240619-01', '2024-06-25 23:43:30', 110, 45, 155, 0),
-('FACT-00002', '240620-01', '2024-06-25 23:43:41', 55, 0, 55, 0),
-('FACT-00004', '240701-01', '2024-06-25 23:24:53', 30, 0, 30, 0);
-
---
 -- Disparadores `tfacturas`
 --
 DELIMITER $$
@@ -739,13 +720,6 @@ CREATE TABLE `tfacturasobrecargos` (
   `factura` varchar(20) NOT NULL,
   `sobrecargo` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
---
--- Volcado de datos para la tabla `tfacturasobrecargos`
---
-
-INSERT INTO `tfacturasobrecargos` (`id`, `factura`, `sobrecargo`) VALUES
-(2, 'FACT-00001', 'Sob-01');
 
 --
 -- Disparadores `tfacturasobrecargos`
@@ -792,9 +766,7 @@ CREATE TABLE `tfumigadores` (
 --
 
 INSERT INTO `tfumigadores` (`cedula`, `email`, `idUbicacion`, `fechaNacimiento`, `imagenCedula`, `descripcion`, `activo`, `fechaValidado`) VALUES
-('123456789', 'tugo0220@gmail.com', 'Conjunto, 406, Cabudare 3023, Lara', '2004-01-02', '1234', 'Perfil de prueba del fumigador 1', 1, '2024-06-18'),
-('28150010', 'josbertjg@gmail.com', '123', '2001-10-19', '123', 'Especialista en la exterminación de plagas y cualquier tipo de insectos que infesten su casa, con mas de 10 años de experiencia en el sector de eliminación y extinción de plagas', 1, '2024-01-16'),
-('987654321', 'EmmaE@gmail.com', '10.076733403526658, -69.36812926153827', '2001-06-22', '23456', 'Descripcion de un Fumigador 2', 1, '2024-06-18');
+('28276746', 'Josetimaure40@gmail.com', '2Q64+J69, Cabudare 3023, Lara\r\n', '2002-05-02', '', 'Descripcion Generica', 1, '2024-07-11');
 
 -- --------------------------------------------------------
 
@@ -809,21 +781,9 @@ CREATE TABLE `tordenes` (
   `fumigador` varchar(20) NOT NULL,
   `ubicacion` varchar(100) NOT NULL,
   `establecimiento` varchar(25) NOT NULL,
-  `status` enum('cancelada','agendada','Completada') NOT NULL
+  `status` enum('Cancelada','Agendada','Finalizada','Enviada') NOT NULL,
+  `detalles` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
---
--- Volcado de datos para la tabla `tordenes`
---
-
-INSERT INTO `tordenes` (`idOrdenes`, `fechaServicio`, `cliente`, `fumigador`, `ubicacion`, `establecimiento`, `status`) VALUES
-('103ff04dbb', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada'),
-('142424c930', '2024-06-27 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada'),
-('240619-01', '2024-06-19 15:30:00', 13, '28150010', '123', 'ECASASWGS', 'cancelada'),
-('240620-01', '2024-06-20 13:00:00', 13, '28150010', '2JXQ+WGF, Av. Los Horcones, Av. La Salle, Barquisimeto 3001, Lara', 'EAUTOSWGS', 'agendada'),
-('240701-01', '2024-07-01 09:00:00', 13, '28150010', 'Conjunto, 406, Cabudare 3023, Lara', 'ECASASWGS', 'cancelada'),
-('8e23daca9a', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada'),
-('fd4f34d60a', '2024-06-20 12:00:00', 4, '28150010', '123', 'ECASASWGS', 'cancelada');
 
 --
 -- Disparadores `tordenes`
@@ -846,23 +806,6 @@ CREATE TABLE `tordenesservicios` (
   `orden` varchar(20) NOT NULL,
   `servicio` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
---
--- Volcado de datos para la tabla `tordenesservicios`
---
-
-INSERT INTO `tordenesservicios` (`id`, `orden`, `servicio`) VALUES
-(1, '142424c930', 'SCUCARACHASWGS'),
-(2, '142424c930', 'SCIENPIESWGS'),
-(3, 'fd4f34d60a', 'SCUCARACHASWGS'),
-(4, 'fd4f34d60a', 'SCIENPIESWGS'),
-(5, '103ff04dbb', 'SCUCARACHASWGS'),
-(6, '8e23daca9a', 'SCUCARACHASWGS'),
-(7, '240701-01', 'SCUCARACHASWGS'),
-(8, '240619-01', 'SCUCARACHASWGS'),
-(9, '240619-01', 'SPULGASWGS'),
-(10, '240620-01', 'SRATASWGS'),
-(11, '240620-01', 'SCUCARACHASWGS');
 
 --
 -- Disparadores `tordenesservicios`
@@ -949,10 +892,11 @@ CREATE TABLE `tquimicos` (
 --
 
 INSERT INTO `tquimicos` (`idQuimico`, `nombre`, `foto`, `descripcion`, `habilitado`) VALUES
-('INPLCHPE15PR', 'Insecticida Plagatox Chiripas Pequeño 15', 'assets/img/uploads/images.jpg.jpg', 'Prueba de un update con solamente la imagen previa seleccionada', 1),
+('INPLCHPE15PR', 'Insecticida Plagatox Chiripas Pequeño 15', 'assets/img/uploads/mug-today-is-a-good-day.jpg.jpg', 'prueba de un update sin foto seleccioanda asdasdasdasdasd asdasdasdasdasd', 1),
 ('INZA', 'Insecticida Zancudos123', 'assets/img/uploads/HE2d2zr6_400x400.jpeg.jpeg', 'Prueba de un Update no se porque a pura nunca le funciono(ejemplo de un update con imagen seleccionada)', 1),
 ('MA', 'Matagen1000', 'assets/img/uploads/WhatsApp Image 2024-04-08 at 1.26.59 PM.jpeg.jpeg', 'Matagen 1000 prueba de un insert al sistema', 1),
-('MACU', 'Malevolo Cucarachon', 'assets/img/uploads/HE2d2zr6_400x400.jpeg.jpeg', 'El malevolo cucarachon se puso sentimental', 1);
+('MACU', 'Malevolo Cucarachon', 'assets/img/uploads/HE2d2zr6_400x400.jpeg.jpeg', 'El malevolo cucarachon se puso sentimental', 1),
+('PRDEQU', 'prueba de  Quimico', 'assets/img/uploads/images.jpeg.jpeg', 'prueba de una insercion de quimico', 1);
 
 -- --------------------------------------------------------
 
@@ -974,7 +918,7 @@ CREATE TABLE `tservicios` (
 --
 
 INSERT INTO `tservicios` (`idServicio`, `nombre`, `quimico`, `descripcion`, `fotoServicio`, `habilitado`) VALUES
-('SCIENPIESWGS', 'Bachacos, Gusanos, Culebras y Cien pies', 'INPLCHPE15PR', 'Servicio especializado en la eliminación de zancudos y mosquitos', 'assets/img/servicios/cienpies.svg', 1),
+('SCIENPIESWGS', 'Bachacos, Gusanos, Culebras y Cien pies', 'INPLCHPE15PR', 'Servicio especializado en la eliminación de zancudos y mosquitos prueba de un update sin seleccionar foto', 'assets/img/servicios/cienpies.svg.svg', 1),
 ('SCUCARACHASWGS', 'Cucarachas, Chiripas y Hormigas', 'INPLCHPE15PR', 'Servicio especializado en la eliminación de Cucarachas, chiripas y hormigas', 'assets/img/servicios/cucarachas.svg', 1),
 ('SPULGASWGS', 'Pulgas y Garrapatas', 'INPLCHPE15PR', 'Servicio especializado en la eliminación de pulgas y garrapatas', 'assets/img/servicios/pulgas.svg', 1),
 ('SRATASWGS', 'Ratas y Ratones', 'INPLCHPE15PR', 'Servicio especializado en la eliminación de ratas y ratones', 'assets/img/servicios/ratones.svg', 1),
@@ -998,12 +942,9 @@ CREATE TABLE `tserviciosfumigador` (
 --
 
 INSERT INTO `tserviciosfumigador` (`id`, `idServicio`, `cedula`) VALUES
-(1, 'SCUCARACHASWGS', '28150010'),
-(2, 'SCIENPIESWGS', '123456789'),
-(3, 'SCUCARACHASWGS', '987654321'),
-(4, 'SCIENPIESWGS', '987654321'),
-(5, 'SZANCUDOSWGS', '987654321'),
-(6, 'SPULGASWGS', '28150010');
+(7, 'SPULGASWGS', '28276746'),
+(8, 'SCUCARACHASWGS', '28276746'),
+(9, 'SRATASWGS', '28276746');
 
 -- --------------------------------------------------------
 
@@ -1043,11 +984,8 @@ CREATE TABLE `tubicaciones` (
 --
 
 INSERT INTO `tubicaciones` (`idUbicacion`, `latitud`, `longitud`, `direccion`, `ciudad`) VALUES
-('10.076733403526658, -69.36812926153827', '10.076733403526658', '-69.36812926153827', 'Urb Los Crepusculos, Sector 1 Calle 10', 214),
-('123', '32132132', '32132131', 'una ubicacion', 4),
-('2JXQ+WGF, Av. Los Horcones, Av. La Salle, Barquisimeto 3001, Lara', '10.051080773637668', '69.36265115270152', 'Universidad Politécnica Territorial Andres Eloy Blanco ', 212),
-('2Q64+J69, Cabudare 3023, Lara', '10.011673028496663', '-69.24375564934013', 'Urb Los Bucares', 214),
-('Conjunto, 406, Cabudare 3023, Lara', '10.013177240167913', '-69.243349112457', 'Conjunto Residencial 406 Cabudare', 214);
+('123', '123', '123', '123', 214),
+('2Q64+J69, Cabudare 3023, Lara\r\n', '10.012286554150798', '-69.24270538895678', 'Urb Los bucares', 214);
 
 -- --------------------------------------------------------
 
@@ -1080,6 +1018,7 @@ ALTER TABLE `tciudades`
 --
 ALTER TABLE `tclientes`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email_2` (`email`),
   ADD KEY `email` (`email`);
 
 --
@@ -1199,7 +1138,7 @@ ALTER TABLE `tciudades`
 -- AUTO_INCREMENT de la tabla `tclientes`
 --
 ALTER TABLE `tclientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `testados`
@@ -1217,7 +1156,7 @@ ALTER TABLE `tfacturasobrecargos`
 -- AUTO_INCREMENT de la tabla `tordenesservicios`
 --
 ALTER TABLE `tordenesservicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tpagodetalles`
@@ -1235,7 +1174,7 @@ ALTER TABLE `tprecioservicios`
 -- AUTO_INCREMENT de la tabla `tserviciosfumigador`
 --
 ALTER TABLE `tserviciosfumigador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restricciones para tablas volcadas
