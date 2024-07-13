@@ -1,13 +1,11 @@
-function loginUser(userObj){
+async function loginUser(userObj){
   //Guardando en el local storage
   const permisos = userObj.permisos;
   delete userObj.permisos;
-  console.log(userObj)
   localStorage.setItem("user",JSON.stringify(userObj));
 
   // Ocultando o no el google maps del header
   if(userObj.idRol != "CLWGS1") {
-    console.log("entro")
     $(".googleMaps-header-container").addClass("d-none");
   }
 
@@ -38,7 +36,7 @@ function loginUser(userObj){
         data-bs-toggle="tooltip" 
         data-bs-placement="bottom"
         data-bs-custom-class="custom-tooltip-dark"
-        data-bs-title="MisOrdenes"
+        data-bs-title="Mis Ordenes"
       >
         <i class="fa-solid fa-calendar"></i>
       </a>
@@ -90,6 +88,25 @@ function loginUser(userObj){
       <span>Perfil</span>
     </a>
   `);
+
+  // Ruta registro del fumigador
+  if(window.location.pathname.includes("registrarFumigador")){
+    if(userObj.idRol != "CLWGS1") window.location = "/";
+    const usuarioValido = await service.post("registrarFumigador",{validarUsuario: true})
+    if("error" in usuarioValido){
+      await Swal.fire({
+        icon: "error",
+        title: "Oopss, Ocurrió un error inesperado",
+        text: usuarioValido.error,
+        showCancelButton: false,
+        confirmButtonText: "De acuerdo",
+      }).then((result) => window.location = "/");
+    }
+    const regFumigFormTab = new bootstrap.Tab(document.getElementById("registrarfumig-registrarse-tab"))
+    regFumigFormTab.show();
+  }
+
+  initTooltips();
 
   // Toast de sesion exitosa
   Toast.fire({
@@ -149,6 +166,17 @@ async function logoutUser(){
         <span>Iniciar Sesión</span>
       </a>
     `);
+
+    $(".selected-services-count").text("0");
+    $('#serviciosAutocomplete').val([]).trigger('change');
+    $("#accordionServiciosSeleccionados").empty();
+    $(".btn-selected-services-modal").fadeOut();
+
+    // Registro del fumigador
+    if(document.getElementById("registrarfumig-identificate-tab")){
+      const regFumigIdentificateTab = new bootstrap.Tab(document.getElementById("registrarfumig-identificate-tab"))
+      regFumigIdentificateTab.show();
+    }
 
     initGoogleOAUTH();
   }else{

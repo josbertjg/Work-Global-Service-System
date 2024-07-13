@@ -8,7 +8,11 @@
     private $fumigadorID;
     private $clienteID;
     private $fechaServicio;
-    private $ubicacionID;
+    private $direccion;
+    private $ciudad_id;
+    private $latitud;
+    private $longitud;
+    private $detalles_direccion;
     private $establecimientoID;
     private $serviciosArr;
     private $clienteEmail;
@@ -16,15 +20,7 @@
 
     public function __construct(){
     	parent::__construct();
-    } 
-
-    public function prueba() {
-      die("Función prueba ejecutada");
-      header('Content-Type: application/json'); // Establece el tipo de contenido como JSON
-      die(json_encode(["error" => "Mensaje de error"]));
-
-  }
-  
+    }  
 
     public function getCurrentFumigador($fumigadorID){
       $fumigadorIdIsValid = $this->validarFumigadorID($fumigadorID);
@@ -101,11 +97,11 @@
       }
     }
 
-
     public function getOrdenesFumi($cedula){
       $this->clienteID=$cedula;
       $this->returnOrdenesFumi();
     }
+
     private function returnOrdenesFumi(){
       try{
         parent::conectarDB();
@@ -120,10 +116,12 @@
           die(json_encode(array("error" => $e->getMessage())));
       }
     }
+
     public function getOrdenesClient($clienteID){
       $this->clienteID=$clienteID;
       $this->returnAllOrdenesClient();
     }
+
     private function returnAllOrdenesClient(){
       try{
         parent::conectarDB();
@@ -138,6 +136,7 @@
         die(json_encode(array("error" => $e->getMessage())));
       }
     }
+
     public function getAllEstablecimientos(){
       $this->returnAllEstablecimientos();
     }
@@ -176,12 +175,16 @@
       }
     }
 
-    public function createOrden($fumigador,$clienteID,$clienteEmail,$fechaServicio,$ubicacion,$establecimiento,$servicios){
+    public function createOrden($fumigador,$clienteID,$clienteEmail,$fechaServicio,$direccion,$ciudad,$latitud,$longitud,$detalles_direccion,$establecimiento,$servicios){
       $this->fumigadorID = $fumigador;
       $this->clienteID = $clienteID;
       $this->clienteEmail = $clienteEmail;
       $this->fechaServicio = $fechaServicio;
-      $this->ubicacionID = $ubicacion;
+      $this->direccion = $direccion;
+      $this->ciudad_id = $ciudad;
+      $this->latitud = $latitud;
+      $this->longitud = $longitud;
+      $this->detalles_direccion = $detalles_direccion;
       $this->establecimientoID = $establecimiento;
       $this->serviciosArr = json_decode($servicios);
       $this->idOrden=$this->generarId($fechaServicio);
@@ -189,20 +192,27 @@
     }
 
     private function insertNewOrden(){
-      $this->conectarDB();
-      $new = $this->con->prepare("
-      INSERT INTO `tordenes`
-      (`idOrdenes`,`fechaServicio`,`cliente`,`fumigador`,`ubicacion`, `establecimiento`,`status`)
-       VALUES (?,?,?,?,?,?,?)"); 
-      $new->bindValue(1 , $this->idOrden);
-      $new->bindValue(2 , $this->fechaServicio);
-      $new->bindValue(3 , $this->clienteID);
-      $new->bindValue(4 , $this->fumigadorID);
-      $new->bindValue(5 , $this->ubicacionID);
-      $new->bindValue(6 , $this->establecimientoID);
-      $new->bindValue(7 , "Agendada");
-      $exito = $new->execute();
-      $this->desconectarDB();
+      $id_ubicacion = $this->setNewUbicacion();
+
+      try{
+        $this->conectarDB();
+        $new = $this->con->prepare("
+        INSERT INTO `tordenes`
+        (`idOrdenes`,`fechaServicio`,`cliente`,`fumigador`,`ubicacion`, `establecimiento`,`detalles`,`status`)
+         VALUES (?,?,?,?,?,?,?,?)"); 
+        $new->bindValue(1 , $this->idOrden);
+        $new->bindValue(2 , $this->fechaServicio);
+        $new->bindValue(3 , $this->clienteID);
+        $new->bindValue(4 , $this->fumigadorID);
+        $new->bindValue(5 , $id_ubicacion);
+        $new->bindValue(6 , $this->establecimientoID);
+        $new->bindValue(7 , $this->detalles_direccion);
+        $new->bindValue(8 , "Enviada");
+        $exito = $new->execute();
+        $this->desconectarDB();
+      }catch(exception $e){
+        die(json_encode(["error"=>$e]));
+      }
 
       $resultado = null;
       if($exito){
@@ -234,6 +244,40 @@
       die(json_encode($resultado));
     }
 
+    private function setNewUbicacion(){
+      try{
+				parent::conectarDB();
+        $new = $this->con->prepare("SELECT * FROM tubicaciones WHERE idUbicacion = ?");
+        $new->bindValue(1, $this->latitud.$this->longitud);
+        $new->execute();
+        $ubicacion = $new->fetch(\PDO::FETCH_OBJ);
+        parent::desconectarDB();
+
+      }catch(exection $error){
+        die(json_encode(["error"=>$error]));
+      }
+
+      if(!empty($ubicacion)) return $this->latitud.$this->longitud;
+
+      try{
+        $this->conectarDB();
+        $new = $this->con->prepare("INSERT INTO `tubicaciones` (`idUbicacion`,`latitud`,`longitud`,`direccion`, `ciudad`) VALUES (?,?,?,?,?)"); 
+        $new->bindValue(1 , $this->latitud.$this->longitud);
+        $new->bindValue(2 , $this->latitud);
+        $new->bindValue(3 , $this->longitud);
+        $new->bindValue(4 , $this->direccion);
+        $new->bindValue(5 , $this->ciudad_id);
+        $exito = $new->execute();
+        $this->desconectarDB();
+
+        if($exito) return $this->latitud.$this->longitud;
+        else die(json_decode(["error"=>"Ocurrió un error al registrar tu ubicación, intentalo de nuevo porfavor"]));
+
+      }catch(exception $error){
+        die(json_encode(["error"=>$error]));
+      }
+    }
+
     private function validarFumigadorID($fumigadorID){
       $regExp = '/^(\d{5,})$/';
       return preg_match_all($regExp, $fumigadorID);
@@ -257,10 +301,12 @@
         $finalID=$formattedDate ."-".  $count;
         return $finalID;
       }
+
       public function getFumigadorServicio($idOrden){
         $this->idOrden=$idOrden;
         $this->FumigadorOrden($this->idOrden);
       }
+      
       private function FumigadorOrden($idOrden){
         try{
           $this->conectarDB();
@@ -285,6 +331,7 @@
       $this->idOrden=$idOrden;
       $this->PrecioServicio($this->idOrden);
     }
+
     private function PrecioServicio($idOrden){
       try{
         $this->conectarDB();
@@ -309,9 +356,11 @@
         die(json_encode(array("error" => $e->getMessage())));
       }
     }
+
     public function getOrdenesAdministrador(){
       $this->OrdenesAdministrador();
     }
+
     private function OrdenesAdministrador(){
       try{
         $this->conectarDB();

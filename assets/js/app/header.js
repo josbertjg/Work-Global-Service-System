@@ -14,7 +14,7 @@ $(document).ready(async ()=>{
       try{
         placeStored = JSON.parse(localStorage.getItem("selectedPlace"));
       }catch(e){
-        console.log(e)
+        showAlert("error", "Error al recuperar la dirección seleccionada", e)
       }
     }
 
@@ -51,6 +51,7 @@ $(document).ready(async ()=>{
     // Setting the place value stored on localstorage to the autocomplete
     if(!_.isEmpty(selectedPlace)){
       $("#searchHeaderPlaceField").val(selectedPlace.formatted_address)
+      $("#detalles-direccion").val(selectedPlace.detalles_direccion)
     }
   
     // INIT MARKER
@@ -62,17 +63,7 @@ $(document).ready(async ()=>{
     autocompleteHeader.addListener('place_changed', ()=>{
       toggleLoading(true);
       const place = autocompleteHeader.getPlace();
-      
-      let cityObj = place.address_components.filter((component) => component.types.includes('locality'))[0];
-      const city = cityObj.short_name;
-      
-      let  stateObj = place.address_components.filter((component) => component.types.includes('administrative_area_level_1'))[0];
-      const state = stateObj.short_name;
-      
-      let countryObj = place.address_components.filter((component) => component.types.includes('country'))[0];
-      const country = countryObj.long_name;
-      
-      console.log(`Ciudad: ${city}, Estado: ${state}, País: ${country}`)
+
       if(place.geometry.viewport) mapHeader.fitBounds(place.geometry.viewport)
       else{
         mapHeader.setCenter(place.geometry.location);
@@ -85,7 +76,7 @@ $(document).ready(async ()=>{
       selectedPlace = {
         ...place, 
         lng: place.geometry.location.lng(), 
-        lat: place.geometry.location.lat()
+        lat: place.geometry.location.lat(),
       }
       toggleLoading(false);
     })
@@ -99,17 +90,6 @@ $(document).ready(async ()=>{
       
       const { results } = await geocoder.getPlaceByCoords(event.latLng)
   
-      let cityObj = results[0].address_components.filter((component) => component.types.includes('locality'))[0];
-      const city = cityObj.short_name ? cityObj.short_name : cityObj.long_name;
-  
-      let  stateObj = results[0].address_components.filter((component) => component.types.includes('administrative_area_level_1'))[0];
-      const state = stateObj.short_name ? stateObj.short_name : stateObj.long_name;
-  
-      let countryObj = results[0].address_components.filter((component) => component.types.includes('country'))[0];
-      const country = countryObj.long_name ? countryObj.long_name : countryObj.short_name;
-  
-      console.log(`Ciudad: ${city}, Estado: ${state}, País: ${country}`)
-      
       headerSearchInput.value = results[0].formatted_address;
 
       selectedPlace = {
@@ -131,19 +111,7 @@ $(document).ready(async ()=>{
           markerHeader.setVisible(true)
           
           const { results } = await geocoder.getPlaceByCoords(LatLng)
-  
-          let cityObj = results[0].address_components.filter((component) => component.types.includes('locality'))[0];
-          const city = cityObj.short_name ? cityObj.short_name : cityObj.long_name;
-  
-          let  stateObj = results[0].address_components.filter((component) => component.types.includes('administrative_area_level_1'))[0];
-          const state = stateObj.short_name ? stateObj.short_name : stateObj.long_name;
-  
-          let countryObj = results[0].address_components.filter((component) => component.types.includes('country'))[0];
-          const country = countryObj.long_name ? countryObj.long_name : countryObj.short_name;
-  
-          console.log(results[0])
-          console.log(`Ciudad: ${city}, Estado: ${state}, País: ${country}`)
-          
+           
           headerSearchInput.value = results[0].formatted_address;
         });
       }
@@ -153,6 +121,7 @@ $(document).ready(async ()=>{
   /* /HEADER MAP */
 
   // Servicios
+  let selectedServices = [];
   if(!!document.getElementById("serviciosAutocomplete")){
 
     const respuesta = await service.post("servicios",{getAllServicios:true})
@@ -162,12 +131,12 @@ $(document).ready(async ()=>{
       try{
         servicesStored = JSON.parse(localStorage.getItem("selectedServices"))
       }catch(e){
-        console.log(e)
+        showAlert("error", "Error al recuperar los servicios seleccionados", e)
       }
     }
 
     const selectedServicesModal = new bootstrap.Modal(document.getElementById("selectedServicesModal"));
-    let selectedServices = !_.isEmpty(servicesStored) ? servicesStored : [] 
+    selectedServices = !_.isEmpty(servicesStored) ? servicesStored : [] 
 
     if(!_.isEmpty(selectedServices)){ 
       $(".btn-selected-services-modal").fadeIn()
@@ -204,7 +173,6 @@ $(document).ready(async ()=>{
 
       selectedServices.splice(selectedServices.indexOf(serviceId),1)
 
-      console.log(selectedServices)
       $('#serviciosAutocomplete').val(selectedServices).trigger('change')
 
       $(".selected-services-count").text(selectedServices.length.toString())
@@ -353,6 +321,11 @@ $(document).ready(async ()=>{
         return showFormAlerts(form,"Debes iniciar sesión para poder realizar la búsqueda de fumigadores.");
       }
 
+      selectedPlace = {
+        ...selectedPlace,
+        detalles_direccion: $("#detalles-direccion").val()
+      }
+      
       localStorage.setItem("selectedPlace",    JSON.stringify(selectedPlace));
       localStorage.setItem("selectedServices", JSON.stringify(selectedServices));
 
@@ -433,7 +406,6 @@ $(document).ready(async ()=>{
       toggleLoading(false);
 
       if("error" in respuesta){
-        console.log(respuesta)
         showFormAlerts(form,respuesta.error);
         blankForm(form);
       }else{
@@ -477,7 +449,10 @@ $(document).ready(async ()=>{
   })
 
   // Logout
-  $(document).on('click','.logout', () => logoutUser());
+  $(document).on('click','.logout', () => {
+    selectedServices = [];
+    logoutUser();
+  });
 })
 
 async function renderFumigadores(selectedServices){

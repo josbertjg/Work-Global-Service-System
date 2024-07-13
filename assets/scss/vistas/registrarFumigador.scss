@@ -18,11 +18,15 @@
       display: none;
     }
   }
-  #registrarFumigador-map{
-    height: 185px;
-    width: 100%;
-  }
   .regFumig-map-wrapper{
     display: none;
+    #registrarFumigador-map{
+      height: 290px;
+      width: 100%;
+    }
+  }
+
+  i{
+    color: var(--bs-primary);
   }
 }
