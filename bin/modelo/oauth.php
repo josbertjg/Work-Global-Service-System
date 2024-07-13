@@ -68,7 +68,7 @@
               parent::conectarDB();
               $new = $this->con->prepare("SELECT * FROM tclientes WHERE email = ?");
               $new->bindValue(1, $this->email);
-              $new->execute();
+              $new->execute();  
               $cliente = $new->fetch(\PDO::FETCH_OBJ);
               $this->clientID = $cliente->id;
               parent::desconectarDB();
@@ -288,7 +288,7 @@
       $resultado = null;
       if($exito){
         $resultado = ['success' => "Usuario registrado exitosamente."];
-        $this->registrarWGS();
+        //$this->registrarWGS();
         $this->registrarBitacora("Registro", $this->email, "Se ha registrado con usuario y contraseña.");
       }else{
         $resultado = ['error' => 'Usuario o contraseña incorrectos.'];

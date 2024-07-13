@@ -13,8 +13,9 @@
 
    private function validarSTA($datoArray,$diff){
     $arrayLogico = array(0 => "/^[A-Za-z]{3,30}$/", 
-    1 => "/^[0-9]{1,30}$/", 
-    2 => "/^[0-9A-Za-z- ]{0,30}$/", 3 => "/^[0-9:\/-]{1,30}$/", 4 => "/^[0-9A-Za-z ]{0,30}$/");
+    1 =>"/^[\d]{1,3}(?:[.,][\d]{1,2})?$/", 
+    2 => "/^[0-9A-Za-z- ]{0,30}$/", 3 => "/^[0-9:\/-]{1,30}$/", 4 => "/^[0-9A-Za-z ]{0,30}$/",
+    5=>"/^[SE].*WGS$/");
     foreach ($datoArray as $key) {
       $validador = preg_match_all($arrayLogico[$diff], $key);
       if($validador!=1){
@@ -118,7 +119,11 @@
         return !empty($data);
       }
       public function getInsert($Establecimiento,$Precio,$Servicio){
+        $validador=array($Servicio,$Establecimiento);
+        $this->validarSTA($validador,5);
         $this->Establecimiento=$Establecimiento;
+        $validador1=array($Precio);
+        $this->validarSTA($validador1,1);
         $this->precio=$Precio;
         $this->Servicio=$Servicio;
         $this->insert();
@@ -169,6 +174,8 @@
       }
 
       public function getUpdate($id,$precio){
+        $validador1=array($Precio);
+        $this->validarSTA($validador1,1);
         $this->precio=$precio;
         $this->id=$id;
         $this->update();

@@ -103,6 +103,8 @@
 
 
     public function getOrdenesFumi($cedula){
+      $fumigadorIdIsValid = $this->validarFumigadorID($cedula);
+      if(!$fumigadorIdIsValid) die(json_encode(["error"=>"El id recibido no es un id de fumigador válido"]));
       $this->clienteID=$cedula;
       $this->returnOrdenesFumi();
     }
@@ -121,6 +123,9 @@
       }
     }
     public function getOrdenesClient($clienteID){
+      $validarIDC=array($clienteID);
+      $validador=$this->validarSTA($validarIDC,1);
+      if(isset($validador['error'])){die(json_encode($respuesta=["error"=>"ID del cliente No valido."]));}
       $this->clienteID=$clienteID;
       $this->returnAllOrdenesClient();
     }
@@ -177,6 +182,25 @@
     }
 
     public function createOrden($fumigador,$clienteID,$clienteEmail,$fechaServicio,$ubicacion,$establecimiento,$servicios){
+      $fumigadorIdIsValid = $this->validarFumigadorID($fumigador);
+      if(!$fumigadorIdIsValid) die(json_encode(["error"=>"El id recibido no es un id de fumigador válido"]));
+      $validadorClientID=array($clienteID);
+      $validaor1=$this->validarSTA($validadorClientID,1);
+      if (isset($validaor1['error'])){die(json_encode($respuesta=["error" => "ID del cliente Invalido."]));}
+      $validadorClientEmail=array($clienteEmail);
+      $validador2=$this->validarSTA($validadorClientEmail,8);
+      if (isset($validador2['error'])){die(json_encode($respuesta=["error" => "Email del Cliente Invalido."]));}
+      $validadorFechaServicio=array($fechaServicio);
+      $validador3=$this->validarSTA($validadorFechaServicio,9);
+      if (isset($validador3['error'])){die(json_encode($respuesta=["error" => "Fecha Servicio NO VALIDA."]));}
+      $validadorEstablecimiento=array($establecimiento);
+      $validador4=$this->validarSTA($validadorEstablecimiento,10);
+      if (isset($validador4['error'])){die(json_encode($respuesta=["error" => "ID del Establecimiento Invalido."]));}
+      $validadorServicios=json_decode($servicios);
+      $validador5=$this->validarSTA($validadorServicios,10);
+      if (isset($validador5['error'])){die(json_encode($respuesta=["error" => "ID del servicio Invalido."]));}
+
+
       $this->fumigadorID = $fumigador;
       $this->clienteID = $clienteID;
       $this->clienteEmail = $clienteEmail;
@@ -325,6 +349,36 @@
         header('Content-Type: application/json');
         die(json_encode(array("error" => $e->getMessage())));
       }
+    }
+
+
+
+
+    /**
+     * Funciones para validar datos
+     */
+
+     private function validarSTA($datoArray,$diff){
+      $arrayLogico = array(0 => "/^[A-Za-z]{3,45}$/",
+      1 => "/^[0-9]{1,45}$/", 
+      2 => "/^[0-9A-Za-z- ]{0,45}$/", 
+      3 => "/^[0-9:\/-]{1,45}$/", 
+      4 => "/^[0-9A-Za-z ]{0,45}$/",
+      5 => "/^.{0,200}$/",
+      6=> "/^[A-Za-z\s]{3,45}$/",
+      7=>"/^\d{6}-[1-9]\d*$/",//valida la orden
+      8=>"/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/",//validar email
+      9=>"/^202[4-9]-|203[0-9]-|20[1-9][0-9]-|(21[0-9][0-9]|220[0-9])-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) (0[0-9]|1[0-9]|2[0-3]):(0[0-9]|[1-5][0-9])$/",//validar DATETIME YYYY-MM-DD HH:MM:SS
+      10=>"/^[SE].*WGS$/"
+    );
+      foreach ($datoArray as $key) {
+        $validador = preg_match_all($arrayLogico[$diff], $key);
+        if($validador!=1){
+          $respuesta = ["error" => "Datos Incorrectos."];
+          return $respuesta;
+        }
+      }
+      return 0;
     }
   }
 ?>
