@@ -76,7 +76,7 @@
         data-bs-toggle="tooltip" 
         data-bs-placement="bottom"
         data-bs-custom-class="custom-tooltip-dark"
-        data-bs-title="MisOrdenes"
+        data-bs-title="Mis Ordenes"
       >
         <i class="fa-solid fa-calendar"></i>
       </a>':'';
@@ -189,8 +189,8 @@
                       <div class="d-flex align-items-center my-3">
                         <i class="fa-solid fa-sheet-plastic aditional-sheet"></i>
                         <div class="form-floating w-100">
-                          <input type="text" class="form-control" id="aditional-info" placeholder="name@example.com">
-                          <label for="aditional-info">Indicaciones (opcional)</label>
+                          <input type="text" class="form-control" id="detalles-direccion" placeholder="name@example.com">
+                          <label for="detalles-direccion">Indicaciones (opcional)</label>
                         </div>
                       </div>
                       <div class="d-flex">

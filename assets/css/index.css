@@ -552,6 +552,12 @@ main {
   --bs-tooltip-color: var(--bs-white);
 }
 
+.custom-tooltip-info {
+  font-weight: bold;
+  --bs-tooltip-bg: var(--bs-primary);
+  --bs-tooltip-color: var(--bs-white);
+}
+
 #loading-btn {
   display: none !important;
 }
@@ -1237,12 +1243,15 @@ main {
 #registrarFumigador-form .select2-container .select2-selection__arrow {
   display: none;
 }
-#registrarFumigador-form #registrarFumigador-map {
-  height: 185px;
-  width: 100%;
-}
 #registrarFumigador-form .regFumig-map-wrapper {
   display: none;
+}
+#registrarFumigador-form .regFumig-map-wrapper #registrarFumigador-map {
+  height: 290px;
+  width: 100%;
+}
+#registrarFumigador-form i {
+  color: var(--bs-primary);
 }
 
 /*# sourceMappingURL=index.css.map */

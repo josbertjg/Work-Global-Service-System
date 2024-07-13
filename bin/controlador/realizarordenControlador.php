@@ -32,16 +32,20 @@
 	}
 
 	
-	if(isset($_POST["createOrden"])    && 
-		isset($_POST['fumigador'])       && 
-		isset($_POST['clienteID'])       && 
-		isset($_POST['clienteEmail'])    && 
-		isset($_POST['fechaServicio'])   && 
-		isset($_POST['ubicacion'])       && 
-		isset($_POST['establecimiento']) && 
-		isset($_POST['servicios'])       && 
+	if(isset($_POST["createOrden"])       && 
+		isset($_POST['fumigador'])          && 
+		isset($_POST['clienteID'])          && 
+		isset($_POST['clienteEmail'])       && 
+		isset($_POST['fechaServicio'])      && 
+		isset($_POST['direccion'])          && 
+		isset($_POST['ciudad'])             && 
+		isset($_POST['latitud'])            && 
+		isset($_POST['longitud'])           && 
+		isset($_POST['detalles_direccion']) && 
+		isset($_POST['establecimiento'])    && 
+		isset($_POST['servicios'])          && 
 		isset($permiso['Crear'])){
-			$model->createOrden($_POST['fumigador'],$_POST['clienteID'],$_POST['clienteEmail'],$_POST['fechaServicio'],$_POST['ubicacion'],$_POST['establecimiento'],$_POST['servicios']);
+			$model->createOrden($_POST['fumigador'],$_POST['clienteID'],$_POST['clienteEmail'],$_POST['fechaServicio'],$_POST['direccion'],$_POST['ciudad'],$_POST['latitud'],$_POST['longitud'],$_POST['detalles_direccion'],$_POST['establecimiento'],$_POST['servicios']);
 	}
 	
 	

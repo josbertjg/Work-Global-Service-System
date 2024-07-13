@@ -5,11 +5,57 @@ $(document).ready(async ()=>{
   let estado = null;
 
   toggleLoading(true);
+
+  // Buscando al usuario en el localStorage
+  let user = null;
+      
+  try{
+    user = JSON.parse(localStorage.getItem("user"));
+  }catch(e){
+    showAlert("error", "Oops, ocurrió un error", "Error al recuperar el usuario logueado")
+    return setTimeout(() => window.location = "registrarFumigador", 4000);
+  }
+
   const ciudades = await service.post("registrarFumigador",{getAllCiudades: true})
   const estados  = await service.post("registrarFumigador",{getAllEstados: true})
+  // Validando que el usuario no haya echo con anterioridad una solicitud para registrarse como fumigador.
+  if(!_.isEmpty(user)) {
+    const usuarioValido = await service.post("registrarFumigador",{validarUsuario: true})
+    if("error" in usuarioValido){
+      Swal.fire({
+        icon: "error",
+        title: "Oopss, Ocurrió un error inesperado",
+        text: usuarioValido.error,
+        showCancelButton: false,
+        confirmButtonText: "De acuerdo",
+      }).then((result) => window.location = "/");
+    }
+  }
   toggleLoading(false);
+
   if("error" in ciudades) showAlert("error", "Oops, ocurrió un error al recuperar las ciudades", ciudades.error)
   if("error" in estados) showAlert("error", "Oops, ocurrió un error al recuperar los estados", estados.error)
+
+  /* Identificarse TAB */
+  // Modal para acceder
+  const accederModal = new bootstrap.Modal(document.getElementById('acceder-modal'))
+  // Login y registro modal Tabs
+  const iniciarSesionTab = new bootstrap.Tab(document.getElementById("iniciar-sesion-tab"))
+  const crearCuentaTab   = new bootstrap.Tab(document.getElementById("crear-cuenta-tab"))
+  // Tab del formulario de registro de fumigador
+  const regFumigFormTab = new bootstrap.Tab(document.getElementById("registrarfumig-registrarse-tab"))
+
+  if(!_.isEmpty(user)) regFumigFormTab.show();
+
+  $(".regFumig-login-btn").click(()=>{
+    accederModal.show();
+    iniciarSesionTab.show();
+  })
+
+  $(".regFumig-crearCuenta-btn").click(()=>{
+    accederModal.show();
+    crearCuentaTab.show();
+  })
 
   /* Registro fumigador Form MAP */
   const center = {
@@ -208,7 +254,7 @@ $(document).ready(async ()=>{
   })
 
   ciudadesAutocomplete.on('select2:select', function (e) {
-    ciudad = _.find(ciudad,(ciudad)=>(ciudad.id_ciudad == e.params.data.id));
+    ciudad = _.find(ciudades,(ciudad)=>(ciudad.id_ciudad == e.params.data.id));
   })
 
   // Date picker fecha de nacimiento
@@ -218,13 +264,7 @@ $(document).ready(async ()=>{
     },
     // Deshabilitando fechas posteriores a 5 años atras
     maxDate: moment().subtract(17, 'years').format('YYYY-MM-DD'),
-    onChange: function(selectedDates, dateStr, instance) {
-      selectedDate = dateStr;
-      if(!_.isEmpty(selectedHour)){
-        selectedDateTime = `${selectedDate} ${selectedHour}`;
-        setDateTime(selectedDate,selectedHour)
-      }
-    }
+    onChange: function(selectedDates, dateStr, instance) {}
   });
 
   // Form Registrar fumigador
@@ -244,39 +284,39 @@ $(document).ready(async ()=>{
     const formValid = checkFormValidity(form)
 
     if(formValid){
-      toggleLoading(true)
-
-      let user = null;
-
-      try{
-        user = JSON.parse(localStorage.getItem("user"));
-      }catch(e){
-        showAlert("error", "Oops, ocurrió un error", "Error al recuperar el usuario logueado")
-        return setTimeout(() => window.location = "registrarFumigador", 4000);
+      
+      if(_.isEmpty(user)){
+        return showAlert("error", "Oops, ocurrió un error", "Necesitas estar logueado para poder registrarte como u fumigador")
       }
+
+      toggleLoading(true)
 
       const formHTML = document.getElementById("registrarFumigador-form")
       const data = new FormData(formHTML)
       
-      console.log(data.get("fechaNacimiento"), user)
       data.append("registerNewFumigador",JSON.stringify(true))
-      data.append("userID",JSON.stringify(user.clientID))
+      data.append("ciudad",ciudad.id_ciudad)
+      data.append("estado",ciudad.id_estado)
+      data.append("latitud",selectedPlace.lat)
+      data.append("longitud",selectedPlace.lng)
 
       const respuesta = await service.post("registrarFumigador",data)    
       toggleLoading(false)
 
-      console.log(respuesta);
-      
-      // if("error" in respuesta){
-      //   showFormAlerts(form,respuesta.error);
-      //   blankForm(form);
-      // }else{
-      //   iniciarSesionTab.show();
-      //   Toast.fire({
-      //     icon: "success",
-      //     title: respuesta.success
-      //   });
-      // }
+      console.log(respuesta)
+
+      if("error" in respuesta){
+        showFormAlerts(form,respuesta.error);
+        // blankForm(form);
+      }else if("success" in respuesta){
+        Swal.fire({
+          icon: "success",
+          title: "¡Registro exitoso!",
+          text: "Te has registrado con éxito, uno de nuestros administradores validara tu información y se pondrá en contacto contigo lo mas pronto posible, gracias por querer pertenecer a esta gran familia!",
+          showCancelButton: false,
+          confirmButtonText: "De acuerdo",
+        }).then((result) => window.location = "/");
+      }
     }
   })
   

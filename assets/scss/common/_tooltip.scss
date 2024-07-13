@@ -9,3 +9,9 @@
   --bs-tooltip-bg: var(--bs-gray-dark);
   --bs-tooltip-color: var(--bs-white);
 }
+
+.custom-tooltip-info{
+  font-weight: bold;
+  --bs-tooltip-bg: var(--bs-primary);
+  --bs-tooltip-color: var(--bs-white);
+}

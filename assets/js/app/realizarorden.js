@@ -8,10 +8,12 @@ $(document).ready(async ()=>{
   const establecimientos = await service.post("realizarorden", {getAllEstablecimientos: true});
   const preciosServicios = await service.post("realizarorden", {getAllPreciosServicios: true});
   let user               = null;
+  let selectedPlace      = null;
   try{
-    user = JSON.parse(localStorage.getItem("user"));
+    user          = JSON.parse(localStorage.getItem("user"));
+    selectedPlace = JSON.parse(localStorage.getItem("selectedPlace"));
   }catch(e){
-    showAlert("error", "Oops, ocurrió un error", "Error al recuperar el usuario logueado")
+    showAlert("error", "Oops, ocurrió un error", "Error al recuperar los datos guardados en el almacenamiento local")
     return setTimeout(() => window.location = "fumigadores", 4000);
   }
   toggleLoading(false)
@@ -422,26 +424,30 @@ $(document).ready(async ()=>{
 
   // Ir a pagar Orden
   $(".pagarOrden").click(async ()=>{
+    console.log(selectedPlace)
     if(!_.isEmpty(selectedDateTime) && !_.isEmpty(selectedPrecioServiciosArray)){
       toggleLoading(true);
+
       const dataToSend = {
-        createOrden:     true,
-        fumigador:       currentFumigador.cedula,
-        clienteID:       user.clientID,
-        clienteEmail:    user.email,
-        fechaServicio:   selectedDateTime,
-        ubicacion:       "123",
-        establecimiento: selectedEstablecimiento.idEstablecimientos,
-        servicios:       JSON.stringify(_.map(selectedPrecioServiciosArray,(item)=>(item.servicio)))
+        createOrden:        true,
+        fumigador:          currentFumigador.cedula,
+        clienteID:          user.clientID,
+        clienteEmail:       user.email,
+        fechaServicio:      selectedDateTime,
+        direccion:          selectedPlace.formatted_address,
+        ciudad:             _.isEmpty(selectedPlace.ciudad) ? "1" : selectedPlace.ciudad,
+        latitud:            selectedPlace.lat,
+        longitud:           selectedPlace.lng,
+        detalles_direccion: selectedPlace.detalles_direccion,
+        establecimiento:    selectedEstablecimiento.idEstablecimientos,
+        servicios:          JSON.stringify(_.map(selectedPrecioServiciosArray,(item)=>(item.servicio)))
       }
+
       const respuesta = await service.post("realizarorden",dataToSend);
       if("error" in respuesta){
-        showAlert("error","Upss, ocurrió un error inesperado.", respuesta.error)
-      }else{
-        Toast.fire({
-          icon: "success",
-          title: respuesta.success
-        });
+        Toast.fire({ icon: "error", title: respuesta.error });
+      }else if("success" in respuesta){
+        Toast.fire({ icon: "success", title: respuesta.success });
       }
       toggleLoading(false);
       // window.location = "pagarorden";
