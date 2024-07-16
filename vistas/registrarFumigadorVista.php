@@ -39,7 +39,7 @@
                 <label for="registrarFumigadorCedula">
                   Cedula 
                   <i 
-                    class="fa-solid fa-circle-info añadir-servicio" 
+                    class="fa-solid fa-circle-info" 
                     data-bs-toggle="tooltip" 
                     data-bs-placement="top"
                     data-bs-custom-class="custom-tooltip-dark"
@@ -57,7 +57,7 @@
                 <label for="registrarFumigadorImagenCedula">
                   Imagen/Foto de la cedula
                   <i 
-                    class="fa-solid fa-circle-info añadir-servicio" 
+                    class="fa-solid fa-circle-info" 
                     data-bs-toggle="tooltip" 
                     data-bs-placement="top"
                     data-bs-custom-class="custom-tooltip-dark"
@@ -75,7 +75,7 @@
               <label class="ps-1" for="registrarFumigadorUbicacion">
                 Dirección del fumigador
                 <i 
-                  class="fa-solid fa-circle-info añadir-servicio" 
+                  class="fa-solid fa-circle-info" 
                   data-bs-toggle="tooltip" 
                   data-bs-placement="top"
                   data-bs-custom-class="custom-tooltip-dark"
@@ -95,7 +95,7 @@
                   <label for="registrarFumigadorEstado">
                     Estado
                     <i 
-                      class="fa-solid fa-circle-info añadir-servicio" 
+                      class="fa-solid fa-circle-info" 
                       data-bs-toggle="tooltip" 
                       data-bs-placement="top"
                       data-bs-custom-class="custom-tooltip-dark"
@@ -112,7 +112,7 @@
                   <label for="registrarFumigadorCiudad">
                     Ciudad
                     <i 
-                      class="fa-solid fa-circle-info añadir-servicio" 
+                      class="fa-solid fa-circle-info" 
                       data-bs-toggle="tooltip" 
                       data-bs-placement="top"
                       data-bs-custom-class="custom-tooltip-dark"
@@ -120,7 +120,7 @@
                     ></i>
                   </label>
                   <div class="form-floating position-relative">
-                    <select class="flex-fill" id="registrarFumigadorCiudad" style="height: 56px !important; width: 100% !important;"></select>
+                    <select class="flex-fill" id="registrarFumigadorCiudad" style="height: 56px !important; width: 100% !important;" isValid="false"></select>
                     <div class="invalid-tooltip"></div>
                   </div>
                 </div>
@@ -136,7 +136,7 @@
               <label for="registrarFumigadorDescripcion">
                 Descripción
                 <i 
-                  class="fa-solid fa-circle-info añadir-servicio" 
+                  class="fa-solid fa-circle-info" 
                   data-bs-toggle="tooltip" 
                   data-bs-placement="top"
                   data-bs-custom-class="custom-tooltip-dark"
@@ -156,7 +156,7 @@
                 <label for="registrarFumigadorTelefono">
                   Nro de telefono
                   <i 
-                    class="fa-solid fa-circle-info añadir-servicio" 
+                    class="fa-solid fa-circle-info" 
                     data-bs-toggle="tooltip" 
                     data-bs-placement="top"
                     data-bs-custom-class="custom-tooltip-dark"
@@ -171,10 +171,71 @@
               </div>
       
               <div class="col-md-6 p-0">
-                <label for="registrarFumigadorNacimiento">Fecha de Nacimiento:</label>
+                <label for="registrarFumigadorNacimiento">
+                  Fecha de Nacimiento
+                  <i 
+                    class="fa-solid fa-circle-info" 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip-dark"
+                    data-bs-title="Ingresa tu fecha de nacimiento, debes ser obligatoriamente mayor de edad."
+                  ></i>
+                </label>
                 <div class="form-floating position-relative">
                   <input type="date" class="form-control" id="registrarFumigadorNacimiento" name="fechaNacimiento" isValid="false">
                   <label for="registrarFumigadorNacimiento">Nacimiento:</label>
+                  <div class="invalid-tooltip"></div>
+                </div>
+              </div>
+
+      
+            </section>
+
+            <section class="row px-3 mb-4">
+      
+              <div class="dias-laborables-container col-md-6 pe-md-3 p-0 me-2 row">
+                <label class="col-12">
+                  Dias laborables
+                  <i 
+                    class="fa-solid fa-circle-info" 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip-dark"
+                    data-bs-title="Este será tu calendario de disponibilidad, es decir tus días hábiles laborables en los que los clientes podrán solicitar tus servicios."
+                  ></i>
+                </label>
+
+                <div class="form-floating position-relative mb-2 pe-0 col-md-6">
+                  <select class="flex-fill" name="diaInicio" id="regFumigDiaInicio" style="height: 56px !important; width: 100% !important;" isValid="false"></select>
+                  <div class="invalid-tooltip"></div>
+                </div>
+
+                <div class="form-floating position-relative mb-2 pe-0 col-md-6">
+                  <select class="flex-fill" name="diaFin" id="regFumigDiaFin" style="height: 56px !important; width: 100% !important;" isValid="false"></select>
+                  <div class="invalid-tooltip"></div>
+                </div>
+
+              </div>
+      
+              <div class="col-md-6 p-0 ps-3 pb-2 row position-relative">
+                <label class="col-12 p-0">
+                  Horario disponible
+                  <i 
+                    class="fa-solid fa-circle-info" 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip-dark"
+                    data-bs-title="Este será tu horario disponible diariamente, es decir, las horas del día en que estarás disponible para trabajar y recibir solicitudes."
+                  ></i>
+                </label>
+                <div class="form-floating position-relative ps-0 col-6">
+                  <input type="time" class="form-control" id="registrarFumigadorCalendarioHoraInicio" name="horaInicio" isValid="false">
+                  <label for="registrarFumigadorCalendarioHoraInicio">Hora Inicio:</label>
+                  <div class="invalid-tooltip"></div>
+                </div>
+                <div class="form-floating position-relative p-0 col-6">
+                  <input type="time" class="form-control" id="registrarFumigadorCalendarioHoraFin" name="horaFin" isValid="false">
+                  <label for="registrarFumigadorCalendarioHoraFin">Hora Fin:</label>
                   <div class="invalid-tooltip"></div>
                 </div>
               </div>

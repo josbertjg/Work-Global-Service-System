@@ -31,10 +31,15 @@
 			isset($_POST['telefono']) &&
 			isset($_POST['fechaNacimiento']) &&
 			isset($_POST['latitud']) &&
-			isset($_POST['longitud'])
+			isset($_POST['longitud']) &&
+			isset($_POST['diaInicio']) &&
+			isset($_POST['diaFin']) &&
+			isset($_POST['horaInicio']) &&
+			isset($_POST['horaFin'])
 			){
 			
-    $model->registerNewFumigador($_POST['cedula'],
+    $model->registerNewFumigador(
+			$_POST['cedula'],
 			$_FILES['imgCedula'],
 			$_POST['direccion'],
 			$_POST['ciudad'],
@@ -43,7 +48,12 @@
 			$_POST['telefono'],
 			$_POST['fechaNacimiento'],
 			$_POST['latitud'],
-			$_POST['longitud']);
+			$_POST['longitud'],
+			$_POST['diaInicio'],
+			$_POST['diaFin'],
+			$_POST['horaInicio'],
+			$_POST['horaFin'],
+		);
 	}
 
 
