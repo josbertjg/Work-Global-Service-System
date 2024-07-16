@@ -34,6 +34,7 @@
 			isset($_POST['longitud'])
 			){
 			
+		die("hola");
     $model->registerNewFumigador($_POST['cedula'],
 			$_FILES['imgCedula'],
 			$_POST['direccion'],

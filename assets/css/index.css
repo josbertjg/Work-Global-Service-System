@@ -1250,6 +1250,9 @@ main {
   height: 290px;
   width: 100%;
 }
+#registrarFumigador-form .dias-laborables-container {
+  padding-right: 0px !important;
+}
 #registrarFumigador-form i {
   color: var(--bs-primary);
 }

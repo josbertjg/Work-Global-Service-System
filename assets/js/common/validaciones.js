@@ -88,9 +88,8 @@ function setValidInput(element) {
 }
 // Chequea si el formulario pasado por parametro es valido o no
 function checkFormValidity(element){
-  const invalidInputsCount = element.find(".is-invalid").length + element.find("input[isValid=false]").length;
-  const invalidInputs = element.find("input[isValid=false]");
-
+  const invalidInputsCount = element.find(".is-invalid").length + element.find("input[isValid=false]").length + element.find("select[isValid=false]").length;
+  const invalidInputs = [...element.find("input[isValid=false]"),...element.find("select[isValid=false]")];
   Array.from(invalidInputs).forEach(element => {
     $(element).trigger("blur")
     $(element).trigger("change")
@@ -155,11 +154,11 @@ function required(element) {
   })
 
   element.change(() => {
-      if (_.isEmpty(_.trim(element.val()))) {
-        setInvalidInput(element)
-      } else {
-        setValidInput(element)
-      }
+    if (_.isEmpty(_.trim(element.val()))) {
+      setInvalidInput(element)
+    } else {
+      setValidInput(element)
+    }
   })
 }
 
