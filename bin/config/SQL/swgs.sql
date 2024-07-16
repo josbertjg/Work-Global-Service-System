@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-07-2024 a las 00:07:22
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 16-07-2024 a las 19:44:58
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `taccesos` (
-  `idAcceso` varchar(40) NOT NULL,
-  `rol` varchar(40) NOT NULL,
-  `permiso` varchar(40) NOT NULL,
-  `modulo` varchar(40) NOT NULL,
+  `idAcceso` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `rol` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `permiso` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `modulo` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -134,9 +134,9 @@ INSERT INTO `taccesos` (`idAcceso`, `rol`, `permiso`, `modulo`, `status`) VALUES
 
 CREATE TABLE `tbitacoras` (
   `id` int(11) NOT NULL,
-  `modulo` varchar(20) NOT NULL,
-  `usuario` varchar(40) NOT NULL,
-  `descripcion` varchar(500) NOT NULL,
+  `modulo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `usuario` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -160,7 +160,51 @@ INSERT INTO `tbitacoras` (`id`, `modulo`, `usuario`, `descripcion`, `fecha`) VAL
 (125, 'Realizar Orden', 'jentimo0205@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28276746', '2024-07-12 12:51:05'),
 (126, 'Realizar Orden', 'jentimo0205@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28276746', '2024-07-12 12:51:52'),
 (127, 'Realizar Orden', 'jentimo0205@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28276746', '2024-07-12 13:21:33'),
-(128, 'Realizar Orden', 'jentimo0205@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28276746', '2024-07-12 13:21:58');
+(128, 'Realizar Orden', 'jentimo0205@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28276746', '2024-07-12 13:21:58'),
+(129, 'registro', 'workglobalserviceca@gmail.com', 'Usario se ha registrado con Google al sistema', '2024-07-12 19:13:31'),
+(130, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 10:24:46'),
+(131, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 10:30:35'),
+(132, 'registro', 'josbertjg@gmail.com', 'Usario se ha registrado con Google al sistema', '2024-07-13 10:32:12'),
+(133, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 10:33:16'),
+(134, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 10:33:54'),
+(135, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 10:35:54'),
+(136, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 10:50:28'),
+(137, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 10:51:12'),
+(138, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 10:54:22'),
+(139, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 10:55:41'),
+(140, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 10:56:09'),
+(141, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 10:58:23'),
+(142, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 11:02:00'),
+(143, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 11:03:02'),
+(144, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 11:12:01'),
+(145, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 11:16:20'),
+(146, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 11:18:45'),
+(147, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 11:23:26'),
+(148, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 11:24:04'),
+(149, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 11:24:49'),
+(150, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 11:30:03'),
+(151, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 11:30:44'),
+(152, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150011', '2024-07-13 12:12:41'),
+(153, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150011', '2024-07-13 12:13:42'),
+(154, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 12:40:57'),
+(155, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 12:41:27'),
+(156, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 12:46:15'),
+(157, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 13:15:25'),
+(158, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150011', '2024-07-13 13:16:41'),
+(159, 'registro', 'josbelyguedezz@gmail.com', 'Usario se ha registrado con Google al sistema', '2024-07-13 13:31:13'),
+(160, 'Iniciar Sesión', 'josbelyguedezz@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-13 13:31:50'),
+(161, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-14 14:57:12'),
+(162, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-15 11:44:23'),
+(163, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-15 16:11:11'),
+(164, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-16 10:47:27'),
+(165, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-16 10:52:53'),
+(166, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-16 12:48:28'),
+(167, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-16 12:54:23'),
+(168, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-16 12:56:27'),
+(169, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-16 12:56:50'),
+(170, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-16 12:57:17'),
+(171, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-16 12:59:05'),
+(172, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-16 13:30:53');
 
 -- --------------------------------------------------------
 
@@ -169,8 +213,8 @@ INSERT INTO `tbitacoras` (`id`, `modulo`, `usuario`, `descripcion`, `fecha`) VAL
 --
 
 CREATE TABLE `tmodulos` (
-  `idModulo` varchar(40) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
+  `idModulo` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -209,9 +253,9 @@ INSERT INTO `tmodulos` (`idModulo`, `nombre`, `status`) VALUES
 
 CREATE TABLE `tnofiticaciones` (
   `id` int(11) NOT NULL,
-  `descripcion` longtext NOT NULL,
-  `status` varchar(20) NOT NULL,
-  `usuario` varchar(20) NOT NULL
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `status` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `usuario` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -221,8 +265,8 @@ CREATE TABLE `tnofiticaciones` (
 --
 
 CREATE TABLE `tpermisos` (
-  `idPermiso` varchar(40) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
+  `idPermiso` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -243,8 +287,8 @@ INSERT INTO `tpermisos` (`idPermiso`, `nombre`, `status`) VALUES
 --
 
 CREATE TABLE `troles` (
-  `IdRol` varchar(10) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
+  `IdRol` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -264,15 +308,15 @@ INSERT INTO `troles` (`IdRol`, `nombre`, `status`) VALUES
 --
 
 CREATE TABLE `tusuarios` (
-  `email` varchar(40) NOT NULL,
-  `contraseña` varchar(255) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `apellido` varchar(100) NOT NULL,
-  `telefono` varchar(20) NOT NULL,
-  `fotoPerfil` varchar(500) NOT NULL,
+  `email` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `contraseña` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `apellido` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `telefono` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fotoPerfil` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
   `emailVerificado` tinyint(1) NOT NULL DEFAULT 0,
-  `oauth_type` enum('gmail_oauth','account_password','multi_oauth','') NOT NULL,
-  `idRol` varchar(10) NOT NULL DEFAULT 'CLWGS1',
+  `oauth_type` enum('gmail_oauth','account_password','multi_oauth','') COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idRol` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL DEFAULT 'CLWGS1',
   `creado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `activo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -283,8 +327,11 @@ CREATE TABLE `tusuarios` (
 
 INSERT INTO `tusuarios` (`email`, `contraseña`, `nombre`, `apellido`, `telefono`, `fotoPerfil`, `emailVerificado`, `oauth_type`, `idRol`, `creado`, `activo`) VALUES
 ('jentimo0205@gmail.com', '', 'José', 'Timaure', '', 'assets/img/perfil/jentimo0205@gmail.com.jpg', 1, 'gmail_oauth', 'CLWGS1', '2024-07-11 11:55:41', 1),
+('josbelyguedezz@gmail.com', '', 'josbely', 'guédez', '', 'assets/img/perfil/josbelyguedezz@gmail.com.jpg', 1, 'gmail_oauth', 'SAWGS1', '2024-07-13 17:31:31', 1),
+('josbertjg@gmail.com', '', 'Josbert', 'Guedez', '', 'assets/img/perfil/josbertjg@gmail.com.jpg', 1, 'gmail_oauth', 'FGWGS1', '2024-07-13 17:31:40', 1),
 ('Josetimaure40@gmail.com', '$2y$10$0HzkLQJ40P/AB3nur4MGCuBzj1QM4Ycpb6ZSDTdkHJTWRN4JVhLzW', 'Jose', 'Timaure', '04145399966', '', 1, 'account_password', 'FGWGS1', '2024-07-11 19:37:13', 1),
-('josetimaure60@gmail.com', '', 'Jose', 'Timaure', '', 'assets/img/perfil/josetimaure60@gmail.com.jpg', 1, 'gmail_oauth', 'SAWGS1', '2024-07-11 11:54:48', 1);
+('josetimaure60@gmail.com', '', 'Jose', 'Timaure', '', 'assets/img/perfil/josetimaure60@gmail.com.jpg', 1, 'gmail_oauth', 'SAWGS1', '2024-07-11 11:54:48', 1),
+('workglobalserviceca@gmail.com', '', 'Josnel', 'Guedez', '', 'assets/img/perfil/workglobalserviceca@gmail.com.jpg', 1, 'gmail_oauth', 'CLWGS1', '2024-07-12 23:13:31', 1);
 
 --
 -- Disparadores `tusuarios`
@@ -427,7 +474,7 @@ ALTER TABLE `tusuarios`
 -- AUTO_INCREMENT de la tabla `tbitacoras`
 --
 ALTER TABLE `tbitacoras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
 
 --
 -- AUTO_INCREMENT de la tabla `tnofiticaciones`

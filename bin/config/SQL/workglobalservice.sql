@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-07-2024 a las 00:06:54
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 16-07-2024 a las 19:44:37
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -25,7 +25,7 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ClienteFactura` (IN `correo` VARCHAR(45))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ClienteFactura` (IN `correo` VARCHAR(45))  BEGIN
 SELECT u.nombre, u.apellido,
 f.idFactura as "Nro Factura", Date(f.fecha) as "Fecha",
 o.idOrdenes as "Nro Orden",
@@ -38,7 +38,7 @@ INNER JOIN swgs.tusuarios as u on u.email=c.email
 WHERE c.email=correo;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `registrarOrden` (IN `id` VARCHAR(15), IN `fechaHora` DATETIME, IN `Cliente` INT(10), IN `fumigador` VARCHAR(45), IN `ubicacion` VARCHAR(45), IN `establecimiento` VARCHAR(45), IN `estado` VARCHAR(20))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `registrarOrden` (IN `id` VARCHAR(15), IN `fechaHora` DATETIME, IN `Cliente` INT(10), IN `fumigador` VARCHAR(45), IN `ubicacion` VARCHAR(45), IN `establecimiento` VARCHAR(45), IN `estado` VARCHAR(20))  BEGIN
 INSERT INTO tordenes VALUES(id,fechaHora,Cliente,fumigador,ubicacion, establecimiento,estado);
 END$$
 
@@ -68,12 +68,11 @@ CREATE TABLE `datosordenserviciocliente` (
 --
 
 CREATE TABLE `tcalendarios` (
-  `cedula` varchar(20) NOT NULL,
+  `cedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `inicioHora` time NOT NULL,
   `finHora` time NOT NULL,
-  `diaInicio` varchar(20) NOT NULL,
-  `diaFin` varchar(20) NOT NULL,
-  `exepcion` varchar(20) NOT NULL
+  `diaInicio` int(3) NOT NULL,
+  `diaFin` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -87,7 +86,7 @@ CREATE TABLE `tciudades` (
   `id_estado` int(11) NOT NULL,
   `ciudad` varchar(200) NOT NULL,
   `capital` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `tciudades`
@@ -601,7 +600,7 @@ INSERT INTO `tciudades` (`id_ciudad`, `id_estado`, `ciudad`, `capital`) VALUES
 
 CREATE TABLE `tclientes` (
   `id` int(11) NOT NULL,
-  `email` varchar(50) NOT NULL
+  `email` varchar(50) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
@@ -610,7 +609,10 @@ CREATE TABLE `tclientes` (
 
 INSERT INTO `tclientes` (`id`, `email`) VALUES
 (1, 'jentimo0205@gmail.com'),
-(2, 'Josetimaure40@gmail.com');
+(5, 'josbelyguedezz@gmail.com'),
+(4, 'josbertjg@gmail.com'),
+(2, 'Josetimaure40@gmail.com'),
+(3, 'workglobalserviceca@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -619,11 +621,11 @@ INSERT INTO `tclientes` (`id`, `email`) VALUES
 --
 
 CREATE TABLE `testablecimientos` (
-  `idEstablecimientos` varchar(20) NOT NULL,
-  `nombre` varchar(155) NOT NULL,
-  `descripcion` longtext NOT NULL,
+  `idEstablecimientos` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(155) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
   `sizeE` float NOT NULL,
-  `icono` varchar(50) NOT NULL,
+  `icono` varchar(50) COLLATE utf8mb4_spanish_ci NOT NULL,
   `habilitado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -649,7 +651,7 @@ CREATE TABLE `testados` (
   `id_estado` int(11) NOT NULL,
   `estado` varchar(250) NOT NULL,
   `iso_3166-2` varchar(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `testados`
@@ -689,8 +691,8 @@ INSERT INTO `testados` (`id_estado`, `estado`, `iso_3166-2`) VALUES
 --
 
 CREATE TABLE `tfacturas` (
-  `idFactura` varchar(20) NOT NULL,
-  `orden` varchar(20) NOT NULL,
+  `idFactura` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `orden` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `precioInicial` float NOT NULL,
   `Sobrecargo` float NOT NULL,
@@ -717,8 +719,8 @@ DELIMITER ;
 
 CREATE TABLE `tfacturasobrecargos` (
   `id` int(11) NOT NULL,
-  `factura` varchar(20) NOT NULL,
-  `sobrecargo` varchar(20) NOT NULL
+  `factura` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `sobrecargo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
@@ -751,22 +753,15 @@ DELIMITER ;
 --
 
 CREATE TABLE `tfumigadores` (
-  `cedula` varchar(20) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `idUbicacion` varchar(100) NOT NULL,
+  `cedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `email` varchar(50) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `idUbicacion` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fechaNacimiento` date NOT NULL,
-  `imagenCedula` varchar(50) NOT NULL,
-  `descripcion` varchar(1255) NOT NULL,
+  `imagenCedula` varchar(50) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` varchar(1255) COLLATE utf8mb4_spanish_ci NOT NULL,
   `activo` tinyint(4) NOT NULL,
   `fechaValidado` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
---
--- Volcado de datos para la tabla `tfumigadores`
---
-
-INSERT INTO `tfumigadores` (`cedula`, `email`, `idUbicacion`, `fechaNacimiento`, `imagenCedula`, `descripcion`, `activo`, `fechaValidado`) VALUES
-('28276746', 'Josetimaure40@gmail.com', '2Q64+J69, Cabudare 3023, Lara\r\n', '2002-05-02', '', 'Descripcion Generica', 1, '2024-07-11');
 
 -- --------------------------------------------------------
 
@@ -775,14 +770,14 @@ INSERT INTO `tfumigadores` (`cedula`, `email`, `idUbicacion`, `fechaNacimiento`,
 --
 
 CREATE TABLE `tordenes` (
-  `idOrdenes` varchar(40) NOT NULL,
+  `idOrdenes` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
   `fechaServicio` datetime NOT NULL,
   `cliente` int(11) NOT NULL,
-  `fumigador` varchar(20) NOT NULL,
-  `ubicacion` varchar(100) NOT NULL,
-  `establecimiento` varchar(25) NOT NULL,
-  `status` enum('Cancelada','Agendada','Finalizada','Enviada') NOT NULL,
-  `detalles` varchar(255) DEFAULT NULL
+  `fumigador` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `ubicacion` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `establecimiento` varchar(25) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `status` enum('Cancelada','Agendada','Finalizada','Enviada') COLLATE utf8mb4_spanish_ci NOT NULL,
+  `detalles` varchar(255) COLLATE utf8mb4_spanish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
@@ -803,8 +798,8 @@ DELIMITER ;
 
 CREATE TABLE `tordenesservicios` (
   `id` int(11) NOT NULL,
-  `orden` varchar(20) NOT NULL,
-  `servicio` varchar(20) NOT NULL
+  `orden` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `servicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
@@ -835,11 +830,11 @@ DELIMITER ;
 
 CREATE TABLE `tpagodetalles` (
   `id` int(11) NOT NULL,
-  `factura` varchar(20) NOT NULL,
+  `factura` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `monto` float NOT NULL,
-  `descripcion` longtext NOT NULL,
-  `referencia` varchar(100) NOT NULL,
-  `tipoPago` enum('efectivo','transferencia','pago_movil') NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `referencia` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `tipoPago` enum('efectivo','transferencia','pago_movil') COLLATE utf8mb4_spanish_ci NOT NULL,
   `fechaPago` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -851,8 +846,8 @@ CREATE TABLE `tpagodetalles` (
 
 CREATE TABLE `tprecioservicios` (
   `id` int(11) NOT NULL,
-  `servicio` varchar(40) NOT NULL,
-  `establecimiento` varchar(40) NOT NULL,
+  `servicio` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `establecimiento` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
   `precio` float NOT NULL,
   `habilitado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -880,10 +875,10 @@ INSERT INTO `tprecioservicios` (`id`, `servicio`, `establecimiento`, `precio`, `
 --
 
 CREATE TABLE `tquimicos` (
-  `idQuimico` varchar(20) NOT NULL,
-  `nombre` varchar(45) NOT NULL,
-  `foto` varchar(1000) NOT NULL,
-  `descripcion` longtext NOT NULL,
+  `idQuimico` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(45) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `foto` varchar(1000) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
   `habilitado` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -905,11 +900,11 @@ INSERT INTO `tquimicos` (`idQuimico`, `nombre`, `foto`, `descripcion`, `habilita
 --
 
 CREATE TABLE `tservicios` (
-  `idServicio` varchar(20) NOT NULL,
-  `nombre` varchar(45) NOT NULL,
-  `quimico` varchar(20) NOT NULL,
-  `descripcion` longtext NOT NULL,
-  `fotoServicio` varchar(500) NOT NULL,
+  `idServicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `nombre` varchar(45) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `quimico` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fotoServicio` varchar(500) COLLATE utf8mb4_spanish_ci NOT NULL,
   `habilitado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -933,18 +928,9 @@ INSERT INTO `tservicios` (`idServicio`, `nombre`, `quimico`, `descripcion`, `fot
 
 CREATE TABLE `tserviciosfumigador` (
   `id` int(11) NOT NULL,
-  `idServicio` varchar(20) NOT NULL,
-  `cedula` varchar(20) NOT NULL
+  `idServicio` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `cedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
---
--- Volcado de datos para la tabla `tserviciosfumigador`
---
-
-INSERT INTO `tserviciosfumigador` (`id`, `idServicio`, `cedula`) VALUES
-(7, 'SPULGASWGS', '28276746'),
-(8, 'SCUCARACHASWGS', '28276746'),
-(9, 'SRATASWGS', '28276746');
 
 -- --------------------------------------------------------
 
@@ -953,9 +939,9 @@ INSERT INTO `tserviciosfumigador` (`id`, `idServicio`, `cedula`) VALUES
 --
 
 CREATE TABLE `tsobrecargos` (
-  `idSobrecargo` varchar(20) NOT NULL,
+  `idSobrecargo` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `precio` float NOT NULL,
-  `descripcion` longtext NOT NULL
+  `descripcion` longtext COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
@@ -972,20 +958,12 @@ INSERT INTO `tsobrecargos` (`idSobrecargo`, `precio`, `descripcion`) VALUES
 --
 
 CREATE TABLE `tubicaciones` (
-  `idUbicacion` varchar(100) NOT NULL,
-  `latitud` varchar(100) NOT NULL,
-  `longitud` varchar(100) NOT NULL,
-  `direccion` longtext NOT NULL,
+  `idUbicacion` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `latitud` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `longitud` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `direccion` longtext COLLATE utf8mb4_spanish_ci NOT NULL,
   `ciudad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
---
--- Volcado de datos para la tabla `tubicaciones`
---
-
-INSERT INTO `tubicaciones` (`idUbicacion`, `latitud`, `longitud`, `direccion`, `ciudad`) VALUES
-('123', '123', '123', '123', 214),
-('2Q64+J69, Cabudare 3023, Lara\r\n', '10.012286554150798', '-69.24270538895678', 'Urb Los bucares', 214);
 
 -- --------------------------------------------------------
 
@@ -1138,7 +1116,7 @@ ALTER TABLE `tciudades`
 -- AUTO_INCREMENT de la tabla `tclientes`
 --
 ALTER TABLE `tclientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `testados`
@@ -1156,7 +1134,7 @@ ALTER TABLE `tfacturasobrecargos`
 -- AUTO_INCREMENT de la tabla `tordenesservicios`
 --
 ALTER TABLE `tordenesservicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tpagodetalles`
@@ -1174,7 +1152,7 @@ ALTER TABLE `tprecioservicios`
 -- AUTO_INCREMENT de la tabla `tserviciosfumigador`
 --
 ALTER TABLE `tserviciosfumigador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas

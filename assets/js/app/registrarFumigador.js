@@ -313,17 +313,30 @@ $(document).ready(async ()=>{
 
     const formValid = checkFormValidity(form)
 
-    console.log(formValid)
+    if(_.isEmpty(ciudad)){
+      // Haciendo aparecer el mapa con los selects
+      $(".regFumig-map-wrapper").css({display: "flex"});
+    }
+    
+    if(_.isEmpty(selectedPlace)) return showAlert("error", "Ocurrió un error inesperado", 'Debes escribir manualmente la dirección de google maps en el campo "Dirección del fumigador" y seleccionar una de las opciones mostradas por Google, de lo contrario no podrás proceder.');
+
     if(formValid){
       
       if(_.isEmpty(user)){
-        return showAlert("error", "Oops, ocurrió un error", "Necesitas estar logueado para poder registrarte como u fumigador")
+        return showAlert("error", "Oops, ocurrió un error", "Necesitas estar logueado para poder registrarte como un fumigador")
       }
 
-      toggleLoading(true)
-
+      
       const formHTML = document.getElementById("registrarFumigador-form")
       const data = new FormData(formHTML)
+      
+      // Validando que la hora de inicio sea menor a la de fin
+      const horaInicio = moment(data.get("horaInicio"), 'HH:mm');
+      const horaFin = moment(data.get("horaFin"), 'HH:mm');
+      
+      if(horaFin.isBefore(horaInicio)) return Toast.fire({icon: "error", title: "La hora de inicio no puede ser mayor a la hora de finalizacion laboral."});
+
+      toggleLoading(true)
       
       data.append("registerNewFumigador",JSON.stringify(true))
       data.append("ciudad",ciudad.id_ciudad)
@@ -343,7 +356,7 @@ $(document).ready(async ()=>{
         Swal.fire({
           icon: "success",
           title: "¡Registro exitoso!",
-          text: "Te has registrado con éxito, uno de nuestros administradores validara tu información y se pondrá en contacto contigo lo mas pronto posible, gracias por querer pertenecer a esta gran familia!",
+          text: "Te has registrado con éxito, uno de nuestros administradores validará tu información y se pondrá en contacto contigo lo mas pronto posible, gracias por querer pertenecer a esta gran familia!",
           showCancelButton: false,
           confirmButtonText: "De acuerdo",
         }).then((result) => window.location = "/");

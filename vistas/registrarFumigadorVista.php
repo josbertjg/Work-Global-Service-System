@@ -120,7 +120,7 @@
                     ></i>
                   </label>
                   <div class="form-floating position-relative">
-                    <select class="flex-fill" id="registrarFumigadorCiudad" style="height: 56px !important; width: 100% !important;"></select>
+                    <select class="flex-fill" id="registrarFumigadorCiudad" style="height: 56px !important; width: 100% !important;" isValid="false"></select>
                     <div class="invalid-tooltip"></div>
                   </div>
                 </div>

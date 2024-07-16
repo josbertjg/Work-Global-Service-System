@@ -19,10 +19,11 @@ async function loginUser(userObj){
   $(".profile-dropdown-menu").empty();
   $(".profile-dropdown-menu").append(`
     <li><a class="dropdown-item navigation-link" href="perfil">Perfil</a></li>
-    ${!_.isEmpty(permisos.MisOrdenes) && !_.isEmpty(permisos.MisOrdenes.Consultar) && userObj.idRol != "SAWGS1" ? '<li><a class="dropdown-item navigation-link" href="Mis-Ordenes">MisOrdenes</a></li>' : ''}
+    ${!_.isEmpty(permisos.MisOrdenes) && !_.isEmpty(permisos.MisOrdenes.Consultar) && userObj.idRol != "SAWGS1" ? '<li><a class="dropdown-item navigation-link" href="Mis-Ordenes">Mis Ordenes</a></li>' : ''}
     ${!_.isEmpty(permisos.Configuracion) && !_.isEmpty(permisos.Configuracion.Consultar) ? '<li><a class="dropdown-item navigation-link" href="configuracion">Configuración</a></li>' : ''}
     <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>
     <li><hr class="dropdown-divider m-0 p-0"></li>
+    <li><a class="dropdown-item navigation-link" href="registrarFumigador"><i class="fa-solid fa-bug me-1"></i> Ofrecer Servicios</a></li>
     <li><a class="dropdown-item navigation-link" href="ayuda"><i class="fa-solid fa-circle-info me-1"></i> Ayuda</a></li>
     <li><a class="dropdown-item logout" href="#"><i class="fa-solid fa-right-to-bracket me-1"></i> Cerrar Sesión</a></li>
   `);
@@ -84,7 +85,7 @@ async function loginUser(userObj){
       <span>Alertas</span>
     </a>
     <a href="perfil" class="tab-item navigation-link">
-    <i class="fa-solid fa-user"></i>
+      <i class="fa-solid fa-user"></i>
       <span>Perfil</span>
     </a>
   `);

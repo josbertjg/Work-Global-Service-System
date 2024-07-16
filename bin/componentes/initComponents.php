@@ -100,6 +100,7 @@
           '.$configuracionProfile.'
           <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>
           <li><hr class="dropdown-divider m-0 p-0"></li>
+          <li><a class="dropdown-item navigation-link" href="registrarFumigador"><i class="fa-solid fa-bug me-1"></i> Ofrecer Servicios</a></li>
           <li><a class="dropdown-item navigation-link" href="ayuda"><i class="fa-solid fa-circle-info me-1"></i> Ayuda</a></li>
           <li><a class="dropdown-item logout" href="#"><i class="fa-solid fa-right-to-bracket me-1"></i> Cerrar Sesión</a></li>
         '
