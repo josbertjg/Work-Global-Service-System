@@ -50,7 +50,6 @@
         die(json_encode($error));
     }
     public function getDelete($id,$habilitado){
-      $this->delete();
       $this->id=$id;
       $habilitado=(int)$habilitado;
       $habilitado = $habilitado == 1 ? 0 : 1;
@@ -137,14 +136,15 @@
         $this->targetFile=$foto; 
       }else{
         $this->foto=$foto;
-        $this->targetFile="assets/img/servicios/".basename($this->foto["name"]);
-        $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
-        $this->targetFile = $this->targetFile . "." . $Filetype;
+        $this->validarFoto();
+        //$this->targetFile="assets/img/servicios/".basename($this->foto["name"]);
+        //$Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
+        //$this->targetFile = $this->targetFile . "." . $Filetype;
       }
       //$respuesta = ["error" => "Hola esta una prubea y no entiendo porque no esta garrando."];
       //json_encode($respuesta);
-      echo "Datos: ";
-      var_dump($this->nombre, $this->targetFile, $this->descripcion, $this->id);
+      //echo "Datos: ";
+      //var_dump($this->nombre, $this->targetFile, $this->descripcion, $this->id);
       $this->update($opcion);
     }
     private function update($opcion){
@@ -199,9 +199,10 @@
       $letrasYnumeros=array($descripcion);
       $this->validarSTA($letrasYnumeros,5);
       $this->foto=$foto;
-      $this->targetFile="assets/img/servicios/".basename($this->foto["name"]);
-      $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
-      $this->targetFile = $this->targetFile . "." . $Filetype;
+      $this->validarFoto();
+      //$this->targetFile="assets/img/servicios/".basename($this->foto["name"]);
+      //$Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
+      //$this->targetFile = $this->targetFile . "." . $Filetype;
       $this->descripcion=$descripcion;
       $this->quimico=$quimico;
       $this->id=$this->separarCadena($this->nombre);
@@ -271,5 +272,67 @@
     private function SubirFoto($temp,$targetFile){
       move_uploaded_file($temp,$targetFile);
     }
+
+    private function validarFoto(){
+      if (isset($this->foto)) {
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg']; // adjust to your needs
+        $maxFileSize = 1024 * 1024 * 2; // 2MB, adjust to your needs
+        if ($this->foto['error'] !== UPLOAD_ERR_OK) {
+          // Error: File upload failed
+          switch ($this->foto['error']) {
+            case UPLOAD_ERR_INI_SIZE:
+              $respuesta = ["error" => "Archivo supera el limite de subida."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_FORM_SIZE:
+              $respuesta = ["error" => "Archivo supera el limite de subida."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_PARTIAL:
+              $respuesta = ["error" => "Archivo no se pudo subir."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_NO_FILE:
+              $respuesta = ["error" => "No se ha seleccionado un archivo."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_NO_TMP_DIR:
+              $respuesta = ["error" => "No se ha encontrado el directorio temporal."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_CANT_WRITE:
+              $respuesta = ["error" => "No se ha podido escribir en el disco."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_EXTENSION:
+              $respuesta = ["error" => "Error de extensión."];
+              die(json_encode($respuesta));
+              break;
+            default:
+              $respuesta = ["error" => "Error de subida."];
+              die(json_encode($respuesta));
+              break;
+            }
+          } elseif (!in_array(strtolower(pathinfo($this->foto['name'], PATHINFO_EXTENSION)), $allowedTypes)) {
+            // Error: Invalid file type
+            $respuesta = ["error" => "Tipo de archivo no permitido."];
+            die(json_encode($respuesta));
+        } elseif ($this->foto['size'] > $maxFileSize) {
+            // Error: File too large
+            $respuesta = ["error" => "Archivo supera el limite de subida el limite es 2MB."];
+            die(json_encode($respuesta));
+        } else {
+            // File is valid, proceed with processing
+            $this->targetFile = "assets/img/servicios/" . basename($this->foto['name']);
+            $this->targetFile = $this->targetFile . "." . strtolower(pathinfo($this->foto['name'], PATHINFO_EXTENSION));
+            //...
+        }
+    } else {
+        // Error: No file uploaded
+        $respuesta = ["error" => "No se ha seleccionado un archivo."];
+        die(json_encode($respuesta));
+    }
+    }
+
 }
 ?>

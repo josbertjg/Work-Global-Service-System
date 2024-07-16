@@ -12,10 +12,10 @@
 	if(empty($permiso['Consultar'])) {
 		die('<script> window.location = "/" </script>');
 	}
-	if(isset($_POST['opcion'])){
+	if(isset($_POST['opcion']) && $_SESSION['idRol']=="SAWGS1" && isset($permiso['Consultar'])){
 		$model->getTableData($_POST['opcion']);
 	}
-	if(isset($_POST['update'])){
+	if(isset($_POST['update']) && $_SESSION['idRol']=="SAWGS1" && isset($permiso['Modificar'])){
 		//$model->funcionPrueba();
 		$model->getUpdate($_POST['Rol'],$_POST['Modulo'],$_POST['Permiso'],$_POST['habilitado']);
 		$model->getTableData($_POST['Rol']);
@@ -23,11 +23,15 @@
 	if(isset($_POST['solicitarModulo'])){
 		$model->getModulos();
 	}
-	if(	isset($_POST['insert'])	&&	isset($permiso['Crear'])){
+	if(	isset($_POST['insert'])	&&	isset($permiso['Crear']) && $_SESSION['idRol']=="SAWGS1"){
 		$model->getInsert($_POST['Rol'],$_POST['modulo'],$_POST['permisos']);
 		$model->getTableData($_POST['Rol']);
 		//$model->funcionPrueba();
 	}
-	$components = new initComponents($permisos);	
-	require "vistas/permisosVista.php";	
+	$components = new initComponents($permisos);
+	if($_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){	
+		require "vistas/permisosVista.php";	
+	}else{
+		die('<script> window.location = "/" </script>');
+	}
 ?>

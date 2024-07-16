@@ -53,7 +53,7 @@
     echo json_encode($datos);
 } */
 	$components = new initComponents($permisos);	
-	if($_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){
+	if($_SESSION['idRol']!="CLWGS1" && !empty($permiso['Consultar'])){
 		require "vistas/serviciosVista.php";
 	}
 		

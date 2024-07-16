@@ -34,7 +34,7 @@
                 <input type="text" class="form-control" id="nombreEstablecimiento" name="nombre" placeholder="Establecimiento:" isValid="false">
                 <div class="invalid-tooltip"></div>
               </div>
-              <div class="mb-3">
+              <div class="mb-3 position-relative">
                 <label for="number" class="form-label">Tamaño aproximado (metro cuadrado):</label>
                 <input type="number" id="number" name="number" min="1" max="1500">
                 <div class="invalid-tooltip"></div>

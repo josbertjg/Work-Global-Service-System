@@ -87,33 +87,44 @@
                     </button> 
                   </a>
                 </section>
-              </div>              
-            </div>
-            <!-- fin de dos cards -->
-          </div>
-          <!-- inicio de dos cards -->
-          <div class= "row mb-2">
+              </div> <!-- Fin de dos cards -->
+              <!-- Inicio de Dos cards -->
+              <div class="row mb-2">
                 <section class="col-6">
-                  <a href="facturas" >
+                  <a href="facturas">
                     <button type="button" class="btn btn-light btnConfi">
-                      <i class="fa-solid fa-file-invoice-dollar"></i>Administrar Facturas
-                    </button>   
-                  </a>              
-                </section>
-                <section class="col-6">
-                  <a href="pagosAdministrador">
-                    <button type="button" class="btn btn-light btnConfi">
-                      <i class="fa-solid fa-clipboard-list"></i>Pagos
-                    </button> 
+                      <i class="fa-solid fa-file-invoice-dollar"></i>Facturas
+                    </button>
                   </a>
                 </section>
-              </div>              
-            </div>
-            <!-- fin de dos cards -->
-          </div>
-          <!-- fin del row de opciones -->
-        </section>
-        <!-- fin del secction -->
+                <section class="col-6">
+                  <a href="pagos">
+                    <button type="button" class="btn btn-light btnConfi">
+                      <i class="fa-solid fa-money-bill-1"></i>Pagos
+                    </button>
+                  </a>
+                </section>
+              </div><!--  fin de las cards-->
+              <!-- Inicio de Dos cards -->
+              <div class="row mb-2">
+                <section class="col-6">
+                  <a href="sobrecargos">
+                    <button type="button" class="btn btn-light btnConfi">
+                      <i class="fa-solid fa-file-invoice-dollar"></i>Sobrecargos
+                    </button>
+                  </a>
+                </section>
+                <section class="col-6">
+                  <a href="reportes">
+                    <button type="button" class="btn btn-light btnConfi">
+                      <i class="fa-solid fa-file-lines"></i>Reportes
+                    </button>
+                  </a>
+                </section>
+              </div><!--  fin de las cards-->
+            </div><!-- fin de las columnas -->
+          </div><!-- fin del row de opciones -->
+        </section><!-- fin del secction -->
       </div>
     <!-- fin del container -->
     </div>

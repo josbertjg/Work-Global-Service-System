@@ -5,7 +5,7 @@ $(document).ready(async()=>{
   hideByPermisos(permisos);
   validarNombre($("#nombreEstablecimiento"),155);
   validarDescripcion($("#descripcion"),2600);
-  validarNumeros($("#number"));
+  validarPrecio($("#number"));
   validarFile($("#rutaIcono"));
   let idEstablecimiento;
   var columnas = [

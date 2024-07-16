@@ -62,9 +62,10 @@
       $identificador=strtoupper($identificador);
       $this->id=$identificador;
       $this->foto=$foto;
-      $this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
-      $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
-      $this->targetFile = $this->targetFile . "." . $Filetype;
+      $this->validarFoto();
+      //$this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
+     // $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
+      //$this->targetFile = $this->targetFile . "." . $Filetype;
       $this->insert();
     }
 
@@ -81,9 +82,10 @@
         $this->targetFile=$foto; 
       }else{
         $this->foto=$foto;
-        $this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
-        $Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
-        $this->targetFile = $this->targetFile . "." . $Filetype;
+        $this->validarFoto();
+        //$this->targetFile="assets/img/uploads/".basename($this->foto["name"]);
+        //$Filetype = strtolower(pathinfo($this->targetFile, PATHINFO_EXTENSION));
+        //$this->targetFile = $this->targetFile . "." . $Filetype;
       }
       $this->update($opcion);
     }
@@ -225,8 +227,66 @@
         die(json_encode(array("error" => $e->getMessage())));
       }
     }
-
-
+    private function validarFoto(){
+      if (isset($this->foto)) {
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg']; // adjust to your needs
+        $maxFileSize = 1024 * 1024 * 2; // 2MB, adjust to your needs
+        if ($this->foto['error'] !== UPLOAD_ERR_OK) {
+          // Error: File upload failed
+          switch ($this->foto['error']) {
+            case UPLOAD_ERR_INI_SIZE:
+              $respuesta = ["error" => "Archivo supera el limite de subida."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_FORM_SIZE:
+              $respuesta = ["error" => "Archivo supera el limite de subida."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_PARTIAL:
+              $respuesta = ["error" => "Archivo no se pudo subir."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_NO_FILE:
+              $respuesta = ["error" => "No se ha seleccionado un archivo."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_NO_TMP_DIR:
+              $respuesta = ["error" => "No se ha encontrado el directorio temporal."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_CANT_WRITE:
+              $respuesta = ["error" => "No se ha podido escribir en el disco."];
+              die(json_encode($respuesta));
+              break;
+            case UPLOAD_ERR_EXTENSION:
+              $respuesta = ["error" => "Error de extensión."];
+              die(json_encode($respuesta));
+              break;
+            default:
+              $respuesta = ["error" => "Error de subida."];
+              die(json_encode($respuesta));
+              break;
+            }
+          } elseif (!in_array(strtolower(pathinfo($this->foto['name'], PATHINFO_EXTENSION)), $allowedTypes)) {
+            // Error: Invalid file type
+            $respuesta = ["error" => "Tipo de archivo no permitido."];
+            die(json_encode($respuesta));
+        } elseif ($this->foto['size'] > $maxFileSize) {
+            // Error: File too large
+            $respuesta = ["error" => "Archivo supera el limite de subida el limite es 2MB."];
+            die(json_encode($respuesta));
+        } else {
+            // File is valid, proceed with processing
+            $this->targetFile = "assets/img/uploads/" . basename($this->foto['name']);
+            $this->targetFile = $this->targetFile . "." . strtolower(pathinfo($this->foto['name'], PATHINFO_EXTENSION));
+            //...
+        }
+    } else {
+        // Error: No file uploaded
+        $respuesta = ["error" => "No se ha seleccionado un archivo."];
+        die(json_encode($respuesta));
+    }
+    }
 
 
     private function SubirFoto($temp,$targetFile){

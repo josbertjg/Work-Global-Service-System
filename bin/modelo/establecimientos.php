@@ -27,7 +27,8 @@
       3 => "/^[0-9:\/-]{1,45}$/", 
       4 => "/^[0-9A-Za-z ]{0,45}$/",
       5 => "/^.{0,200}$/",
-      6=> "/^[A-Za-z\s]{3,45}$/");
+      6=> "/^[A-Za-z\s]{3,45}$/",
+      7=>"/^[\d]+(\.[\d]{1,2})?$/");
       foreach ($datoArray as $key) {
         $validador = preg_match_all($arrayLogico[$diff], $key);
         if($validador!=1){
@@ -77,6 +78,8 @@
         $this->validarSTA($letras,6);
         $validarDescr=array($descripcion);
         $this->validarSTA($validarDescr,5);
+        $validarTamaño=array($tamaño);
+        $this->validarSTA($validarTamaño,7);
         $this->descripcion=$descripcion;
         $this->nombre=$nombre;
         $this->tamaño=$tamaño;
@@ -121,7 +124,7 @@
         $validarDescr=array($descripcion);
         $this->validarSTA($validarDescr,5);
         $validarNum=array($tamaño);
-        $this->validarSTA($validarNum,1);
+        $this->validarSTA($validarNum,7);
         $this->id=$id;
         $this->descripcion=$descripcion;
         $this->nombre=$nombre;

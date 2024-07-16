@@ -10,7 +10,11 @@
 		die('<script> window.location = "/" </script>');
 	}
 	$permiso = $permisos['Configuracion'];
-	$components = new initComponents($permisos);	
-	require "vistas/configuracionVista.php";	
+	$components = new initComponents($permisos);
+	if($_SESSION['idRol']=="SAWGS1" && isset($permiso['Consultar'])){
+		require "vistas/configuracionVista.php";
+	}else{
+		die('<script> window.location = "/" </script>');
+	}
 
 ?>

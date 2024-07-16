@@ -68,6 +68,10 @@ function esNumero(cadena) {
   return regExp.test(cadena);
 }
 
+function isPrecio(valor) {
+  const regex = /^\d{1,10}(?:,\d{1,2})?$/; // Update the regex pattern to use a comma as the decimal separator
+  return regex.test(valor.replace('.', ','));
+}
 
 // Setear un input como invalido
 function setInvalidInput(element, invalidMessage = "Este campo es requerido") {
@@ -402,3 +406,29 @@ function validarInputNombre(element, longitudMax=45, isRequired = true) {
   element.keydown((event) => validarLength(element.val(),longitudMax,event));
   
 }
+
+function validarPrecio(element, longitudMax=45, isRequired = true) {
+  element.blur(() => {
+    if(isRequired)
+      if(_.isEmpty(_.trim(element.val()))) return setInvalidInput(element, "El precio es requerido");
+      
+    if(!isPrecio(element.val()))  return setInvalidInput(element, "El precio usa coma para los decimales y debe tener un maximo de dos decimales.");
+    if(_.trim(element.val()).length > longitudMax) return setInvalidInput(element, "El precio no puede tener mas de "+longitudMax+" caracteres.");
+
+    return setValidInput(element)
+  })
+
+  element.keyup(() => {
+    if(isRequired)
+      if(_.isEmpty(_.trim(element.val()))) return setInvalidInput(element, "El precio es requerido")
+     
+    if(!isPrecio(element.val()))  return setInvalidInput(element, "El precio usa coma para los decimales y debe tener un maximo de dos decimales.");
+    if(_.trim(element.val()).length > longitudMax) return setInvalidInput(element, "Este campo no puede tener mas de "+longitudMax+" caracteres.");
+
+    return setValidInput(element)
+  })
+
+  element.keydown((event) => validarLength(element.val(),longitudMax,event));
+  
+}
+

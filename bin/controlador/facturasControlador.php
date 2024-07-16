@@ -9,11 +9,15 @@
     if(empty($_SESSION['idRol'])) {
 		die('<script> window.location = "/" </script>');
 	}
-    if(isset($_POST['opcion'])){
+    if(isset($_POST['opcion']) && $_SESSION['idRol']=="SAWGS1" && isset($permiso['Consultar']) ){
         $model->getFacturas();
     }
 	$permiso = $permisos['Facturas'];
 	$components = new initComponents($permisos);	
-	require "vistas/facturasVista.php";	
+	if($_SESSION['idRol']=="SAWGS1" && isset($permiso['Consultar'])){
+		require "vistas/facturasVista.php";	
+	}else{
+		die('<script> window.location = "/" </script>');
+	}
 
 ?>

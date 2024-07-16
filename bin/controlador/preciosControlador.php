@@ -25,50 +25,23 @@
     if(isset($_POST['opcion'])){
         $model->getAll();
     }
-	if(isset($_POST['insert'])){
+	if(isset($_POST['insert']) && $_SESSION['idRol']=="SAWGS1" && isset($permiso['Crear'])){
 		$model->getInsert($_POST['establecimientos'],$_POST['number'],$_POST['servicios']);
 		$model->getAll();
 	}
-	if(isset($_POST['delete'])){
+	if(isset($_POST['delete']) && $_SESSION['idRol']=="SAWGS1" && isset($permiso['Eliminar'])){
 		$model->getDelete($_POST['id'],$_POST['habilitado']);
 		$model-> getAll();
 	}
-	if(isset($_POST['update'])){
+	if(isset($_POST['update']) && $_SESSION['idRol']=="SAWGS1" && isset($permiso['Modificar'])){
 		$model->getUpdate($_POST['id'],$_POST['number']);
 		$model->getAll();
 	}
-    /*
-   if (isset($_POST['prueba'])) {
-     $model->funcionPrueba();
-   } 
-
-   if(isset($_POST['opcion'])){
-	$model->SelectAll();
-   }
-
-   if(isset($_POST['insert'])){
-	$model->insert($_POST['idQuimico'],$_POST['Descripcion'],$_FILES['foto'],$_POST['nombre']);
-	$model->SelectAll();
-   } 
-
-   if(isset($_POST['update'])){
-	if(isset($_POST['fotoOriginal'])){
-		$model->update($_POST['idQuimico'],$_POST['Descripcion'],$_POST['fotoOriginal'],$_POST['nombre'],$opcion=1);
-	}
-	if(isset($_FILES['foto'])){
-		$model->update($_POST['idQuimico'],$_POST['Descripcion'],$_FILES['foto'],$_POST['nombre'],$opcion=2);
-	}
-	$model->SelectAll();
-   }
-
-   if(isset($_POST['delete'])){
-	$model->delete($_POST['idQuimico'],$_POST['habilitado']);
-	$model->SelectAll();
-   } */
- 
-//$model->CRUD($_POST['opcion'],$_POST['idQuimico'],$_POST['Descripcion'],$_FILES['rutaIcono'],$_POST['nombreQuimico']);
-	
 
 	$components = new initComponents($permisos);	
-	require "vistas/preciosVista.php";	
+	if($_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){
+		require "vistas/preciosVista.php";	
+	}else{
+		die('<script> window.location = "/" </script>');
+	}
 ?>

@@ -625,7 +625,15 @@
           <th>Detalles</th>
           </tr>';
           break;
-        
+        case "Sobrecargos":
+          $varth=
+          '<tr>
+          <th>Id</th>
+          <th>Precio</th>
+          <th>Detalles</th>
+          <th>Acciones</th>
+          </tr>';
+          break;
       }
       $varAll= $varTStart.$varth.$vartTend;
       echo $varAll;

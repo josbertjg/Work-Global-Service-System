@@ -13,7 +13,7 @@
 
    private function validarSTA($datoArray,$diff){
     $arrayLogico = array(0 => "/^[A-Za-z]{3,30}$/", 
-    1 =>"/^[\d]{1,3}(?:[.,][\d]{1,2})?$/", 
+    1 =>"/^[\d]+(\.[\d]{1,2})?$/", 
     2 => "/^[0-9A-Za-z- ]{0,30}$/", 3 => "/^[0-9:\/-]{1,30}$/", 4 => "/^[0-9A-Za-z ]{0,30}$/",
     5=>"/^[SE].*WGS$/");
     foreach ($datoArray as $key) {

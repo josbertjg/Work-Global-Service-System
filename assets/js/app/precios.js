@@ -7,7 +7,7 @@ $(document).ready(async ()=>{
     llenarSelecteEstablecimiento();
     validarSelectServicio();
     validarSelectEstablecimiento();
-    validarNumeros($("#number"));
+    validarPrecio($("#number"));
     var columnas = [
       {"data":"id"},
       {"data":"Servicio"},

@@ -27,5 +27,7 @@
 	$components = new initComponents($permisos);
 	if($_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){
 		require "vistas/ordenesAdministradorVista.php";
-	}	
+	}else{
+		die('<script> window.location = "/" </script>');
+	}
 ?>

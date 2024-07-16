@@ -29,6 +29,10 @@
   }
 
 	$components = new initComponents($permisos);	
-	require "vistas/configuracion/rolesVista.php";	
+  if($_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){
+	  require "vistas/configuracion/rolesVista.php";	
+  }else{
+    die('<script> window.location = "/" </script>');
+  }
 
 ?>
