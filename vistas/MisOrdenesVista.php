@@ -21,6 +21,10 @@
       <input type="hidden" id="gclient-key" value="<?php echo $components->GClient();?>">
       </div>
     </div>
+  
+
+
+
     <!-- ORDEN DETAILS MODAL -->
     <div class="modal fade" id="ordenDetailsModal" tabindex="-1" aria-labelledby="ordenDetailsModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg modal-fullscreen-lg-down">

@@ -38,6 +38,11 @@ $(document).ready(async ()=>{
                 <button class="btn btn-danger btnDecline" title="Cancelar"><i class="fa-solid fa-x"></i></button>
                 <button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>
               `;
+            } else if(user.idRol==="FGWGS1" && data.status==="Finalizada"){
+              return `
+              <button class="btn btn-success btnSobrecargo" title="Añadir Sobrecargo"><i class="fa-solid fa-plus"></i></button>
+              <button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>
+            `;
             }
              else {
               return '<button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>'; // or some default value
