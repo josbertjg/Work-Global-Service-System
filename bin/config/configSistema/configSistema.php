@@ -5,7 +5,7 @@
 	define("_URL_", "http://localhost:3000/");
 	define("_BD_", "workglobalservice");
 	define("_BDS_", "swgs");
-	define("_PASS_", "");
+	define("_PASS_", "Loco#123");
 	define("_USER_", "root");
 	define("_LOCAL_", "localhost");
 	define("DIRECTORY", "bin/controlador/");

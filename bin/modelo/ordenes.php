@@ -17,6 +17,7 @@
     private $serviciosArr;
     private $clienteEmail;
     private $idOrden;
+    private $EstadoOden;
 
     public function __construct(){
     	parent::__construct();
@@ -96,12 +97,60 @@
         die(json_encode(["error"=>$error]));
       }
     }
-
+    public function updateOrdenFumi($actualizacion,$orden){
+      $validarIDC=array($orden);
+      $validador=$this->validarSTA($validarIDC,7);
+      if(isset($validador['error'])){die(json_encode($respuesta=["error"=>"ID de la orden no Valida."]));}
+      if($actualizacion=="agendar"){$this->EstadoOrden="Agendada";}
+      if($actualizacion=="cancelar"){$this->EstadoOrden="Cancelada";}
+      if($actualizacion=="finalizar"){$this->EstadoOrden="Finalizada";}
+      $this->idOrden=$orden;
+      $this->updateOrdenF();
+  }
+    private function updateOrdenF(){
+      try{
+        parent::conectarDB();
+        $new = $this->con->prepare("UPDATE tordenes SET tordenes.status=:estado where idOrdenes =:id");
+        $new->bindParam(":estado",$this->EstadoOrden);
+        $new->bindParam(":id",$this->idOrden);
+        $new->execute();
+        parent::desconectarDB();
+        die(json_encode(["success"=>"Orden Actualizada."]));
+        }catch(exection $error){
+          die(json_encode(["error"=>$error]));
+          }
+    }
     public function getOrdenesFumi($cedula){
       $fumigadorIdIsValid = $this->validarFumigadorID($cedula);
       if(!$fumigadorIdIsValid) die(json_encode(["error"=>"El id recibido no es un id de fumigador válido"]));
       $this->clienteID=$cedula;
       $this->returnOrdenesFumi();
+    }
+
+    public function getDireccion($orden){
+      $validarIDC=array($orden);
+      $validador=$this->validarSTA($validarIDC,7);
+      if(isset($validador['error'])){die(json_encode($respuesta=["error"=>"ID de la orden no Valida."]));}
+      $this->idOrden=$orden;
+      $this->DirrecionDetail();
+    }
+
+    private function DirrecionDetail(){
+      try{
+        parent::conectarDB();
+        $new = $this->con->prepare("SELECT u.* 
+        FROM tubicaciones u 
+        INNER JOIN tordenes o ON o.ubicacion=u.idUbicacion 
+        WHERE o.idOrdenes=:idOrden;");
+        $new->bindParam(":idOrden",$this->idOrden);
+        $new->execute();
+        $result = $new->fetchAll(PDO::FETCH_ASSOC);
+        parent::desconectarDB();
+        die(json_encode($result));
+        }catch(exection $error){
+          die(json_encode(["error"=>$error]));
+          }
+
     }
 
     private function returnOrdenesFumi(){
@@ -482,7 +531,7 @@
       4 => "/^[0-9A-Za-z ]{0,45}$/",
       5 => "/^.{0,200}$/",
       6=> "/^[A-Za-z\s]{3,45}$/",
-      7=>"/^\d{6}-[1-9]\d*$/",//valida la orden
+      7=>"/^\d{8}-[1-9]\d*$/",//valida la orden
       8=>"/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/",//validar email
       9=>"/^202[4-9]-|203[0-9]-|20[1-9][0-9]-|(21[0-9][0-9]|220[0-9])-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) (0[0-9]|1[0-9]|2[0-3]):(0[0-9]|[1-5][0-9])$/",//validar DATETIME YYYY-MM-DD HH:MM:SS
       10=>"/^[SE].*WGS$/"

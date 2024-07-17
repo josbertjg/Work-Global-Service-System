@@ -122,6 +122,23 @@
                   </a>
                 </section>
               </div><!--  fin de las cards-->
+               <!-- Inicio de Dos cards -->
+               <div class="row mb-2">
+                <section class="col-6">
+                  <a href="fumigadoresAdministrador">
+                    <button type="button" class="btn btn-light btnConfi">
+                      <i class="fa-solid fa-file-invoice-dollar"></i>fumigadores
+                    </button>
+                  </a>
+                </section>
+                <section class="col-6">
+                  <a href="reportes">
+                    <button type="button" class="btn btn-light btnConfi">
+                      <i class="fa-solid fa-file-lines"></i>Reportes
+                    </button>
+                  </a>
+                </section>
+              </div><!--  fin de las cards-->
             </div><!-- fin de las columnas -->
           </div><!-- fin del row de opciones -->
         </section><!-- fin del secction -->

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php $components->head(true); ?>
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/datatables.min.css" rel="stylesheet">
 <body>
 
   <?php $components->header(true) ?>
@@ -15,13 +16,9 @@
       </div>    
       <br>
       <!-- Fin del row del Header -->
-      <!-- Inicio Row para las listas -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="list-group list-group-flush">
-            <!-- Add more list group items dynamically using JS -->
-          </div>
-        </div>
+      <div class="borderless-table">
+      <?php $components->tables("MisOrdenes");?>
+      <input type="hidden" id="gclient-key" value="<?php echo $components->GClient();?>">
       </div>
     </div>
     <!-- ORDEN DETAILS MODAL -->
@@ -46,6 +43,10 @@
   <?php $components->footer(); ?>
   <?php $components->js() ?>
   <script src="assets/js/app/MisOrdenes.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/datatables.min.js"></script>
+  <script src="assets/js/common/tabledata.js"></script>
 </body>
 
 </html>

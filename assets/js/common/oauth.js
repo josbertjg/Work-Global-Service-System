@@ -3,7 +3,7 @@ async function loginUser(userObj){
   const permisos = userObj.permisos;
   delete userObj.permisos;
   localStorage.setItem("user",JSON.stringify(userObj));
-
+  console.log(userObj);
   // Ocultando o no el google maps del header
   if(userObj.idRol != "CLWGS1") {
     $(".googleMaps-header-container").addClass("d-none");

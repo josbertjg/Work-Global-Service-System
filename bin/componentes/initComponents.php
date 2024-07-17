@@ -9,7 +9,7 @@
     public function __construct($permisos = []){
       $this->permisos = $permisos;
     }
-    
+
     public function head($withGoogleMaps = false){
 
       // Condicionando el uso del script de google
@@ -563,21 +563,14 @@
         </tr>';
         break;
 
-        case "fumigador":
+        case "fumigadores":
         $varth=
         '<tr>
         <th>Cedula</th>
-        <th>email</th>
-        <th>Telefono</th>
-        <th>Inicio Hora</th>
-        <th>Fin hora</th>
-        <th>Ubicacion</th>
-        <th>Fecha Nacimiento</th>
-        <th>foto Perfil</th>
-        <th>Imagen Cedula</th>
-        <th>activo</th>
-        <th>fecha Validado</th>
-        <th>Acciones</th>
+        <th>Nombre</th>
+        <th>Solicitud</th>
+        <th>Estado</th>
+        <th>Detalles</th>
         </tr>';
         break;
 
@@ -635,9 +628,22 @@
           <th>Acciones</th>
           </tr>';
           break;
+        case "MisOrdenes":
+          $varth='<tr>
+          <th>Id</th>
+          <th>Dia</th>
+          <th>Hora</th>
+          <th>Estatus</th>
+          <th>Detalles</th>
+          </tr>';
+          break;
       }
       $varAll= $varTStart.$varth.$vartTend;
       echo $varAll;
+    }
+    public function GClient(){
+      $api=GOOGLE_MAPS_API_KEY;
+      return $api;
     }
     
     public function js(){

@@ -1,25 +1,113 @@
 $(document).ready(async ()=>{
     let user = getUser();
     if(!_.isUndefined(user)){
-        if(user.idRol=="CLWGS1"){
-            //console.log(user.clientID);
-            const getOrdenes = await service.post("Mis-Ordenes",{getOrdenesByClient:true,ID:user.clientID});
-            if(_.isEmpty(getOrdenes)){$(".list-group").html(emtpyList); console.log("No hay ordenes")}
-            else{CreateList(getOrdenes);}
-        }else{
-            const getOrdenes = await service.post("Mis-Ordenes",{getOrdenesFumi:true,ID:user.ClientID});
-            if(_.isEmpty(getOrdenes)){$(".list-group").html(emtpyList);}
-            else{CreateList(getOrdenes);}
+      console.log(user.clientID);
+      const getOrdenes= await service.post("Mis-Ordenes",{opcion:user.clientID});
+      console.log(getOrdenes);
+      var columnas= [
+        {"data":"idOrdenes"},
+        {"data":"fechaServicio",
+        "render":function(data,type,row){
+          var [dia,horaO]=data.split(" ");
+            let fechaT=fecha(dia);
+            return fechaT;
+        }},
+        {"data":"fechaServicio",
+        "render":function(data,type,row){
+          var [dia,horaO]=data.split(" ");
+            let horat=hora(horaO);
+            return horat;
+        }},
+        {"data":"status",
+          "render":function(data,type,row){
+            return statusOrder[data];
+          }},
+          {"data": null,
+          "render": function(data, type, row) {
+            if (user.idRol === "CLWGS1") {
+              return '<button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>';
+            } else if (user.idRol === "FGWGS1" && data.status === "Enviada") {
+              return `
+                <button class="btn btn-success btnAcept" title="Aceptar"><i class="fa-solid fa-check"></i></button>
+                <button class="btn btn-danger btnDecline" title="Rechazar"><i class="fa-solid fa-x"></i></button>
+                <button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>
+              `;
+            }else if(user.idRol === "FGWGS1" && data.status === "Agendada"){
+              return `
+                <button class="btn btn-success btnComp" title="Finalizar"><i class="fa-solid fa-check"></i></button>
+                <button class="btn btn-danger btnDecline" title="Cancelar"><i class="fa-solid fa-x"></i></button>
+                <button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>
+              `;
+            }
+             else {
+              return '<button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>'; // or some default value
+            }
+          }
         }
+      ]
+      TablaOrdenes=iniciarTabla(columnas,"Mis-Ordenes",user.clientID);
+
     }
+    $('#TableData').on('click', '.btnAcept,.btnDecline,.btnComp', async function() {
+      var tr = $(this).closest('tr');
+      var table = $('#TableData').DataTable();
+      var row = table.row(tr);
+      var data = row.data();
+      var mensaje;
+      var buttonClass;
+      var statu = $(this).hasClass('btnComp') ? 'finalizar' : 'cancelar';
+      if(data.status==="Enviada"){
+        var buttonClass = $(this).hasClass('btnAcept') ? 'agendar' : 'cancelar';
+        mensaje=buttonClass;}
+      else{mensaje=statu}
+      swal.fire({
+        title: 'Confirmación',
+        text: `¿Estás seguro de ${mensaje} esta orden?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: `Sí, ${mensaje} esta orden`,
+        cancelButtonText: 'No, cancelar accion'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const respuesta = await service.post("Mis-Ordenes", {updateOrdenFumi: true, newStatus: mensaje, idOrden: data.idOrdenes, IdF: user.clientID});
+          if ("error" in respuesta) {
+            swal.fire({
+              title: "Error",
+              text: respuesta[0].error,
+              icon: "error"
+            });
+          } else {
+            TablaOrdenes.ajax.reload(null, false);
+            Swal.fire({
+              title: "Exito!",
+              text: "se ha ingresado la entrada con exito!",
+              icon: "success"
+            });
+          }
+        }
+      });
+    });
+
+
+
     $(document).on('click', '.btnDetails', async function() {
-        const orderId = $(this).data('id');
+      var tr = $(this).closest('tr');
+      var table = $('#TableData').DataTable();
+      var row = table.row(tr);
+      var data = row.data();
+        const orderId = data.idOrdenes;
+        let google=$('#gclient-key').val();
         // Show the modal with the order information
         // You can use the orderId to retrieve the order information from your database or API
         const serviciosOrden = await service.post("Mis-Ordenes",{getPrecioServicio:true,idOrden:orderId});
+        const fumigdorOrden = await service.post("Mis-Ordenes",{getFumigadorServicio:true,idOrden:orderId});
+        const direction1=await service.post("Mis-Ordenes",{getDireccion:true,idDir:orderId});
+        let fumigador=fumigdorOrden[0];
+        let direction=direction1[0];
         $('#modalHead').html(`<h1 class="modal-title fs-5" id="ordenDetailsModalLabel"> Detalles de mi orden ${orderId} <i class="fa-solid fa-clipboard-list"></i>
         </h1> <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>`);
         $("#ordenDetailsAccordion").html("");
+    
         serviciosOrden.forEach(e =>{
             $("#ordenDetailsAccordion").append(`
             <div class="accordion-item details-item-${e.id}">
@@ -57,7 +145,51 @@ $(document).ready(async ()=>{
             </div>
             <hr class="m-0 p-0"/>
           `);
-        })
+        });
+        $("#ordenDetailsAccordion").append(`
+        <div class="accordion-item details-item-detalles">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item-detalles" aria-expanded="false" aria-controls="item-detalles">
+              <div class="servicio-icons">
+              <i class="fa-solid fa-clipboard-list"></i>Detalles
+              </div>
+              <div class="servicio-actions">
+                <i class="fa-solid fa-circle-info"></i>
+              </div>
+            </button>
+          </h2>
+          <div id="item-detalles" class="accordion-collapse collapse" data-bs-parent="#ordenDetailsAccordion">
+            <div class="accordion-body">
+              <div class="row">
+                <div class="col-6">
+                    <label for="Fumigador" class="form-label">Fumigador</label>
+                </div>
+                <div class="col-6">
+                  <span class="Fumigador">
+                    ${fumigador.fumigador}
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <label for="direccion class="form-label">Direccion</label>
+                </div>
+                <div class="col-6">
+                  <span class="direccion">
+                  ${direction.direccion}
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                <iframe width="100%" height="100%" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=${google}&q=${direction.latitud},${direction.longitud}" allowfullscreen>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="m-0 p-0"/>
+      `);
         $(".orden-details-monto-total .monto").text(`${_.sum(_.map(serviciosOrden,(item)=>(parseFloat(item.precio))))}$`)
         $('#ordenDetailsModal').modal("show");
 
@@ -71,6 +203,8 @@ function CreateList(ordenes){
         let fechaT=fecha(dia);
         let horat=hora(horaO);
         let label=statusOrder[e.status];
+        console.log(e.status);
+        console.log(label)
         const list=`           <li id="orden-${e.idOrdenes}" class="list-group-item">
         <div class="row justify-content-center">
           <div class="col-md-2 text-center">
@@ -91,11 +225,11 @@ function CreateList(ordenes){
     });
 }
 const emtpyList='<span class="no-available-services text-center">No tienes servicios agendados<i class="fa-regular fa-face-sad-cry"></i>, Tus citas agendadas apareceran aqui.</span>';
-const statusOrder ={
-    Enviada:'<label class="btn btn-danger">Cancelada</label>',
-    Cancelada:'<label class="btn btn-danger">Cancelada</label>',
-    Agendada:'<label class="btn btn-danger">Cancelada</label>',
-    Finalizada:'<label class="btn btn-danger">Cancelada</label>'
+const statusOrder = {
+  Enviada: '<label class="btn btn-primary">Enviada</label>',
+  Cancelada: '<label class="btn btn-danger">Cancelada</label>',
+  Agendada: '<label class="btn btn-warning">Agendada</label>',
+  Finalizada: '<label class="btn btn-success">Finalizada</label>'
 }
 
 function hora(data){
