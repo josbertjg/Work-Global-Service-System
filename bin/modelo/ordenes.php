@@ -138,7 +138,7 @@
         die(json_encode(["error"=>$error]));
       }
     }
-    public function updateOrdenFumi($actualizacion,$orden){
+    public function updateOrdenFumi($actualizacion,$orden,$fechaServicio,$fumigadorID){
       $validarIDC=array($orden);
       $validador=$this->validarSTA($validarIDC,7);
       if(isset($validador['error'])){die(json_encode($respuesta=["error"=>"ID de la orden no Valida."]));}
@@ -146,8 +146,10 @@
       if($actualizacion=="cancelar"){$this->EstadoOrden="Cancelada";}
       if($actualizacion=="finalizar"){$this->EstadoOrden="Finalizada";}
       $this->idOrden=$orden;
+      $this->fechaServicio = $fechaServicio;
+      $this->fumigadorID = $fumigadorID;
       $this->updateOrdenF();
-  }
+    }
     private function updateOrdenF(){
       try{
         parent::conectarDB();
@@ -156,10 +158,36 @@
         $new->bindParam(":id",$this->idOrden);
         $new->execute();
         parent::desconectarDB();
-        die(json_encode(["success"=>"Orden Actualizada."]));
+      }catch(exection $error){
+        die(json_encode(["error"=>$error]));
+      }
+      
+      if($this->EstadoOrden == "Cancelada" || $this->EstadoOden == "Finalizada"){
+        $calendario = null;
+
+        try{
+          parent::conectarDB();
+          $new = $this->con->prepare("SELECT * FROM tcalendarios WHERE cedula = ?");
+          $new->bindValue(1, $this->fumigadorID);
+          $new->execute();
+          $calendario = $new->fetch(\PDO::FETCH_OBJ);
+          parent::desconectarDB();
         }catch(exection $error){
           die(json_encode(["error"=>$error]));
-          }
+        }
+
+        try{
+          parent::conectarDB();
+          $new = $this->con->prepare("DELETE FROM texcepciones WHERE id_calendario = ? AND fecha = ? AND orden = '1'");
+          $new->bindValue(1, $calendario->id);
+          $new->bindValue(2, $this->fechaServicio);
+          $new->execute();
+          parent::desconectarDB();
+        }catch(exection $error){
+          die(json_encode(["error"=>$error]));
+        }
+      }
+      die(json_encode(["success"=>"Orden Actualizada."]));
     }
     public function getOrdenesFumi($cedula){
       $fumigadorIdIsValid = $this->validarFumigadorID($cedula);

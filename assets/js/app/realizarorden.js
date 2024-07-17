@@ -373,6 +373,8 @@ $(document).ready(async ()=>{
         selectedDateTime = `${selectedDate} ${selectedHour}`;
         setDateTime(selectedDate,selectedHour)
       }
+      timePicker.set("minTime", !_.isEmpty(selectedDate) && moment().isSame(selectedDate, 'day') ? moment().format('HH:mm') : currentFumigador.disponibilidad.calendario.inicioHora);
+      timePicker.clear();
     }
   });
 

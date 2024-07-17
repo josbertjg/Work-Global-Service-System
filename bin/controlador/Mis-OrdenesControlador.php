@@ -28,7 +28,7 @@
 		$model->getDireccion($_POST['idDir']);
 	}
 	if(isset($_POST['updateOrdenFumi']) && isset($permiso['Modificar'])){
-		$model->updateOrdenFumi($_POST['newStatus'],$_POST['idOrden']);
+		$model->updateOrdenFumi($_POST['newStatus'],$_POST['idOrden'],$_POST["fechaServicio"],$_POST["IdF"]);
 		$model->getOrdenesFumi($_POST['IdF']);
 	}
 	require "vistas/MisOrdenesVista.php";	
