@@ -1,9 +1,7 @@
 $(document).ready(async ()=>{
     let user = getUser();
     if(!_.isUndefined(user)){
-      console.log(user.clientID);
       const getOrdenes= await service.post("Mis-Ordenes",{opcion:user.clientID});
-      console.log(getOrdenes);
       var columnas= [
         {"data":"idOrdenes"},
         {"data":"fechaServicio",
@@ -28,30 +26,83 @@ $(document).ready(async ()=>{
               return '<button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>';
             } else if (user.idRol === "FGWGS1" && data.status === "Enviada") {
               return `
-                <button class="btn btn-success btnAcept" title="Aceptar"><i class="fa-solid fa-check"></i></button>
-                <button class="btn btn-danger btnDecline" title="Rechazar"><i class="fa-solid fa-x"></i></button>
-                <button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>
+                <button class="btn btn-success btnAcept" title="Aceptar"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip-dark"
+                  data-bs-title="Aceptar Orden"
+                ><i class="fa-solid fa-check"></i></button>
+                <button class="btn btn-danger btnDecline" title="Rechazar"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip-dark"
+                  data-bs-title="Rechazar la Orden"
+                ><i class="fa-solid fa-x"></i></button>
+                <button class="btn btn-info btnDetails" title="Detalles"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip-dark"
+                  data-bs-title="Ver detalles de la Orden"
+                ><i class="fa-solid fa-circle-info"></i></button>
               `;
             }else if(user.idRol === "FGWGS1" && data.status === "Agendada"){
               return `
-                <button class="btn btn-success btnComp" title="Finalizar"><i class="fa-solid fa-check"></i></button>
-                <button class="btn btn-danger btnDecline" title="Cancelar"><i class="fa-solid fa-x"></i></button>
-                <button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>
+                <button class="btn btn-success btnComp" title="Finalizar"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip-dark"
+                  data-bs-title="Finalizar Orden"
+                ><i class="fa-solid fa-check"></i></button>
+                <button class="btn btn-danger btnDecline" title="Cancelar"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip-dark"
+                  data-bs-title="Cancelar la Orden"
+                ><i class="fa-solid fa-x"></i></button>
+                <button class="btn btn-info btnDetails" title="Detalles"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip-dark"
+                  data-bs-title="Ver detalles de la Orden"
+                ><i class="fa-solid fa-circle-info"></i></button>
+                <button 
+                  class="btn btn-warning btnSobrecargo p-1" 
+                  title="Añadir Sobrecargo"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#add-sobrecargo" 
+                  idOrden="${data.idOrdenes}"
+                >
+                  <i 
+                    class="fa-solid fa-plus p-2"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip-dark"
+                    data-bs-title="Añadir un sobrecargo a la Orden"
+                  ></i>
+                </button>
               `;
             } else if(user.idRol==="FGWGS1" && data.status==="Finalizada"){
               return `
-              <button class="btn btn-success btnSobrecargo" title="Añadir Sobrecargo"><i class="fa-solid fa-plus"></i></button>
-              <button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>
+              <button class="btn btn-info btnDetails" title="Detalles"
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                data-bs-custom-class="custom-tooltip-dark"
+                data-bs-title="Ver detalles de la Orden"
+              ><i class="fa-solid fa-circle-info"></i></button>
             `;
             }
              else {
-              return '<button class="btn btn-info btnDetails" title="Detalles"><i class="fa-solid fa-circle-info"></i></button>'; // or some default value
+              return `<button class="btn btn-info btnDetails" title="Detalles"
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                data-bs-custom-class="custom-tooltip-dark"
+                data-bs-title="Ver detalles de la Orden"
+              ><i class="fa-solid fa-circle-info"></i></button>`; // or some default value
             }
           }
         }
       ]
       TablaOrdenes=iniciarTabla(columnas,"Mis-Ordenes",user.clientID);
-
     }
     $('#TableData').on('click', '.btnAcept,.btnDecline,.btnComp', async function() {
       var tr = $(this).closest('tr');
@@ -93,7 +144,9 @@ $(document).ready(async ()=>{
       });
     });
 
-
+    $('#TableData').on( 'init.dt', function ( e, settings ) {
+      initTooltips();
+    } );
 
     $(document).on('click', '.btnDetails', async function() {
       var tr = $(this).closest('tr');
@@ -106,6 +159,7 @@ $(document).ready(async ()=>{
         // You can use the orderId to retrieve the order information from your database or API
         const serviciosOrden = await service.post("Mis-Ordenes",{getPrecioServicio:true,idOrden:orderId});
         const fumigdorOrden = await service.post("Mis-Ordenes",{getFumigadorServicio:true,idOrden:orderId});
+        const factura = await service.post("Mis-Ordenes",{getFacturaInfo:true, idOrden:orderId});
         const direction1=await service.post("Mis-Ordenes",{getDireccion:true,idDir:orderId});
         let fumigador=fumigdorOrden[0];
         let direction=direction1[0];
@@ -195,21 +249,58 @@ $(document).ready(async ()=>{
         </div>
         <hr class="m-0 p-0"/>
       `);
-        $(".orden-details-monto-total .monto").text(`${_.sum(_.map(serviciosOrden,(item)=>(parseFloat(item.precio))))}$`)
-        $('#ordenDetailsModal').modal("show");
+      $(".orden-details-monto-total .monto").text(`${factura.factura.precioFinal}$`)
+      $('#ordenDetailsModal').modal("show");
 
     });
     
+    let idOrden = null;
+    $(document).on("click", ".btnSobrecargo", (e)=>{
+      idOrden = $(e.currentTarget).attr("idOrden");
+    });
+
+    $(".add-sobrecargo-submit").click(()=> $("#add-sobrecargo-form").trigger("submit"));
+
+  /* Formulario */
+  validarNumeros($("#addSobrecargoPrecio"),true,3);
+  $("#addSobrecargoPrecio").keydown((e)=>soloNumeros(e))
+  validarDescripcion($("#addSobrecargoDescripcion"));
+
+  $("#add-sobrecargo-form").on("submit",async (event)=>{
+    event.preventDefault();
+    const form = $("#add-sobrecargo-form");
+
+    const formValid = checkFormValidity(form)
+    
+    if(formValid){
+      
+      const formHTML = document.getElementById("add-sobrecargo-form")
+      const data = new FormData(formHTML)
+          
+      toggleLoading(true)
+      
+      data.append("addSobrecargo",JSON.stringify(true))
+      data.append("idOrden",idOrden)
+
+      const respuesta = await service.post("Mis-Ordenes",data)    
+      toggleLoading(false)
+
+      if("error" in respuesta){
+        showFormAlerts(form,respuesta.error);
+        blankForm(form);
+      }else if("success" in respuesta){
+        document.getElementById("close-sobrecargo-modal").click();
+        Toast.fire({icon: "success", title: respuesta.success});
+      }
+    }
+  })
 });
 function CreateList(ordenes){
     ordenes.forEach(e => {
-        console.log(e);
         const [dia,horaO]=e.fechaServicio.split(" ");
         let fechaT=fecha(dia);
         let horat=hora(horaO);
         let label=statusOrder[e.status];
-        console.log(e.status);
-        console.log(label)
         const list=`           <li id="orden-${e.idOrdenes}" class="list-group-item">
         <div class="row justify-content-center">
           <div class="col-md-2 text-center">

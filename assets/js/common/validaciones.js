@@ -172,14 +172,14 @@ function validarFile(element, isRequired = true){
 }
 
 
-function validarNumeros(element, isRequired = true) {
+function validarNumeros(element, isRequired = true, longitudMax = 1500) {
   element.blur(() => {
     if(isRequired)
       if(_.isEmpty(element.val())) return setInvalidInput(element, "Ingrese el numero aproximado")
       
     if (!esNumero(_.trim(element.val()))) return setInvalidInput(element, "El numero no es válido")
 
-    if(element.val().length > 1500) return setInvalidInput(element, "el valor no puede superar los 1500.");
+    if(element.val().length > longitudMax) return setInvalidInput(element, "el valor no puede superar los " + longitudMax + ".");
 
     return setValidInput(element)
   })
@@ -190,12 +190,12 @@ function validarNumeros(element, isRequired = true) {
      
     if (!esNumero(element.val())) return setInvalidInput(element, "El numero no es válido")
 
-    if(_.trim(element.val()).length > 1500) return setInvalidInput(element, "El valor no puede superar los 1500.");
+    if(_.trim(element.val()).length > longitudMax) return setInvalidInput(element, "El valor no puede superar los " + longitudMax + ".");
 
     return setValidInput(element)
   })
 
-  element.keydown((event) => validarLength(element.val(),1500,event));
+  element.keydown((event) => validarLength(element.val(),longitudMax,event));
 }
 //valida un input con la logica para solo numeros
 

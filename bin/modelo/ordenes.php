@@ -18,6 +18,8 @@
     private $clienteEmail;
     private $idOrden;
     private $EstadoOden;
+    private $precio;
+    private $descripcion;
 
     public function __construct(){
     	parent::__construct();
@@ -467,6 +469,153 @@
         $new->bindValue(2 , $this->fechaServicio);
         $new->execute();
         $this->desconectarDB();
+      }catch(exection $error){
+        die(json_encode(["error"=>$error]));
+      }
+    }
+
+    public function addSobrecargo($precio,$descripcion,$idOrden){
+
+      $precioIsValid = $this->validarPrecio($precio);
+      if(empty($precioIsValid)) die(json_encode(["error"=>"El precio debe contener solo numeros y una longitud maxima de 3 caracteres."]));
+
+      $descripcionIsValid = $this->validarDescripcion($descripcion);
+      if(!$descripcionIsValid) die(json_encode(["error"=>"La descripcion debe tener entre 15 y 1255 caracteres de longitud."]));
+
+      $ordenExist = $this->findOrden($idOrden);
+      if(empty($ordenExist)) die(json_encode(["error"=>"La orden que intentas modificar no existe, intentalo de nuevo."]));
+
+      $this->precio = $precio;
+      $this->descripcion = $descripcion;
+      $this->idOrden = $idOrden;
+
+      $this->insertNewSobrecargo();
+    }
+
+    private function insertNewSobrecargo(){
+      $factura = $this->findFactura($this->idOrden);
+      if(empty($factura)) die(json_encode(["error"=>"Esta orden no tiene ninguna factura disponible, intentalo de nuevo mas tarde."]));
+
+      $id_sobrecargo = parent::uniqueID();
+
+      // Ingresando el sobrecargo
+      try{
+        parent::conectarDB();
+        $new = $this->con->prepare("INSERT INTO `tsobrecargos`(`idSobrecargo`, `precio`, `descripcion`) VALUES (?,?,?)"); 
+        $new->bindValue(1 , $id_sobrecargo);
+        $new->bindValue(2 , $this->precio);
+        $new->bindValue(3 , $this->descripcion);
+        $new->execute(); 
+        parent::desconectarDB();
+      }catch(exection $error){
+        $resultado = ['error' => "Error al registrar el nuevo sobrecargo, intentalo de nuevo. ".$error];
+        die($resultado);
+      }
+
+      // Ingresando la facturasobrecargo
+      try{
+        parent::conectarDB();
+        $new = $this->con->prepare("INSERT INTO `tfacturasobrecargos`(`factura`, `sobrecargo`) VALUES (?,?)"); 
+        $new->bindValue(1 , $factura->idFactura);
+        $new->bindValue(2 , $id_sobrecargo);
+        $new->execute(); 
+        parent::desconectarDB();
+      }catch(exection $error){
+        $resultado = ['error' => "Error al relacionar el sobrecargo con la factura, intentalo de nuevo. ".$error];
+        die($resultado);
+      }
+
+      // Modificando la factura con el nuevo sobrecargo añadido
+      try{
+        $this->conectarDB();
+        $new = $this->con->prepare("UPDATE `tfacturas` SET Sobrecargo = ?, precioFinal = ? WHERE idFactura = ?"); 
+        $new->bindValue(1 , floatval($factura->Sobrecargo) + floatval($this->precio));
+        $new->bindValue(2 , floatval($factura->precioFinal) + floatval($this->precio));
+        $new->bindValue(3 , $factura->idFactura);
+        $exito = $new->execute();
+        $this->desconectarDB();
+
+        if($exito) die(json_encode(["success"=>"Sobrecargo añadido con éxito."]));
+        else die(json_encode(["error"=>"Ocurrió un error al ingresar el sobrecargo en la nota de entrega de la orden, inténtalo de nuevo mas tarde."]));
+
+      }catch(exception $error){
+        die(json_encode(["error"=>$error]));
+      }
+
+    }
+
+    private function validarPrecio($precio){
+      $expReg = '/^[0-9]{1,3}$/';
+      return preg_match($expReg,$precio);
+    }
+
+    private function validarDescripcion($descripcion){
+      return strlen($descripcion) <= 1255 && strlen($descripcion) >= 15;
+    }
+
+    private function findOrden($idOrden){
+      try{
+				parent::conectarDB();
+        $new = $this->con->prepare("SELECT * FROM tordenes WHERE idOrdenes = ?");
+        $new->bindValue(1, $idOrden);
+        $new->execute();
+        $orden = $new->fetch(\PDO::FETCH_OBJ);
+        parent::desconectarDB();
+
+        return $orden;
+
+      }catch(exection $error){
+        die(json_encode(["error"=>$error]));
+      }
+    }
+
+    private function findFactura($idOrden){
+      try{
+				parent::conectarDB();
+        $new = $this->con->prepare("SELECT * FROM tfacturas WHERE orden = ?");
+        $new->bindValue(1, $idOrden);
+        $new->execute();
+        $factura = $new->fetch(\PDO::FETCH_OBJ);
+        parent::desconectarDB();
+
+        return $factura;
+
+      }catch(exection $error){
+        die(json_encode(["error"=>$error]));
+      }
+    }
+
+    public function getFacturaInfo($idOrden){
+      $this->idOrden = $idOrden;
+      $this->returnFacturaInfo();
+    }
+
+    private function returnFacturaInfo(){
+      $factura = $this->findFactura($this->idOrden);
+      if(empty($factura)) die(json_encode(["error"=>"La nota de entrega de esta orden no existe."]));
+
+      $sobrecargos = $this->returnFacturaSobrecargos($factura->idFactura);
+
+      $facturaInfo = ["factura"=>$factura, "sobrecargos" => $sobrecargos];
+
+      die(json_encode($facturaInfo));
+    }
+
+    private function returnFacturaSobrecargos($idFactura){
+      try{
+				parent::conectarDB();
+        $new = $this->con->prepare("SELECT s.*
+        FROM tfacturas AS f
+        JOIN tfacturasobrecargos AS fs ON f.idFactura = fs.factura
+        JOIN tsobrecargos AS s ON fs.sobrecargo = s.idSobrecargo
+        WHERE f.idFactura = ?");
+        $new->bindValue(1, $idFactura);
+        $new->execute();
+        $sobrecargos = $new->fetchAll(\PDO::FETCH_OBJ);
+        parent::desconectarDB();
+
+        return $sobrecargos;
+
       }catch(exection $error){
         die(json_encode(["error"=>$error]));
       }

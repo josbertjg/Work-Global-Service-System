@@ -22,9 +22,6 @@
       </div>
     </div>
   
-
-
-
     <!-- ORDEN DETAILS MODAL -->
     <div class="modal fade" id="ordenDetailsModal" tabindex="-1" aria-labelledby="ordenDetailsModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg modal-fullscreen-lg-down">
@@ -36,8 +33,60 @@
             <div class="accordion accordion-flush" id="ordenDetailsAccordion"></div>
           </div>
           <div class="orden-details-monto-total">
-            <span>Monto Total</span>
+            <span>Monto Total + Sobrecargos</span>
             <b class="monto"></b>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="add-sobrecargo" tabindex="-1" aria-labelledby="add-sobrecargoLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="add-sobrecargoLabel">Añadir un Sobre Cargo a esta Orden</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="add-sobrecargo-form">
+
+              <label for="addSobrecargoPrecio">
+                Precio del SobreCargo
+                <i 
+                  class="fa-solid fa-circle-info" 
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip-dark"
+                  data-bs-title="Este será el monto en dólares que será sumado al total de la nota de entrega de la orden."
+                ></i>
+              </label>
+              <div class="form-floating position-relative mb-4">
+                <input type="text" class="form-control" id="addSobrecargoPrecio" name="precio" isValid="false">
+                <label for="addSobrecargoPrecio">Precio $:</label>
+                <div class="invalid-tooltip"></div>
+              </div>
+
+              <label for="addSobrecargoDescripcion">
+                Motivo del SobreCargo
+                <i 
+                  class="fa-solid fa-circle-info" 
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip-dark"
+                  data-bs-title="Este es el motivo por el cual estas aplicando un sobrecargo a la orden."
+                ></i>
+              </label>
+              <div class="form-floating position-relative mb-2">
+                <input type="text" class="form-control" id="addSobrecargoDescripcion" name="descripcion" isValid="false">
+                <label for="addSobrecargoDescripcion">Descripción:</label>
+                <div class="invalid-tooltip"></div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a id="close-sobrecargo-modal" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</a>
+            <button type="button" class="btn btn-success add-sobrecargo-submit">Añadir SobreCargo</button>
           </div>
         </div>
       </div>
