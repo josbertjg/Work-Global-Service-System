@@ -1,0 +1,30 @@
+.calendario-main{
+  .select2-container{
+    width: 100% !important;
+    border-color: $grey-light;
+    .select2-selection__rendered{
+      height: 56px;
+      display: flex;
+      align-items: center;
+      border-color: $grey-light;
+    }
+    .select2-selection{
+      height: 56px;
+      display: flex;
+      align-items: center;
+      border-color: $grey-light;
+    }
+    .select2-selection__arrow{
+      display: none;
+    }
+  }
+
+  #recurrentes-added-list, #especificos-added-list{
+    max-height: 160px;
+    overflow-y: auto;
+  }
+}
+
+.select2-dropdown{
+  z-index: 9999 !important;
+}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-07-2024 a las 19:44:37
+-- Tiempo de generación: 17-07-2024 a las 10:26:42
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.5
 
@@ -68,12 +68,20 @@ CREATE TABLE `datosordenserviciocliente` (
 --
 
 CREATE TABLE `tcalendarios` (
+  `id` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
   `cedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL,
   `inicioHora` time NOT NULL,
   `finHora` time NOT NULL,
   `diaInicio` int(3) NOT NULL,
   `diaFin` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tcalendarios`
+--
+
+INSERT INTO `tcalendarios` (`id`, `cedula`, `inicioHora`, `finHora`, `diaInicio`, `diaFin`) VALUES
+('100933536986431495', '28150010', '08:00:00', '17:00:00', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -687,6 +695,32 @@ INSERT INTO `testados` (`id_estado`, `estado`, `iso_3166-2`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `texcepciones`
+--
+
+CREATE TABLE `texcepciones` (
+  `id` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `id_calendario` varchar(40) COLLATE utf8mb4_spanish_ci NOT NULL,
+  `fecha` date DEFAULT NULL,
+  `dia` tinyint(2) DEFAULT NULL,
+  `recurrente` tinyint(2) NOT NULL,
+  `orden` tinyint(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `texcepciones`
+--
+
+INSERT INTO `texcepciones` (`id`, `id_calendario`, `fecha`, `dia`, `recurrente`, `orden`) VALUES
+('100933536986431499', '100933536986431495', '2024-07-25', NULL, 0, 0),
+('100933536986431500', '100933536986431495', '2024-07-31', NULL, 0, 0),
+('100933536986431501', '100933536986431495', NULL, 1, 1, 0),
+('100933536986431505', '100933536986431495', NULL, 5, 1, 0),
+('100933536986431506', '100933536986431495', '2024-07-18', NULL, 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tfacturas`
 --
 
@@ -762,6 +796,13 @@ CREATE TABLE `tfumigadores` (
   `activo` tinyint(4) NOT NULL,
   `fechaValidado` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tfumigadores`
+--
+
+INSERT INTO `tfumigadores` (`cedula`, `email`, `idUbicacion`, `fechaNacimiento`, `imagenCedula`, `descripcion`, `activo`, `fechaValidado`) VALUES
+('28150010', 'josbertjg@gmail.com', '10.0526625-69.3520602', '2001-10-19', 'assets/img/uploads/cedulas/josbertjg@gmail.com.jpg', 'Soy un fumigador con muchos años de experiencia en el sector del exterminio de plagas', 1, '2024-02-14');
 
 -- --------------------------------------------------------
 
@@ -932,6 +973,15 @@ CREATE TABLE `tserviciosfumigador` (
   `cedula` varchar(20) COLLATE utf8mb4_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `tserviciosfumigador`
+--
+
+INSERT INTO `tserviciosfumigador` (`id`, `idServicio`, `cedula`) VALUES
+(1, 'SCUCARACHASWGS', '28150010'),
+(2, 'SCIENPIESWGS', '28150010'),
+(3, 'SRATASWGS', '28150010');
+
 -- --------------------------------------------------------
 
 --
@@ -965,6 +1015,16 @@ CREATE TABLE `tubicaciones` (
   `ciudad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `tubicaciones`
+--
+
+INSERT INTO `tubicaciones` (`idUbicacion`, `latitud`, `longitud`, `direccion`, `ciudad`) VALUES
+('10.0526625-69.3520602', '10.0526625', '-69.3520602', 'Carrera 13-A & Calle 62, Barquisimeto, Lara, Venezuela', 212),
+('10.0681907-69.31523709999999', '10.0681907', '-69.31523709999999', 'Carrera 21, Barquisimeto 3001, Lara, Venezuela', 1),
+('10.3853615-66.9644418', '10.3853615', '-66.9644418', 'Carr. Panamericana, San Antonio de Los Altos, Miranda, Venezuela', 1),
+('10.4121793-71.4273467', '10.4121793', '-71.4273467', 'Carrasquero, Cabimas 4013, Zulia, Venezuela', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -982,7 +1042,9 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- Indices de la tabla `tcalendarios`
 --
 ALTER TABLE `tcalendarios`
-  ADD UNIQUE KEY `cedula` (`cedula`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cedula` (`cedula`),
+  ADD KEY `cedula_2` (`cedula`);
 
 --
 -- Indices de la tabla `tciudades`
@@ -1010,6 +1072,14 @@ ALTER TABLE `testablecimientos`
 --
 ALTER TABLE `testados`
   ADD PRIMARY KEY (`id_estado`);
+
+--
+-- Indices de la tabla `texcepciones`
+--
+ALTER TABLE `texcepciones`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cedula` (`id_calendario`),
+  ADD KEY `id_calendario` (`id_calendario`);
 
 --
 -- Indices de la tabla `tfacturas`
@@ -1134,7 +1204,7 @@ ALTER TABLE `tfacturasobrecargos`
 -- AUTO_INCREMENT de la tabla `tordenesservicios`
 --
 ALTER TABLE `tordenesservicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tpagodetalles`
@@ -1175,6 +1245,12 @@ ALTER TABLE `tciudades`
 --
 ALTER TABLE `tclientes`
   ADD CONSTRAINT `tclientes_ibfk_1` FOREIGN KEY (`email`) REFERENCES `swgs`.`tusuarios` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `texcepciones`
+--
+ALTER TABLE `texcepciones`
+  ADD CONSTRAINT `texcepciones_ibfk_1` FOREIGN KEY (`id_calendario`) REFERENCES `tcalendarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tfacturas`

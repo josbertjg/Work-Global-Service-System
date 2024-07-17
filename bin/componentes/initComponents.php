@@ -65,11 +65,10 @@
       $serviciosProfile = $userIsLogged && $this->hasModuleAccess("MisOrdenes") && ($_SESSION["idRol"] != "SAWGS1") ? 
       '<li><a class="dropdown-item navigation-link" href="Mis-Ordenes">Mis Ordenes</a></li>':'';
 
-      $configuracionProfile = $userIsLogged && $this->hasModuleAccess("Configuracion") ? 
+      $configuracionProfile = $userIsLogged && ($_SESSION["idRol"] == "SAWGS1")  ? 
       '<li><a class="dropdown-item navigation-link" href="configuracion">Configuración</a></li>':'';
 
-      $serviciosItemHeader = $userIsLogged && $this->hasModuleAccess("MisOrdenes") && ($_SESSION["idRol"] != "SAWGS1") && 
-      !$this->hasModuleAccess("Configuracion") ? 
+      $serviciosItemHeader = $userIsLogged && $this->hasModuleAccess("MisOrdenes") && ($_SESSION["idRol"] != "SAWGS1") ? 
       '<a 
         href="Mis-Ordenes" 
         class="action-btn servicios-header-btn navigation-link me-2" 
@@ -81,7 +80,7 @@
         <i class="fa-solid fa-calendar"></i>
       </a>':'';
 
-      $configuracionItemHeader = $userIsLogged && $this->hasModuleAccess("Configuracion") ? 
+      $configuracionItemHeader = $userIsLogged && ($_SESSION["idRol"] == "SAWGS1")  ? 
       '<a 
         href="configuracion" 
         class="action-btn configuracion-header-btn navigation-link me-2" 
@@ -93,14 +92,16 @@
         <i class="fa-solid fa-gear"></i>
       </a>':'';
 
+      $ofrecerServiciosItemHeader = ($_SESSION["idRol"] == "CLWGS1") ? '<li><a class="dropdown-item navigation-link" href="registrarFumigador"><i class="fa-solid fa-bug me-1"></i> Ofrecer Servicios</a></li>' : '';
+
       $profileMenu = $userIsLogged ? 
         '
-          <li><a class="dropdown-item navigation-link" href="perfil">Perfil</a></li>
+          <li><a class="dropdown-item navigation-link" href="configuracion">Perfil</a></li>
           '.$serviciosProfile.'
           '.$configuracionProfile.'
           <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>
           <li><hr class="dropdown-divider m-0 p-0"></li>
-          <li><a class="dropdown-item navigation-link" href="registrarFumigador"><i class="fa-solid fa-bug me-1"></i> Ofrecer Servicios</a></li>
+          '.$ofrecerServiciosItemHeader.'
           <li><a class="dropdown-item navigation-link" href="ayuda"><i class="fa-solid fa-circle-info me-1"></i> Ayuda</a></li>
           <li><a class="dropdown-item logout" href="#"><i class="fa-solid fa-right-to-bracket me-1"></i> Cerrar Sesión</a></li>
         '
@@ -451,7 +452,7 @@
         <span>Mis Ordenes</span>
       </a>':'';
 
-      $configuracionItem = $userIsLogged && $this->hasModuleAccess("Configuracion") ? '
+      $configuracionItem = $userIsLogged && ($_SESSION["idRol"] == "SAWGS1")  ? '
       <a href="configuracion" class="tab-item navigation-link">
         <i class="fa-solid fa-gear"></i>
         <span>Configuración</span>
@@ -465,7 +466,7 @@
           <i class="fa-solid fa-bell"></i>
           <span>Alertas</span>
         </a>
-        <a href="perfil" class="tab-item navigation-link">
+        <a href="configuracion" class="tab-item navigation-link">
           <i class="fa-solid fa-user"></i>
           <span>Perfil</span>
         </a>'

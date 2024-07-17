@@ -18,12 +18,12 @@ async function loginUser(userObj){
   $(".header-user-name").text(`${userObj.nombre} ${Array.from(userObj.apellido).shift().toUpperCase()}.`)
   $(".profile-dropdown-menu").empty();
   $(".profile-dropdown-menu").append(`
-    <li><a class="dropdown-item navigation-link" href="perfil">Perfil</a></li>
+    <li><a class="dropdown-item navigation-link" href="configuracion">Perfil</a></li>
     ${!_.isEmpty(permisos.MisOrdenes) && !_.isEmpty(permisos.MisOrdenes.Consultar) && userObj.idRol != "SAWGS1" ? '<li><a class="dropdown-item navigation-link" href="Mis-Ordenes">Mis Ordenes</a></li>' : ''}
-    ${!_.isEmpty(permisos.Configuracion) && !_.isEmpty(permisos.Configuracion.Consultar) ? '<li><a class="dropdown-item navigation-link" href="configuracion">Configuración</a></li>' : ''}
+    ${userObj.idRol == "SAWGS1" ? '<li><a class="dropdown-item navigation-link" href="configuracion">Configuración</a></li>' : ''}
     <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>
     <li><hr class="dropdown-divider m-0 p-0"></li>
-    <li><a class="dropdown-item navigation-link" href="registrarFumigador"><i class="fa-solid fa-bug me-1"></i> Ofrecer Servicios</a></li>
+    ${userObj.idRol == "CLWGS1" ? '<li><a class="dropdown-item navigation-link" href="registrarFumigador"><i class="fa-solid fa-bug me-1"></i> Ofrecer Servicios</a></li>' : ''}
     <li><a class="dropdown-item navigation-link" href="ayuda"><i class="fa-solid fa-circle-info me-1"></i> Ayuda</a></li>
     <li><a class="dropdown-item logout" href="#"><i class="fa-solid fa-right-to-bracket me-1"></i> Cerrar Sesión</a></li>
   `);
@@ -44,7 +44,7 @@ async function loginUser(userObj){
     `)
   }
 
-  if(!_.isEmpty(permisos.Configuracion) && !_.isEmpty(permisos.Configuracion.Consultar)){
+  if(userObj.idRol == "SAWGS1"){
     $(".header-buttons").prepend(`
       <a 
         href="configuracion" 
@@ -75,7 +75,7 @@ async function loginUser(userObj){
         <i class="fa-solid fa-calendar"></i>
         <span>Servicios</span>
       </a>`:''}
-    ${!_.isEmpty(permisos.Configuracion) && !_.isEmpty(permisos.Configuracion.Consultar) ? `
+    ${userObj.idRol == "SAWGS1" ? `
       <a href="configuracion" class="tab-item navigation-link">
         <i class="fa-solid fa-gear"></i>
         <span>Configuración</span>
@@ -84,7 +84,7 @@ async function loginUser(userObj){
       <i class="fa-solid fa-bell"></i>
       <span>Alertas</span>
     </a>
-    <a href="perfil" class="tab-item navigation-link">
+    <a href="configuracion" class="tab-item navigation-link">
       <i class="fa-solid fa-user"></i>
       <span>Perfil</span>
     </a>
