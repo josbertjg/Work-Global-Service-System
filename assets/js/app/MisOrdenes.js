@@ -69,7 +69,7 @@ $(document).ready(async ()=>{
         cancelButtonText: 'No, cancelar accion'
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const respuesta = await service.post("Mis-Ordenes", {updateOrdenFumi: true, newStatus: mensaje, idOrden: data.idOrdenes, IdF: user.clientID});
+          const respuesta = await service.post("Mis-Ordenes", {updateOrdenFumi: true, newStatus: mensaje, idOrden: data.idOrdenes, IdF: user.clientID,fechaServicio: data.fechaServicio.split(" ").shift()});
           if ("error" in respuesta) {
             swal.fire({
               title: "Error",
