@@ -27,6 +27,8 @@ $(document).ready(async ()=>{
     return setTimeout(() => window.location = "fumigadores", 4000);
   }
 
+  console.log(currentFumigador)
+
   // Mostrando la info del fumigador
   mostrarInfoFumigador(currentFumigador);
 
@@ -72,7 +74,6 @@ $(document).ready(async ()=>{
     selectedEstablecimiento = _.find(establecimientos,(establecimiento)=>(establecimiento.idEstablecimientos == e.params.data.id));
     if(!_.isEmpty(selectedEstablecimiento)){
       precioServiciosArray = _.filter(preciosServicios,(item)=>(item.establecimiento == selectedEstablecimiento.idEstablecimientos))
-      console.log(precioServiciosArray)
       if(!_.isEmpty(precioServiciosArray)){
         $(".available-services-label").show();
         $(".available-services-list").empty();
@@ -348,18 +349,24 @@ $(document).ready(async ()=>{
   let selectedDate     = null;
   let selectedHour     = null;
   let selectedDateTime = null;
+  const diasEspecificosNoLaborables = _.map(_.filter(currentFumigador.disponibilidad.excepciones,(item)=>(item.recurrente == 0)),(item)=>(item.fecha));
+  const diasRecurrentesNoLaborables = _.map(_.filter(currentFumigador.disponibilidad.excepciones,(item)=>(item.recurrente == 1)),(item)=>(parseInt(item.dia)));
+  console.log(diasRecurrentesNoLaborables)
+
   const datePicker = $("#choose-date").flatpickr({
+    // "locale": {
+    //   "firstDayOfWeek": 1 // start week on Monday
+    // },
     "disable": [
+      ...diasEspecificosNoLaborables,
       function(date) {
           // return true to disable
-          return (date.getDay() == 0 || date.getDay() == 6);
-
+          return ((date.getDay() < currentFumigador.disponibilidad.calendario.diaInicio || 
+                   date.getDay() > currentFumigador.disponibilidad.calendario.diaFin) || 
+                   diasRecurrentesNoLaborables.includes(date.getDay()));
       }
     ],
-    "locale": {
-      "firstDayOfWeek": 1 // start week on Monday
-    },
-    minDate: moment().format(),
+    minDate: 'today',
     onChange: function(selectedDates, dateStr, instance) {
       selectedDate = dateStr;
       if(!_.isEmpty(selectedHour)){
@@ -372,8 +379,8 @@ $(document).ready(async ()=>{
   const timePicker = $("#choose-time").flatpickr({
     enableTime: true,
     noCalendar: true,
-    minTime: "08:00",
-    maxTime: "16:00",
+    minTime: currentFumigador.disponibilidad.calendario.inicioHora,
+    maxTime: currentFumigador.disponibilidad.calendario.finHora,
     onChange: function(selectedDates, dateStr, instance) {
       selectedHour = dateStr
       if(!_.isEmpty(selectedDate)){
@@ -424,7 +431,6 @@ $(document).ready(async ()=>{
 
   // Ir a pagar Orden
   $(".pagarOrden").click(async ()=>{
-    console.log(selectedPlace)
     if(!_.isEmpty(selectedDateTime) && !_.isEmpty(selectedPrecioServiciosArray)){
       toggleLoading(true);
 

@@ -242,7 +242,7 @@
       
             </section>
       
-            <button id="registrarFumigador-btn">
+            <button class="btn btn-danger btn-block" id="registrarFumigador-btn">
               Enviar solicitud de registro
               <i class="fa-solid fa-user-plus"></i>
             </button>

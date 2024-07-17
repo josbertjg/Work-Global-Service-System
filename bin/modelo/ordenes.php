@@ -72,10 +72,51 @@
         parent::desconectarDB();
 
         $fumigador->servicios = $servicios;
-        die(json_encode($fumigador));
 
       }catch(exection $error){
         die(json_encode(["error" => $error]));
+      }
+
+      $calendario  = $this->getCalendar();
+      $excepciones = $this->getExcepciones($calendario->id);
+
+      $disponibilidad = ["calendario"=>$calendario,"excepciones"=>$excepciones];
+
+      $fumigador->disponibilidad = $disponibilidad;
+
+      die(json_encode($fumigador));
+    }
+
+    private function getCalendar(){
+      try{
+				parent::conectarDB();
+        $new = $this->con->prepare("SELECT * FROM tcalendarios WHERE cedula = ?");
+        $new->bindValue(1, $this->fumigadorID);
+        $new->execute();
+        $calendario = $new->fetch(\PDO::FETCH_OBJ);
+        parent::desconectarDB();
+
+        if(empty($calendario)) die(json_encode(["error"=>"Ocurrió un error al recuperar el calendario del fumigador, calendario no existente."]));
+        else return $calendario;
+
+      }catch(exection $error){
+        die(json_encode(["error"=>$error]));
+      }
+    }
+
+    private function getExcepciones($id_calendario){
+      try{
+				parent::conectarDB();
+        $new = $this->con->prepare("SELECT * FROM texcepciones WHERE id_calendario = ?");
+        $new->bindValue(1, $id_calendario);
+        $new->execute();
+        $excepciones = $new->fetchAll(\PDO::FETCH_OBJ);
+        parent::desconectarDB();
+
+        return $excepciones;
+
+      }catch(exection $error){
+        die(json_encode(["error"=>$error]));
       }
     }
 
@@ -271,6 +312,10 @@
         $error = array("error" => "La coordenada longitud es inválida, intentalo mas tarde.");
         die(json_encode($error));
       }
+    
+      $this->fumigadorID = $fumigador;
+
+      $this->validarFechaServicio($fechaServicio);
 
       if(!empty($detalles_direccion)){
         $detallesIsValid = $this->validarDetallesDireccion($detalles_direccion);
@@ -279,8 +324,7 @@
           die(json_encode($error));
         }
       }
-
-      $this->fumigadorID = $fumigador;
+      
       $this->clienteID = $clienteID;
       $this->clienteEmail = $clienteEmail;
       $this->fechaServicio = $fechaServicio;
@@ -320,6 +364,9 @@
 
       $resultado = null;
       if($exito){
+
+        $this->insertDiaNoLaborable();
+
         $resultado = ['success' => "Orden creada exitosamente."];
 
         try{
@@ -380,6 +427,62 @@
       }catch(exception $error){
         die(json_encode(["error"=>$error]));
       }
+    }
+
+    private function insertDiaNoLaborable(){
+      $id_calendario = $this->getCalendar()->id;
+
+      try{
+        $this->conectarDB();
+        $new = $this->con->prepare("INSERT INTO `texcepciones` (`id`,`id_calendario`,`fecha`,`recurrente`,`orden`) VALUES (UUID_SHORT(),?,?,0,1)"); 
+        $new->bindValue(1 , $id_calendario);
+        $new->bindValue(2 , $this->fechaServicio);
+        $new->execute();
+        $this->desconectarDB();
+      }catch(exection $error){
+        die(json_encode(["error"=>$error]));
+      }
+    }
+
+    private function validarFechaServicio($fechaServicio){
+      $calendario = $this->getCalendar();
+      
+      try{
+				parent::conectarDB();
+        $new = $this->con->prepare("SELECT * FROM texcepciones WHERE id_calendario = ? AND fecha = ?");
+        $new->bindValue(1, $calendario->id);
+        $new->bindValue(2, $fechaServicio);
+        $new->execute();
+        $fechaEncontrada = $new->fetch(\PDO::FETCH_OBJ);
+        parent::desconectarDB();
+
+        if(!empty($fechaEncontrada)) die(json_encode(["error"=>"El fumigador ya tiene una cita asignada para este día"]));
+
+      }catch(exection $error){
+        die(json_encode(["error"=>$error]));
+      }
+
+      // Obtener el timestamp de la fecha
+      $fechaTimestamp = strtotime($fechaServicio);
+      // Obtener el día de la semana como número (0 = domingo, 6 = sábado)
+      $diaNumero = date('w', $fechaTimestamp);
+
+      try{
+				parent::conectarDB();
+        $new = $this->con->prepare("SELECT dia FROM texcepciones WHERE id_calendario = ? AND recurrente = '1'");
+        $new->bindValue(1, $calendario->id);
+        $new->execute();
+        $diasRecurrentes = $new->fetchAll(\PDO::FETCH_OBJ);
+        parent::desconectarDB();
+
+        
+        if(($diaNumero < $calendario->diaInicio) || ($diaNumero > $calendario->diaFin)) die(json_encode(["error"=>"Esta fecha se sale del rango laboral seleccionado por el fumigador ".$diaNumero]));
+        if(in_array($diaNumero, $diasRecurrentes)) die(json_encode(["error"=>"El fumigador a seleccionado esta fecha como no laborable."]));
+
+      }catch(exection $error){
+        die(json_encode(["error"=>$error]));
+      }
+      
     }
 
     private function validarDireccion($direccion){

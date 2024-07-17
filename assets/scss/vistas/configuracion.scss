@@ -1,31 +1,36 @@
+.configuracion-main{
+    .btnConfi{
+        padding: 10px 20px;
+        background-color:$primary;
+        color: #fff;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: $shadow;
+        width: 100%;
+    }
+    .btnConfi:hover{
+        background-color: $secondary;
+    }
+    
+    .fa-house-chimney-user{
+        font-size: 24;
+        vertical-align: middle;
+    }
+    .card {
+        justify-content: center; /* Centra horizontalmente */
+        align-items: center; /* Centra verticalmente */
+      }
+    .card img {
+        margin: 2.5px auto;
+        width: 120px;
+        height: 120px; /* Asegúrate de que el ancho sea también de 120px para un círculo perfecto */
+        object-fit: cover; /* 'cover' asegurará que la imagen llene completamente el círculo */
+        border-radius: 50%; /* Esto hará que la imagen sea completamente redonda */
+    }
+    
+    .card-title{
+        text-align: center;
+    }
 
-.btnConfi{
-    padding: 10px 20px;
-    background-color:$primary;
-    color: #fff;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: $shadow;
-    width: 100%;
-}
-.btnConfi:hover{
-    background-color: $secondary;
-}
-
-.fa-house-chimney-user{
-    font-size: 24;
-    vertical-align: middle;
-}
-.card {
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-  }
-.card img {
-    margin: 2.5px auto;
-    width: 120px;
-    height: 120px; /* Asegúrate de que el ancho sea también de 120px para un círculo perfecto */
-    object-fit: cover; /* 'cover' asegurará que la imagen llene completamente el círculo */
-    border-radius: 50%; /* Esto hará que la imagen sea completamente redonda */
-  }
-
+}    

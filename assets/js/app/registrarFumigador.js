@@ -274,7 +274,7 @@ $(document).ready(async ()=>{
     {id: 4, text: "Jueves"},
     {id: 5, text: "Viernes"},
     {id: 6, text: "Sábado"},
-    {id: 7, text: "Domingo"},
+    {id: 0, text: "Domingo"},
   ]
 
   // Selects Autocomplete para el dia inicio
@@ -321,6 +321,8 @@ $(document).ready(async ()=>{
     if(_.isEmpty(selectedPlace)) return showAlert("error", "Ocurrió un error inesperado", 'Debes escribir manualmente la dirección de google maps en el campo "Dirección del fumigador" y seleccionar una de las opciones mostradas por Google, de lo contrario no podrás proceder.');
 
     if(formValid){
+      
+      console.log(user)
       
       if(_.isEmpty(user)){
         return showAlert("error", "Oops, ocurrió un error", "Necesitas estar logueado para poder registrarte como un fumigador")

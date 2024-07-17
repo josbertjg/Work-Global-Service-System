@@ -32,7 +32,8 @@
 	}
 
 	
-	if(isset($_POST["createOrden"])       && 
+	if(!empty($permiso['Consultar'])      &&
+		isset($_POST["createOrden"])        && 
 		isset($_POST['fumigador'])          && 
 		isset($_POST['clienteID'])          && 
 		isset($_POST['clienteEmail'])       && 
