@@ -18,7 +18,7 @@
           <!-- El resto -->
         </section>
         <!--Columna del Card del perfil-->
-        <section class="col-md-3 col-11 mb-3">
+        <section class="col-md-3 col-11 mb-3 pt-5">
           <div class="col-12">
             <div class="card pt-2">
               <img src="assets\img\user.svg" alt="" class="card-img-top " id="userIMG">
@@ -30,7 +30,7 @@
           </div>
         </section>
         <!-- Columna para las opciones -->
-        <section class="col-md-8 col-12">
+        <section class="col-md-8 col-12 pt-5">
           <!-- row de las opciones -->
           <div class="row">
             <!-- inicio de las cards -->
@@ -81,8 +81,8 @@
                   </a>              
                 </section>
                 <section class="col-sm-6 col-12 mb-2">
-                  <a href="establecimientos">
-                    <button type="button" class="btn btn-light btnConfi">
+                  <a href="#">
+                    <button type="button" class="btn btn-light btnConfi logout">
                       <i class="fa-solid fa-right-to-bracket me-1"></i>Cerrar Sesión
                     </button> 
                   </a>
