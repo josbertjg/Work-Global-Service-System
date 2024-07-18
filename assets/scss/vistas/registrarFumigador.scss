@@ -1,37 +1,51 @@
-#registrarFumigador-form{
-  .select2-container{
-    width: 100% !important;
-    border-color: $grey-light;
-    .select2-selection__rendered{
-      height: 56px;
-      display: flex;
-      align-items: center;
-      border-color: $grey-light;
+.registrar-fumicador-main{
+  .title{
+    color: $secondary;
+    font-size: 3rem;
+  }
+  .text{
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 1rem 0;
+    b{
+      color: $secondary;
     }
-    .select2-selection{
-      height: 56px;
-      display: flex;
-      align-items: center;
+  }
+  #registrarFumigador-form{
+    .select2-container{
+      width: 100% !important;
       border-color: $grey-light;
+      .select2-selection__rendered{
+        height: 56px;
+        display: flex;
+        align-items: center;
+        border-color: $grey-light;
+      }
+      .select2-selection{
+        height: 56px;
+        display: flex;
+        align-items: center;
+        border-color: $grey-light;
+      }
+      .select2-selection__arrow{
+        display: none;
+      }
     }
-    .select2-selection__arrow{
+    .regFumig-map-wrapper{
       display: none;
+      #registrarFumigador-map{
+        height: 290px;
+        width: 100%;
+      }
     }
-  }
-  .regFumig-map-wrapper{
-    display: none;
-    #registrarFumigador-map{
-      height: 290px;
-      width: 100%;
+  
+    .dias-laborables-container{
+      padding-right: 0px !important;
     }
+  
+    i{
+      color: var(--bs-primary);
+    }
+  
   }
-
-  .dias-laborables-container{
-    padding-right: 0px !important;
-  }
-
-  i{
-    color: var(--bs-primary);
-  }
-
 }

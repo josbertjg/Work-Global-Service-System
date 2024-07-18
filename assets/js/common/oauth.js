@@ -18,7 +18,7 @@ async function loginUser(userObj){
   $(".header-user-name").text(`${userObj.nombre} ${Array.from(userObj.apellido).shift().toUpperCase()}.`)
   $(".profile-dropdown-menu").empty();
   $(".profile-dropdown-menu").append(`
-    <li><a class="dropdown-item navigation-link" href="configuracion">Perfil</a></li>
+    <li><a class="dropdown-item navigation-link" href="${userObj.idRol == "SAWGS1" ? "perfil" : "configuracion"}">Perfil</a></li>
     ${!_.isEmpty(permisos.MisOrdenes) && !_.isEmpty(permisos.MisOrdenes.Consultar) && userObj.idRol != "SAWGS1" ? '<li><a class="dropdown-item navigation-link" href="Mis-Ordenes">Mis Ordenes</a></li>' : ''}
     ${userObj.idRol == "SAWGS1" ? '<li><a class="dropdown-item navigation-link" href="configuracion">Configuración</a></li>' : ''}
     <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>

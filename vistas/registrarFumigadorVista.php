@@ -5,7 +5,7 @@
 
   <?php $components->header(false) ?>
  
-  <main class=" container-fluid pt-5"> 
+  <main class=" container-fluid pt-5 registrar-fumicador-main"> 
     <div class="container">
 
       
@@ -19,19 +19,19 @@
         
         <!-- IDENTIFICATE CONTENT -->
         <div class="tab-pane fade show active" id="registrarfumig-identificate" role="tabpanel" aria-labelledby="registrarfumig-identificate-tab" tabindex="0">
-          <h1>¡Empieza a trabajar con nosotros!</h1>
-          <p>Primero debes iniciar sesión en la app, o si no crear una cuenta desde cero, gracias a esto podremos seguir con el siguiente paso, <b>¡Que esperas!</b> necesitamos de tu apoyo para exterminar a toda plaga que aparezca!</p>
+          <h1 class="title">¡Empieza a trabajar con nosotros!</h1>
+          <p class="text">Primero debes iniciar sesión en la app, o si no crear una cuenta desde cero, gracias a esto podremos seguir con el siguiente paso, <b>¡Que esperas!</b> necesitamos de tu apoyo para exterminar a toda plaga que aparezca!</p>
 
           <div class="d-flex">
-            <button class="regFumig-login-btn">Iniciar sesión con mi cuenta</button>
-            <button class="regFumig-crearCuenta-btn">Crear una cuenta</button>
+            <button class="regFumig-login-btn btn btn-primary me-2">Iniciar sesión con mi cuenta</button>
+            <button class="regFumig-crearCuenta-btn btn btn-primary">Crear una cuenta</button>
           </div>
         </div>
 
         <!-- FORMULARIO REGISTRAR FUMIGADOR CONTENT -->
         <div class="tab-pane fade" id="registrarfumig-registrarse" role="tabpanel" aria-labelledby="registrarfumig-registrarse-tab" tabindex="0">
-          <h1>¡A un solo paso de lograrlo!</h1>
-          <p>Rellena los datos en el formulario de manera clara, honesta y precisa, al finalizar, uno de nuestros administradores validara tus datos y corroborara si eres un candidato apto para comenzar a trabajar con nosotros.</p>
+          <h1 class="title">¡A un solo paso de lograrlo!</h1>
+          <p class="text">Rellena los datos en el formulario de manera clara, honesta y precisa, al finalizar, uno de nuestros administradores validara tus datos y corroborara si eres un candidato apto para comenzar a trabajar con nosotros.</p>
           <form id="registrarFumigador-form" novalidate>
       
             <section class="row px-3 mb-4">
@@ -242,10 +242,12 @@
       
             </section>
       
-            <button class="btn btn-danger btn-block" id="registrarFumigador-btn">
-              Enviar solicitud de registro
-              <i class="fa-solid fa-user-plus"></i>
-            </button>
+            <div class="d-flex justify-content-end mb-2">
+              <button class="btn btn-danger btn-block py-2 px-4" id="registrarFumigador-btn">
+                Enviar solicitud de registro
+                <i class="fa-solid fa-user-plus text-light"></i>
+              </button>
+            </div>
           </form>
         </div>
       </div>

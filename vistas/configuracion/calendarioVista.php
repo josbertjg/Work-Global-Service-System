@@ -14,15 +14,15 @@
           </a>
         </section>
         <form class="col-11 pt-5" id="calendario-form">
-          <h1>Mi calendario de disponibilidad</h1>
+          <h1 class="page-title">Mi calendario de disponibilidad</h1>
           
           <section class="row px-3 mb-4">
           
             <div class="dias-laborables-container col-md-6 pe-md-3 p-0 me-2 row">
-              <label class="col-12">
+              <label class="col-12 fs-5 fw-bold">
                 Dias laborables
                 <i 
-                  class="fa-solid fa-circle-info" 
+                  class="fa-solid fa-circle-info text-primary" 
                   data-bs-toggle="tooltip" 
                   data-bs-placement="top"
                   data-bs-custom-class="custom-tooltip-dark"
@@ -49,10 +49,10 @@
             </div>
 
             <div class="col-md-6 p-0 ps-3 pb-2 row position-relative">
-              <label class="col-12 p-0">
+              <label class="col-12 p-0 fs-5 fw-bold">
                 Horario disponible
                 <i 
-                  class="fa-solid fa-circle-info" 
+                  class="fa-solid fa-circle-info text-primary" 
                   data-bs-toggle="tooltip" 
                   data-bs-placement="top"
                   data-bs-custom-class="custom-tooltip-dark"
@@ -82,10 +82,10 @@
 
           <section>
 
-            <label for="">
+            <label class="fs-5 fw-bold mb-2">
               Dias no laborables
               <i 
-                class="fa-solid fa-circle-info" 
+                class="fa-solid fa-circle-info text-primary" 
                 data-bs-toggle="tooltip" 
                 data-bs-placement="top"
                 data-bs-custom-class="custom-tooltip-dark"
@@ -98,7 +98,7 @@
                 <button class="nav-link active" id="dias-recurrentes-tab" data-bs-toggle="tab" data-bs-target="#dias-recurrentes" type="button" role="tab" aria-controls="dias-recurrentes" aria-selected="true">
                   Días Recurrentes
                   <i 
-                    class="fa-solid fa-circle-info" 
+                    class="fa-solid fa-circle-info text-primary" 
                     data-bs-toggle="tooltip" 
                     data-bs-placement="top"
                     data-bs-custom-class="custom-tooltip-dark"
@@ -108,7 +108,7 @@
                 <button class="nav-link" id="dias-especificos-tab" data-bs-toggle="tab" data-bs-target="#dias-especificos" type="button" role="tab" aria-controls="dias-especificos" aria-selected="false">
                   Días Específicos
                   <i 
-                    class="fa-solid fa-circle-info" 
+                    class="fa-solid fa-circle-info text-primary" 
                     data-bs-toggle="tooltip" 
                     data-bs-placement="top"
                     data-bs-custom-class="custom-tooltip-dark"
@@ -120,25 +120,27 @@
 
             <div class="tab-content" id="nav-tabContent">
               <!-- Recurrentes Content -->
-              <div class="tab-pane fade show active" id="dias-recurrentes" role="tabpanel" aria-labelledby="dias-recurrentes-tab" tabindex="0">
-                <ul id="dias-recurrentes-list"></ul>
+              <div class="tab-pane fade show active p-4" id="dias-recurrentes" role="tabpanel" aria-labelledby="dias-recurrentes-tab" tabindex="0">
+                <ul id="dias-recurrentes-list" class="p-0"></ul>
               </div>
               <!-- Especificos Content -->
-              <div class="tab-pane fade" id="dias-especificos" role="tabpanel" aria-labelledby="dias-especificos-tab" tabindex="0">
-                <ul id="dias-especificos-list"></ul>
+              <div class="tab-pane fade p-4" id="dias-especificos" role="tabpanel" aria-labelledby="dias-especificos-tab" tabindex="0">
+                <ul id="dias-especificos-list" class="p-0"></ul>
               </div>
             </div>
             
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-nolaborable">
-              Añadir un nuevo dia no laborable
-              <i class="fa-solid fa-user-plus"></i>
-            </button>
           </section>
 
-          <button class="btn btn-success btn-block">
-            Guardar
-            <i class="fa-solid fa-user-plus"></i>
-          </button>
+          <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-nolaborable">
+              Añadir un nuevo dia no laborable
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <button class="btn btn-success btn-block">
+              Guardar
+              <i class="fa-regular fa-floppy-disk"></i>
+            </button>
+          </div>
         </form>
       </div>
     </div> 
@@ -167,7 +169,7 @@
                 <button class="nav-link active" id="add-dias-recurrentes-tab" data-bs-toggle="tab" data-bs-target="#add-dias-recurrentes" type="button" role="tab" aria-controls="add-dias-recurrentes" aria-selected="true">
                   Añadir Días Recurrentes
                   <i 
-                    class="fa-solid fa-circle-info" 
+                    class="fa-solid fa-circle-info text-primary" 
                     data-bs-toggle="tooltip" 
                     data-bs-placement="top"
                     data-bs-custom-class="custom-tooltip-dark"
@@ -177,7 +179,7 @@
                 <button class="nav-link" id="add-dias-especificos-tab" data-bs-toggle="tab" data-bs-target="#add-dias-especificos" type="button" role="tab" aria-controls="add-dias-especificos" aria-selected="false">
                   Añadir Días Específicos
                   <i 
-                    class="fa-solid fa-circle-info" 
+                    class="fa-solid fa-circle-info text-primary" 
                     data-bs-toggle="tooltip" 
                     data-bs-placement="top"
                     data-bs-custom-class="custom-tooltip-dark"
@@ -189,10 +191,10 @@
 
             <div class="tab-content" id="nav-tabContent">
               <!-- Añadir Recurrentes Content -->
-              <div class="tab-pane fade show active" id="add-dias-recurrentes" role="tabpanel" aria-labelledby="add-dias-recurrentes-tab" tabindex="0">
+              <div class="tab-pane fade show active pt-3" id="add-dias-recurrentes" role="tabpanel" aria-labelledby="add-dias-recurrentes-tab" tabindex="0">
                 <section class="row">
                   <div class="col-md-6 p-0 ps-3 pb-2">
-                    <label for="calendarioAddDiaRecurrente">Todos los días...</label>
+                    <label for="calendarioAddDiaRecurrente">Los días:</label>
                     <div class="form-floating position-relative mb-2 pe-0 d-flex">
                       <select id="calendarioAddDiaRecurrente" style="height: 56px !important; width: 100% !important;"></select>
                       <a class="add-dia-recurrente btn btn-success rounded rounded-start-0 d-flex align-items-center"><i class="fa-solid fa-plus"></i></a>
@@ -201,16 +203,16 @@
                   </div>
 
                   <div class="col-md-6 p-0 ps-3 pb-2">
-                    <label for="">Recurrentes añadidos:</label>
-                    <ul id="recurrentes-added-list"></ul>
+                    <label class="">Recurrentes añadidos:</label>
+                    <ul id="recurrentes-added-list" class="ps-0 pe-4 pt-3"></ul>
                   </div>
                 </section>
               </div>
               <!-- Añadir Especificos Content -->
-              <div class="tab-pane fade" id="add-dias-especificos" role="tabpanel" aria-labelledby="add-dias-especificos-tab" tabindex="0">
+              <div class="tab-pane fade pt-3" id="add-dias-especificos" role="tabpanel" aria-labelledby="add-dias-especificos-tab" tabindex="0">
                 <section class="row">
                   <div class="col-md-6 p-0 ps-3 pb-2">
-                    <label for="calendarioAddDiaEspecifico">Solo el día...</label>
+                    <label for="calendarioAddDiaEspecifico">Solo el día:</label>
                     <div class="form-floating position-relative mb-2 pe-0 d-flex">
                       <input type="date" class="form-control" id="calendarioAddDiaEspecifico"/>
                       <label for="calendarioAddDiaEspecifico">Fecha Específica:</label>
@@ -220,15 +222,15 @@
                   </div>
 
                   <div class="col-md-6 p-0 ps-3 pb-2">
-                    <label for="">Específicos añadidos:</label>
-                    <ul id="especificos-added-list"></ul>
+                    <label>Específicos añadidos:</label>
+                    <ul id="especificos-added-list" class="ps-0 pe-4 pt-3"></ul>
                   </div>
                 </section>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar Modal</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           </div>
         </div>
       </div>

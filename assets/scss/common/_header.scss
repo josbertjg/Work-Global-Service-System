@@ -294,7 +294,8 @@
       padding: 0%;
       box-shadow: $shadow;
       overflow: hidden;
-      .dropdown-item{
+      li a{
+        padding: 4px 16px;
         display: flex;
         align-items: center;
         transition: all 200ms;
@@ -433,6 +434,121 @@
     i{
       background-color: $primary;
       color: white;
+    }
+  }
+}
+
+// Acceder
+#acceder-tabsContent{
+  .title-container{
+    color: $secondary;
+  }
+  .btn-acceder{
+    background-color: $primary;
+    padding: .5rem 1rem; 
+    width: 100%;
+    margin: .5rem 0 .5rem 0;
+    color: white;
+    font-weight: 500;
+    border-radius: 5px;
+    transition: all 200ms;
+
+    &:hover{
+      background-color: lighten($primary,5);
+    }
+  }
+  .or{
+    display: flex;
+    align-items: center;
+    margin: .5rem 0;
+  
+    &::before{
+      content: "";
+      display: inline-block;
+      border: 1px solid $grey-light;
+      width: 100%;
+      margin-right: 1rem;
+    }
+    &::after{
+      content: "";
+      display: inline-block;
+      border: 1px solid $grey-light;
+      width: 100%;
+      margin-left: 1rem;
+    }
+  }
+  .google-btn-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .footer{
+    display: flex;
+    justify-content: center;
+    color: $secondary;
+    font-weight: 500;
+    a{
+      color: $info;
+      cursor: pointer;
+      font-weight: 500;
+    }
+  }
+  .seleccionar-registro-wrapper{
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    a{
+      position: relative;
+      overflow: hidden;
+      transition: all 400ms;
+      flex: 1;
+      img{
+        width: 100%;
+      }
+
+      &:hover::before{
+        opacity: .5;
+      }
+
+      &:hover .text{
+        transform: translateY(0px);
+      }
+
+      &::before{
+        content: "";
+        position: absolute;
+        top: 0%;
+        transition: all 400ms;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        background-color: $negro;
+        opacity: .2;
+      }
+
+      .text{
+        transition: all 400ms;
+        position: absolute;
+        top: 50px;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 500;
+        transform: translateY(-150px);
+      }
+
+    }
+    a:first-child{
+      .text{
+        right: 15px;
+        text-align: right;
+      }
+    }
+    a:last-child{
+      .text{
+        left: 15px;
+        text-align: left;
+      }
     }
   }
 }

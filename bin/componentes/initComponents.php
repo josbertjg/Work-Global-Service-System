@@ -93,10 +93,11 @@
       </a>':'';
 
       $ofrecerServiciosItemHeader = ($_SESSION["idRol"] == "CLWGS1") ? '<li><a class="dropdown-item navigation-link" href="registrarFumigador"><i class="fa-solid fa-bug me-1"></i> Ofrecer Servicios</a></li>' : '';
+      $perfilRoute = $userIsLogged ? ($_SESSION["idRol"] == "SAWGS1") ? "perfil" : "configuracion" : "";
 
       $profileMenu = $userIsLogged ? 
         '
-          <li><a class="dropdown-item navigation-link" href="configuracion">Perfil</a></li>
+          <li><a class="dropdown-item navigation-link" href="'.$perfilRoute.'">Perfil</a></li>
           '.$serviciosProfile.'
           '.$configuracionProfile.'
           <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>
@@ -109,13 +110,13 @@
         '
           <li>
             <a type="button" class="iniciarSesion-btn" data-bs-toggle="modal" data-bs-target="#acceder-modal">
-              <i class="fa-solid fa-right-to-bracket"></i>
+              <i class="fa-solid fa-right-to-bracket me-2"></i>
               Iniciar Sesión
             </a>
           </li>
           <li>
             <a type="button" class="crearCuenta-btn" data-bs-toggle="modal" data-bs-target="#acceder-modal">
-              <i class="fa-solid fa-user-plus"></i>
+              <i class="fa-solid fa-user-plus me-2"></i>
               Crear Cuenta
             </a>
           </li>
@@ -285,8 +286,8 @@
 
                   <!-- INICIAR SESION -->
                   <div class="tab-pane fade show active" id="iniciar-sesion" role="tabpanel" aria-labelledby="iniciar-sesion-tab" tabindex="0">
-                    <div>
-                      <span>Iniciar Sesión</span>
+                    <div class="d-flex justify-content-between mb-2 title-container">
+                      <span class="fw-semibold fs-4">Iniciar Sesión</span>
                       <button type="button" class="btn-close close-acceder-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="iniciarSesion-form" novalidate>
@@ -300,7 +301,7 @@
                         <label for="iniciarSesionUserPassword">Contraseña:</label>
                         <div class="invalid-tooltip"></div>
                       </div>
-                      <button id="iniciarSesion-btn">
+                      <button id="iniciarSesion-btn" class="btn-acceder">
                         Iniciar Sesión
                         <i class="fa-solid fa-right-to-bracket"></i>
                       </button>
@@ -308,7 +309,7 @@
 
                     <div class="or">O</div>
 
-                    <div id="google-btn-wrapper">
+                    <div class="google-btn-wrapper">
                       <div id="g_id_onload"
                           data-client_id="'.GOOGLE_CLIENT_ID.'"
                           data-auto_prompt="false"
@@ -332,22 +333,29 @@
 
                   <!-- SELECCIONAR QUE HACER -->
                   <div class="tab-pane fade" id="select-user-type" role="tabpanel" aria-labelledby="select-user-type-tab" tabindex="0">
-                    <div>
-                      <span>Que quieres hacer en Work Global Service?</span>
+                    <div class="d-flex justify-content-between mb-2 title-container">
+                      <span class="fw-semibold fs-5">Que quieres hacer en Work Global Service?</span>
                       <button type="button" class="btn-close close-acceder-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <a href="registroFumigador">Trabajar como fumigador</a>
-                    |
-                    <a href="#" class="goToCrearCuenta">Solicitar servicio de fumigacion</a>
 
+                    <div class="seleccionar-registro-wrapper">
+                      <a href="registrarFumigador">
+                        <img src="assets/img/fumigador-registro.jpg" alt="registrarse como fumigador"/>
+                        <span class="text">Trabajar como fumigador</span>
+                      </a>
+                      <a href="#" class="goToCrearCuenta">
+                        <img src="assets/img/cliente-registro.jpg" alt="registrarse como fumigador"/>
+                        <span class="text">Solicitar servicios de fumigación</span>
+                      </a>
+                    </div>
                   </div>
 
                   <!-- CREAR CUENTA -->
                   <div class="tab-pane fade" id="crear-cuenta" role="tabpanel" aria-labelledby="crear-cuenta-tab" tabindex="0">
 
-                    <div>
-                      <span>Crear Cuenta</span>
+                    <div class="d-flex justify-content-between mb-2 title-container">
+                      <span class="fw-semibold fs-4">Crear Cuenta</span>
                       <button type="button" class="btn-close close-acceder-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="crearCuenta-form" novalidate>
@@ -378,7 +386,7 @@
                         <label for="crearCuentaUserConfirmPassword">Confirmar Contraseña:</label>
                         <div class="invalid-tooltip"></div>
                       </div>
-                      <button id="crearCuenta-btn">
+                      <button id="crearCuenta-btn" class="btn-acceder">
                         Crear Cuenta
                         <i class="fa-solid fa-user-plus"></i>
                       </button>
@@ -386,7 +394,7 @@
 
                     <div class="or">O</div>
 
-                    <div id="google-btn-wrapper">
+                    <div class="google-btn-wrapper">
                       <div id="g_id_onload"
                           data-client_id="<?php echo GOOGLE_CLIENT_ID ?>"
                           data-auto_prompt="false"

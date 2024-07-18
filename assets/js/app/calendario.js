@@ -47,8 +47,8 @@ $(document).ready(async ()=>{
       const diaNombre = _.find(diasDeSemana,(item)=>item.id == dia.dia).text
       $("#dias-recurrentes-list, #recurrentes-added-list").append(`
         <li class="dia-item recurrente-${dia.dia}">
-          <span>Todos los días ${diaNombre}</span>
-            <i class="btn bg-danger btn-danger p-2 fa-solid fa-trash delete-dia-recurrente" diaId="${dia.dia}"></i>
+          <span>- Todos los días ${diaNombre}</span>
+            <i class="btn bg-danger btn-danger p-2 fa-solid fa-trash delete-dia-recurrente ms-2" diaId="${dia.dia}"></i>
         </li>
       `)
     })
@@ -61,8 +61,8 @@ $(document).ready(async ()=>{
     _.map(diasEspecificos,(dia)=>{
       $("#dias-especificos-list, #especificos-added-list").append(`
         <li class="dia-item especifico-${dia.fecha}">
-          <span>El ${formatDate(dia.fecha)} (${dia.fecha})</span>
-          <i class="btn bg-danger btn-danger p-2 fa-solid fa-trash delete-dia-especifico" diaId="${dia.fecha}"></i>
+          <span>- El ${formatDate(dia.fecha)} (${dia.fecha})</span>
+          <i class="btn bg-danger btn-danger p-2 fa-solid fa-trash delete-dia-especifico ms-2" diaId="${dia.fecha}"></i>
         </li>
       `)
     })
@@ -84,8 +84,8 @@ $(document).ready(async ()=>{
     diasRecurrentes.push({dia: $('#calendarioAddDiaRecurrente').val()})
     const diaNombre = _.find(diasDeSemana,(item)=>item.id == $('#calendarioAddDiaRecurrente').val()).text
     $("#dias-recurrentes-list, #recurrentes-added-list").append(`
-      <li>
-        <span>Todos los días ${diaNombre}</span>
+      <li class="dia-item">
+        <span>- Todos los días ${diaNombre}</span>
         <button type="button" class="btn bg-danger btn-danger py-1 px-2">
           <i class="fa-solid fa-trash delete-dia-noLaborable" diaId="${$('#calendarioAddDiaRecurrente').val()}"></i>
         </button>
@@ -113,8 +113,8 @@ $(document).ready(async ()=>{
     
     diasEspecificos.push({fecha: $('#calendarioAddDiaEspecifico').val()})
     $("#dias-especificos-list, #especificos-added-list").append(`
-      <li>
-        <span>El ${formatDate($('#calendarioAddDiaEspecifico').val())} (${$('#calendarioAddDiaEspecifico').val()})</span>
+      <li class="dia-item">
+        <span>- El ${formatDate($('#calendarioAddDiaEspecifico').val())} (${$('#calendarioAddDiaEspecifico').val()})</span>
         <button type="button" class="btn bg-danger btn-danger py-1 px-2">
           <i class="fa-solid fa-trash delete-dia-noLaborable" diaId="${$('#calendarioAddDiaEspecifico').val()}"></i>
         </button>
