@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-07-2024 a las 10:27:02
+-- Tiempo de generación: 18-07-2024 a las 04:21:39
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.5
 
@@ -124,7 +124,10 @@ INSERT INTO `taccesos` (`idAcceso`, `rol`, `permiso`, `modulo`, `status`) VALUES
 ('100933536986431488', 'FGWGS1', 'CONSULTARWGS', 'MCALENDARIOWGS', 1),
 ('100933536986431489', 'FGWGS1', 'CREATEWGS', 'MCALENDARIOWGS', 1),
 ('100933536986431490', 'FGWGS1', 'ELIMINARWGS', 'MCALENDARIOWGS', 1),
-('100933536986431491', 'FGWGS1', 'MODIFICARWGS', 'MCALENDARIOWGS', 1);
+('100933536986431491', 'FGWGS1', 'MODIFICARWGS', 'MCALENDARIOWGS', 1),
+('100935092687339528', 'FGWGS1', 'CONSULTARWGS', 'MMISSERVICIOSWGS', 1),
+('100935092687339530', 'FGWGS1', 'CREATEWGS', 'MMISSERVICIOSWGS', 1),
+('100935092687339531', 'FGWGS1', 'ELIMINARWGS', 'MMISSERVICIOSWGS', 1);
 
 -- --------------------------------------------------------
 
@@ -242,7 +245,38 @@ INSERT INTO `tbitacoras` (`id`, `modulo`, `usuario`, `descripcion`, `fecha`) VAL
 (207, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-07-17 04:23:57'),
 (208, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 04:24:36'),
 (209, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 04:25:17'),
-(210, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-07-17 04:25:37');
+(210, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-07-17 04:25:37'),
+(211, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 12:20:09'),
+(212, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 12:27:10'),
+(213, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 12:27:18'),
+(214, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 12:27:28'),
+(215, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 12:27:49'),
+(216, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-07-17 12:31:34'),
+(217, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 12:32:46'),
+(218, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 12:33:55'),
+(219, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 12:34:47'),
+(220, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 13:35:14'),
+(221, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-07-17 13:35:49'),
+(222, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-07-17 13:35:59'),
+(223, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 13:36:15'),
+(224, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 13:37:43'),
+(225, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-07-17 13:38:11'),
+(226, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 13:38:40'),
+(227, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 13:39:41'),
+(228, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-07-17 14:19:46'),
+(229, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 14:20:04'),
+(230, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 14:20:22'),
+(231, 'Iniciar Sesión', 'josbelyguedezz@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 14:56:02'),
+(232, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 15:14:51'),
+(233, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 16:52:54'),
+(234, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-07-17 16:53:41'),
+(235, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 16:54:23'),
+(236, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 17:37:21'),
+(237, 'Realizar Orden', 'workglobalserviceca@gmail.com', 'Ha realizado una nueva orden de servicio al fumigador de cedula: 28150010', '2024-07-17 17:37:38'),
+(238, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 17:37:46'),
+(239, 'Iniciar Sesión', 'workglobalserviceca@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 21:18:12'),
+(240, 'Iniciar Sesión', 'josbertjg@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 22:16:44'),
+(241, 'Iniciar Sesión', 'josbelyguedezz@gmail.com', 'Inicio sesión en el sistema con GMAIL.', '2024-07-17 22:17:41');
 
 -- --------------------------------------------------------
 
@@ -267,6 +301,7 @@ INSERT INTO `tmodulos` (`idModulo`, `nombre`, `status`) VALUES
 ('MFACTURASWGS', 'Facturas', 1),
 ('MMANTENIMIENTOWGS', 'Mantenimiento', 1),
 ('MMISORDENESWGS', 'MisOrdenes', 1),
+('MMISSERVICIOSWGS', 'Mis Servicios', 1),
 ('MNOTIFICACIONESWGS', 'Notificaciones', 1),
 ('MORDENESDESERVICIOWGS', 'Ordenes de Servicio', 1),
 ('MORDENESWGS', 'Ordenes', 1),
@@ -512,7 +547,7 @@ ALTER TABLE `tusuarios`
 -- AUTO_INCREMENT de la tabla `tbitacoras`
 --
 ALTER TABLE `tbitacoras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=242;
 
 --
 -- AUTO_INCREMENT de la tabla `tnofiticaciones`
