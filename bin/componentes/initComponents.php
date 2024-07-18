@@ -92,7 +92,7 @@
         <i class="fa-solid fa-gear"></i>
       </a>':'';
 
-      $ofrecerServiciosItemHeader = ($_SESSION["idRol"] == "CLWGS1") ? '<li><a class="dropdown-item navigation-link" href="registrarFumigador"><i class="fa-solid fa-bug me-1"></i> Ofrecer Servicios</a></li>' : '';
+      $ofrecerServiciosItemHeader = ($_SESSION["idRol"] == "CLWGS1") ? '<li><a class="dropdown-item navigation-link" href="ofrecerServicios"><i class="fa-solid fa-bug me-1"></i> Ofrecer Servicios</a></li>' : '';
       $perfilRoute = $userIsLogged ? ($_SESSION["idRol"] == "SAWGS1") ? "perfil" : "configuracion" : "";
 
       $profileMenu = $userIsLogged ? 
@@ -250,7 +250,7 @@
                   </div>
                 </ul>
               </div>
-              <a href="registrarFumigador" class="ofrecerServicios-header-btn '.$showOfferServicesBtn.'">Ofrecer Servicios</a>
+              <a href="ofrecerServicios" class="ofrecerServicios-header-btn '.$showOfferServicesBtn.'">Ofrecer Servicios</a>
             </div>
 
             <div class="dropdown d-flex align-items-center">
@@ -340,7 +340,7 @@
 
 
                     <div class="seleccionar-registro-wrapper">
-                      <a href="registrarFumigador">
+                      <a href="ofrecerServicios">
                         <img src="assets/img/fumigador-registro.jpg" alt="registrarse como fumigador"/>
                         <span class="text">Trabajar como fumigador</span>
                       </a>

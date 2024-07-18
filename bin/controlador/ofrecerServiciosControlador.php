@@ -58,6 +58,6 @@
 
 
 	$components = new initComponents($permisos);
-	require "vistas/registrarFumigadorVista.php";
+	require "vistas/ofrecerServiciosVista.php";
 
 ?>

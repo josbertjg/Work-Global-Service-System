@@ -56,7 +56,7 @@
               <!-- inicio de dos cards -->
               <div class= "row">
                 <section class="col-sm-6 col-12 mb-2">
-                  <a href="registrarFumigador">
+                  <a href="ofrecerServicios">
                     <button type="button" class="btn btn-light btnConfi">
                     <i class="fa-solid fa-bug me-1"></i>Ofrecer Servicios
                     </button>

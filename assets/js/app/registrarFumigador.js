@@ -13,14 +13,14 @@ $(document).ready(async ()=>{
     user = JSON.parse(localStorage.getItem("user"));
   }catch(e){
     showAlert("error", "Oops, ocurrió un error", "Error al recuperar el usuario logueado")
-    return setTimeout(() => window.location = "registrarFumigador", 4000);
+    return setTimeout(() => window.location = "ofrecerServicios", 4000);
   }
 
-  const ciudades = await service.post("registrarFumigador",{getAllCiudades: true})
-  const estados  = await service.post("registrarFumigador",{getAllEstados: true})
+  const ciudades = await service.post("ofrecerServicios",{getAllCiudades: true})
+  const estados  = await service.post("ofrecerServicios",{getAllEstados: true})
   // Validando que el usuario no haya echo con anterioridad una solicitud para registrarse como fumigador.
   if(!_.isEmpty(user)) {
-    const usuarioValido = await service.post("registrarFumigador",{validarUsuario: true})
+    const usuarioValido = await service.post("ofrecerServicios",{validarUsuario: true})
     if("error" in usuarioValido){
       Swal.fire({
         icon: "error",
@@ -325,7 +325,15 @@ $(document).ready(async ()=>{
       console.log(user)
       
       if(_.isEmpty(user)){
-        return showAlert("error", "Oops, ocurrió un error", "Necesitas estar logueado para poder registrarte como un fumigador")
+        // Buscando nuevamente al usuario en el localStorage           
+        try{
+          user = JSON.parse(localStorage.getItem("user"));
+        }catch(e){
+          showAlert("error", "Oops, ocurrió un error", "Error al recuperar el usuario logueado")
+          return setTimeout(() => window.location = "ofrecerServicios", 4000);
+        }
+
+        if(_.isEmpty(user)) return showAlert("error", "Oops, ocurrió un error", "Necesitas estar logueado para poder registrarte como un fumigador")
       }
 
       
@@ -346,7 +354,7 @@ $(document).ready(async ()=>{
       data.append("latitud",selectedPlace.lat)
       data.append("longitud",selectedPlace.lng)
 
-      const respuesta = await service.post("registrarFumigador",data)    
+      const respuesta = await service.post("ofrecerServicios",data)    
       toggleLoading(false)
 
       console.log(respuesta)

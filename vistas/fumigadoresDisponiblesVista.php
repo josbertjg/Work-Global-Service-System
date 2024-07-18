@@ -20,7 +20,7 @@
 
   <?php $components->footer(); ?>
   <?php $components->js() ?>
-  <script src="assets/js/app/fumigadores.js"></script>
+  <script src="assets/js/app/fumigadoresDisponibles.js"></script>
 </body>
 
 </html>

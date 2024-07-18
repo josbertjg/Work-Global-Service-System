@@ -298,7 +298,7 @@ $(document).ready(async ()=>{
         localStorage.setItem("selectedPlace",    JSON.stringify(selectedPlace));
         localStorage.setItem("selectedServices", JSON.stringify(selectedServices));
 
-        if(window.location.pathname != "fumigadores" && window.location.pathname != "/fumigadores") return window.location = "fumigadores";
+        if(window.location.pathname != "fumigadoresDisponibles" && window.location.pathname != "/fumigadoresDisponibles") return window.location = "fumigadoresDisponibles";
 
         renderFumigadores(selectedServices);
       }
@@ -329,7 +329,7 @@ $(document).ready(async ()=>{
       localStorage.setItem("selectedPlace",    JSON.stringify(selectedPlace));
       localStorage.setItem("selectedServices", JSON.stringify(selectedServices));
 
-      if(window.location.pathname != "fumigadores" && window.location.pathname != "/fumigadores") return window.location = "fumigadores"
+      if(window.location.pathname != "fumigadoresDisponibles" && window.location.pathname != "/fumigadoresDisponibles") return window.location = "fumigadoresDisponibles"
 
       renderFumigadores(selectedServices)
     })
@@ -458,7 +458,7 @@ $(document).ready(async ()=>{
 async function renderFumigadores(selectedServices){
   toggleLoading(true);
   $(".fumigadores-list-container").empty()
-  const fumigadores = await service.post("fumigadores",{getFumigadoresByServices: true, servicios: selectedServices})
+  const fumigadores = await service.post("fumigadoresDisponibles",{getFumigadoresByServices: true, servicios: selectedServices})
   // Renderizando los fumigadores obtenidos
   if(!_.isEmpty(fumigadores)){
     _.map(fumigadores,(fumigador)=>{

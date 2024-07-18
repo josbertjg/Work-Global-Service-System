@@ -15,6 +15,6 @@
 	}
 
 	$components = new initComponents($permisos);	
-	require "vistas/fumigadoresVista.php";	
+	require "vistas/fumigadoresDisponiblesVista.php";	
 
 ?>

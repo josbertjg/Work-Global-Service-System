@@ -257,7 +257,7 @@
     private function setNewCalnedario(){
       try{
         $this->conectarDB();
-        $new = $this->con->prepare("INSERT INTO `tcalendarios` (`cedula`,`inicioHora`,`finHora`,`diaInicio`, `diaFin`) VALUES (?,?,?,?,?)"); 
+        $new = $this->con->prepare("INSERT INTO `tcalendarios` (`id`,`cedula`,`inicioHora`,`finHora`,`diaInicio`, `diaFin`) VALUES (UUID_SHORT(),?,?,?,?,?)"); 
         $new->bindValue(1 , $this->cedula);
         $new->bindValue(2 , $this->horaInicio);
         $new->bindValue(3 , $this->horaFin);

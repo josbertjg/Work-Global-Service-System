@@ -23,7 +23,7 @@ async function loginUser(userObj){
     ${userObj.idRol == "SAWGS1" ? '<li><a class="dropdown-item navigation-link" href="configuracion">Configuración</a></li>' : ''}
     <li><a class="dropdown-item navigation-link" href="alertas">Alertas</a></li>
     <li><hr class="dropdown-divider m-0 p-0"></li>
-    ${userObj.idRol == "CLWGS1" ? '<li><a class="dropdown-item navigation-link" href="registrarFumigador"><i class="fa-solid fa-bug me-1"></i> Ofrecer Servicios</a></li>' : ''}
+    ${userObj.idRol == "CLWGS1" ? '<li><a class="dropdown-item navigation-link" href="ofrecerServicios"><i class="fa-solid fa-bug me-1"></i> Ofrecer Servicios</a></li>' : ''}
     <li><a class="dropdown-item navigation-link" href="ayuda"><i class="fa-solid fa-circle-info me-1"></i> Ayuda</a></li>
     <li><a class="dropdown-item logout" href="#"><i class="fa-solid fa-right-to-bracket me-1"></i> Cerrar Sesión</a></li>
   `);
@@ -91,9 +91,9 @@ async function loginUser(userObj){
   `);
 
   // Ruta registro del fumigador
-  if(window.location.pathname.includes("registrarFumigador")){
+  if(window.location.pathname.includes("ofrecerServicios")){
     if(userObj.idRol != "CLWGS1") window.location = "/";
-    const usuarioValido = await service.post("registrarFumigador",{validarUsuario: true})
+    const usuarioValido = await service.post("ofrecerServicios",{validarUsuario: true})
     if("error" in usuarioValido){
       await Swal.fire({
         icon: "error",

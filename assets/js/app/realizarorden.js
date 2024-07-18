@@ -14,17 +14,17 @@ $(document).ready(async ()=>{
     selectedPlace = JSON.parse(localStorage.getItem("selectedPlace"));
   }catch(e){
     showAlert("error", "Oops, ocurrió un error", "Error al recuperar los datos guardados en el almacenamiento local")
-    return setTimeout(() => window.location = "fumigadores", 4000);
+    return setTimeout(() => window.location = "fumigadoresDisponibles", 4000);
   }
   toggleLoading(false)
 
   if("error" in establecimientos){
     showAlert("error", "Oops, ocurrió un error", establecimientos.error)
-    return setTimeout(() => window.location = "fumigadores", 4000);
+    return setTimeout(() => window.location = "fumigadoresDisponibles", 4000);
   }
   if("error" in currentFumigador){
     showAlert("error", "Oops, ocurrió un error", currentFumigador.error)
-    return setTimeout(() => window.location = "fumigadores", 4000);
+    return setTimeout(() => window.location = "fumigadoresDisponibles", 4000);
   }
 
   console.log(currentFumigador)
