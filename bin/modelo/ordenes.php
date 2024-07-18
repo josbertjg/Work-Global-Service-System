@@ -815,7 +815,7 @@
       8=>"/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/",//validar email
       9=>"/^202[4-9]-|203[0-9]-|20[1-9][0-9]-|(21[0-9][0-9]|220[0-9])-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) (0[0-9]|1[0-9]|2[0-3]):(0[0-9]|[1-5][0-9])$/",//validar DATETIME YYYY-MM-DD HH:MM:SS
       10=>"/^[SE].*WGS$/"
-    );
+      );
       foreach ($datoArray as $key) {
         $validador = preg_match_all($arrayLogico[$diff], $key);
         if($validador!=1){

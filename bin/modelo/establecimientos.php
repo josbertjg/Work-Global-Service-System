@@ -20,6 +20,9 @@
      * 1: numeros de 1 a 35 digitos
      * 2: letras masyuculas y minisculas con
      */
+    public function __construct(){
+      parent::__construct();
+    } 
     private function validarSTA($datoArray,$diff){
       $arrayLogico = array(0 => "/^[A-Za-z]{3,45}$/",
       1 => "/^[0-9]{1,45}$/", 
@@ -33,28 +36,10 @@
         $validador = preg_match_all($arrayLogico[$diff], $key);
         if($validador!=1){
           $respuesta = ["error" => "Datos Incorrectos."];
-					die(json_encode($respuesta));
+          die(json_encode($respuesta));
         }
       }
       return 0;
-    }
-    public function __construct(){
-    	parent::__construct();
-    } 
-    public function funcionPrueba(){
-      $respuesta = array(
-        "nombre" => "Juan Pérez",
-        "correo" => "juan.perez@correo.com",
-        "edad" => 30
-      );
-
-      $error = array(
-        "error" => "esta es la respuesta personalizada cuanto ocurre un 'error' desde el modelo",
-      );
-      if(json_decode($_POST['opcion'])) 
-        die(json_encode($respuesta));
-      else 
-        die(json_encode($error));
     }
     public function getAll(){
       $this->SelectAll();
@@ -271,11 +256,11 @@
             $this->targetFile = $this->targetFile . "." . strtolower(pathinfo($this->foto['name'], PATHINFO_EXTENSION));
             //...
         }
-    } else {
-        // Error: No file uploaded
-        $respuesta = ["error" => "No se ha seleccionado un archivo."];
-        die(json_encode($respuesta));
-    }
+      } else {
+          // Error: No file uploaded
+          $respuesta = ["error" => "No se ha seleccionado un archivo."];
+          die(json_encode($respuesta));
+      }
     }
 
 }

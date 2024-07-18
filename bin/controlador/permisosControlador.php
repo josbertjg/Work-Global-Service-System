@@ -16,7 +16,6 @@
 		$model->getTableData($_POST['opcion']);
 	}
 	if(isset($_POST['update']) && $_SESSION['idRol']=="SAWGS1" && isset($permiso['Modificar'])){
-		//$model->funcionPrueba();
 		$model->getUpdate($_POST['Rol'],$_POST['Modulo'],$_POST['Permiso'],$_POST['habilitado']);
 		$model->getTableData($_POST['Rol']);
 	}
@@ -26,7 +25,6 @@
 	if(	isset($_POST['insert'])	&&	isset($permiso['Crear']) && $_SESSION['idRol']=="SAWGS1"){
 		$model->getInsert($_POST['Rol'],$_POST['modulo'],$_POST['permisos']);
 		$model->getTableData($_POST['Rol']);
-		//$model->funcionPrueba();
 	}
 	$components = new initComponents($permisos);
 	if($_SESSION['idRol']=="SAWGS1" && !empty($permiso['Consultar'])){	

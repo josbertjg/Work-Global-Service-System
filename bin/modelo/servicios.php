@@ -14,41 +14,26 @@
    private $targetFile;
    private $rutaCarpeta="assets/img/servicios/";
 
-
-   private function validarSTA($datoArray,$diff){
-    $arrayLogico = array(0 => "/^[A-Za-z]{3,45}$/", 
-    1 => "/^[0-9]{1,45}$/", 
-    2 => "/^[0-9A-Za-z- ]{0,45}$/", 3 => "/^[0-9:\/-]{1,45}$/", 
-    4 => "/^[0-9A-Za-z ]{0,45}$/",
-    5 => '/^[0-9A-Za-záéíóúÁÉÍÓÚñÑüÜ,.!@#$%^&*()_+=\[\]{}|;:\'"<>\/\\\\? ]{0,200}$/');
-    foreach ($datoArray as $key) {
-      $validador = preg_match_all($arrayLogico[$diff], $key);
-      if($validador!=1){
-        $respuesta = ["error" => "Datos Incorrectos."];
-        die(json_encode($respuesta));
-      }
-    }
-    return 0;
-  } 
-
     public function __construct(){
     	parent::__construct();
     } 
-    public function funcionPrueba(){
-      $respuesta = array(
-        "nombre" => "Juan Pérez",
-        "correo" => "juan.perez@correo.com",
-        "edad" => 30
-      );
 
-      $error = array(
-        "error" => "esta es la respuesta personalizada cuanto ocurre un 'error' desde el modelo",
-      );
-      if(json_decode($_POST['update'])) 
-        die(json_encode($respuesta));
-      else 
-        die(json_encode($error));
-    }
+    private function validarSTA($datoArray,$diff){
+      $arrayLogico = array(0 => "/^[A-Za-z]{3,45}$/", 
+      1 => "/^[0-9]{1,45}$/", 
+      2 => "/^[0-9A-Za-z- ]{0,45}$/", 3 => "/^[0-9:\/-]{1,45}$/", 
+      4 => "/^[0-9A-Za-z ]{0,45}$/",
+      5 => '/^[0-9A-Za-záéíóúÁÉÍÓÚñÑüÜ,.!@#$%^&*()_+=\[\]{}|;:\'"<>\/\\\\? ]{0,200}$/');
+      foreach ($datoArray as $key) {
+        $validador = preg_match_all($arrayLogico[$diff], $key);
+        if($validador!=1){
+          $respuesta = ["error" => "Datos Incorrectos."];
+          die(json_encode($respuesta));
+        }
+      }
+      return 0;
+    } 
+
     public function getDelete($id,$habilitado){
       $this->id=$id;
       $habilitado=(int)$habilitado;
@@ -100,8 +85,6 @@
       }
       
     }
-
-
 
     public function SelectQuimicos(){
       //if(json_decode($_POST['opcion']))
@@ -327,11 +310,11 @@
             $this->targetFile = $this->targetFile . "." . strtolower(pathinfo($this->foto['name'], PATHINFO_EXTENSION));
             //...
         }
-    } else {
-        // Error: No file uploaded
-        $respuesta = ["error" => "No se ha seleccionado un archivo."];
-        die(json_encode($respuesta));
-    }
+      } else {
+          // Error: No file uploaded
+          $respuesta = ["error" => "No se ha seleccionado un archivo."];
+          die(json_encode($respuesta));
+      }
     }
 
 }

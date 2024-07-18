@@ -9,10 +9,6 @@
     public function __construct(){
     	parent::__construct();
     } 
-
-    public function funcionPrueba(){
-      $this->getPermisosRol();
-    }
     
     public function getFacturas(){
         $this->facturas();

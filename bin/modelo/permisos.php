@@ -15,10 +15,6 @@
     	parent::__construct();
     } 
 
-    public function funcionPrueba(){
-      $mensaje=array("Hola"=>"Esta entrado a la funcion");
-      json_encode($mensaje);
-    }
     public function getTableData($opcion){
       $this->opcion=$opcion;
       $this->DatosTabla();
@@ -77,7 +73,7 @@
       //var_dump($this->modulo, $this->habilitado, $this->permiso);
       $this->setUpdate();
     }
-    public function setUpdate(){
+    private function setUpdate(){
       $vista="";
       if($this->opcion==1){$vista="vistapermisoscliente"; $this->rol="CLWGS1";}
       if($this->opcion==3){$vista="vistapermisosadministrador";$this->rol="SAWGS1";} 

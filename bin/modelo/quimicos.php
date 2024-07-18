@@ -16,25 +16,6 @@
     public function __construct(){
     	parent::__construct();
     } 
-    public function funcionPrueba(){
-      $respuesta = array(
-        "nombre" => "Juan Pérez",
-        "correo" => "juan.perez@correo.com",
-        "edad" => 30
-      );
-
-      $error = array(
-        "error" => "esta es la respuesta personalizada cuanto ocurre un 'error' desde el modelo",
-      );
-      if(json_decode($_POST['update1'])) 
-        die(json_encode($respuesta));
-      else 
-        die(json_encode($error));
-    }
-    public function prueba(){
-      $respuesta=array("Prueba"=>"Si ingreso a la condicional");
-      die(json_encode($respuesta));
-    }
     private function validarSTA($datoArray,$diff){
 			$arrayLogico = array(0 => "/^[A-Za-z]{3,45}$/",
        1 => "/^[0-9]{1,45}$/",
@@ -281,11 +262,11 @@
             $this->targetFile = $this->targetFile . "." . strtolower(pathinfo($this->foto['name'], PATHINFO_EXTENSION));
             //...
         }
-    } else {
-        // Error: No file uploaded
-        $respuesta = ["error" => "No se ha seleccionado un archivo."];
-        die(json_encode($respuesta));
-    }
+      } else {
+          // Error: No file uploaded
+          $respuesta = ["error" => "No se ha seleccionado un archivo."];
+          die(json_encode($respuesta));
+      }
     }
 
 

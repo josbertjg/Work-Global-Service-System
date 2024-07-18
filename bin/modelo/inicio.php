@@ -10,10 +10,6 @@
     	parent::__construct();
     } 
 
-    public function funcionPrueba(){
-      $this->getPermisosRol();
-    }
-
   }
 
 ?>

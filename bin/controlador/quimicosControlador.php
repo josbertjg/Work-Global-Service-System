@@ -17,11 +17,7 @@
 		die(json_encode($permiso));
 	}
 
-   if (isset($_POST['prueba'])) {
-     $model->funcionPrueba();
-   } 
-
-   if(isset($_POST['opcion']) && $_SESSION['idRol']=="SAWGS1" && isset($permiso['Consultar'])){
+  if(isset($_POST['opcion']) && $_SESSION['idRol']=="SAWGS1" && isset($permiso['Consultar'])){
 	$model->getAll();
    }
 

@@ -13,11 +13,6 @@
     public function __construct(){
     	parent::__construct();
     }
-    public function prueba()
-    {
-        $respuesta = ["error" => "Datos Incorrectos."];
-        die(json_encode($respuesta));
-    }
     public function getSobrecargos(){
       $this->getAll();
     } 
@@ -34,9 +29,6 @@
         header('Content-Type: application/json');
         die(json_encode(array("error" => $e->getMessage())));
       } 
-    }
-    public function funcionPrueba(){
-      $this->getPermisosRol();
     }
     public function getInsert($precio,$descripcion){
       $validarPrecio=array($precio);
@@ -128,7 +120,7 @@
       8=>"/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/",//validar email
       9=>"/^202[4-9]-|203[0-9]-|20[1-9][0-9]-|(21[0-9][0-9]|220[0-9])-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) (0[0-9]|1[0-9]|2[0-3]):(0[0-9]|[1-5][0-9])$/",//validar DATETIME YYYY-MM-DD HH:MM:SS
       10=>"/^SOB-\d{2}$/" //validar id Sobrecargo
-    );
+      );
       foreach ($datoArray as $key) {
         $validador = preg_match_all($arrayLogico[$diff], $key);
         if($validador!=1){

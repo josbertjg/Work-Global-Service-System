@@ -17,9 +17,6 @@
 	if(isset($_POST['getPermisos']) && isset($permiso['Consultar'])){
 		die(json_encode($permiso));
 	}
-  if (isset($_POST['prueba'])) {
-    $model->funcionPrueba();
-  }
 
   if(isset($_POST['solicitarQuimico'])){
 	$model->SelectQuimicos();
