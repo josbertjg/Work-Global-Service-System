@@ -1,7 +1,9 @@
 $(document).ready(async ()=>{
+  toggleLoading(true);
   const servicios = await service.post("misServicios",{getAllServicios:true});
   const serviciosFumigador = await service.post("misServicios",{getAllServiciosFumigador:true});
   mostrarBotonesServicio(servicios,serviciosFumigador);
+  toggleLoading(false);
 
   $(document).on("click",".btn-servicio",(e)=>{
     const idServicioToSend = $(e.currentTarget).attr("idServicio");
